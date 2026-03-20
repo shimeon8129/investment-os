@@ -1,0 +1,56 @@
+{
+  "narrative": [
+    {
+      "topic": "AI",
+      "sentiment": "neutral",
+      "strength": 53,
+      "summary": "mock generated"
+    },
+    {
+      "topic": "TSMC",
+      "sentiment": "neutral",
+      "strength": 40,
+      "summary": "mock generated"
+    },
+    {
+      "topic": "Memory",
+      "sentiment": "positive",
+      "strength": 71,
+      "summary": "mock generated"
+    }
+  ],
+  "signal": {
+    "topic_signal": {
+      "AI": {
+        "score": 53,
+        "trend": "NEUTRAL"
+      },
+      "TSMC": {
+        "score": 40,
+        "trend": "NEUTRAL"
+      },
+      "Memory": {
+        "score": 71,
+        "trend": "UP"
+      }
+    },
+    "market_map": [
+      {
+        "topic": "Memory",
+        "score": 71,
+        "trend": "UP"
+      },
+      {
+        "topic": "AI",
+        "score": 53,
+        "trend": "NEUTRAL"
+      },
+      {
+        "topic": "TSMC",
+        "score": 40,
+        "trend": "NEUTRAL"
+      }
+    ],
+    "confidence": "MEDIUM"
+  }
+}
