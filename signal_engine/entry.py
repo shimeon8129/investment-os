@@ -1,15 +1,15 @@
 # signal_engine/entry.py
 
-def generate_entry_signal(close, volume, features):
+def generate_entry_signal(close, volume, features, candidate_info=None):
     """
-    根據價格 / 均線 / 成交量 產生交易訊號
+    Entry Signal v3（整合 Scanner READY）
 
     Signals:
-    - BUY_BREAKOUT     → 突破（最強）
-    - BUY_LATE         → 強勢追擊（次強）
-    - TREND_CONTINUE   → 持續上升（不追）
-    - READY_PULLBACK   → 回檔準備
-    - ""               → 無訊號
+    - BUY_BREAKOUT
+    - BUY_LATE
+    - TREND_CONTINUE
+    - READY_PULLBACK
+    - BUY（🔥 由 READY 觸發）
     """
 
     ma5 = features["ma5"]
@@ -19,7 +19,7 @@ def generate_entry_signal(close, volume, features):
 
     for col in close.columns:
 
-        # === 防呆（避免資料不足）===
+        # === 防呆 ===
         if len(close[col]) < 20:
             signals[col] = ""
             continue
@@ -37,43 +37,44 @@ def generate_entry_signal(close, volume, features):
             continue
 
         # =====================================
-        # 🔥 1. BREAKOUT（最強訊號）
+        # 1. BREAKOUT
         # =====================================
         if latest_close > prev_high and latest_vol > 1.2:
             signals[col] = "BUY_BREAKOUT"
-            continue
 
         # =====================================
-        # 🔥 2. LATE ENTRY（追擊）
+        # 2. LATE ENTRY
         # =====================================
-        if (
+        elif (
             latest_close > latest_ma5 and
             latest_vol > 1.2 and
             latest_close > prev_close
         ):
             signals[col] = "BUY_LATE"
-            continue
 
         # =====================================
-        # 🟡 3. TREND（已在上升）
+        # 3. TREND
         # =====================================
-        if latest_close > latest_ma5 and latest_vol > 1.0:
+        elif latest_close > latest_ma5 and latest_vol > 1.0:
             signals[col] = "TREND_CONTINUE"
-            continue
 
         # =====================================
-        # 🟠 4. PULLBACK（準備區）
+        # 4. PULLBACK
         # =====================================
-        pullback = latest_close < prev_high
-        hold_ma5 = latest_close > latest_ma5
-
-        if pullback and hold_ma5:
+        elif latest_close < prev_high and latest_close > latest_ma5:
             signals[col] = "READY_PULLBACK"
-            continue
+
+        else:
+            signals[col] = ""
 
         # =====================================
-        # ❌ 5. NO SIGNAL
+        # 🔥 5. READY 升級（核心）
         # =====================================
-        signals[col] = ""
+        if candidate_info and col in candidate_info:
+
+            level = candidate_info[col].get("level")
+
+            if level == "READY":
+                signals[col] = "BUY"   # 🔥 覆蓋所有其他 signal
 
     return signals

@@ -11,6 +11,9 @@ from scanner.universe import get_tw_universe, get_us_universe
 from scanner.basic_scanner import scan_candidates
 from data_node.loader import load_price_data
 
+# === RANKING===
+from pipeline.ranking_engine import rank_stocks, print_top_picks
+
 # === PROCESSING ===
 from processing.features import compute_features
 
@@ -81,16 +84,32 @@ def run_pipeline():
     features = compute_features(close, volume)
 
     # =========================================
-    # 🔍 SCANNER（新增🔥）
+    # 🔍 3.5 SCANNER（🔥補回來）
     # =========================================
-
-    candidates = scan_candidates(close, volume, features)
 
     print("\n=== SCANNER ===")
 
-    top_candidates = candidates[:10]  # 只取前10
+    candidates = scan_candidates(close, volume, features)
+
+    # 防呆（避免 None）
+    if candidates is None:
+        print("⚠️ Scanner returned None")
+        candidates = []
+
+    # 取前10
+    top_candidates = candidates[:10]
+
+    # 給 Ranking 用
+    scanner_results = {}
 
     for c in top_candidates:
+
+        ticker = c["ticker"]
+        scanner_results[ticker] = c["score"]
+
+        # 🔥 加名稱
+        row = tw_universe[tw_universe["ticker"] == ticker]
+        name = row["name"].values[0] if not row.empty else ""
 
         tag = ""
 
@@ -101,29 +120,48 @@ def run_pipeline():
         else:
             tag = "👀EARLY"
 
-    print(f"{c['ticker']} → Score: {c['score']} | {c['level']} {tag} | Price: {c['price']}")
+
+        print(f"{ticker} {name} → Score: {c['score']} | {c['level']} {tag} | Price: {c['price']}")
+
 
     # =========================================
-    # 🔍 4. Signal
+    # 🔍 4. Signal（🔥整合 READY 升級版）
     # =========================================
 
-    # 👉 從 Scanner 拿 ticker
-    candidate_tickers = [c["ticker"] for c in top_candidates]
-
-    # 👉 過濾資料（只保留候選股）
-    filtered_close = close[candidate_tickers]
-    filtered_volume = volume[candidate_tickers]
-
-    # 👉 跑 Signal（只針對候選）
-    signals = generate_entry_signal(filtered_close, filtered_volume, features)
+    # 👉 從 Scanner 拿 ticker（避免抓不到資料）
+    candidate_tickers = [
+        c["ticker"] for c in top_candidates
+        if c.get("ticker") in close.columns
+    ]
 
     print("\n=== SIGNAL ===")
 
-    # 👉 只印候選股（不是整個 universe）
+    # 👉 建立 scanner map（🔥關鍵）
+    candidate_info = {c["ticker"]: c for c in top_candidates}
+
+    # 👉 防止空資料 crash
+    if not candidate_tickers:
+        print("No valid candidates")
+        signals = {}
+    else:
+        # 👉 過濾資料
+        filtered_close = close[candidate_tickers]
+        filtered_volume = volume[candidate_tickers]
+
+        # 👉 跑 Signal（🔥多傳一個參數）
+        signals = generate_entry_signal(
+            filtered_close,
+            filtered_volume,
+            features,
+            candidate_info   # 🔥 關鍵在這
+        )
+
+    # 👉 收集結果
+    signal_results = []
+
     for c in top_candidates:
         ticker = c["ticker"]
 
-        # 找名稱（從 universe）
         row = tw_universe[tw_universe["ticker"] == ticker]
         name = row["name"].values[0] if not row.empty else ""
 
@@ -132,21 +170,43 @@ def run_pipeline():
         if sig:
             print(f"{ticker} {name} → {sig}")
 
-        if not candidate_tickers:
-            print("\n=== SIGNAL ===")
-            print("No candidates")
-            signals = {}
-        else:
-            filtered_close = close[candidate_tickers]
-            filtered_volume = volume[candidate_tickers]
+            signal_results.append({
+                "ticker": ticker,
+                "signal": sig,
+                "level": c["level"]
+            })
 
-            signals = generate_entry_signal(filtered_close, filtered_volume, features)
+
+    # =========================================
+    # 🧠 RANKING ENGINE（🔥新增）
+    # =========================================
+
+    name_map = dict(zip(tw_universe["ticker"], tw_universe["name"]))
+    sector_map = dict(zip(tw_universe["ticker"], tw_universe["sector"]))
+
+    ranked = rank_stocks(
+        signal_results,
+        scanner_results,
+        sector_map,
+        name_map
+    )
+
+    print_top_picks(ranked, top_n=3)
 
     # =========================================
     # 🟨 5. Decision（原始）
     # =========================================
 
-    decisions = execute_trade(signals, market_state)
+    # 只取 Top 3
+    top_stocks = ranked[:3]
+
+    top_signals = {
+        s["ticker"]: s["signal"]
+        for s in top_stocks
+    }
+
+    decisions = execute_trade(top_signals, market_state)
+
     # 🧠 先載入 portfolio（只做一次）
     portfolio = load_portfolio()
 

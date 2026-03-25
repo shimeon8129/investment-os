@@ -1,28 +1,18 @@
 # decision/risk_lock.py
 
 def apply_risk_lock(decisions, portfolio, max_total_position=0.5):
-    """
-    控制總倉位（Risk Lock v1）
-
-    Parameters:
-    - decisions (dict)
-    - portfolio (dict)
-    - max_total_position (float): 最大總倉位
-
-    Returns:
-    - locked_decisions (dict)
-    """
 
     locked = {}
 
     # =========================
-    # 🧠 計算目前已持倉
+    # 🧠 計算目前倉位
     # =========================
     current_position = sum(p["size"] for p in portfolio.values())
 
     for ticker, d in decisions.items():
 
         action = d.get("action")
+        signal = d.get("signal", "")
         new_d = d.copy()
 
         if action == "BUY":
@@ -30,14 +20,32 @@ def apply_risk_lock(decisions, portfolio, max_total_position=0.5):
             new_size = d.get("position_size", 0)
 
             # =========================
-            # 🔴 超過總倉位 → 禁止
+            # 🔴 超過倉位 → 不直接砍（改成縮倉🔥）
             # =========================
             if current_position + new_size > max_total_position:
-                new_d["action"] = "NO_TRADE"
-                new_d["reason"] = "RISK_LIMIT_EXCEEDED"
+
+                # 👉 嘗試縮到一半
+                reduced_size = new_size / 2
+
+                if current_position + reduced_size <= max_total_position:
+                    new_d["position_size"] = reduced_size
+                    new_d["reason"] = "REDUCED_BY_RISK"
+                    current_position += reduced_size
+
+                else:
+                    # 👉 再縮更小（極小試單）
+                    micro_size = 0.02
+
+                    if current_position + micro_size <= max_total_position:
+                        new_d["position_size"] = micro_size
+                        new_d["reason"] = "MICRO_POSITION"
+                        current_position += micro_size
+
+                    else:
+                        new_d["action"] = "NO_TRADE"
+                        new_d["reason"] = "RISK_FULL"
 
             else:
-                # 🟢 可以買 → 更新模擬倉位
                 current_position += new_size
 
         locked[ticker] = new_d

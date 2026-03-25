@@ -19,6 +19,7 @@ def scan_candidates(close, volume, features):
         try:
             latest_close = close[col].iloc[-1]
 
+            ma5 = close[col].rolling(5).mean().iloc[-1]
             ma10 = close[col].rolling(10).mean().iloc[-1]
             ma20_val = ma20[col].iloc[-1]
 
@@ -29,66 +30,75 @@ def scan_candidates(close, volume, features):
             latest_ret = ret_1d[col].iloc[-1]
 
             # =========================
-            # 🎯 新邏輯（關鍵🔥）
+            # 🎯 行為判斷（拆開🔥）
             # =========================
 
-            # 1️⃣ 底部反彈（最重要🔥）
             rebound = latest_close > recent_low * 1.05
-
-            # 2️⃣ 剛站上 MA10（轉強）
             ma10_break = latest_close > ma10
+            near_high = latest_close > recent_high * 0.92
+            breakout = latest_close >= recent_high * 0.99
 
-            # 3️⃣ 接近區間上緣（但還沒突破）
-            range_high_test = latest_close > recent_high * 0.9
-
-            # 4️⃣ 動能轉正
             momentum_ok = latest_ret > 0
+            vol_expand = latest_vol > 1.3
+            vol_normal = latest_vol > 1.0
 
-            # 5️⃣ 量能稍微放大（放寬🔥）
-            vol_ok = latest_vol > 1.0
+            trend_ok = latest_close > ma20_val * 0.98
 
-            # 6️⃣ 趨勢（不再硬限制）
-            trend_soft = latest_close > ma20_val * 0.98
-
-            # 7️⃣ 族群
             sector_boost = 1 if col in equipment_list else 0
 
             # =========================
-            # 🧠 Score（重寫🔥）
+            # 🧠 Score（影響排序）
             # =========================
 
             score = (
-                rebound * 2 +          # 🔥核心
-                ma10_break * 2 +       # 🔥核心
-                range_high_test * 1 +
+                rebound * 2 +
+                ma10_break * 2 +
+                near_high * 1 +
                 momentum_ok * 1 +
-                vol_ok * 1 +
-                trend_soft * 1 +
+                vol_normal * 1 +
+                trend_ok * 1 +
                 sector_boost * 1
             )
 
             # =========================
-            # 🎯 分級
+            # 🔥 分級（核心改這裡）
             # =========================
 
-            if score >= 6:
-                level = "ATTACK"      # 🔥可以準備進場
-            elif score >= 4:
-                level = "READY"       # 🔥觀察名單
-            else:
+            # === ATTACK（真的在噴）===
+            if breakout and vol_expand:
+                level = "ATTACK"
+
+            # === READY（最重要🔥）===
+            elif (
+                ma10_break
+                and near_high
+                and momentum_ok
+                and vol_normal
+            ):
+                level = "READY"
+
+            # === EARLY（底部轉強）===
+            elif rebound and trend_ok:
                 level = "EARLY"
 
-            if score >= 3:
-                candidates.append({
-                    "ticker": col,
-                    "score": score,
-                    "level": level,
-                    "price": latest_close
-                })
+            else:
+                continue  # 不要垃圾
+
+            # =========================
+            # 📦 收集
+            # =========================
+
+            candidates.append({
+                "ticker": col,
+                "score": score,
+                "level": level,
+                "price": latest_close
+            })
 
         except Exception:
             continue
 
+    # 排序（高分在前）
     candidates = sorted(candidates, key=lambda x: x["score"], reverse=True)
 
     return candidates
