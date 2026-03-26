@@ -1,0 +1,119 @@
+[
+  {
+    "ticker": "5443.TWO",
+    "name": "均豪精密",
+    "narrative_score": 42,
+    "narrative_strength": "LOW",
+    "theme": "精密零組件製造",
+    "summary": "主要從事精密金屬零組件，AI供應鏈曝險有限，較多集中於傳統製造與太陽能設備領域。",
+    "confidence": 55
+  },
+  {
+    "ticker": "2464.TW",
+    "name": "盟立自動化",
+    "narrative_score": 55,
+    "narrative_strength": "MID",
+    "theme": "AI工廠自動化設備",
+    "summary": "提供自動化系統整合，受益於AI伺服器廠擴產帶動的自動化需求，但非核心AI硬體供應商。",
+    "confidence": 62
+  },
+  {
+    "ticker": "3413.TW",
+    "name": "京元電子",
+    "narrative_score": 78,
+    "narrative_strength": "HIGH",
+    "theme": "AI晶片測試封裝",
+    "summary": "為台灣重要IC測試廠，直接受益於AI GPU與HBM測試需求爆量，CoWoS相關封測訂單明顯增加。",
+    "confidence": 82
+  },
+  {
+    "ticker": "6139.TW",
+    "name": "亞翔工程",
+    "narrative_score": 72,
+    "narrative_strength": "HIGH",
+    "theme": "AI資料中心建設",
+    "summary": "專注於無塵室與廠務工程，直接受益於台積電及AI資料中心擴建浪潮，訂單能見度高。",
+    "confidence": 78
+  },
+  {
+    "ticker": "3711.TW",
+    "name": "日月光投控",
+    "narrative_score": 85,
+    "narrative_strength": "HIGH",
+    "theme": "AI先進封裝核心",
+    "summary": "全球最大封測廠，CoWoS、SoIC等先進封裝技術為AI晶片必要製程，受益NVIDIA等大客戶需求強勁。",
+    "confidence": 90
+  },
+  {
+    "ticker": "6147.TWO",
+    "name": "頎邦科技",
+    "narrative_score": 58,
+    "narrative_strength": "MID",
+    "theme": "驅動IC封測",
+    "summary": "主攻面板驅動IC封測，AI需求間接受益有限，核心業務與AI供應鏈關聯性偏弱。",
+    "confidence": 65
+  },
+  {
+    "ticker": "2467.TW",
+    "name": "志聖工業",
+    "narrative_score": 48,
+    "narrative_strength": "LOW",
+    "theme": "PCB烤箱設備",
+    "summary": "生產PCB製程設備，AI伺服器擴產可帶動間接需求，但敘事強度屬間接受益，非主流AI概念股。",
+    "confidence": 58
+  },
+  {
+    "ticker": "3706.TW",
+    "name": "神達電腦",
+    "narrative_score": 62,
+    "narrative_strength": "MID",
+    "theme": "AI邊緣運算與伺服器",
+    "summary": "旗下神雲專注伺服器ODM，切入AI伺服器市場，但規模與品牌力相較主要ODM廠仍有差距。",
+    "confidence": 68
+  },
+  {
+    "ticker": "2377.TW",
+    "name": "微星科技",
+    "narrative_score": 74,
+    "narrative_strength": "HIGH",
+    "theme": "AI GPU伺服器與終端",
+    "summary": "AI PC顯卡與AI伺服器雙線受益，NVIDIA GPU顯卡出貨強勁，AI伺服器業務快速成長中。",
+    "confidence": 80
+  },
+  {
+    "ticker": "3661.TW",
+    "name": "世芯-KY",
+    "narrative_score": 88,
+    "narrative_strength": "HIGH",
+    "theme": "AI ASIC客製化晶片設計",
+    "summary": "專注ASIC設計服務，為雲端巨頭AI自研晶片核心設計夥伴，敘事強度極高，成長動能清晰。",
+    "confidence": 92
+  },
+  {
+    "ticker": "3443.TW",
+    "name": "創意電子",
+    "narrative_score": 83,
+    "narrative_strength": "HIGH",
+    "theme": "AI ASIC設計服務",
+    "summary": "台積電旗下IC設計服務公司，承接大量AI ASIC設計訂單，受益AI晶片客製化趨勢，能見度高。",
+    "confidence": 88
+  },
+  {
+    "ticker": "2368.TW",
+    "name": "金像電",
+    "narrative_score": 65,
+    "narrative_strength": "MID",
+    "theme": "AI伺服器PCB",
+    "summary": "高階PCB製造商，受益AI伺服器與網通設備升規需求，但競爭激烈，敘事強度屬中等水準。",
+    "confidence": 70
+  },
+  {
+    "ticker": "2330.TW",
+    "name": "台積電",
+    "narrative_score": 99,
+    "narrative_strength": "HIGH",
+    "theme": "AI晶片製造核心基礎設施",
+    "summary": "全球AI晶片製造絕對核心，CoWoS先進封裝供不應求，NVIDIA、AMD、Apple等全數委託代工，AI敘事強度無可匹敵。",
+    "confidence": 99
+  }
+]

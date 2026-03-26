@@ -1,0 +1,119 @@
+[
+  {
+    "ticker": "5443.TWO",
+    "name": "均豪",
+    "narrative_score": 85,
+    "narrative_strength": "HIGH",
+    "theme": "先進封裝與再生晶圓",
+    "summary": "均豪積極轉型半導體設備，受惠AI晶片散熱需求推動先進封裝設備成長，再生晶圓業務為AI供應鏈關鍵環節。",
+    "confidence": 90
+  },
+  {
+    "ticker": "2464.TW",
+    "name": "盟立",
+    "narrative_score": 75,
+    "narrative_strength": "HIGH",
+    "theme": "半導體智能工廠自動化",
+    "summary": "盟立提供半導體智能工廠自動化解決方案，包括AGV與設備前端模組，AI訂單爆發預期貢獻營收成長。",
+    "confidence": 85
+  },
+  {
+    "ticker": "3413.TW",
+    "name": "亞翔整合",
+    "narrative_score": 60,
+    "narrative_strength": "MID",
+    "theme": "半導體廠務工程",
+    "summary": "亞翔受益AI需求帶動先進製程擴產，訂單創新高但面臨人才瓶頸，屬半導體設備供應鏈。",
+    "confidence": 70
+  },
+  {
+    "ticker": "6139.TW",
+    "name": "亞翔",
+    "narrative_score": 55,
+    "narrative_strength": "MID",
+    "theme": "廠務工程與設備",
+    "summary": "亞翔訂單受AI半導體擴產推動，但敘事連結較間接，營運成長依賴整體景氣。",
+    "confidence": 65
+  },
+  {
+    "ticker": "3711.TW",
+    "name": "日月光投控",
+    "narrative_score": 90,
+    "narrative_strength": "HIGH",
+    "theme": "先進封測與基板AI檢測",
+    "summary": "日月光攜手載板廠成立AI應用聯盟開發基板AI檢測技術，核心先進封測供應鏈。",
+    "confidence": 95
+  },
+  {
+    "ticker": "6147.TWO",
+    "name": "頎邦",
+    "narrative_score": 80,
+    "narrative_strength": "HIGH",
+    "theme": "先進封測",
+    "summary": "頎邦專注先進封測，AI需求驅動封裝景氣回溫，與驅動IC連動成長。",
+    "confidence": 85
+  },
+  {
+    "ticker": "2467.TW",
+    "name": "志聖",
+    "narrative_score": 70,
+    "narrative_strength": "MID",
+    "theme": "高階PCB材料",
+    "summary": "志聖提供軟性銅箔基板與半導體高階材料，切入AI伺服器玻璃基板供應鏈。",
+    "confidence": 75
+  },
+  {
+    "ticker": "3706.TW",
+    "name": "永豐電子",
+    "narrative_score": 50,
+    "narrative_strength": "LOW",
+    "theme": "電子材料",
+    "summary": "永豐電子屬電子供應鏈，AI敘事連結較弱，無明顯直接受益資訊。",
+    "confidence": 60
+  },
+  {
+    "ticker": "2377.TW",
+    "name": "微星",
+    "narrative_score": 75,
+    "narrative_strength": "HIGH",
+    "theme": "AI伺服器",
+    "summary": "微星AI伺服器業務發酵，使用AI優化供應鏈，營收預期跳級成長。",
+    "confidence": 80
+  },
+  {
+    "ticker": "3661.TW",
+    "name": "世芯-KY",
+    "narrative_score": 95,
+    "narrative_strength": "HIGH",
+    "theme": "AI加速器ASIC",
+    "summary": "世芯新一代3nm AI加速器量產，受北美CSP訂單推動，下半年營收爆發。",
+    "confidence": 95
+  },
+  {
+    "ticker": "3443.TW",
+    "name": "創意",
+    "narrative_score": 95,
+    "narrative_strength": "HIGH",
+    "theme": "AI ASIC IP",
+    "summary": "創意為AI ASIC核心供應商，切入CSP與車廠AI晶片，營收歷史新高並卡位CPO。",
+    "confidence": 95
+  },
+  {
+    "ticker": "2368.TW",
+    "name": "金像電",
+    "narrative_score": 85,
+    "narrative_strength": "HIGH",
+    "theme": "測試設備",
+    "summary": "金像電切入AWS Trainium3等AI供應鏈，外資看好市佔與營收貢獻。",
+    "confidence": 90
+  },
+  {
+    "ticker": "2330.TW",
+    "name": "台積電",
+    "narrative_score": 100,
+    "narrative_strength": "HIGH",
+    "theme": "AI晶圓代工核心",
+    "summary": "台積電為AI晶片代工龍頭，供應鏈翻紅，ASIC與GPU需求強勁。",
+    "confidence": 100
+  }
+]

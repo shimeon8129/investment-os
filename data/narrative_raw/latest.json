@@ -1,0 +1,119 @@
+[
+  {
+    "ticker": "2330.TW",
+    "name": "台積電",
+    "narrative_score": 100,
+    "narrative_strength": "HIGH",
+    "theme": "Foundry/CoWoS/Advanced Node",
+    "summary": "AI 晶片製造絕對核心，掌握先進製程與封裝壟斷地位。",
+    "confidence": 100
+  },
+  {
+    "ticker": "3661.TW",
+    "name": "世芯-KY",
+    "narrative_score": 95,
+    "narrative_strength": "HIGH",
+    "theme": "ASIC/IP Design",
+    "summary": "雲端服務供應商（CSP）自研 AI 晶片主要合作夥伴。",
+    "confidence": 95
+  },
+  {
+    "ticker": "3443.TW",
+    "name": "創意",
+    "narrative_score": 88,
+    "narrative_strength": "HIGH",
+    "theme": "ASIC/IP Design",
+    "summary": "台積電體系 ASIC 設計服務，受惠 HBM 整合與客製化趨勢。",
+    "confidence": 90
+  },
+  {
+    "ticker": "3711.TW",
+    "name": "日月光投控",
+    "narrative_score": 85,
+    "narrative_strength": "HIGH",
+    "theme": "Advanced Packaging/OSAT",
+    "summary": "全球封測龍頭，承接先進封裝外溢訂單與先進測試需求。",
+    "confidence": 90
+  },
+  {
+    "ticker": "3413.TW",
+    "name": "京鼎",
+    "narrative_score": 80,
+    "narrative_strength": "HIGH",
+    "theme": "Semiconductor Equipment",
+    "summary": "美系設備大廠代工夥伴，間接受惠 AI 產能擴充帶動的設備需求。",
+    "confidence": 85
+  },
+  {
+    "ticker": "6147.TWO",
+    "name": "頎邦",
+    "narrative_score": 50,
+    "narrative_strength": "MID",
+    "theme": "Display Driver IC Packaging",
+    "summary": "主攻面板驅動 IC 封測，與核心 AI 算力供應鏈關聯度較低。",
+    "confidence": 85
+  },
+  {
+    "ticker": "2368.TW",
+    "name": "金像電",
+    "narrative_score": 90,
+    "narrative_strength": "HIGH",
+    "theme": "AI Server PCB",
+    "summary": "全球 AI 伺服器板市佔領先，受惠板層數增加與材料升級。",
+    "confidence": 92
+  },
+  {
+    "ticker": "2467.TW",
+    "name": "志聖",
+    "narrative_score": 82,
+    "narrative_strength": "HIGH",
+    "theme": "CoWoS Equipment",
+    "summary": "切入台積電 CoWoS 供應鏈，提供乾燥、壓膜等關鍵熱製程設備。",
+    "confidence": 88
+  },
+  {
+    "ticker": "2377.TW",
+    "name": "微星",
+    "narrative_score": 65,
+    "narrative_strength": "MID",
+    "theme": "AI PC/Gaming",
+    "summary": "受惠 AI PC 換機潮與邊緣運算硬體需求，但非核心算力供應商。",
+    "confidence": 80
+  },
+  {
+    "ticker": "3706.TW",
+    "name": "神達",
+    "narrative_score": 75,
+    "narrative_strength": "MID",
+    "theme": "Cloud Server/Manufacturing",
+    "summary": "子公司神雲切入 AI 伺服器組裝，具備雲端基礎建設轉單敘事。",
+    "confidence": 85
+  },
+  {
+    "ticker": "5443.TWO",
+    "name": "均豪",
+    "narrative_score": 78,
+    "narrative_strength": "MID",
+    "theme": "Advanced Packaging Equipment",
+    "summary": "轉型切入半導體先進封裝設備，進入驗證與放量階段。",
+    "confidence": 80
+  },
+  {
+    "ticker": "2464.TW",
+    "name": "盟立",
+    "narrative_score": 70,
+    "narrative_strength": "MID",
+    "theme": "Automation/CoWoS Logistics",
+    "summary": "提供半導體自動化傳送系統，受惠 CoWoS 擴產所需的自動化整合。",
+    "confidence": 75
+  },
+  {
+    "ticker": "6139.TW",
+    "name": "亞翔",
+    "narrative_score": 72,
+    "narrative_strength": "MID",
+    "theme": "Clean Room/Infrastructure",
+    "summary": "半導體廠建廠工程，間接受惠 AI 廠房擴建與設施投資。",
+    "confidence": 85
+  }
+]

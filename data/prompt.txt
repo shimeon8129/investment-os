@@ -1,0 +1,25 @@
+
+請根據以下股票清單，分析「AI供應鏈敘事強度」
+
+輸出 JSON，格式如下：
+
+[
+  {
+    "ticker": "...",
+    "name": "...",
+    "narrative_score": 0-100,
+    "narrative_strength": "HIGH / MID / LOW",
+    "theme": "...",
+    "summary": "...",
+    "confidence": 0-100
+  }
+]
+
+規則：
+- 不要提供新聞連結
+- 不要解釋
+- 只輸出 JSON
+- narrative_score 根據市場熱度 + 新聞 + 資金敘事判斷
+
+股票清單：
+['3131.TWO', '5443.TWO', '6187.TWO', '2454.TW', '6139.TW', '6147.TWO', '6669.TW', '2356.TW', '3706.TW', '3037.TW', '3661.TW', '3583.TW', '2330.TW']
