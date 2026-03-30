@@ -2,46 +2,55 @@
   {
     "ticker": "2467.TW",
     "name": "志聖",
-    "narrative_score": 55,
-    "narrative_strength": "MID",
-    "theme": "半導體設備／烘烤爐設備",
-    "summary": "志聖專注於半導體與PCB烘烤爐設備，隨AI驅動的先進封裝與載板需求升溫，間接受惠於供應鏈擴產，但直接AI敘事連結度有限。",
-    "confidence": 70
+    "narrative_score": 85,
+    "narrative_strength": "HIGH",
+    "theme": "AI先進封裝設備／CoWoS載板設備",
+    "summary": "AI供應鏈敘事強度高，為台積電CoWoS等先進封裝設備與高階PCB相關設備供應商，直接受惠AI晶片與AI伺服器擴產潮。",
+    "confidence": 90
   },
   {
     "ticker": "3131.TWO",
     "name": "弘塑",
-    "narrative_score": 72,
-    "narrative_strength": "HIGH",
-    "theme": "半導體濕製程設備／先進封裝",
-    "summary": "弘塑提供晶圓清洗與濕製程設備，隨CoWoS與先進封裝需求爆發，台積電及封測廠擴產帶動設備採購，AI供應鏈敘事明確且持續強化。",
-    "confidence": 78
+    "narrative_score": 70,
+    "narrative_strength": "MID",
+    "theme": "AI先進封裝與半導體設備",
+    "summary": "AI先進封裝與半導體設備題材中度，屬高門檻設備商，與AI晶片及先進封裝製程擴產有間接連動，但AI相關營收佔比與定位不如純封裝設備廠清晰。",
+    "confidence": 75
+  },
+  {
+    "ticker": "3583.TW",
+    "name": "辛耘",
+    "narrative_score": 78,
+    "narrative_strength": "MID",
+    "theme": "再生晶圓與AI算力設備",
+    "summary": "具AI算力與再生晶圓設備供應鏈屬性，AI與先進封裝相關案件與算力設備貢獻營收約三成，但AI半導體直接供應鏈地位略低於純封裝設備廠。",
+    "confidence": 80
   },
   {
     "ticker": "6640.TWO",
     "name": "均華",
-    "narrative_score": 68,
-    "narrative_strength": "MID",
-    "theme": "半導體封裝設備／點膠設備",
-    "summary": "均華專攻點膠與封裝自動化設備，受惠於AI晶片高階封裝（CoWoS、SoIC）需求成長，封裝製程複雜化推升設備需求，敘事強度中高。",
-    "confidence": 72
+    "narrative_score": 90,
+    "narrative_strength": "HIGH",
+    "theme": "先進封裝設備／Chip Sorter",
+    "summary": "AI先進封裝敘事強度極高，以Chip Sorter與Die Bonder為核心產品，先進封裝營收占比已達八成以上，直接受惠AI晶片與高階封裝產能擴張。",
+    "confidence": 92
   },
   {
     "ticker": "6187.TWO",
     "name": "萬潤",
-    "narrative_score": 60,
+    "narrative_score": 55,
     "narrative_strength": "MID",
-    "theme": "半導體／電子零組件檢測設備",
-    "summary": "萬潤提供電子零組件外觀檢測與包裝設備，AI硬體需求帶動零組件出貨量，間接挹注檢測設備需求，但AI直接敘事連結較為間接。",
-    "confidence": 65
+    "theme": "半導體/Test設備／AI間接鏈",
+    "summary": "具半導體測試設備與封裝測試相關布局，與AI伺服器及先進封裝擴產有間接連動，但AI主題直接性與設備純度較封裝設備廠弱。",
+    "confidence": 70
   },
   {
-    "ticker": "3680.TWO",
-    "name": "家登",
-    "narrative_score": 82,
-    "narrative_strength": "HIGH",
-    "theme": "EUV光罩盒／先進製程耗材",
-    "summary": "家登為全球主要EUV光罩盒供應商，台積電3nm/2nm先進製程大規模擴產直接帶動光罩盒需求，與AI晶片製造供應鏈高度綁定，敘事強度強且能見度高。",
-    "confidence": 88
+    "ticker": "5443.TWO",
+    "name": "均豪",
+    "narrative_score": 62,
+    "narrative_strength": "MID",
+    "theme": "封裝測試與AI周邊設備",
+    "summary": "以封測設備與製程設備為主，部分與AI封裝及半導體製程相關，AI供應鏈屬性中度，但AI主題集中度與設備定位不如純先進封裝設備廠。",
+    "confidence": 72
   }
 ]

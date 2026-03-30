@@ -4,44 +4,62 @@
     "name": "志聖",
     "narrative_score": 85,
     "narrative_strength": "HIGH",
-    "theme": "CoWoS 封裝壓膜設備",
-    "summary": "作為 G2C+ 聯盟核心，提供 CoWoS 製程所需的真空壓膜機與烘烤設備，受益於台積電先進封裝產能擴張。",
+    "theme": "CoWoS 設備與先進封裝",
+    "summary": "受惠於台積電先進封裝產能擴張，烤箱與熱製程設備需求強勁，供應鏈地位穩固。",
+    "confidence": 90
+  },
+  {
+    "ticker": "6830.TW",
+    "name": "汎銓",
+    "narrative_score": 80,
+    "narrative_strength": "HIGH",
+    "theme": "半導體材料分析 (MA)",
+    "summary": "先進製程節點研發帶動材料分析需求，在高階製程市佔率極高，具備技術領先優勢。",
     "confidence": 90
   },
   {
     "ticker": "3131.TWO",
     "name": "弘塑",
-    "narrative_score": 95,
+    "narrative_score": 90,
     "narrative_strength": "HIGH",
     "theme": "CoWoS 濕製程設備",
-    "summary": "台積電先進封裝濕製程設備領先供應商，涵蓋自動化濕式清洗站與蝕刻設備，為 AI 晶片產能擴充之直接受惠者。",
+    "summary": "作為台積電先進封裝濕製程設備主力供應商，受惠於 CoWoS 產能倍增計畫，訂單能見度高。",
     "confidence": 95
+  },
+  {
+    "ticker": "3583.TW",
+    "name": "辛耘",
+    "narrative_score": 88,
+    "narrative_strength": "HIGH",
+    "theme": "濕製程設備與再生晶圓",
+    "summary": "受惠於先進封裝擴產及再生晶圓需求穩健，濕製程設備在 CoWoS 供應鏈中扮演關鍵角色。",
+    "confidence": 92
   },
   {
     "ticker": "6640.TWO",
     "name": "均華",
-    "narrative_score": 88,
+    "narrative_score": 82,
     "narrative_strength": "HIGH",
-    "theme": "先進封裝挑揀設備",
-    "summary": "專注於晶粒挑揀機（Die Bonder），在 CoWoS 及資訊處理先進封裝領域市佔率高，與晶圓代工大廠合作緊密。",
-    "confidence": 90
+    "theme": "晶片挑揀設備 (Pick and Place)",
+    "summary": "專精於高精度挑揀設備，在先進封裝後段製程具有競爭力，隨擴產週期獲利看漲。",
+    "confidence": 88
   },
   {
     "ticker": "6187.TWO",
     "name": "萬潤",
-    "narrative_score": 92,
+    "narrative_score": 87,
     "narrative_strength": "HIGH",
-    "theme": "CoWoS 點膠與檢查設備",
-    "summary": "提供先進封裝點膠機、散熱貼合及 AOI 檢測設備，隨 AI 伺服器晶片封裝需求激增，營收連動性極強。",
-    "confidence": 92
+    "theme": "封裝點膠與檢查設備",
+    "summary": "先進封裝與 3D 封裝趨勢下，點膠、散熱片黏貼及量測設備需求激增，為主要受益者之一。",
+    "confidence": 90
   },
   {
-    "ticker": "3680.TWO",
-    "name": "家登",
-    "narrative_score": 90,
-    "narrative_strength": "HIGH",
-    "theme": "EUV Pod 與光罩載具",
-    "summary": "全球 EUV Pod 市佔龍頭，隨 AI 晶片往 3nm/2nm 等先進製程推進，對高階光罩傳載解決方案需求具壟斷性優勢。",
-    "confidence": 95
+    "ticker": "5443.TWO",
+    "name": "均豪",
+    "narrative_score": 75,
+    "narrative_strength": "MID",
+    "theme": "自動化檢測設備",
+    "summary": "轉型跨入半導體檢測與自動化領域，與 G2 聯盟合作綜效逐步顯現，在先進製程周邊設備佔有一席之地。",
+    "confidence": 85
   }
 ]

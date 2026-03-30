@@ -4,44 +4,62 @@
     "name": "志聖",
     "narrative_score": 85,
     "narrative_strength": "HIGH",
-    "theme": "AI伺服器與先進封裝設備",
-    "summary": "志聖為台積電CoWoS先進封裝關鍵設備供應商之一，提供AI伺服器與高效能運算相關封裝設備，營收與拉貨潮直接受益於AI晶片擴產與CoWoS產能擴張，市場視其為AI伺服器與先進封裝設備核心概念股。",
-    "confidence": 90
+    "theme": "先進封裝設備",
+    "summary": "台積電CoWoS先進封裝關鍵設備供應商，受AI伺服器需求帶動出貨成長。",
+    "confidence": 95
+  },
+  {
+    "ticker": "6830.TW",
+    "name": "汎銓",
+    "narrative_score": 75,
+    "narrative_strength": "HIGH",
+    "theme": "AI檢測/CPO設備",
+    "summary": "AI伺服器、先進封裝與矽光子檢測服務供應商，具結構性成長潛力。",
+    "confidence": 85
   },
   {
     "ticker": "3131.TWO",
     "name": "弘塑",
-    "narrative_score": 80,
+    "narrative_score": 90,
     "narrative_strength": "HIGH",
-    "theme": "半導體濕製程與AI晶片先進封裝",
-    "summary": "弘塑為半導體濕製程設備龍頭，提供晶圓清洗、蝕刻與去光阻等設備，與台積電CoWoS擴產高度相關，受AI晶片與先進封裝需求驅動營收成長，法說與法人皆強調其卡位AI先進封裝供應鏈。",
-    "confidence": 85
+    "theme": "半導體濕製程設備",
+    "summary": "AI晶片與先進封裝(CoWoS/SoIC)濕製程設備領導廠商，獲高盛看好。",
+    "confidence": 95
   },
   {
-    "ticker": "6640.TWO",
-    "name": "均華",
-    "narrative_score": 82,
+    "ticker": "3583.TW",
+    "name": "辛耘",
+    "narrative_score": 80,
     "narrative_strength": "HIGH",
-    "theme": "先進封裝裝置與AI伺服器供應鏈",
-    "summary": "均華為均豪集團旗下半導體封裝設備廠，主力產品為Sorter與Die bonder等先進封裝裝置，深度切入CoWoS與AI伺服器封裝產線，訂單與營收明顯受AI與先進封裝擴產拉動，市場評價持續上修。",
-    "confidence": 80
+    "theme": "先進封裝設備",
+    "summary": "台積電CoWoS濕製程與貼合剝離設備供應商，AI需求帶動營收連5年新高。",
+    "confidence": 90
   },
   {
     "ticker": "6187.TWO",
     "name": "萬潤",
-    "narrative_score": 78,
-    "narrative_strength": "HIGH",
-    "theme": "先進封裝設備與AI算力基礎設施",
-    "summary": "萬潤從傳統設備廠轉型為先進封裝設備與整合服務商，參與CoWoS與3D‑IC等AI與高效能運算封裝設備供應鏈，並負責相關設備的全球運籌與技術支援，被視為AI算力基礎設施實體製造節點之一。",
-    "confidence": 82
-  },
-  {
-    "ticker": "3680.TWO",
-    "name": "家登",
     "narrative_score": 70,
     "narrative_strength": "MID",
-    "theme": "載板與AI晶片供應鏈",
-    "summary": "家登定位為載板與掩膜版相關材料供應商，部分產品與先進封裝及AI晶片載板供應鏈相關，但市場敘事集中度不如前幾檔，AI主題屬性偏間接，營收與毛利率變動亦使AI敘事強度略為受限。",
+    "theme": "CoWoS先進封裝設備",
+    "summary": "提供CoWoS先進封裝製程設備，受AI供應鏈需求看好。",
     "confidence": 75
+  },
+  {
+    "ticker": "6640.TWO",
+    "name": "均華",
+    "narrative_score": 0,
+    "narrative_strength": "LOW",
+    "theme": "",
+    "summary": "",
+    "confidence": 0
+  },
+  {
+    "ticker": "5443.TWO",
+    "name": "均豪",
+    "narrative_score": 0,
+    "narrative_strength": "LOW",
+    "theme": "",
+    "summary": "",
+    "confidence": 0
   }
 ]

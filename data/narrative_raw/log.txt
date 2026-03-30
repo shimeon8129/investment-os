@@ -895,3 +895,1255 @@
     "strength": "STRONG"
   }
 ]
+
+==============================
+2026-03-30 23:01:52 | gemini | OK
+==============================
+[
+  {
+    "ticker": "2467.TW",
+    "name": "志聖",
+    "narrative_score": 85,
+    "narrative_strength": "HIGH",
+    "theme": "CoWoS/HBM 先進封裝設備",
+    "summary": "主要供應CoWoS製程中的暫時貼合、介電層貼合與熱製程烘烤設備，並受惠於HBM與高階IC載板需求，屬G2C+聯盟核心成員。",
+    "confidence": 95
+  },
+  {
+    "ticker": "3131.TWO",
+    "name": "弘塑",
+    "narrative_score": 95,
+    "narrative_strength": "HIGH",
+    "theme": "CoWoS 濕製程/自動化設備",
+    "summary": "半導體濕製程設備龍頭，打入台積電CoWoS與SoIC供應鏈，訂單能見度已延伸至2027年，且具備FOPLP技術佈局。",
+    "confidence": 98
+  },
+  {
+    "ticker": "3583.TW",
+    "name": "辛耘",
+    "narrative_score": 92,
+    "narrative_strength": "HIGH",
+    "theme": "CoWoS 濕製程/晶圓再生",
+    "summary": "台積電CoWoS濕製程設備主要供應商，自製設備佔比提升帶動毛利，受惠於先進封裝產能倍增計畫，具備高度技術壟斷地位。",
+    "confidence": 95
+  },
+  {
+    "ticker": "6640.TWO",
+    "name": "均華",
+    "narrative_score": 90,
+    "narrative_strength": "HIGH",
+    "theme": "CoWoS/SoIC 挑揀與黏晶設備",
+    "summary": "專攻高精度晶粒挑揀機(Sorter)與黏晶機(Die Bonder)，在台積電先進封裝設備供應鏈中市佔領先，先進封裝營收佔比達85%以上。",
+    "confidence": 92
+  },
+  {
+    "ticker": "6187.TWO",
+    "name": "萬潤",
+    "narrative_score": 88,
+    "narrative_strength": "HIGH",
+    "theme": "CoWoS AOI檢測/點膠設備",
+    "summary": "由被動元件轉型半導體點膠與AOI檢測設備，成功打入CoWoS與SoIC產線，為提升先進封裝良率之關鍵設備商。",
+    "confidence": 90
+  },
+  {
+    "ticker": "5443.TWO",
+    "name": "均豪",
+    "narrative_score": 75,
+    "narrative_strength": "MID",
+    "theme": "FOPLP/AOI 檢測設備",
+    "summary": "積極轉型半導體領域，透過G2C聯盟切入CoWoS供應鏈，近期主打FOPLP(面板級封裝)檢測與研磨設備，預期2026年放量成長。",
+    "confidence": 85
+  }
+]
+
+==============================
+2026-03-30 23:02:03 | claude | NO_DATA
+==============================
+
+==============================
+2026-03-30 23:03:53 | perplexity | OK
+==============================
+==============================
+[
+  {
+    "ticker": "2467.TW",
+    "name": "志聖",
+    "narrative_score": 85,
+    "narrative_strength": "HIGH",
+    "theme": "AI先進封裝設備／CoWoS載板設備",
+    "summary": "AI供應鏈敘事強度高，為台積電CoWoS等先進封裝設備與高階PCB相關設備供應商，直接受惠AI晶片與AI伺服器擴產潮。",
+    "confidence": 90
+  },
+  {
+    "ticker": "3131.TWO",
+    "name": "弘塑",
+    "narrative_score": 70,
+    "narrative_strength": "MID",
+    "theme": "AI先進封裝與半導體設備",
+    "summary": "AI先進封裝與半導體設備題材中度，屬高門檻設備商，與AI晶片及先進封裝製程擴產有間接連動，但AI相關營收佔比與定位不如純封裝設備廠清晰。",
+    "confidence": 75
+  },
+  {
+    "ticker": "3583.TW",
+    "name": "辛耘",
+    "narrative_score": 78,
+    "narrative_strength": "MID",
+    "theme": "再生晶圓與AI算力設備",
+    "summary": "具AI算力與再生晶圓設備供應鏈屬性，AI與先進封裝相關案件與算力設備貢獻營收約三成，但AI半導體直接供應鏈地位略低於純封裝設備廠。",
+    "confidence": 80
+  },
+  {
+    "ticker": "6640.TWO",
+    "name": "均華",
+    "narrative_score": 90,
+    "narrative_strength": "HIGH",
+    "theme": "先進封裝設備／Chip Sorter",
+    "summary": "AI先進封裝敘事強度極高，以Chip Sorter與Die Bonder為核心產品，先進封裝營收占比已達八成以上，直接受惠AI晶片與高階封裝產能擴張。",
+    "confidence": 92
+  },
+  {
+    "ticker": "6187.TWO",
+    "name": "萬潤",
+    "narrative_score": 55,
+    "narrative_strength": "MID",
+    "theme": "半導體/Test設備／AI間接鏈",
+    "summary": "具半導體測試設備與封裝測試相關布局，與AI伺服器及先進封裝擴產有間接連動，但AI主題直接性與設備純度較封裝設備廠弱。",
+    "confidence": 70
+  },
+  {
+    "ticker": "5443.TWO",
+    "name": "均豪",
+    "narrative_score": 62,
+    "narrative_strength": "MID",
+    "theme": "封裝測試與AI周邊設備",
+    "summary": "以封測設備與製程設備為主，部分與AI封裝及半導體製程相關，AI供應鏈屬性中度，但AI主題集中度與設備定位不如純先進封裝設備廠。",
+    "confidence": 72
+  }
+]
+
+==============================
+2026-03-30 23:03:55 | CONSENSUS | used=['gemini', 'claude', 'perplexity']
+==============================
+[
+  {
+    "ticker": "6640.TWO",
+    "name": "均華",
+    "consensus_score": 90.0,
+    "consensus_count": 2,
+    "strength": "MEDIUM"
+  },
+  {
+    "ticker": "2467.TW",
+    "name": "志聖",
+    "consensus_score": 85.0,
+    "consensus_count": 2,
+    "strength": "MEDIUM"
+  },
+  {
+    "ticker": "3583.TW",
+    "name": "辛耘",
+    "consensus_score": 85.0,
+    "consensus_count": 2,
+    "strength": "MEDIUM"
+  }
+]
+
+==============================
+2026-03-30 23:10:34 | gemini | OK
+==============================
+[
+  {
+    "ticker": "2467.TW",
+    "name": "志聖",
+    "narrative_score": 85,
+    "narrative_strength": "HIGH",
+    "theme": "CoWoS/HBM 先進封裝設備",
+    "summary": "主要供應CoWoS製程中的暫時貼合、介電層貼合與熱製程烘烤設備，並受惠於HBM與高階IC載板需求，屬G2C+聯盟核心成員。",
+    "confidence": 95
+  },
+  {
+    "ticker": "3131.TWO",
+    "name": "弘塑",
+    "narrative_score": 95,
+    "narrative_strength": "HIGH",
+    "theme": "CoWoS 濕製程/自動化設備",
+    "summary": "半導體濕製程設備龍頭，打入台積電CoWoS與SoIC供應鏈，訂單能見度已延伸至2027年，且具備FOPLP技術佈局。",
+    "confidence": 98
+  },
+  {
+    "ticker": "3583.TW",
+    "name": "辛耘",
+    "narrative_score": 92,
+    "narrative_strength": "HIGH",
+    "theme": "CoWoS 濕製程/晶圓再生",
+    "summary": "台積電CoWoS濕製程設備主要供應商，自製設備佔比提升帶動毛利，受惠於先進封裝產能倍增計畫，具備高度技術壟斷地位。",
+    "confidence": 95
+  },
+  {
+    "ticker": "6640.TWO",
+    "name": "均華",
+    "narrative_score": 90,
+    "narrative_strength": "HIGH",
+    "theme": "CoWoS/SoIC 挑揀與黏晶設備",
+    "summary": "專攻高精度晶粒挑揀機(Sorter)與黏晶機(Die Bonder)，在台積電先進封裝設備供應鏈中市佔領先，先進封裝營收佔比達85%以上。",
+    "confidence": 92
+  },
+  {
+    "ticker": "6187.TWO",
+    "name": "萬潤",
+    "narrative_score": 88,
+    "narrative_strength": "HIGH",
+    "theme": "CoWoS AOI檢測/點膠設備",
+    "summary": "由被動元件轉型半導體點膠與AOI檢測設備，成功打入CoWoS與SoIC產線，為提升先進封裝良率之關鍵設備商。",
+    "confidence": 90
+  },
+  {
+    "ticker": "5443.TWO",
+    "name": "均豪",
+    "narrative_score": 75,
+    "narrative_strength": "MID",
+    "theme": "FOPLP/AOI 檢測設備",
+    "summary": "積極轉型半導體領域，透過G2C聯盟切入CoWoS供應鏈，近期主打FOPLP(面板級封裝)檢測與研磨設備，預期2026年放量成長。",
+    "confidence": 85
+  }
+]
+
+==============================
+2026-03-30 23:11:12 | claude | OK
+==============================
+[
+  {
+    "ticker": "2467.TW",
+    "name": "志聖",
+    "narrative_score": 85,
+    "narrative_strength": "HIGH",
+    "theme": "AI先進封裝設備／CoWoS載板設備",
+    "summary": "AI供應鏈敘事強度高，為台積電CoWoS等先進封裝設備與高階PCB相關設備供應商，直接受惠AI晶片與AI伺服器擴產潮。",
+    "confidence": 90
+  },
+  {
+    "ticker": "3131.TWO",
+    "name": "弘塑",
+    "narrative_score": 70,
+    "narrative_strength": "MID",
+    "theme": "AI先進封裝與半導體設備",
+    "summary": "AI先進封裝與半導體設備題材中度，屬高門檻設備商，與AI晶片及先進封裝製程擴產有間接連動，但AI相關營收佔比與定位不如純封裝設備廠清晰。",
+    "confidence": 75
+  },
+  {
+    "ticker": "3583.TW",
+    "name": "辛耘",
+    "narrative_score": 78,
+    "narrative_strength": "MID",
+    "theme": "再生晶圓與AI算力設備",
+    "summary": "具AI算力與再生晶圓設備供應鏈屬性，AI與先進封裝相關案件與算力設備貢獻營收約三成，但AI半導體直接供應鏈地位略低於純封裝設備廠。",
+    "confidence": 80
+  },
+  {
+    "ticker": "6640.TWO",
+    "name": "均華",
+    "narrative_score": 90,
+    "narrative_strength": "HIGH",
+    "theme": "先進封裝設備／Chip Sorter",
+    "summary": "AI先進封裝敘事強度極高，以Chip Sorter與Die Bonder為核心產品，先進封裝營收占比已達八成以上，直接受惠AI晶片與高階封裝產能擴張。",
+    "confidence": 92
+  },
+  {
+    "ticker": "6187.TWO",
+    "name": "萬潤",
+    "narrative_score": 55,
+    "narrative_strength": "MID",
+    "theme": "半導體/Test設備／AI間接鏈",
+    "summary": "具半導體測試設備與封裝測試相關布局，與AI伺服器及先進封裝擴產有間接連動，但AI主題直接性與設備純度較封裝設備廠弱。",
+    "confidence": 70
+  },
+  {
+    "ticker": "5443.TWO",
+    "name": "均豪",
+    "narrative_score": 62,
+    "narrative_strength": "MID",
+    "theme": "封裝測試與AI周邊設備",
+    "summary": "以封測設備與製程設備為主，部分與AI封裝及半導體製程相關，AI供應鏈屬性中度，但AI主題集中度與設備定位不如純先進封裝設備廠。",
+    "confidence": 72
+  }
+]
+
+==============================
+2026-03-30 23:11:20 | perplexity | NO_DATA
+==============================
+
+==============================
+2026-03-30 23:11:22 | CONSENSUS | used=['gemini', 'claude', 'perplexity']
+==============================
+[
+  {
+    "ticker": "6640.TWO",
+    "name": "均華",
+    "consensus_score": 90.0,
+    "consensus_count": 3,
+    "strength": "STRONG"
+  },
+  {
+    "ticker": "2467.TW",
+    "name": "志聖",
+    "consensus_score": 85.0,
+    "consensus_count": 3,
+    "strength": "STRONG"
+  },
+  {
+    "ticker": "3583.TW",
+    "name": "辛耘",
+    "consensus_score": 82.67,
+    "consensus_count": 3,
+    "strength": "STRONG"
+  }
+]
+
+==============================
+2026-03-30 23:26:55 | gemini | OK
+==============================
+[
+  {
+    "ticker": "2467.TW",
+    "name": "志聖",
+    "narrative_score": 85,
+    "narrative_strength": "HIGH",
+    "theme": "CoWoS 設備與先進封裝",
+    "summary": "受惠於台積電先進封裝產能擴張，烤箱與熱製程設備需求強勁，供應鏈地位穩固。",
+    "confidence": 90
+  },
+  {
+    "ticker": "6830.TW",
+    "name": "汎銓",
+    "narrative_score": 80,
+    "narrative_strength": "HIGH",
+    "theme": "半導體材料分析 (MA)",
+    "summary": "先進製程節點研發帶動材料分析需求，在高階製程市佔率極高，具備技術領先優勢。",
+    "confidence": 90
+  },
+  {
+    "ticker": "3131.TWO",
+    "name": "弘塑",
+    "narrative_score": 90,
+    "narrative_strength": "HIGH",
+    "theme": "CoWoS 濕製程設備",
+    "summary": "作為台積電先進封裝濕製程設備主力供應商，受惠於 CoWoS 產能倍增計畫，訂單能見度高。",
+    "confidence": 95
+  },
+  {
+    "ticker": "3583.TW",
+    "name": "辛耘",
+    "narrative_score": 88,
+    "narrative_strength": "HIGH",
+    "theme": "濕製程設備與再生晶圓",
+    "summary": "受惠於先進封裝擴產及再生晶圓需求穩健，濕製程設備在 CoWoS 供應鏈中扮演關鍵角色。",
+    "confidence": 92
+  },
+  {
+    "ticker": "6640.TWO",
+    "name": "均華",
+    "narrative_score": 82,
+    "narrative_strength": "HIGH",
+    "theme": "晶片挑揀設備 (Pick and Place)",
+    "summary": "專精於高精度挑揀設備，在先進封裝後段製程具有競爭力，隨擴產週期獲利看漲。",
+    "confidence": 88
+  },
+  {
+    "ticker": "6187.TWO",
+    "name": "萬潤",
+    "narrative_score": 87,
+    "narrative_strength": "HIGH",
+    "theme": "封裝點膠與檢查設備",
+    "summary": "先進封裝與 3D 封裝趨勢下，點膠、散熱片黏貼及量測設備需求激增，為主要受益者之一。",
+    "confidence": 90
+  },
+  {
+    "ticker": "5443.TWO",
+    "name": "均豪",
+    "narrative_score": 75,
+    "narrative_strength": "MID",
+    "theme": "自動化檢測設備",
+    "summary": "轉型跨入半導體檢測與自動化領域，與 G2 聯盟合作綜效逐步顯現，在先進製程周邊設備佔有一席之地。",
+    "confidence": 85
+  }
+]
+
+==============================
+2026-03-30 23:27:10 | claude | NO_DATA
+==============================
+
+==============================
+2026-03-30 23:27:17 | perplexity | OK
+==============================
+[
+  {
+    "ticker": "2467.TW",
+    "name": "志聖",
+    "narrative_score": 85,
+    "narrative_strength": "HIGH",
+    "theme": "先進封裝設備",
+    "summary": "台積電CoWoS先進封裝關鍵設備供應商，受AI伺服器需求帶動出貨成長。",
+    "confidence": 95
+  },
+  {
+    "ticker": "6830.TW",
+    "name": "汎銓",
+    "narrative_score": 75,
+    "narrative_strength": "HIGH",
+    "theme": "AI檢測/CPO設備",
+    "summary": "AI伺服器、先進封裝與矽光子檢測服務供應商，具結構性成長潛力。",
+    "confidence": 85
+  },
+  {
+    "ticker": "3131.TWO",
+    "name": "弘塑",
+    "narrative_score": 90,
+    "narrative_strength": "HIGH",
+    "theme": "半導體濕製程設備",
+    "summary": "AI晶片與先進封裝(CoWoS/SoIC)濕製程設備領導廠商，獲高盛看好。",
+    "confidence": 95
+  },
+  {
+    "ticker": "3583.TW",
+    "name": "辛耘",
+    "narrative_score": 80,
+    "narrative_strength": "HIGH",
+    "theme": "先進封裝設備",
+    "summary": "台積電CoWoS濕製程與貼合剝離設備供應商，AI需求帶動營收連5年新高。",
+    "confidence": 90
+  },
+  {
+    "ticker": "6187.TWO",
+    "name": "萬潤",
+    "narrative_score": 70,
+    "narrative_strength": "MID",
+    "theme": "CoWoS先進封裝設備",
+    "summary": "提供CoWoS先進封裝製程設備，受AI供應鏈需求看好。",
+    "confidence": 75
+  },
+  {
+    "ticker": "6640.TWO",
+    "name": "均華",
+    "narrative_score": 0,
+    "narrative_strength": "LOW",
+    "theme": "",
+    "summary": "",
+    "confidence": 0
+  },
+  {
+    "ticker": "5443.TWO",
+    "name": "均豪",
+    "narrative_score": 0,
+    "narrative_strength": "LOW",
+    "theme": "",
+    "summary": "",
+    "confidence": 0
+  }
+]
+
+==============================
+2026-03-30 23:27:20 | CONSENSUS | used=['gemini', 'claude', 'perplexity']
+==============================
+[
+  {
+    "ticker": "6640.TWO",
+    "name": "均華",
+    "consensus_score": 86.0,
+    "consensus_count": 2,
+    "strength": "MEDIUM"
+  },
+  {
+    "ticker": "2467.TW",
+    "name": "志聖",
+    "consensus_score": 85.0,
+    "consensus_count": 3,
+    "strength": "STRONG"
+  },
+  {
+    "ticker": "3131.TWO",
+    "name": "弘塑",
+    "consensus_score": 83.33,
+    "consensus_count": 3,
+    "strength": "STRONG"
+  },
+  {
+    "ticker": "3583.TW",
+    "name": "辛耘",
+    "consensus_score": 82.0,
+    "consensus_count": 3,
+    "strength": "STRONG"
+  }
+]
+
+==============================
+2026-03-30 23:36:16 | gemini | OK
+==============================
+[
+  {
+    "ticker": "2467.TW",
+    "name": "志聖",
+    "narrative_score": 85,
+    "narrative_strength": "HIGH",
+    "theme": "CoWoS 設備與先進封裝",
+    "summary": "受惠於台積電先進封裝產能擴張，烤箱與熱製程設備需求強勁，供應鏈地位穩固。",
+    "confidence": 90
+  },
+  {
+    "ticker": "6830.TW",
+    "name": "汎銓",
+    "narrative_score": 80,
+    "narrative_strength": "HIGH",
+    "theme": "半導體材料分析 (MA)",
+    "summary": "先進製程節點研發帶動材料分析需求，在高階製程市佔率極高，具備技術領先優勢。",
+    "confidence": 90
+  },
+  {
+    "ticker": "3131.TWO",
+    "name": "弘塑",
+    "narrative_score": 90,
+    "narrative_strength": "HIGH",
+    "theme": "CoWoS 濕製程設備",
+    "summary": "作為台積電先進封裝濕製程設備主力供應商，受惠於 CoWoS 產能倍增計畫，訂單能見度高。",
+    "confidence": 95
+  },
+  {
+    "ticker": "3583.TW",
+    "name": "辛耘",
+    "narrative_score": 88,
+    "narrative_strength": "HIGH",
+    "theme": "濕製程設備與再生晶圓",
+    "summary": "受惠於先進封裝擴產及再生晶圓需求穩健，濕製程設備在 CoWoS 供應鏈中扮演關鍵角色。",
+    "confidence": 92
+  },
+  {
+    "ticker": "6640.TWO",
+    "name": "均華",
+    "narrative_score": 82,
+    "narrative_strength": "HIGH",
+    "theme": "晶片挑揀設備 (Pick and Place)",
+    "summary": "專精於高精度挑揀設備，在先進封裝後段製程具有競爭力，隨擴產週期獲利看漲。",
+    "confidence": 88
+  },
+  {
+    "ticker": "6187.TWO",
+    "name": "萬潤",
+    "narrative_score": 87,
+    "narrative_strength": "HIGH",
+    "theme": "封裝點膠與檢查設備",
+    "summary": "先進封裝與 3D 封裝趨勢下，點膠、散熱片黏貼及量測設備需求激增，為主要受益者之一。",
+    "confidence": 90
+  },
+  {
+    "ticker": "5443.TWO",
+    "name": "均豪",
+    "narrative_score": 75,
+    "narrative_strength": "MID",
+    "theme": "自動化檢測設備",
+    "summary": "轉型跨入半導體檢測與自動化領域，與 G2 聯盟合作綜效逐步顯現，在先進製程周邊設備佔有一席之地。",
+    "confidence": 85
+  }
+]
+
+==============================
+2026-03-30 23:36:21 | claude | NO_DATA
+==============================
+
+==============================
+2026-03-30 23:36:31 | perplexity | OK
+==============================
+[
+  {
+    "ticker": "2467.TW",
+    "name": "志聖",
+    "narrative_score": 85,
+    "narrative_strength": "HIGH",
+    "theme": "先進封裝設備",
+    "summary": "台積電CoWoS先進封裝關鍵設備供應商，受AI伺服器需求帶動出貨成長。",
+    "confidence": 95
+  },
+  {
+    "ticker": "6830.TW",
+    "name": "汎銓",
+    "narrative_score": 75,
+    "narrative_strength": "HIGH",
+    "theme": "AI檢測/CPO設備",
+    "summary": "AI伺服器、先進封裝與矽光子檢測服務供應商，具結構性成長潛力。",
+    "confidence": 85
+  },
+  {
+    "ticker": "3131.TWO",
+    "name": "弘塑",
+    "narrative_score": 90,
+    "narrative_strength": "HIGH",
+    "theme": "半導體濕製程設備",
+    "summary": "AI晶片與先進封裝(CoWoS/SoIC)濕製程設備領導廠商，獲高盛看好。",
+    "confidence": 95
+  },
+  {
+    "ticker": "3583.TW",
+    "name": "辛耘",
+    "narrative_score": 80,
+    "narrative_strength": "HIGH",
+    "theme": "先進封裝設備",
+    "summary": "台積電CoWoS濕製程與貼合剝離設備供應商，AI需求帶動營收連5年新高。",
+    "confidence": 90
+  },
+  {
+    "ticker": "6187.TWO",
+    "name": "萬潤",
+    "narrative_score": 70,
+    "narrative_strength": "MID",
+    "theme": "CoWoS先進封裝設備",
+    "summary": "提供CoWoS先進封裝製程設備，受AI供應鏈需求看好。",
+    "confidence": 75
+  },
+  {
+    "ticker": "6640.TWO",
+    "name": "均華",
+    "narrative_score": 0,
+    "narrative_strength": "LOW",
+    "theme": "",
+    "summary": "",
+    "confidence": 0
+  },
+  {
+    "ticker": "5443.TWO",
+    "name": "均豪",
+    "narrative_score": 0,
+    "narrative_strength": "LOW",
+    "theme": "",
+    "summary": "",
+    "confidence": 0
+  }
+]
+
+==============================
+2026-03-30 23:36:34 | CONSENSUS | used=['gemini', 'claude', 'perplexity']
+==============================
+[
+  {
+    "ticker": "6640.TWO",
+    "name": "均華",
+    "consensus_score": 86.0,
+    "consensus_count": 2,
+    "strength": "MEDIUM"
+  },
+  {
+    "ticker": "2467.TW",
+    "name": "志聖",
+    "consensus_score": 85.0,
+    "consensus_count": 3,
+    "strength": "STRONG"
+  },
+  {
+    "ticker": "3131.TWO",
+    "name": "弘塑",
+    "consensus_score": 83.33,
+    "consensus_count": 3,
+    "strength": "STRONG"
+  },
+  {
+    "ticker": "3583.TW",
+    "name": "辛耘",
+    "consensus_score": 82.0,
+    "consensus_count": 3,
+    "strength": "STRONG"
+  }
+]
+
+==============================
+2026-03-30 23:49:11 | gemini | OK
+==============================
+[
+  {
+    "ticker": "2467.TW",
+    "name": "志聖",
+    "narrative_score": 85,
+    "narrative_strength": "HIGH",
+    "theme": "CoWoS 設備與先進封裝",
+    "summary": "受惠於台積電先進封裝產能擴張，烤箱與熱製程設備需求強勁，供應鏈地位穩固。",
+    "confidence": 90
+  },
+  {
+    "ticker": "6830.TW",
+    "name": "汎銓",
+    "narrative_score": 80,
+    "narrative_strength": "HIGH",
+    "theme": "半導體材料分析 (MA)",
+    "summary": "先進製程節點研發帶動材料分析需求，在高階製程市佔率極高，具備技術領先優勢。",
+    "confidence": 90
+  },
+  {
+    "ticker": "3131.TWO",
+    "name": "弘塑",
+    "narrative_score": 90,
+    "narrative_strength": "HIGH",
+    "theme": "CoWoS 濕製程設備",
+    "summary": "作為台積電先進封裝濕製程設備主力供應商，受惠於 CoWoS 產能倍增計畫，訂單能見度高。",
+    "confidence": 95
+  },
+  {
+    "ticker": "3583.TW",
+    "name": "辛耘",
+    "narrative_score": 88,
+    "narrative_strength": "HIGH",
+    "theme": "濕製程設備與再生晶圓",
+    "summary": "受惠於先進封裝擴產及再生晶圓需求穩健，濕製程設備在 CoWoS 供應鏈中扮演關鍵角色。",
+    "confidence": 92
+  },
+  {
+    "ticker": "6640.TWO",
+    "name": "均華",
+    "narrative_score": 82,
+    "narrative_strength": "HIGH",
+    "theme": "晶片挑揀設備 (Pick and Place)",
+    "summary": "專精於高精度挑揀設備，在先進封裝後段製程具有競爭力，隨擴產週期獲利看漲。",
+    "confidence": 88
+  },
+  {
+    "ticker": "6187.TWO",
+    "name": "萬潤",
+    "narrative_score": 87,
+    "narrative_strength": "HIGH",
+    "theme": "封裝點膠與檢查設備",
+    "summary": "先進封裝與 3D 封裝趨勢下，點膠、散熱片黏貼及量測設備需求激增，為主要受益者之一。",
+    "confidence": 90
+  },
+  {
+    "ticker": "5443.TWO",
+    "name": "均豪",
+    "narrative_score": 75,
+    "narrative_strength": "MID",
+    "theme": "自動化檢測設備",
+    "summary": "轉型跨入半導體檢測與自動化領域，與 G2 聯盟合作綜效逐步顯現，在先進製程周邊設備佔有一席之地。",
+    "confidence": 85
+  }
+]
+
+==============================
+2026-03-30 23:49:18 | claude | NO_DATA
+==============================
+
+==============================
+2026-03-30 23:49:28 | perplexity | OK
+==============================
+[
+  {
+    "ticker": "2467.TW",
+    "name": "志聖",
+    "narrative_score": 85,
+    "narrative_strength": "HIGH",
+    "theme": "先進封裝設備",
+    "summary": "台積電CoWoS先進封裝關鍵設備供應商，受AI伺服器需求帶動出貨成長。",
+    "confidence": 95
+  },
+  {
+    "ticker": "6830.TW",
+    "name": "汎銓",
+    "narrative_score": 75,
+    "narrative_strength": "HIGH",
+    "theme": "AI檢測/CPO設備",
+    "summary": "AI伺服器、先進封裝與矽光子檢測服務供應商，具結構性成長潛力。",
+    "confidence": 85
+  },
+  {
+    "ticker": "3131.TWO",
+    "name": "弘塑",
+    "narrative_score": 90,
+    "narrative_strength": "HIGH",
+    "theme": "半導體濕製程設備",
+    "summary": "AI晶片與先進封裝(CoWoS/SoIC)濕製程設備領導廠商，獲高盛看好。",
+    "confidence": 95
+  },
+  {
+    "ticker": "3583.TW",
+    "name": "辛耘",
+    "narrative_score": 80,
+    "narrative_strength": "HIGH",
+    "theme": "先進封裝設備",
+    "summary": "台積電CoWoS濕製程與貼合剝離設備供應商，AI需求帶動營收連5年新高。",
+    "confidence": 90
+  },
+  {
+    "ticker": "6187.TWO",
+    "name": "萬潤",
+    "narrative_score": 70,
+    "narrative_strength": "MID",
+    "theme": "CoWoS先進封裝設備",
+    "summary": "提供CoWoS先進封裝製程設備，受AI供應鏈需求看好。",
+    "confidence": 75
+  },
+  {
+    "ticker": "6640.TWO",
+    "name": "均華",
+    "narrative_score": 0,
+    "narrative_strength": "LOW",
+    "theme": "",
+    "summary": "",
+    "confidence": 0
+  },
+  {
+    "ticker": "5443.TWO",
+    "name": "均豪",
+    "narrative_score": 0,
+    "narrative_strength": "LOW",
+    "theme": "",
+    "summary": "",
+    "confidence": 0
+  }
+]
+
+==============================
+2026-03-30 23:49:30 | CONSENSUS | used=['gemini', 'claude', 'perplexity']
+==============================
+[
+  {
+    "ticker": "6640.TWO",
+    "name": "均華",
+    "consensus_score": 86.0,
+    "consensus_count": 2,
+    "strength": "MEDIUM"
+  },
+  {
+    "ticker": "2467.TW",
+    "name": "志聖",
+    "consensus_score": 85.0,
+    "consensus_count": 3,
+    "strength": "STRONG"
+  },
+  {
+    "ticker": "3131.TWO",
+    "name": "弘塑",
+    "consensus_score": 83.33,
+    "consensus_count": 3,
+    "strength": "STRONG"
+  },
+  {
+    "ticker": "3583.TW",
+    "name": "辛耘",
+    "consensus_score": 82.0,
+    "consensus_count": 3,
+    "strength": "STRONG"
+  }
+]
+
+==============================
+2026-03-30 23:54:24 | gemini | OK
+==============================
+[
+  {
+    "ticker": "2467.TW",
+    "name": "志聖",
+    "narrative_score": 85,
+    "narrative_strength": "HIGH",
+    "theme": "CoWoS 設備與先進封裝",
+    "summary": "受惠於台積電先進封裝產能擴張，烤箱與熱製程設備需求強勁，供應鏈地位穩固。",
+    "confidence": 90
+  },
+  {
+    "ticker": "6830.TW",
+    "name": "汎銓",
+    "narrative_score": 80,
+    "narrative_strength": "HIGH",
+    "theme": "半導體材料分析 (MA)",
+    "summary": "先進製程節點研發帶動材料分析需求，在高階製程市佔率極高，具備技術領先優勢。",
+    "confidence": 90
+  },
+  {
+    "ticker": "3131.TWO",
+    "name": "弘塑",
+    "narrative_score": 90,
+    "narrative_strength": "HIGH",
+    "theme": "CoWoS 濕製程設備",
+    "summary": "作為台積電先進封裝濕製程設備主力供應商，受惠於 CoWoS 產能倍增計畫，訂單能見度高。",
+    "confidence": 95
+  },
+  {
+    "ticker": "3583.TW",
+    "name": "辛耘",
+    "narrative_score": 88,
+    "narrative_strength": "HIGH",
+    "theme": "濕製程設備與再生晶圓",
+    "summary": "受惠於先進封裝擴產及再生晶圓需求穩健，濕製程設備在 CoWoS 供應鏈中扮演關鍵角色。",
+    "confidence": 92
+  },
+  {
+    "ticker": "6640.TWO",
+    "name": "均華",
+    "narrative_score": 82,
+    "narrative_strength": "HIGH",
+    "theme": "晶片挑揀設備 (Pick and Place)",
+    "summary": "專精於高精度挑揀設備，在先進封裝後段製程具有競爭力，隨擴產週期獲利看漲。",
+    "confidence": 88
+  },
+  {
+    "ticker": "6187.TWO",
+    "name": "萬潤",
+    "narrative_score": 87,
+    "narrative_strength": "HIGH",
+    "theme": "封裝點膠與檢查設備",
+    "summary": "先進封裝與 3D 封裝趨勢下，點膠、散熱片黏貼及量測設備需求激增，為主要受益者之一。",
+    "confidence": 90
+  },
+  {
+    "ticker": "5443.TWO",
+    "name": "均豪",
+    "narrative_score": 75,
+    "narrative_strength": "MID",
+    "theme": "自動化檢測設備",
+    "summary": "轉型跨入半導體檢測與自動化領域，與 G2 聯盟合作綜效逐步顯現，在先進製程周邊設備佔有一席之地。",
+    "confidence": 85
+  }
+]
+
+==============================
+2026-03-30 23:54:55 | gemini | OK
+==============================
+[
+  {
+    "ticker": "2467.TW",
+    "name": "志聖",
+    "narrative_score": 85,
+    "narrative_strength": "HIGH",
+    "theme": "CoWoS 設備與先進封裝",
+    "summary": "受惠於台積電先進封裝產能擴張，烤箱與熱製程設備需求強勁，供應鏈地位穩固。",
+    "confidence": 90
+  },
+  {
+    "ticker": "6830.TW",
+    "name": "汎銓",
+    "narrative_score": 80,
+    "narrative_strength": "HIGH",
+    "theme": "半導體材料分析 (MA)",
+    "summary": "先進製程節點研發帶動材料分析需求，在高階製程市佔率極高，具備技術領先優勢。",
+    "confidence": 90
+  },
+  {
+    "ticker": "3131.TWO",
+    "name": "弘塑",
+    "narrative_score": 90,
+    "narrative_strength": "HIGH",
+    "theme": "CoWoS 濕製程設備",
+    "summary": "作為台積電先進封裝濕製程設備主力供應商，受惠於 CoWoS 產能倍增計畫，訂單能見度高。",
+    "confidence": 95
+  },
+  {
+    "ticker": "3583.TW",
+    "name": "辛耘",
+    "narrative_score": 88,
+    "narrative_strength": "HIGH",
+    "theme": "濕製程設備與再生晶圓",
+    "summary": "受惠於先進封裝擴產及再生晶圓需求穩健，濕製程設備在 CoWoS 供應鏈中扮演關鍵角色。",
+    "confidence": 92
+  },
+  {
+    "ticker": "6640.TWO",
+    "name": "均華",
+    "narrative_score": 82,
+    "narrative_strength": "HIGH",
+    "theme": "晶片挑揀設備 (Pick and Place)",
+    "summary": "專精於高精度挑揀設備，在先進封裝後段製程具有競爭力，隨擴產週期獲利看漲。",
+    "confidence": 88
+  },
+  {
+    "ticker": "6187.TWO",
+    "name": "萬潤",
+    "narrative_score": 87,
+    "narrative_strength": "HIGH",
+    "theme": "封裝點膠與檢查設備",
+    "summary": "先進封裝與 3D 封裝趨勢下，點膠、散熱片黏貼及量測設備需求激增，為主要受益者之一。",
+    "confidence": 90
+  },
+  {
+    "ticker": "5443.TWO",
+    "name": "均豪",
+    "narrative_score": 75,
+    "narrative_strength": "MID",
+    "theme": "自動化檢測設備",
+    "summary": "轉型跨入半導體檢測與自動化領域，與 G2 聯盟合作綜效逐步顯現，在先進製程周邊設備佔有一席之地。",
+    "confidence": 85
+  }
+]
+
+==============================
+2026-03-30 23:55:00 | claude | NO_DATA
+==============================
+
+==============================
+2026-03-30 23:55:11 | perplexity | OK
+==============================
+[
+  {
+    "ticker": "2467.TW",
+    "name": "志聖",
+    "narrative_score": 85,
+    "narrative_strength": "HIGH",
+    "theme": "先進封裝設備",
+    "summary": "台積電CoWoS先進封裝關鍵設備供應商，受AI伺服器需求帶動出貨成長。",
+    "confidence": 95
+  },
+  {
+    "ticker": "6830.TW",
+    "name": "汎銓",
+    "narrative_score": 75,
+    "narrative_strength": "HIGH",
+    "theme": "AI檢測/CPO設備",
+    "summary": "AI伺服器、先進封裝與矽光子檢測服務供應商，具結構性成長潛力。",
+    "confidence": 85
+  },
+  {
+    "ticker": "3131.TWO",
+    "name": "弘塑",
+    "narrative_score": 90,
+    "narrative_strength": "HIGH",
+    "theme": "半導體濕製程設備",
+    "summary": "AI晶片與先進封裝(CoWoS/SoIC)濕製程設備領導廠商，獲高盛看好。",
+    "confidence": 95
+  },
+  {
+    "ticker": "3583.TW",
+    "name": "辛耘",
+    "narrative_score": 80,
+    "narrative_strength": "HIGH",
+    "theme": "先進封裝設備",
+    "summary": "台積電CoWoS濕製程與貼合剝離設備供應商，AI需求帶動營收連5年新高。",
+    "confidence": 90
+  },
+  {
+    "ticker": "6187.TWO",
+    "name": "萬潤",
+    "narrative_score": 70,
+    "narrative_strength": "MID",
+    "theme": "CoWoS先進封裝設備",
+    "summary": "提供CoWoS先進封裝製程設備，受AI供應鏈需求看好。",
+    "confidence": 75
+  },
+  {
+    "ticker": "6640.TWO",
+    "name": "均華",
+    "narrative_score": 0,
+    "narrative_strength": "LOW",
+    "theme": "",
+    "summary": "",
+    "confidence": 0
+  },
+  {
+    "ticker": "5443.TWO",
+    "name": "均豪",
+    "narrative_score": 0,
+    "narrative_strength": "LOW",
+    "theme": "",
+    "summary": "",
+    "confidence": 0
+  }
+]
+
+==============================
+2026-03-30 23:55:13 | CONSENSUS | used=['gemini', 'claude', 'perplexity']
+==============================
+[
+  {
+    "ticker": "6640.TWO",
+    "name": "均華",
+    "consensus_score": 86.0,
+    "consensus_count": 2,
+    "strength": "MEDIUM"
+  },
+  {
+    "ticker": "2467.TW",
+    "name": "志聖",
+    "consensus_score": 85.0,
+    "consensus_count": 3,
+    "strength": "STRONG"
+  },
+  {
+    "ticker": "3131.TWO",
+    "name": "弘塑",
+    "consensus_score": 83.33,
+    "consensus_count": 3,
+    "strength": "STRONG"
+  },
+  {
+    "ticker": "3583.TW",
+    "name": "辛耘",
+    "consensus_score": 82.0,
+    "consensus_count": 3,
+    "strength": "STRONG"
+  }
+]
+
+==============================
+2026-03-31 00:00:58 | gemini | OK
+==============================
+[
+  {
+    "ticker": "2467.TW",
+    "name": "志聖",
+    "narrative_score": 85,
+    "narrative_strength": "HIGH",
+    "theme": "CoWoS 設備與先進封裝",
+    "summary": "受惠於台積電先進封裝產能擴張，烤箱與熱製程設備需求強勁，供應鏈地位穩固。",
+    "confidence": 90
+  },
+  {
+    "ticker": "6830.TW",
+    "name": "汎銓",
+    "narrative_score": 80,
+    "narrative_strength": "HIGH",
+    "theme": "半導體材料分析 (MA)",
+    "summary": "先進製程節點研發帶動材料分析需求，在高階製程市佔率極高，具備技術領先優勢。",
+    "confidence": 90
+  },
+  {
+    "ticker": "3131.TWO",
+    "name": "弘塑",
+    "narrative_score": 90,
+    "narrative_strength": "HIGH",
+    "theme": "CoWoS 濕製程設備",
+    "summary": "作為台積電先進封裝濕製程設備主力供應商，受惠於 CoWoS 產能倍增計畫，訂單能見度高。",
+    "confidence": 95
+  },
+  {
+    "ticker": "3583.TW",
+    "name": "辛耘",
+    "narrative_score": 88,
+    "narrative_strength": "HIGH",
+    "theme": "濕製程設備與再生晶圓",
+    "summary": "受惠於先進封裝擴產及再生晶圓需求穩健，濕製程設備在 CoWoS 供應鏈中扮演關鍵角色。",
+    "confidence": 92
+  },
+  {
+    "ticker": "6640.TWO",
+    "name": "均華",
+    "narrative_score": 82,
+    "narrative_strength": "HIGH",
+    "theme": "晶片挑揀設備 (Pick and Place)",
+    "summary": "專精於高精度挑揀設備，在先進封裝後段製程具有競爭力，隨擴產週期獲利看漲。",
+    "confidence": 88
+  },
+  {
+    "ticker": "6187.TWO",
+    "name": "萬潤",
+    "narrative_score": 87,
+    "narrative_strength": "HIGH",
+    "theme": "封裝點膠與檢查設備",
+    "summary": "先進封裝與 3D 封裝趨勢下，點膠、散熱片黏貼及量測設備需求激增，為主要受益者之一。",
+    "confidence": 90
+  },
+  {
+    "ticker": "5443.TWO",
+    "name": "均豪",
+    "narrative_score": 75,
+    "narrative_strength": "MID",
+    "theme": "自動化檢測設備",
+    "summary": "轉型跨入半導體檢測與自動化領域，與 G2 聯盟合作綜效逐步顯現，在先進製程周邊設備佔有一席之地。",
+    "confidence": 85
+  }
+]
+
+==============================
+2026-03-31 00:01:03 | claude | NO_DATA
+==============================
+
+==============================
+2026-03-31 00:01:32 | perplexity | OK
+==============================
+[
+  {
+    "ticker": "2467.TW",
+    "name": "志聖",
+    "narrative_score": 85,
+    "narrative_strength": "HIGH",
+    "theme": "先進封裝設備",
+    "summary": "台積電CoWoS先進封裝關鍵設備供應商，受AI伺服器需求帶動出貨成長。",
+    "confidence": 95
+  },
+  {
+    "ticker": "6830.TW",
+    "name": "汎銓",
+    "narrative_score": 75,
+    "narrative_strength": "HIGH",
+    "theme": "AI檢測/CPO設備",
+    "summary": "AI伺服器、先進封裝與矽光子檢測服務供應商，具結構性成長潛力。",
+    "confidence": 85
+  },
+  {
+    "ticker": "3131.TWO",
+    "name": "弘塑",
+    "narrative_score": 90,
+    "narrative_strength": "HIGH",
+    "theme": "半導體濕製程設備",
+    "summary": "AI晶片與先進封裝(CoWoS/SoIC)濕製程設備領導廠商，獲高盛看好。",
+    "confidence": 95
+  },
+  {
+    "ticker": "3583.TW",
+    "name": "辛耘",
+    "narrative_score": 80,
+    "narrative_strength": "HIGH",
+    "theme": "先進封裝設備",
+    "summary": "台積電CoWoS濕製程與貼合剝離設備供應商，AI需求帶動營收連5年新高。",
+    "confidence": 90
+  },
+  {
+    "ticker": "6187.TWO",
+    "name": "萬潤",
+    "narrative_score": 70,
+    "narrative_strength": "MID",
+    "theme": "CoWoS先進封裝設備",
+    "summary": "提供CoWoS先進封裝製程設備，受AI供應鏈需求看好。",
+    "confidence": 75
+  },
+  {
+    "ticker": "6640.TWO",
+    "name": "均華",
+    "narrative_score": 0,
+    "narrative_strength": "LOW",
+    "theme": "",
+    "summary": "",
+    "confidence": 0
+  },
+  {
+    "ticker": "5443.TWO",
+    "name": "均豪",
+    "narrative_score": 0,
+    "narrative_strength": "LOW",
+    "theme": "",
+    "summary": "",
+    "confidence": 0
+  }
+]
+
+==============================
+2026-03-31 00:01:34 | CONSENSUS | used=['gemini', 'claude', 'perplexity']
+==============================
+[
+  {
+    "ticker": "6640.TWO",
+    "name": "均華",
+    "consensus_score": 86.0,
+    "consensus_count": 2,
+    "strength": "MEDIUM"
+  },
+  {
+    "ticker": "2467.TW",
+    "name": "志聖",
+    "consensus_score": 85.0,
+    "consensus_count": 3,
+    "strength": "STRONG"
+  },
+  {
+    "ticker": "3131.TWO",
+    "name": "弘塑",
+    "consensus_score": 83.33,
+    "consensus_count": 3,
+    "strength": "STRONG"
+  },
+  {
+    "ticker": "3583.TW",
+    "name": "辛耘",
+    "consensus_score": 82.0,
+    "consensus_count": 3,
+    "strength": "STRONG"
+  }
+]

@@ -22,180 +22,66 @@
 
 # from scanner.pre_scanner import run_pre_scanner
 # from pre_scanner import run_pre_scanner
-import json
 
-def load_pool(pool_type="universe"):
-
-    if pool_type == "watchlist":
-        with open("data/watchlist.json", "r") as f:
-            data = json.load(f)
-        tickers = [x["ticker"] for x in data]
-
-    else:
-        import pandas as pd
-        df = pd.read_csv("data/universe_tw.csv")
-        tickers = df["ticker"].tolist()
-
-    return tickers
-
-
-try:
-    from scanner.pre_scanner import run_pre_scanner
-except ImportError:
-    from pre_scanner import run_pre_scanner
-
-import json
 import os
+import json
+import sys
+import pandas as pd
+from data_node.loader import load_price_data
 
 
-def scan_candidates(close, volume, features):
+def load_pool(pool):
+    if pool == "watchlist":
+        df = pd.read_csv("data/universe_tw.csv")
+    else:
+        df = pd.read_csv("data/universe_tw.csv")
+    return df["ticker"].tolist()
 
-    import pandas as pd
 
-    # 🔥 讀 universe（用來 mapping name）
-    df = pd.read_csv("data/universe_tw.csv")
-    name_map = dict(zip(df["ticker"], df["name"]))
-
-    pre_list = run_pre_scanner()
-
-    ma20 = features["ma20"]
-    vol_ratio = features["vol_ratio"]
-    ret_1d = features["return_1d"]
-
-    equipment_list = [
-        "2467.TW", "3131.TWO", "3583.TW",
-        "5443.TWO", "6139.TW", "2464.TW", "3413.TW"
-    ]
+def scan_candidates(close, volume):
 
     candidates = []
 
-    for col in close.columns:
-
-        if col not in pre_list:
-            continue
+    for ticker in close.columns:
 
         try:
-            latest_close = close[col].iloc[-1]
+            price = close[ticker].iloc[-1]
+            ma20 = close[ticker].rolling(20).mean().iloc[-1]
+            vol_ratio = volume[ticker].iloc[-1] / volume[ticker].rolling(20).mean().iloc[-1]
 
-            ma10 = close[col].rolling(10).mean().iloc[-1]
-            ma20_val = ma20[col].iloc[-1]
+            score = 0
 
-            recent_low = close[col].rolling(20).min().iloc[-1]
-            recent_high = close[col].rolling(20).max().iloc[-1]
+            if price > ma20:
+                score += 1
+            if vol_ratio > 1:
+                score += 1
 
-            latest_vol = vol_ratio[col].iloc[-1]
-            latest_ret = ret_1d[col].iloc[-1]
-
-            rebound = latest_close > recent_low * 1.05
-            ma10_break = latest_close > ma10
-            near_high = latest_close > recent_high * 0.92
-            breakout = latest_close >= recent_high * 0.99
-
-            momentum_ok = latest_ret > 0
-            vol_expand = latest_vol > 1.3
-            vol_normal = latest_vol > 1.0
-
-            trend_ok = latest_close > ma20_val * 0.98
-
-            sector_boost = 1 if col in equipment_list else 0
-
-            score = (
-                rebound * 2 +
-                ma10_break * 2 +
-                near_high * 1 +
-                momentum_ok * 1 +
-                vol_normal * 1 +
-                trend_ok * 1 +
-                sector_boost * 1
-            )
-
-            if breakout and vol_expand:
-                level = "ATTACK"
-            elif ma10_break and near_high and momentum_ok and vol_normal:
+            if score >= 2:
                 level = "READY"
-            elif rebound and trend_ok:
-                level = "EARLY"
             else:
-                continue
+                level = "EARLY"
 
             candidates.append({
-                "ticker": col,
-                "name": name_map.get(col, col),
+                "ticker": ticker,
+                "name": ticker,
                 "score": score,
                 "level": level,
-                "price": float(latest_close)
+                "price": float(price)
             })
 
         except:
             continue
 
-    candidates = sorted(candidates, key=lambda x: x["score"], reverse=True)
-    candidates = candidates[:15]
-
-    export_data = [
-        {"ticker": c["ticker"], "name": c["name"]}
-        for c in candidates
-    ]
+    print(f"\n✅ Candidates: {len(candidates)}")
 
     os.makedirs("data", exist_ok=True)
-
-    with open("data/candidates.json", "w", encoding="utf-8") as f:
-        json.dump(export_data, f, ensure_ascii=False, indent=2)
-
-    print("\n=== PRE-SCANNER ===")
-    print(f"Selected {len(pre_list)} stocks")
-
-    print("\n=== CANDIDATES ===")
-    for c in candidates:
-        print(f"{c['ticker']} {c['name']} | {c['level']} | score={c['score']}")
-
-    stock_lines = [
-        f"{c['ticker']} {c['name']}"
-        for c in candidates
-    ]
-
-    prompt = f"""
-
-請分析以下股票的「AI供應鏈敘事強度」（針對AI半導體/AI伺服器/先進封裝）
-[
-  {{
-    "ticker": "...",
-    "name": "...",
-    "narrative_score": 0-100,
-    "narrative_strength": "HIGH/MID/LOW",
-    "theme": "...",
-    "summary": "...",
-    "confidence": 0-100
-  }}
-]
-
-規則：
-- 嚴格依照 ticker 對應公司名稱
-- 不可自行替換公司名稱
-- 不確定請略過
-- 不要解釋
-- 不要新聞連結
-- 只輸出JSON
-
-股票：
-{stock_lines}
-"""
-
-    print("\n===== AI PROMPT =====\n")
-    print(prompt)
+    with open("data/candidates.json", "w") as f:
+        json.dump(candidates, f, indent=2)
 
     return candidates
 
 
-if __name__ == "__main__":
-
-    print("🚀 Running Scanner...")
-
-    import pandas as pd
-    from data_node.loader import load_price_data
-    import sys
-#    df = pd.read_csv("data/universe_tw.csv")
-#    tickers = df["ticker"].tolist()
+if name == "__main__":
 
     pool = "universe"
     if len(sys.argv) > 1:
@@ -205,10 +91,4 @@ if __name__ == "__main__":
 
     close, volume = load_price_data(tickers, period="3mo")
 
-    features = {
-        "ma20": close.rolling(20).mean(),
-        "vol_ratio": volume / volume.rolling(20).mean(),
-        "return_1d": close.pct_change()
-    }
-
-    scan_candidates(close, volume, features)
+    scan_candidates(close, volume)
