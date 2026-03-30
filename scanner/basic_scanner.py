@@ -22,6 +22,21 @@
 
 # from scanner.pre_scanner import run_pre_scanner
 # from pre_scanner import run_pre_scanner
+import json
+
+def load_pool(pool_type="universe"):
+
+    if pool_type == "watchlist":
+        with open("data/watchlist.json", "r") as f:
+            data = json.load(f)
+        tickers = [x["ticker"] for x in data]
+
+    else:
+        import pandas as pd
+        df = pd.read_csv("data/universe_tw.csv")
+        tickers = df["ticker"].tolist()
+
+    return tickers
 
 
 try:
@@ -140,8 +155,8 @@ def scan_candidates(close, volume, features):
     ]
 
     prompt = f"""
-請分析以下股票的AI供應鏈敘事強度，輸出JSON：
 
+請分析以下股票的「AI供應鏈敘事強度」（針對AI半導體/AI伺服器/先進封裝）
 [
   {{
     "ticker": "...",
@@ -156,8 +171,8 @@ def scan_candidates(close, volume, features):
 
 規則：
 - 嚴格依照 ticker 對應公司名稱
-- ❌ 不可自行替換公司名稱
-- ❌ 不確定請略過
+- 不可自行替換公司名稱
+- 不確定請略過
 - 不要解釋
 - 不要新聞連結
 - 只輸出JSON
@@ -178,9 +193,15 @@ if __name__ == "__main__":
 
     import pandas as pd
     from data_node.loader import load_price_data
+    import sys
+#    df = pd.read_csv("data/universe_tw.csv")
+#    tickers = df["ticker"].tolist()
 
-    df = pd.read_csv("data/universe_tw.csv")
-    tickers = df["ticker"].tolist()
+    pool = "universe"
+    if len(sys.argv) > 1:
+        pool = sys.argv[1]
+
+    tickers = load_pool(pool)
 
     close, volume = load_price_data(tickers, period="3mo")
 

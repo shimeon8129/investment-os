@@ -689,3 +689,209 @@
     "strength": "STRONG"
   }
 ]
+
+==============================
+2026-03-27 18:19:58 | gemini | NO_DATA
+==============================
+
+==============================
+2026-03-27 18:20:05 | claude | NO_DATA
+==============================
+
+==============================
+2026-03-27 18:20:09 | perplexity | NO_DATA
+==============================
+
+==============================
+2026-03-27 18:36:44 | gemini | OK
+==============================
+[
+  {
+    "ticker": "2467.TW",
+    "name": "志聖",
+    "narrative_score": 85,
+    "narrative_strength": "HIGH",
+    "theme": "CoWoS 封裝壓膜設備",
+    "summary": "作為 G2C+ 聯盟核心，提供 CoWoS 製程所需的真空壓膜機與烘烤設備，受益於台積電先進封裝產能擴張。",
+    "confidence": 90
+  },
+  {
+    "ticker": "3131.TWO",
+    "name": "弘塑",
+    "narrative_score": 95,
+    "narrative_strength": "HIGH",
+    "theme": "CoWoS 濕製程設備",
+    "summary": "台積電先進封裝濕製程設備領先供應商，涵蓋自動化濕式清洗站與蝕刻設備，為 AI 晶片產能擴充之直接受惠者。",
+    "confidence": 95
+  },
+  {
+    "ticker": "6640.TWO",
+    "name": "均華",
+    "narrative_score": 88,
+    "narrative_strength": "HIGH",
+    "theme": "先進封裝挑揀設備",
+    "summary": "專注於晶粒挑揀機（Die Bonder），在 CoWoS 及資訊處理先進封裝領域市佔率高，與晶圓代工大廠合作緊密。",
+    "confidence": 90
+  },
+  {
+    "ticker": "6187.TWO",
+    "name": "萬潤",
+    "narrative_score": 92,
+    "narrative_strength": "HIGH",
+    "theme": "CoWoS 點膠與檢查設備",
+    "summary": "提供先進封裝點膠機、散熱貼合及 AOI 檢測設備，隨 AI 伺服器晶片封裝需求激增，營收連動性極強。",
+    "confidence": 92
+  },
+  {
+    "ticker": "3680.TWO",
+    "name": "家登",
+    "narrative_score": 90,
+    "narrative_strength": "HIGH",
+    "theme": "EUV Pod 與光罩載具",
+    "summary": "全球 EUV Pod 市佔龍頭，隨 AI 晶片往 3nm/2nm 等先進製程推進，對高階光罩傳載解決方案需求具壟斷性優勢。",
+    "confidence": 95
+  }
+]
+
+==============================
+2026-03-27 18:36:56 | claude | OK
+==============================
+[
+  {
+    "ticker": "2467.TW",
+    "name": "志聖",
+    "narrative_score": 55,
+    "narrative_strength": "MID",
+    "theme": "半導體設備／烘烤爐設備",
+    "summary": "志聖專注於半導體與PCB烘烤爐設備，隨AI驅動的先進封裝與載板需求升溫，間接受惠於供應鏈擴產，但直接AI敘事連結度有限。",
+    "confidence": 70
+  },
+  {
+    "ticker": "3131.TWO",
+    "name": "弘塑",
+    "narrative_score": 72,
+    "narrative_strength": "HIGH",
+    "theme": "半導體濕製程設備／先進封裝",
+    "summary": "弘塑提供晶圓清洗與濕製程設備，隨CoWoS與先進封裝需求爆發，台積電及封測廠擴產帶動設備採購，AI供應鏈敘事明確且持續強化。",
+    "confidence": 78
+  },
+  {
+    "ticker": "6640.TWO",
+    "name": "均華",
+    "narrative_score": 68,
+    "narrative_strength": "MID",
+    "theme": "半導體封裝設備／點膠設備",
+    "summary": "均華專攻點膠與封裝自動化設備，受惠於AI晶片高階封裝（CoWoS、SoIC）需求成長，封裝製程複雜化推升設備需求，敘事強度中高。",
+    "confidence": 72
+  },
+  {
+    "ticker": "6187.TWO",
+    "name": "萬潤",
+    "narrative_score": 60,
+    "narrative_strength": "MID",
+    "theme": "半導體／電子零組件檢測設備",
+    "summary": "萬潤提供電子零組件外觀檢測與包裝設備，AI硬體需求帶動零組件出貨量，間接挹注檢測設備需求，但AI直接敘事連結較為間接。",
+    "confidence": 65
+  },
+  {
+    "ticker": "3680.TWO",
+    "name": "家登",
+    "narrative_score": 82,
+    "narrative_strength": "HIGH",
+    "theme": "EUV光罩盒／先進製程耗材",
+    "summary": "家登為全球主要EUV光罩盒供應商，台積電3nm/2nm先進製程大規模擴產直接帶動光罩盒需求，與AI晶片製造供應鏈高度綁定，敘事強度強且能見度高。",
+    "confidence": 88
+  }
+]
+
+==============================
+2026-03-27 18:37:09 | perplexity | OK
+==============================
+[
+  {
+    "ticker": "2467.TW",
+    "name": "志聖",
+    "narrative_score": 85,
+    "narrative_strength": "HIGH",
+    "theme": "AI伺服器與先進封裝設備",
+    "summary": "志聖為台積電CoWoS先進封裝關鍵設備供應商之一，提供AI伺服器與高效能運算相關封裝設備，營收與拉貨潮直接受益於AI晶片擴產與CoWoS產能擴張，市場視其為AI伺服器與先進封裝設備核心概念股。",
+    "confidence": 90
+  },
+  {
+    "ticker": "3131.TWO",
+    "name": "弘塑",
+    "narrative_score": 80,
+    "narrative_strength": "HIGH",
+    "theme": "半導體濕製程與AI晶片先進封裝",
+    "summary": "弘塑為半導體濕製程設備龍頭，提供晶圓清洗、蝕刻與去光阻等設備，與台積電CoWoS擴產高度相關，受AI晶片與先進封裝需求驅動營收成長，法說與法人皆強調其卡位AI先進封裝供應鏈。",
+    "confidence": 85
+  },
+  {
+    "ticker": "6640.TWO",
+    "name": "均華",
+    "narrative_score": 82,
+    "narrative_strength": "HIGH",
+    "theme": "先進封裝裝置與AI伺服器供應鏈",
+    "summary": "均華為均豪集團旗下半導體封裝設備廠，主力產品為Sorter與Die bonder等先進封裝裝置，深度切入CoWoS與AI伺服器封裝產線，訂單與營收明顯受AI與先進封裝擴產拉動，市場評價持續上修。",
+    "confidence": 80
+  },
+  {
+    "ticker": "6187.TWO",
+    "name": "萬潤",
+    "narrative_score": 78,
+    "narrative_strength": "HIGH",
+    "theme": "先進封裝設備與AI算力基礎設施",
+    "summary": "萬潤從傳統設備廠轉型為先進封裝設備與整合服務商，參與CoWoS與3D‑IC等AI與高效能運算封裝設備供應鏈，並負責相關設備的全球運籌與技術支援，被視為AI算力基礎設施實體製造節點之一。",
+    "confidence": 82
+  },
+  {
+    "ticker": "3680.TWO",
+    "name": "家登",
+    "narrative_score": 70,
+    "narrative_strength": "MID",
+    "theme": "載板與AI晶片供應鏈",
+    "summary": "家登定位為載板與掩膜版相關材料供應商，部分產品與先進封裝及AI晶片載板供應鏈相關，但市場敘事集中度不如前幾檔，AI主題屬性偏間接，營收與毛利率變動亦使AI敘事強度略為受限。",
+    "confidence": 75
+  }
+]
+
+==============================
+2026-03-27 18:37:14 | CONSENSUS | used=['gemini', 'claude', 'perplexity']
+==============================
+[
+  {
+    "ticker": "2467.TW",
+    "name": "志聖",
+    "consensus_score": 85.0,
+    "consensus_count": 2,
+    "strength": "MEDIUM"
+  },
+  {
+    "ticker": "6640.TWO",
+    "name": "均華",
+    "consensus_score": 85.0,
+    "consensus_count": 2,
+    "strength": "MEDIUM"
+  },
+  {
+    "ticker": "6187.TWO",
+    "name": "萬潤",
+    "consensus_score": 85.0,
+    "consensus_count": 2,
+    "strength": "MEDIUM"
+  },
+  {
+    "ticker": "3131.TWO",
+    "name": "弘塑",
+    "consensus_score": 82.33,
+    "consensus_count": 3,
+    "strength": "STRONG"
+  },
+  {
+    "ticker": "3680.TWO",
+    "name": "家登",
+    "consensus_score": 80.67,
+    "consensus_count": 3,
+    "strength": "STRONG"
+  }
+]
