@@ -42,7 +42,7 @@ Not allowed:
 ## Comparison Result
 
 - Total compared tickers: 36
-- HELD_AND_CANDIDATE: 3 (2330 台積電, 3711 日月光, 6830 泰鼎)
+- HELD_AND_CANDIDATE: 3 (2330 台積電, 3711 日月光, 6830 汎銓)
 - HELD_NOT_CANDIDATE: 4 (009816 富邦TOP50, 00992A 主動群益科技, 2345 智邦, 3017 奇鋐)
 - CANDIDATE_NOT_HELD: 29 (scanner universe stocks not in portfolio)
 

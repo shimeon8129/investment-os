@@ -42,7 +42,7 @@ Not allowed:
 
 ## Key Validation
 
-- [x] 6830 resolves to 泰鼎 (canonical name from ticker master)
+- [x] 6830 resolves to 汎銓 (canonical name from ticker master)
 - [x] data/candidates.json score maps to scanner_score ✓
 - [x] data/candidates.json level maps to signal ✓
 - [x] data/candidates.json price maps to close ✓
@@ -58,7 +58,7 @@ Not allowed:
 - `reporting/candidate_review.py` — updated (add adapt_candidate_schema, update REVIEW_FIELDS, import ticker_master)
 - `reporting/portfolio_candidate_review.py` — updated (remove local normalize_ticker, use canonical resolver in build_review_rows)
 - `tests/smoke_candidate_review.py` — updated (add raw_score/raw_level/raw_price assertions)
-- `tests/smoke_portfolio_candidate_review.py` — updated (add 泰鼎 assertion)
+- `tests/smoke_portfolio_candidate_review.py` — updated (add 汎銓 assertion)
 - `docs/CANDIDATE_REVIEW_20260426.md` — regenerated
 - `docs/PORTFOLIO_CANDIDATE_REVIEW_20260426.md` — regenerated
 

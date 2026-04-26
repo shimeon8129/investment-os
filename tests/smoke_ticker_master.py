@@ -13,8 +13,8 @@ def main():
     assert normalize_ticker("6187.TWO") == "6187"
     assert normalize_ticker("00992A") == "00992A"
 
-    assert resolve_canonical_name("6830", master=master) == "泰鼎"
-    assert resolve_canonical_name("6830.TWO", master=master) == "泰鼎"
+    assert resolve_canonical_name("6830", master=master) == "汎銓"
+    assert resolve_canonical_name("6830.TWO", master=master) == "汎銓"
     assert resolve_canonical_name("2330.TW", master=master) == "台積電"
     assert resolve_canonical_name("6187.TWO", master=master) == "萬潤"
     assert resolve_canonical_name("5443.TWO", master=master) == "均豪"

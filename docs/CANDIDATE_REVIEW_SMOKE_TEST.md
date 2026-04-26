@@ -23,7 +23,7 @@
 | 3131 | 3131.TWO | - | 3130.0 | 1 | EARLY | 1 | EARLY | 3130.0 | - | - | - | - | - | - | - | - | - | - |
 | 3583 | 3583.TW | - | 815.0 | 1 | EARLY | 1 | EARLY | 815.0 | - | - | - | - | - | - | - | - | - | - |
 | 6640 | 6640.TWO | - | 1505.0 | 1 | EARLY | 1 | EARLY | 1505.0 | - | - | - | - | - | - | - | - | - | - |
-| 6830 | 泰鼎 | stock | 723.0 | 1 | EARLY | 1 | EARLY | 723.0 | - | - | - | - | - | - | - | - | - | - |
+| 6830 | 汎銓 | stock | 723.0 | 1 | EARLY | 1 | EARLY | 723.0 | - | - | - | - | - | - | - | - | - | - |
 | 6187 | 萬潤 | stock | 1170.0 | 2 | READY | 2 | READY | 1170.0 | - | - | - | - | - | - | - | - | - | - |
 | 5443 | 均豪 | stock | 117.0 | 2 | READY | 2 | READY | 117.0 | - | - | - | - | - | - | - | - | - | - |
 | 6139 | 6139.TW | - | 706.0 | 1 | EARLY | 1 | EARLY | 706.0 | - | - | - | - | - | - | - | - | - | - |
@@ -112,7 +112,7 @@ Human review:
 - [ ] Is the signal caused by real market strength or by stub / smoke-test data?
 - [ ] Should this ticker remain in the watchlist?
 
-### 5. 6830 泰鼎
+### 5. 6830 汎銓
 
 - scanner_score: 1
 - signal: EARLY

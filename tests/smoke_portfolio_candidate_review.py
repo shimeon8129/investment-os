@@ -31,7 +31,8 @@ def main():
         or "HELD_AND_CANDIDATE" in content
         or "CANDIDATE_NOT_HELD" in content
     )
-    assert "泰鼎" in content
+    assert "汎銓" in content
+    assert "泰鼎" not in content
 
     print(f"Candidate source: {candidate_path}")
     print(f"Smoke report generated: {report_path}")

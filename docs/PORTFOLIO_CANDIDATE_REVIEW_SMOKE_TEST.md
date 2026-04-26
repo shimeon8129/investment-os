@@ -22,7 +22,7 @@
 
 - 2330 台積電 — shares: 50, score: 2, signal: READY
 - 3711 日月光 — shares: 50, score: 2, signal: READY
-- 6830 泰鼎 — shares: 20, score: 1, signal: EARLY
+- 6830 汎銓 — shares: 20, score: 1, signal: EARLY
 
 ### Held but not candidate
 
@@ -101,7 +101,7 @@
 | 6257 | 6257.TW | 0 | - | False | True | 1 | EARLY | - | - | - | CANDIDATE_NOT_HELD | Scanner candidate but not currently held. |
 | 6640 | 6640.TWO | 0 | - | False | True | 1 | EARLY | - | - | - | CANDIDATE_NOT_HELD | Scanner candidate but not currently held. |
 | 6669 | 6669.TW | 0 | - | False | True | 2 | READY | - | - | - | CANDIDATE_NOT_HELD | Scanner candidate but not currently held. |
-| 6830 | 泰鼎 | 20 | stock | True | True | 1 | EARLY | - | - | - | HELD_AND_CANDIDATE | Already held and also selected by scanner. |
+| 6830 | 汎銓 | 20 | stock | True | True | 1 | EARLY | - | - | - | HELD_AND_CANDIDATE | Already held and also selected by scanner. |
 | 8155 | 8155.TWO | 0 | - | False | True | 2 | READY | - | - | - | CANDIDATE_NOT_HELD | Scanner candidate but not currently held. |
 
 ## Human Review Checklist

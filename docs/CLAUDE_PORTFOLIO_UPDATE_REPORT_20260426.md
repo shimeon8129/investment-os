@@ -39,7 +39,7 @@ Not allowed:
 | 2345 | 智邦 | 55 | stock |
 | 3017 | 奇鋐 | 20 | stock |
 | 3711 | 日月光 | 50 | stock |
-| 6830 | 泰鼎 | 20 | stock |
+| 6830 | 汎銓 | 20 | stock |
 
 ## Modified Files
 
