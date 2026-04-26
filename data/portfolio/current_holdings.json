@@ -1,0 +1,57 @@
+{
+  "as_of": "2026-04-26",
+  "currency": "TWD",
+  "market": "TW",
+  "source": "manual_user_input",
+  "holdings": [
+    {
+      "ticker": "009816",
+      "name": "富邦台灣TOP50",
+      "shares": 5000,
+      "asset_type": "ETF",
+      "market": "TW"
+    },
+    {
+      "ticker": "00992A",
+      "name": "主動群益台灣科技創新",
+      "shares": 5000,
+      "asset_type": "ETF",
+      "market": "TW"
+    },
+    {
+      "ticker": "2330",
+      "name": "台積電",
+      "shares": 50,
+      "asset_type": "stock",
+      "market": "TW"
+    },
+    {
+      "ticker": "2345",
+      "name": "智邦",
+      "shares": 55,
+      "asset_type": "stock",
+      "market": "TW"
+    },
+    {
+      "ticker": "3017",
+      "name": "奇鋐",
+      "shares": 20,
+      "asset_type": "stock",
+      "market": "TW"
+    },
+    {
+      "ticker": "3711",
+      "name": "日月光",
+      "shares": 50,
+      "asset_type": "stock",
+      "market": "TW"
+    },
+    {
+      "ticker": "6830",
+      "name": "泰鼎",
+      "shares": 20,
+      "asset_type": "stock",
+      "market": "TW"
+    }
+  ]
+}
