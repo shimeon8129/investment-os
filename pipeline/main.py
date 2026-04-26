@@ -576,17 +576,3 @@ print(" ENTRY CHECK")
 
 if __name__ == "__main__":
     run_pipeline(capital=100000)  # 10 萬元
-
-# 在 main.py 最後加入
-dashboard = build_daily_dashboard(
-    portfolio,
-    close,
-    features,
-    market_state,
-    vix_value
-)
-
-print("\n=== DAILY DASHBOARD ===")
-for pos in dashboard["positions"]:
-    print(f"{pos['ticker']}: {pos['current_price']} ({pos['pnl_pct']:+.1f}%) → {pos['action']}")
-print(f"Summary: {dashboard['summary']}")

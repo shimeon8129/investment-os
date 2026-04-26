@@ -38,7 +38,7 @@ def load_pool(pool):
     return df["ticker"].tolist()
 
 
-def scan_candidates(close, volume):
+def scan_candidates(close, volume, features=None):
 
     candidates = []
 
@@ -81,7 +81,7 @@ def scan_candidates(close, volume):
     return candidates
 
 
-if name == "__main__":
+if __name__ == "__main__":
 
     pool = "universe"
     if len(sys.argv) > 1:
