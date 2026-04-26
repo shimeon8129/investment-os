@@ -3,6 +3,12 @@ import json
 from datetime import datetime
 
 from portfolio.holdings_loader import load_current_holdings
+from metadata.ticker_master import (
+    load_ticker_master,
+    normalize_ticker,
+    resolve_canonical_name,
+    resolve_asset_type,
+)
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
@@ -62,19 +68,6 @@ def normalize_candidates(raw_data) -> list:
     raise ValueError("Unsupported candidate data format")
 
 
-def normalize_ticker(ticker: str) -> str:
-    """
-    Normalize ticker for comparison.
-
-    Holdings may use 2330 while candidate output may use 2330.TW.
-    Compare by base code only.
-    """
-    ticker = str(ticker).strip()
-    if "." in ticker:
-        return ticker.split(".")[0]
-    return ticker
-
-
 def build_review_rows(holdings: list, candidates: list) -> list:
     holdings_by_base = {
         normalize_ticker(item.get("ticker")): item
@@ -90,6 +83,7 @@ def build_review_rows(holdings: list, candidates: list) -> list:
 
     all_tickers = sorted(set(holdings_by_base.keys()) | set(candidates_by_base.keys()))
 
+    ticker_master = load_ticker_master()
     rows = []
 
     for base_ticker in all_tickers:
@@ -112,23 +106,39 @@ def build_review_rows(holdings: list, candidates: list) -> list:
             position_status = "UNKNOWN"
             review_note = "Unexpected comparison state."
 
+        fallback_name = (
+            holding.get("name") if holding and holding.get("name")
+            else candidate.get("name", None) if candidate
+            else None
+        )
+        canonical_name = resolve_canonical_name(
+            base_ticker,
+            fallback_name=fallback_name,
+            master=ticker_master,
+        )
+        asset_type = resolve_asset_type(
+            base_ticker,
+            fallback_asset_type=holding.get("asset_type") if holding else None,
+            master=ticker_master,
+        )
+
+        raw_score = candidate.get("score", "-") if candidate else "-"
+        raw_level = candidate.get("level", "-") if candidate else "-"
+        scanner_score = candidate.get("scanner_score", raw_score) if candidate else "-"
+        signal = candidate.get("signal", raw_level) if candidate else "-"
+
         row = {
             "ticker": base_ticker,
             "holding_ticker": holding.get("ticker") if holding else "-",
             "candidate_ticker": candidate.get("ticker") if candidate else "-",
-            "name": (
-                holding.get("name")
-                if holding and holding.get("name")
-                else candidate.get("name", "-")
-                if candidate
-                else "-"
-            ),
+            "name": canonical_name,
+            "candidate_raw_name": candidate.get("name", "-") if candidate else "-",
             "shares": holding.get("shares", 0) if holding else 0,
-            "asset_type": holding.get("asset_type", "-") if holding else "-",
+            "asset_type": asset_type,
             "is_held": is_held,
             "is_candidate": is_candidate,
-            "scanner_score": candidate.get("scanner_score", "-") if candidate else "-",
-            "signal": candidate.get("signal", "-") if candidate else "-",
+            "scanner_score": scanner_score,
+            "signal": signal,
             "volume_ratio": candidate.get("volume_ratio", "-") if candidate else "-",
             "breakout_20d": candidate.get("breakout_20d", "-") if candidate else "-",
             "blocked_reason": candidate.get("blocked_reason", "-") if candidate else "-",

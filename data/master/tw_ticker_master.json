@@ -1,0 +1,67 @@
+{
+  "as_of": "2026-04-26",
+  "market": "TW",
+  "source": "manual_canonical_mapping",
+  "tickers": [
+    {
+      "ticker": "009816",
+      "canonical_name": "富邦台灣TOP50",
+      "asset_type": "ETF",
+      "market": "TW"
+    },
+    {
+      "ticker": "00992A",
+      "canonical_name": "主動群益台灣科技創新",
+      "asset_type": "ETF",
+      "market": "TW"
+    },
+    {
+      "ticker": "2330",
+      "canonical_name": "台積電",
+      "asset_type": "stock",
+      "market": "TW"
+    },
+    {
+      "ticker": "2345",
+      "canonical_name": "智邦",
+      "asset_type": "stock",
+      "market": "TW"
+    },
+    {
+      "ticker": "3017",
+      "canonical_name": "奇鋐",
+      "asset_type": "stock",
+      "market": "TW"
+    },
+    {
+      "ticker": "3711",
+      "canonical_name": "日月光",
+      "asset_type": "stock",
+      "market": "TW"
+    },
+    {
+      "ticker": "6830",
+      "canonical_name": "泰鼎",
+      "asset_type": "stock",
+      "market": "TW"
+    },
+    {
+      "ticker": "6187",
+      "canonical_name": "萬潤",
+      "asset_type": "stock",
+      "market": "TW"
+    },
+    {
+      "ticker": "5443",
+      "canonical_name": "均豪",
+      "asset_type": "stock",
+      "market": "TW"
+    },
+    {
+      "ticker": "3680",
+      "canonical_name": "家登",
+      "asset_type": "stock",
+      "market": "TW"
+    }
+  ]
+}

@@ -25,6 +25,10 @@ def main():
     assert "## Summary" in content
     assert "## Candidate Review Table" in content
     assert "## Top Candidate Notes" in content
+    assert "scanner_score" in content
+    assert "raw_score" in content
+    assert "raw_level" in content
+    assert "raw_price" in content
 
     print(f"Candidate source: {candidates_path}")
     print(f"Smoke report generated: {report_path}")

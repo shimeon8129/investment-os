@@ -2,6 +2,13 @@ from pathlib import Path
 import json
 from datetime import datetime
 
+from metadata.ticker_master import (
+    load_ticker_master,
+    normalize_ticker,
+    resolve_canonical_name,
+    resolve_asset_type,
+)
+
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_CANDIDATES_PATHS = [
@@ -15,14 +22,18 @@ DEFAULT_REPORT_PATH = PROJECT_ROOT / "docs" / f"CANDIDATE_REVIEW_{datetime.now()
 REVIEW_FIELDS = [
     "ticker",
     "name",
+    "asset_type",
     "close",
+    "scanner_score",
+    "signal",
+    "raw_score",
+    "raw_level",
+    "raw_price",
     "ma20",
     "ma60",
     "ma120",
     "volume_ratio",
     "breakout_20d",
-    "scanner_score",
-    "signal",
     "market_lock",
     "position_lock",
     "risk_lock",
@@ -47,6 +58,55 @@ def find_existing_candidates_file(paths: list | None = None) -> Path:
     raise FileNotFoundError(f"No candidate file found. Checked:\n{checked}")
 
 
+def adapt_candidate_schema(row: dict, ticker_master: dict | None = None) -> dict:
+    """
+    Normalize a single candidate row to the review schema.
+
+    Maps pipeline-native fields to review fields:
+      score  -> scanner_score
+      level  -> signal
+      price  -> close
+
+    Preserves raw values and resolves canonical name from ticker master.
+    """
+    ticker = row.get("ticker", row.get("symbol", "-"))
+    base_ticker = normalize_ticker(ticker)
+
+    raw_score = row.get("score")
+    raw_level = row.get("level")
+    raw_price = row.get("price")
+
+    scanner_score = row.get("scanner_score", raw_score)
+    signal = row.get("signal", raw_level)
+    close = row.get("close", raw_price)
+
+    fallback_name = row.get("name")
+    canonical_name = resolve_canonical_name(
+        base_ticker,
+        fallback_name=fallback_name,
+        master=ticker_master,
+    )
+
+    asset_type = resolve_asset_type(
+        base_ticker,
+        fallback_asset_type=row.get("asset_type"),
+        master=ticker_master,
+    )
+
+    return {
+        **row,
+        "ticker": base_ticker,
+        "name": canonical_name,
+        "asset_type": asset_type,
+        "close": close,
+        "scanner_score": scanner_score,
+        "signal": signal,
+        "raw_score": raw_score,
+        "raw_level": raw_level,
+        "raw_price": raw_price,
+    }
+
+
 def normalize_candidates(raw_data) -> list:
     """
     Normalize possible candidate output formats into a list of dicts.
@@ -59,15 +119,21 @@ def normalize_candidates(raw_data) -> list:
     """
 
     if isinstance(raw_data, list):
-        return raw_data
-
-    if isinstance(raw_data, dict):
+        rows = raw_data
+    elif isinstance(raw_data, dict):
+        rows = None
         for key in ["candidates", "top_candidates", "results", "data"]:
             value = raw_data.get(key)
             if isinstance(value, list):
-                return value
+                rows = value
+                break
+        if rows is None:
+            raise ValueError("Unsupported candidate data format")
+    else:
+        raise ValueError("Unsupported candidate data format")
 
-    raise ValueError("Unsupported candidate data format")
+    ticker_master = load_ticker_master()
+    return [adapt_candidate_schema(row, ticker_master=ticker_master) for row in rows]
 
 
 def safe_get(row: dict, key: str, default="-"):
