@@ -33,21 +33,15 @@ Every new AI session should first read:
 
 ## Collaboration Rule
 
-When providing commands or tasks for Investment OS, Claude Code, shell, or any local OS execution environment, the assistant must provide one complete copy-paste-ready block.
+For OS, shell, or Claude Code tasks, ChatGPT must give short, clear, single-block commands that are safe to copy and paste. Do not use long heredoc prompts such as `cat EOF`. Do not paste long duplicated context into terminal commands.
 
-Do not split OS/Claude Code instructions across multiple separate fragments unless the user explicitly asks for step-by-step separation.
+Claude Code should read project context directly from repo files, especially:
+- memory/00_PROJECT_BRAIN.md
+- memory/01_SYSTEM_STATUS.md
+- memory/02_SESSION_LOG.md
+- memory/03_NEXT_ACTION.md
 
-The preferred format is a single fenced command block or a single generated task file, such as:
-
-```bash
-cat > /tmp/investment_os_task.md <<'EOF'
-# Task content here
-EOF
-
-claude < /tmp/investment_os_task.md
-```
-
-This rule exists to reduce copy/paste errors and preserve execution context across AI collaboration sessions.
+Preferred style is one short `claude` command telling Claude which files to read and what to do.
 
 ## Current System Direction
 
