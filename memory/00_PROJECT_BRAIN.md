@@ -43,6 +43,16 @@ Claude Code should read project context directly from repo files, especially:
 
 Preferred style is one short `claude` command telling Claude which files to read and what to do.
 
+## Local Claude Code Git Workflow Rule
+
+For local engineering tasks, Claude Code may commit and push directly only when the task explicitly allows it. Steps:
+1. Read repo memory and relevant files before making any change.
+2. Make the minimal requested change.
+3. Run the requested validation (compile, smoke tests, etc.).
+4. Commit and push only if validation passes; do not commit or push if validation fails.
+
+After push, ChatGPT will verify by reading GitHub remote.
+
 ## Current System Direction
 
 Current priority:
