@@ -30,6 +30,25 @@ Every new AI session should first read:
 - memory/02_SESSION_LOG.md
 - memory/03_NEXT_ACTION.md
 
+
+## Collaboration Rule
+
+When providing commands or tasks for Investment OS, Claude Code, shell, or any local OS execution environment, the assistant must provide one complete copy-paste-ready block.
+
+Do not split OS/Claude Code instructions across multiple separate fragments unless the user explicitly asks for step-by-step separation.
+
+The preferred format is a single fenced command block or a single generated task file, such as:
+
+```bash
+cat > /tmp/investment_os_task.md <<'EOF'
+# Task content here
+EOF
+
+claude < /tmp/investment_os_task.md
+```
+
+This rule exists to reduce copy/paste errors and preserve execution context across AI collaboration sessions.
+
 ## Current System Direction
 
 Current priority:
