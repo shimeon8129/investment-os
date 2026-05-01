@@ -83,6 +83,25 @@ Every audit entry must include:
 
 Both must be kept in sync. When a task is completed, update both files.
 
+## Session Recall Response Rule
+
+When the user asks to read GitHub memory or restore Investment OS working state,
+respond with a compact status summary only.
+
+Default response must include only:
+- Repo and branch
+- MVP status
+- Active runtime and active mainline
+- Next READY action
+- Deferred / blocked items
+
+Do not summarize full session history.
+Do not list every completed task.
+Do not provide Claude Code commands unless the user explicitly asks for commands.
+Do not expand implementation details unless requested.
+
+Purpose: reduce token usage during session startup while preserving accurate state recall.
+
 ## Collaboration Rule
 
 For OS, shell, or Claude Code tasks, ChatGPT must give short, clear, single-block commands that are safe to copy and paste. Do not use long heredoc prompts such as `cat EOF`. Do not paste long duplicated context into terminal commands.
