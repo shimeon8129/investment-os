@@ -1,6 +1,6 @@
 # Investment OS Daily Report - 2026-05-02
 
-Generated at: 2026-05-02 00:32:43
+Generated at: 2026-05-02 01:53:36
 
 ## Runtime Status
 
@@ -8,6 +8,15 @@ Generated at: 2026-05-02 00:32:43
 - Reason: CLOSED_WEEKEND
 
 > No market pipeline was run. TW market is closed.
+
+## Human Summary
+
+- No new trading decision is generated today.
+- TW market: CLOSED_WEEKEND
+- US market: CLOSED_WEEKEND
+- Market pipeline skipped under current v0.1 behavior.
+  (v0.2 will use latest valid trading day data instead of skipping.)
+- Advisory only: no trades are placed automatically.
 
 ## Market Calendar
 

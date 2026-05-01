@@ -118,6 +118,17 @@ def main() -> int:
             "",
             "> No market pipeline was run. TW market is closed.",
             "",
+            "## Human Summary",
+            "",
+            "- No new trading decision is generated today.",
+        ]
+        for mkt, info in mctx["markets"].items():
+            report_lines.append(f"- {mkt} market: {info['status']}")
+        report_lines += [
+            "- Market pipeline skipped under current v0.1 behavior.",
+            "  (v0.2 will use latest valid trading day data instead of skipping.)",
+            "- Advisory only: no trades are placed automatically.",
+            "",
             "## Market Calendar",
             "",
         ]
@@ -228,6 +239,49 @@ def main() -> int:
         f"- Holdings loaded: {snapshot['holdings_loaded']}",
         f"- Holdings count: {snapshot['holdings_count']}",
         "",
+        "## Human Summary",
+        "",
+    ]
+
+    if mainline_snap:
+        ms = mainline_snap.get("market_state", "N/A")
+        msc = mainline_snap.get("market_score", None)
+        vix = mainline_snap.get("vix_value", None)
+        msc_str = f"{float(msc):.4f}" if msc is not None else "N/A"
+        vix_str = f"{float(vix):.2f}" if vix is not None else "N/A"
+        report_lines += [
+            f"- Market state: **{ms}** | Score: {msc_str} | VIX: {vix_str}",
+            "",
+            "**Top 3 candidates:**",
+            "",
+        ]
+        for i, row in enumerate(mainline_snap.get("ranked", [])[:3], 1):
+            score = row.get("score", 0)
+            score_str = f"{float(score):.2f}" if score is not None else "N/A"
+            report_lines.append(
+                f"{i}. {row.get('ticker', '')} {row.get('name', '')} "
+                f"— Score: {score_str} | Signal: {row.get('signal', '')}"
+            )
+        report_lines.append("")
+        action_counts: dict[str, int] = {}
+        for d in mainline_snap.get("decisions", {}).values():
+            a = d.get("action", "UNKNOWN")
+            action_counts[a] = action_counts.get(a, 0) + 1
+        counts_str = " | ".join(
+            f"{a}: {n}" for a, n in sorted(action_counts.items())
+        ) if action_counts else "none"
+        report_lines += [
+            f"- Decisions: {counts_str}",
+            "- Advisory only: all outputs are for human review; no trades are placed automatically.",
+            "",
+        ]
+    else:
+        report_lines += [
+            "- Mainline snapshot not available. No advisory summary.",
+            "",
+        ]
+
+    report_lines += [
         "## Mainline Snapshot",
         "",
     ]
