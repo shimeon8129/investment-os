@@ -53,6 +53,27 @@ For local engineering tasks, Claude Code may commit and push directly only when 
 
 After push, ChatGPT will verify by reading GitHub remote.
 
+## Claude Code Token Discipline Rule
+
+Claude Code credit is limited. ChatGPT must avoid giving Claude Code broad exploratory tasks unless explicitly needed.
+
+Default workflow:
+- ChatGPT performs architecture reasoning and decides exact patch scope.
+- Claude Code receives only precise patch tasks.
+- Read only necessary files.
+- Modify only explicitly named files.
+- Avoid broad review commands unless the task is specifically a review.
+- Avoid re-reading long context already known.
+- One task should change one small scope.
+- Validation must be specified exactly.
+
+Preferred instruction style:
+- Edit only `<file>`.
+- Do exactly these changes.
+- Do not edit any other file.
+- Run exactly this validation.
+- Commit/push only if validation passes.
+
 ## Current System Direction
 
 Current priority:
