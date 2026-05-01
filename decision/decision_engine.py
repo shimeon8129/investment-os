@@ -29,6 +29,22 @@ def load_candidates():
 
 
 # =========================
+# 載入 narrative 共識
+# =========================
+def load_narrative_map():
+
+    path = "data/final_narrative.json"
+
+    if not os.path.exists(path):
+        return {}
+
+    with open(path, "r", encoding="utf-8") as f:
+        data = json.load(f)
+
+    return {d["ticker"]: d for d in data}
+
+
+# =========================
 # 主流程
 # =========================
 def run_decision():
@@ -36,13 +52,20 @@ def run_decision():
     print("🚀 Running Decision Engine...")
 
     # =========================================
-    # 1️⃣ Load Candidates
+    # 1️⃣ Load Candidates + Narrative
     # =========================================
     candidates = load_candidates()
 
     if not candidates:
         print("❌ 無 candidates")
         return
+
+    narrative_map = load_narrative_map()
+
+    if narrative_map:
+        print(f"\n📖 Narrative filter active — {len(narrative_map)} STRONG tickers")
+        candidates = [c for c in candidates if c["ticker"] in narrative_map]
+        print(f"✅ Filtered to {len(candidates)} narrative-confirmed candidates\n")
 
     tickers = [c["ticker"] for c in candidates]
     name_map = {c["ticker"]: c.get("name", c["ticker"]) for c in candidates}
@@ -90,7 +113,8 @@ def run_decision():
     for e in entry_signals:
         if e["signal"]:
             name = name_map.get(e["ticker"], "")
-            print(f"{e['ticker']} {name} | {e['signal']} | price={e['price']}")
+            nscore = narrative_map.get(e["ticker"], {}).get("consensus_score", "-")
+            print(f"{e['ticker']} {name} | {e['signal']} | price={e['price']} | narrative={nscore}")
 
     # =========================================
     # 4️⃣ Entry Lock（🔥核心）
@@ -109,12 +133,20 @@ def run_decision():
     watch_list = []
 
     for d in entry_decisions:
+        ticker = d["ticker"]
+        if ticker in narrative_map:
+            d["narrative_score"] = narrative_map[ticker]["consensus_score"]
+            d["narrative_strength"] = narrative_map[ticker]["strength"]
 
         if d["decision"] == "BUY":
             buy_list.append(d)
 
         elif d["decision"] == "BUY_PARTIAL":
             watch_list.append(d)
+
+    # sort by narrative score
+    buy_list.sort(key=lambda x: x.get("narrative_score", 0), reverse=True)
+    watch_list.sort(key=lambda x: x.get("narrative_score", 0), reverse=True)
 
     # =========================================
     # 6️⃣ 輸出 JSON
@@ -137,12 +169,14 @@ def run_decision():
     print("\n=== BUY LIST ===")
     for b in buy_list:
         name = name_map.get(b["ticker"], "")
-        print(f"{b['ticker']} {name} | price={b['price']}")
+        nscore = b.get("narrative_score", "-")
+        print(f"{b['ticker']} {name} | price={b['price']} | narrative={nscore}")
 
     print("\n=== WATCH LIST ===")
     for w in watch_list:
         name = name_map.get(w["ticker"], "")
-        print(f"{w['ticker']} {name} | price={w['price']}")
+        nscore = w.get("narrative_score", "-")
+        print(f"{w['ticker']} {name} | price={w['price']} | narrative={nscore}")
 
 
 # =========================

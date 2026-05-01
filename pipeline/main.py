@@ -9,10 +9,14 @@ sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 # === DATA ===
 from scanner.universe import get_tw_universe, get_us_universe
 from scanner.basic_scanner import scan_candidates
+from scanner.minervini_scanner import build_minervini_map, scan_minervini_candidates
 from data_node.loader import load_price_data
 
 # === RANKING===
 from pipeline.ranking_engine import rank_stocks, print_top_picks
+from pipeline.narrative_loader import load_narrative_map
+from pipeline.news_heat_loader import load_news_heat_map
+from pipeline.chips_loader import load_chips_map
 
 # === PROCESSING ===
 from processing.features import compute_features
@@ -83,7 +87,7 @@ def run_pipeline():
     # 🟩 3. TW Data
     # =========================================
 
-    close, volume = load_price_data(tw_tickers)
+    close, volume = load_price_data(tw_tickers, period="2y")
     features = compute_features(close, volume)
 
     # =========================================
@@ -216,10 +220,14 @@ sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 # === DATA ===
 from scanner.universe import get_tw_universe, get_us_universe
 from scanner.basic_scanner import scan_candidates
+from scanner.minervini_scanner import build_minervini_map, scan_minervini_candidates
 from data_node.loader import load_price_data
 
 # === RANKING===
 from pipeline.ranking_engine import rank_stocks, print_top_picks
+from pipeline.narrative_loader import load_narrative_map
+from pipeline.news_heat_loader import load_news_heat_map
+from pipeline.chips_loader import load_chips_map
 
 # === PROCESSING ===
 from processing.features import compute_features
@@ -296,7 +304,7 @@ def run_pipeline(capital=100000):
     # 🟩 3. TW Data
     # =========================================
 
-    close, volume = load_price_data(tw_tickers)
+    close, volume = load_price_data(tw_tickers, period="2y")
     features = compute_features(close, volume)
 
     # =========================================
@@ -306,6 +314,9 @@ def run_pipeline(capital=100000):
     print("\n=== SCANNER ===")
 
     candidates = scan_candidates(close, volume, features)
+
+    minervini_candidates = scan_minervini_candidates(close, volume, features)
+    minervini_map = build_minervini_map(minervini_candidates)
 
     # 防呆（避免 None）
     if candidates is None:
@@ -322,6 +333,7 @@ def run_pipeline(capital=100000):
 
         ticker = c["ticker"]
         scanner_results[ticker] = c["score"]
+        minervini_score = minervini_map.get(ticker, {}).get("minervini_score", 0)
 
         # 加名稱
         row = tw_universe[tw_universe["ticker"] == ticker]
@@ -336,7 +348,10 @@ def run_pipeline(capital=100000):
         else:
             tag = "👀EARLY"
 
-        print(f"{ticker} {name} → Score: {c['score']} | {c['level']} {tag} | Price: {c['price']}")
+        print(
+            f"{ticker} {name} → Score: {c['score']} | Minervini: {minervini_score} "
+            f"| {c['level']} {tag} | Price: {c['price']}"
+        )
 
     # =========================================
     # 🔍 4. Signal
@@ -396,12 +411,19 @@ def run_pipeline(capital=100000):
 
     name_map = dict(zip(tw_universe["ticker"], tw_universe["name"]))
     sector_map = dict(zip(tw_universe["ticker"], tw_universe["sector"]))
+    narrative_map = load_narrative_map()
+    news_heat_map = load_news_heat_map()
+    chips_map = load_chips_map()
 
     ranked = rank_stocks(
         signal_results,
         scanner_results,
         sector_map,
-        name_map
+        name_map,
+        minervini_map,
+        narrative_map,
+        news_heat_map,
+        chips_map
     )
 
     print_top_picks(ranked, top_n=3)

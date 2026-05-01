@@ -45,9 +45,20 @@ def scan_candidates(close, volume, features=None):
     for ticker in close.columns:
 
         try:
-            price = close[ticker].iloc[-1]
-            ma20 = close[ticker].rolling(20).mean().iloc[-1]
-            vol_ratio = volume[ticker].iloc[-1] / volume[ticker].rolling(20).mean().iloc[-1]
+            price_series = close[ticker].dropna()
+            volume_series = volume[ticker].dropna()
+
+            if len(price_series) < 20 or len(volume_series) < 20:
+                continue
+
+            price = price_series.iloc[-1]
+            ma20 = price_series.rolling(20).mean().iloc[-1]
+            avg_volume_20 = volume_series.rolling(20).mean().iloc[-1]
+
+            if avg_volume_20 == 0:
+                continue
+
+            vol_ratio = volume_series.iloc[-1] / avg_volume_20
 
             score = 0
 
@@ -71,6 +82,8 @@ def scan_candidates(close, volume, features=None):
 
         except:
             continue
+
+    candidates.sort(key=lambda row: row.get("score", 0), reverse=True)
 
     print(f"\n✅ Candidates: {len(candidates)}")
 
