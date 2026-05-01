@@ -118,6 +118,8 @@ def main() -> int:
             )
         )
 
+    mainline_snap = read_json(PROCESSED_DIR / "mainline_snapshot.json", fallback={})
+
     snapshot = {
         "date": today,
         "generated_at": now,
@@ -153,6 +155,45 @@ def main() -> int:
         f"- Holdings loaded: {snapshot['holdings_loaded']}",
         f"- Holdings count: {snapshot['holdings_count']}",
         "",
+        "## Mainline Snapshot",
+        "",
+    ]
+
+    if mainline_snap:
+        report_lines += [
+            f"- Market state: {mainline_snap.get('market_state', 'N/A')}",
+            f"- Market score: {mainline_snap.get('market_score', 'N/A')}",
+            f"- VIX: {mainline_snap.get('vix_value', 'N/A')}",
+            "",
+            "### Top Ranked",
+            "",
+            "| Rank | Ticker | Name | Sector | Signal | Score |",
+            "| --- | --- | --- | --- | --- | --- |",
+        ]
+        for i, row in enumerate(mainline_snap.get("ranked", [])[:5], 1):
+            report_lines.append(
+                f"| {i} | {row.get('ticker', '')} | {row.get('name', '')} "
+                f"| {row.get('sector', '')} | {row.get('signal', '')} | {row.get('score', '')} |"
+            )
+        report_lines += [
+            "",
+            "### Decisions",
+            "",
+            "| Ticker | Action | Reason |",
+            "| --- | --- | --- |",
+        ]
+        for ticker, d in mainline_snap.get("decisions", {}).items():
+            report_lines.append(
+                f"| {ticker} | {d.get('action', '')} | {d.get('reason', '')} |"
+            )
+        report_lines.append("")
+    else:
+        report_lines += [
+            "- Mainline snapshot: missing",
+            "",
+        ]
+
+    report_lines += [
         "## Checks",
         "",
     ]
