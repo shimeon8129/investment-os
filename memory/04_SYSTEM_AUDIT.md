@@ -238,6 +238,30 @@ through the AI collaboration protocol. No broker automation violations observed.
 
 ---
 
+### Remediation Plan
+
+| Risk | Remediation plan | Related next action | Priority | Status | Do now? | Approval required? |
+|------|-----------------|---------------------|----------|--------|---------|--------------------|
+| R-001 | Implement v0.2 `latest_full_trading_day` + `data_as_of_date`; change pipeline_policy to RUN_WITH_LATEST_AVAILABLE on closed days | Task 5 — Market Context Gate v0.2 | P3 | DEFERRED | No | Yes — explicit approval before any implementation |
+| R-002 | Add `data_as_of_date`, `data_mode`, `report_label` to `get_market_context()` output and propagate into both snapshots | Task 5 — Market Context Gate v0.2 | P3 | DEFERRED | No | Yes — gated on v0.2 approval |
+| R-003 | Add data vintage label to Mainline Snapshot section header in daily report | Task 5 — Market Context Gate v0.2 | P3 | DEFERRED | No | Yes — gated on v0.2 approval |
+| R-004 | Review reports/daily output; improve section formatting and readability in jobs/daily_run.py report template | Task 3 — Human summary / report polish | P1 | READY | Yes | No — standard engineering task |
+| R-005 | Add `timeout_seconds` param to `run_module_or_script()`; pass `timeout_seconds=240` for pipeline_main_v1 | Not yet in next actions | P2 | MONITOR | Only if timeout failures observed | No |
+| R-006 | Accept 2026-05-01 report as historical artifact; add note if confusion arises in future AI sessions | Accept as artifact | P2 | ACCEPTED | No | No |
+| R-007 | Review decision_engine.py at branch merge readiness: document as experimental or mark for deprecation | Task 4 — Branch merge planning | P1/P2 | OPEN | At merge review | No — review only; deprecation requires user approval |
+| R-008 | ✅ Resolved. Sensitive Investment Data Protection Rule codified. Tickers restored. | Resolved — rule in 00_PROJECT_BRAIN.md | P0 | RESOLVED | N/A | N/A |
+| R-009 | ✅ Resolved. 8046.TW and 3189.TW confirmed loading cleanly. | Resolved — data/universe_tw.csv fixed | P0 | RESOLVED | N/A | N/A |
+| R-010 | Cross-check TW and US holiday lists against official exchange announcements; add TW early_close dates if applicable | Not yet in next actions — revisit before 2027 | P2 | MONITOR | No — 2026 calendar in use | No for verification; Yes for changes to calendar data |
+| R-011 | Add `session_phase` to `get_market_context()` using `regular_session` open/close times from calendar config | Task 6 — Market session phase enhancement | P3 | DEFERRED | No | Yes — gated on v0.2 / post-MVP approval |
+
+**Priority definitions:**
+- P0 — Resolved; no action needed
+- P1 — Ready to action; no approval gate
+- P2 — Monitor or low-urgency; do only if triggered
+- P3 — Deferred; explicit approval required before any implementation
+
+---
+
 ### Next-Action Mapping
 
 | Audit finding | Risk | Next action from 03_NEXT_ACTION.md | Priority |

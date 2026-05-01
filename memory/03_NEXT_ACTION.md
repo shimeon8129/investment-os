@@ -12,11 +12,13 @@ Active components:
 
 Latest run: MARKET_CLOSED (2026-05-02, Saturday — correct behavior)
 
+Audit: memory/04_SYSTEM_AUDIT.md (2026-05-02) — 11 risks assessed.
+
 ## Next Engineering Tasks
 
 Priority order:
 
-1. Ticker hygiene (resolved + standing rule)
+1. Ticker hygiene (resolved + standing rule) — Audit: R-008, R-009 RESOLVED
    - 8046 and 3189 suffix issue has been fixed: .TWO → .TW in data/universe_tw.csv.
    - Do not remove user-observed tickers because of provider warnings (yfinance
      no price data is a data_warning, not deletion permission).
@@ -24,35 +26,39 @@ Priority order:
      reports, investigate alternate sources, and require explicit user approval
      before any sensitive investment data change.
 
-2. Memory and state review (immediate)
-   - Verify memory/ files are accurate and current.
-   - Confirm branch commit history is coherent.
-   - No code changes required.
+2. Memory and state review — COMPLETE (fulfilled by audit 2026-05-02)
+   - memory/04_SYSTEM_AUDIT.md written. Risk register and remediation plan in place.
 
-3. Human summary / report polish
+3. Human summary / report polish — Audit: R-004 | Priority: P1 | Status: READY
    - Review reports/daily output for readability.
-   - Improve Mainline Snapshot section formatting if needed.
-   - No new modules.
+   - Improve Mainline Snapshot section formatting in jobs/daily_run.py report template.
+   - No new modules. No approval required.
 
-4. Branch merge planning (optional, when ready)
+4. Branch merge readiness review — Audit: R-001 to R-011 | Priority: P1/P2
    - Review diff between add-daily-decision-dashboard-v0-20260426_2057 and main.
-   - Confirm no regressions before merge.
-   - Merge only after explicit user approval.
+   - Verify all P0/P1 risks are resolved or accepted before merge.
+   - Review decision/decision_engine.py status (R-007): document or mark for deprecation.
+   - Merge only after explicit user approval. Do not merge without approval.
 
-5. Market context gate v0.2 (future — do not implement until explicitly approved)
+5. Market Context Gate v0.2 — Audit: R-001, R-002, R-003, R-011 | Priority: P3 | Status: DEFERRED
+   - DEFERRED. Do not implement until explicitly approved by user.
    - Spec defined in docs/MARKET_CONTEXT_GATE_V0_2.md.
-   - Adds: latest_full_trading_day, data_as_of_date, data_mode, pipeline_policy,
-     report_label per market.
-   - Key principle: market closed ≠ no data; pipeline should run using latest
-     valid trading day, not skip.
-   - Implementation sequence in spec. Gate on MVP merge first.
+   - Addresses: latest_full_trading_day, data_as_of_date, data_mode, pipeline_policy,
+     report_label per market. Key principle: market closed ≠ no data.
+   - Gate on MVP branch merge first. Approval required before any code change.
 
-6. Market session phase enhancement (future, post-MVP)
+6. Market session phase enhancement — Audit: R-011 | Priority: P3 | Status: DEFERRED
+   - DEFERRED. Do not implement until explicitly approved.
    - utils/market_calendar.py currently classifies: OPEN, CLOSED_WEEKEND,
      CLOSED_HOLIDAY, OPEN_EARLY_CLOSE.
-   - It does not yet classify intraday phases: PRE_MARKET, REGULAR_SESSION,
-     POST_MARKET, CLOSED_BY_TIME.
-   - Add as a future enhancement after MVP stabilization. Do not implement now.
+   - Future: add PRE_MARKET, REGULAR_SESSION, POST_MARKET, CLOSED_BY_TIME.
+   - Part of v0.2 scope. Post-MVP only.
+
+## Monitor (no action unless triggered)
+
+- R-005: subprocess timeout 90s — monitor; act only if pipeline_main_v1 times out
+- R-006: stale 2026-05-01 report — accepted historical artifact
+- R-010: calendar source completeness — revisit before 2027
 
 ## Guardrails
 
@@ -62,9 +68,10 @@ Do not:
 - Expand external AI agents
 - Modify broker/execution automation
 - Modify pipeline/main.py (legacy, preserved as reference)
-- Modify decision/decision_engine.py (out of scope)
+- Modify decision/decision_engine.py (out of scope until merge review)
 - Remove or mutate sensitive investment data without explicit user approval
 - Implement v0.2 market context until explicitly approved
+- Merge branch to main without explicit user approval
 
 Do:
 - Work on a branch
@@ -72,3 +79,4 @@ Do:
 - Make minimal targeted changes
 - Validate before committing
 - Classify provider failures as data_warning, not deletion triggers
+- Reference audit risk IDs when proposing changes
