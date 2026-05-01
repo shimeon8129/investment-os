@@ -245,7 +245,7 @@ through the AI collaboration protocol. No broker automation violations observed.
 | R-001 | Implement v0.2 `latest_full_trading_day` + `data_as_of_date`; change pipeline_policy to RUN_WITH_LATEST_AVAILABLE on closed days | Task 5 — Market Context Gate v0.2 | P3 | DEFERRED | No | Yes — explicit approval before any implementation |
 | R-002 | Add `data_as_of_date`, `data_mode`, `report_label` to `get_market_context()` output and propagate into both snapshots | Task 5 — Market Context Gate v0.2 | P3 | DEFERRED | No | Yes — gated on v0.2 approval |
 | R-003 | Add data vintage label to Mainline Snapshot section header in daily report | Task 5 — Market Context Gate v0.2 | P3 | DEFERRED | No | Yes — gated on v0.2 approval |
-| R-004 | Review reports/daily output; improve section formatting and readability in jobs/daily_run.py report template | Task 3 — Human summary / report polish | P1 | READY | Yes | No — standard engineering task |
+| R-004 | Review reports/daily output; improve section formatting and readability in jobs/daily_run.py report template | Task 3 — Human summary / report polish | P1 | ✅ RESOLVED | N/A | N/A |
 | R-005 | Add `timeout_seconds` param to `run_module_or_script()`; pass `timeout_seconds=240` for pipeline_main_v1 | Not yet in next actions | P2 | MONITOR | Only if timeout failures observed | No |
 | R-006 | Accept 2026-05-01 report as historical artifact; add note if confusion arises in future AI sessions | Accept as artifact | P2 | ACCEPTED | No | No |
 | R-007 | Review decision_engine.py at branch merge readiness: document as experimental or mark for deprecation | Task 4 — Branch merge planning | P1/P2 | OPEN | At merge review | No — review only; deprecation requires user approval |
@@ -319,5 +319,32 @@ through the AI collaboration protocol. No broker automation violations observed.
 
 3. No runtime code changes. No sensitive investment data changes.
    All 34 universe tickers confirmed loading cleanly as of last run (2026-05-02).
+
+---
+
+## Audit Update: 2026-05-02 Human Summary Polish
+
+| Field | Value |
+|-------|-------|
+| Update time | 2026-05-02 (session close — human summary polish) |
+| Branch | add-daily-decision-dashboard-v0-20260426_2057 |
+| Latest commit at update | 10a02e3 |
+| Scope | jobs/daily_run.py report polish only; no pipeline logic changes; no sensitive data changes |
+
+**R-004 — RESOLVED**
+
+`jobs/daily_run.py` now generates a `## Human Summary` section in all daily reports:
+
+- **Market-closed path**: states no new trading decision today; shows TW/US market
+  status from `market_context`; explains pipeline is skipped under v0.1 behavior;
+  advisory-only note.
+- **Open-market path**: shows `market_state`, `market_score` (4dp), `vix_value` (2dp);
+  lists top 3 ranked candidates with names and scores (2dp); shows decision counts
+  by action; advisory-only note.
+
+No v0.2 data_as_of logic implemented (remains DEFERRED per R-001/R-002/R-003/R-011).
+No sensitive investment data changed. No runtime pipeline logic changed.
+
+**Next P1 task: Branch merge readiness review (R-001 to R-011)**
 
 *End of audit entry 2026-05-02*

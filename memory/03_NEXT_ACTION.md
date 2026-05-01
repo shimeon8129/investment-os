@@ -29,12 +29,13 @@ Priority order:
 2. Memory and state review — COMPLETE (fulfilled by audit 2026-05-02)
    - memory/04_SYSTEM_AUDIT.md written. Risk register and remediation plan in place.
 
-3. Human summary / report polish — Audit: R-004 | Priority: P1 | Status: READY
-   - Review reports/daily output for readability.
-   - Improve Mainline Snapshot section formatting in jobs/daily_run.py report template.
-   - No new modules. No approval required.
+3. Human summary / report polish — Audit: R-004 | Priority: P1 | Status: ✅ RESOLVED
+   - COMPLETE. jobs/daily_run.py now adds Human Summary to both market-closed and
+     open-market report paths. Market-closed: no new decision, market status, v0.1
+     skip note, advisory-only. Open-market: market_state/score/VIX, top 3 candidates,
+     decision counts, advisory-only. Commit: 10a02e3.
 
-4. Branch merge readiness review — Audit: R-001 to R-011 | Priority: P1/P2
+4. Branch merge readiness review — Audit: R-001 to R-011 | Priority: P1/P2 | Status: READY
    - Review diff between add-daily-decision-dashboard-v0-20260426_2057 and main.
    - Verify all P0/P1 risks are resolved or accepted before merge.
    - Review decision/decision_engine.py status (R-007): document or mark for deprecation.

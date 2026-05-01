@@ -90,22 +90,25 @@ Both confirmed loading cleanly.
 
 ## MVP Progress
 
-~95% complete.
+~98% complete.
 
 Remaining:
-- Human summary / report polish.
-- Optional branch merge planning.
+- Branch merge readiness review (R-001 to R-011).
 - v0.2 market context (future, gated on explicit approval).
 
-## Session Close Status — 2026-05-02
+## Session Close Status — 2026-05-02 (final)
 
-MVP candidate is stable at ~95%. Active runtime flow confirmed.
+MVP candidate is stable at ~98%. All planned polish tasks complete.
 
 Summary of session state:
-- Active runtime flow: pipeline/main_v1.py → jobs/daily_run.py → daily report
-- Market calendar gate v0.1 live; CLOSED_WEEKEND correctly detected on 2026-05-02
-- Market Context Gate v0.2 spec written (docs/MARKET_CONTEXT_GATE_V0_2.md); DEFERRED
-- memory/04_SYSTEM_AUDIT.md is now an official memory layer; included in session-start read list
-- memory/00_PROJECT_BRAIN.md updated: Core Rule split into '## Core Value' and '## Safety Boundary'
-- R-001 to R-011 risk register complete; remediation plan with P0–P3 priorities documented
+- Step 1 COMPLETE: memory/00_PROJECT_BRAIN.md separates Core Value from Safety Boundary,
+  includes memory/04_SYSTEM_AUDIT.md in session-start recall, has System Audit Memory Rule.
+- Step 2 COMPLETE: session close memory and audit structure updated.
+- Step 3 COMPLETE: jobs/daily_run.py now adds Human Summary section to daily reports.
+  Market-closed report: no new trading decision, TW/US market status, v0.1 skip note, advisory-only.
+  Open-market report: market_state, market_score, VIX, top 3 candidates with scores,
+  decision counts by action, advisory-only note.
+- R-004 Human summary/report polish: RESOLVED.
+- Next ready task: Branch merge readiness review (R-001 to R-011).
+- Market Context Gate v0.2: DEFERRED (R-001/R-002/R-003/R-011), approval required.
 - No runtime code changes this session close. No sensitive investment data changes.

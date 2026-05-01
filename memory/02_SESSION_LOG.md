@@ -1,5 +1,23 @@
 # Investment OS｜Session Log
 
+## 2026-05-02 — Session close (human summary polish)
+
+Session close summary:
+- Step 1 COMPLETE: memory/00_PROJECT_BRAIN.md — Core Rule split into Core Value and
+  Safety Boundary; memory/04_SYSTEM_AUDIT.md added to session-start read list;
+  System Audit Memory Rule added.
+- Step 2 COMPLETE: memory audit and session-close structure updated with R-001 to R-011
+  risk register, remediation plan, and next-action mapping.
+- Step 3 COMPLETE (R-004): jobs/daily_run.py human summary polish.
+  Market-closed path: Human Summary section shows no new trading decision, per-market
+  status from market_context, v0.1 skip behavior note, advisory-only note.
+  Open-market path: Human Summary section shows market_state, market_score (4dp),
+  VIX (2dp), top 3 ranked candidates with scores (2dp), decision counts by action,
+  advisory-only note.
+- R-004 status: RESOLVED.
+- No sensitive investment data changed. No runtime pipeline logic changed.
+- Next ready task: Branch merge readiness review (links to R-001 to R-011).
+
 ## 2026-05-02 — Session close
 
 Session close summary:
