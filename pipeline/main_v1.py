@@ -4,6 +4,9 @@
 
 import sys
 import os
+import json
+from datetime import datetime
+from pathlib import Path
 
 # === PATH SETUP ===
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
@@ -32,9 +35,8 @@ from execution.trade import execute_trade
 # === EXIT ===
 from execution.exit import check_exit
 
-# === PORTFOLIO + LOG ===
+# === PORTFOLIO ===
 from execution.portfolio import load_portfolio
-from execution.trade_log_writer import write_trade_log
 
 # === MARKET ===
 from decision.market import market_filter
@@ -46,8 +48,6 @@ from decision.position_lock import apply_position_lock
 # === RISK ===
 from execution.risk import apply_risk_filters
 
-# === FEEDBACK ===
-from feedback.performance import analyze_performance
 
 # =========================================
 # 🧠 MAIN PIPELINE
@@ -312,34 +312,34 @@ def run_pipeline(capital=100000):
     decisions.update(exit_decisions)
 
     # =========================================
-    # 📝 WRITE TRADE LOG
+    # 📸 SNAPSHOT
     # =========================================
 
-    new_trades = write_trade_log(decisions, close)
+    snapshot_dir = Path("data/processed")
+    snapshot_dir.mkdir(parents=True, exist_ok=True)
+    snapshot_path = snapshot_dir / "mainline_snapshot.json"
 
-    if new_trades:
-        print("\n=== NEW TRADES ===")
-        for t in new_trades:
+    snapshot = {
+        "generated_at": datetime.now().isoformat(),
+        "market_state": market_state,
+        "market_score": round(float(global_score), 4),
+        "vix_value": float(vix_value) if vix_value is not None else None,
+        "candidates": top_candidates,
+        "signals": signal_results,
+        "ranked": ranked,
+        "decisions": decisions,
+        "exit_signals": exit_decisions,
+        "safety": {
+            "advisory_only": True,
+            "auto_trade": False,
+            "broker_login": False
+        }
+    }
 
-            if t["action"] == "BUY":
-                print(f"{t['ticker']} → BUY @ {t['price']} | size: {t['size']*100:.1f}%")
+    with open(snapshot_path, "w", encoding="utf-8") as f:
+        json.dump(snapshot, f, ensure_ascii=False, indent=2, default=str)
 
-            elif t["action"] == "SELL":
-                pnl = t.get("pnl_pct", 0)
-                print(f"{t['ticker']} → SELL @ {t['price']} | PnL: {pnl*100:.2f}%")
-
-    # =========================================
-    # 📊 PERFORMANCE REPORT
-    # =========================================
-
-    perf = analyze_performance()
-
-    print("\n=== PERFORMANCE ===")
-    print(f"Trades: {perf['total_trades']}")
-    print(f"Win Rate: {perf['win_rate']*100:.1f}%")
-    print(f"Avg Return: {perf['avg_return']*100:.2f}%")
-    print(f"Total Return: {perf['total_return']*100:.2f}%")
-    print(f"Max Drawdown: {perf['max_drawdown']*100:.2f}%")
+    print(f"\n📸 Snapshot written: {snapshot_path}")
 
     print("\n==============================")
     print("✅ Pipeline Done")
