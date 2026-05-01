@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-05-01T23:52:34.916058",
+  "generated_at": "2026-05-02T00:14:02.661675",
   "market_state": "RANGE",
-  "market_score": 0.0008,
-  "vix_value": 16.709999084472656,
+  "market_score": 0.0028,
+  "vix_value": 16.829999923706055,
   "candidates": [
     {
       "ticker": "2467.TW",
@@ -396,7 +396,7 @@
       "stop_loss": 0.05,
       "signal": "BUY",
       "reason": "ALREADY_IN_POSITION",
-      "reason_detail": "RANGE market - VIX 16.7"
+      "reason_detail": "RANGE market - VIX 16.8"
     },
     "2464.TW": {
       "action": "HOLD",
@@ -404,7 +404,7 @@
       "stop_loss": 0.05,
       "signal": "BUY",
       "reason": "ALREADY_IN_POSITION",
-      "reason_detail": "RANGE market - VIX 16.7"
+      "reason_detail": "RANGE market - VIX 16.8"
     },
     "2449.TW": {
       "action": "HOLD",
@@ -412,7 +412,7 @@
       "stop_loss": 0.05,
       "signal": "BUY",
       "reason": "ALREADY_IN_POSITION",
-      "reason_detail": "RANGE market - VIX 16.7"
+      "reason_detail": "RANGE market - VIX 16.8"
     }
   },
   "exit_signals": {},
