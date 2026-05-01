@@ -96,3 +96,16 @@ Remaining:
 - Human summary / report polish.
 - Optional branch merge planning.
 - v0.2 market context (future, gated on explicit approval).
+
+## Session Close Status — 2026-05-02
+
+MVP candidate is stable at ~95%. Active runtime flow confirmed.
+
+Summary of session state:
+- Active runtime flow: pipeline/main_v1.py → jobs/daily_run.py → daily report
+- Market calendar gate v0.1 live; CLOSED_WEEKEND correctly detected on 2026-05-02
+- Market Context Gate v0.2 spec written (docs/MARKET_CONTEXT_GATE_V0_2.md); DEFERRED
+- memory/04_SYSTEM_AUDIT.md is now an official memory layer; included in session-start read list
+- memory/00_PROJECT_BRAIN.md updated: Core Rule split into '## Core Value' and '## Safety Boundary'
+- R-001 to R-011 risk register complete; remediation plan with P0–P3 priorities documented
+- No runtime code changes this session close. No sensitive investment data changes.

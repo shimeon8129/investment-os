@@ -1,5 +1,19 @@
 # Investment OS｜Session Log
 
+## 2026-05-02 — Session close
+
+Session close summary:
+- System audit memory created: memory/04_SYSTEM_AUDIT.md with R-001 to R-011 risk register.
+- Remediation plan completed: P0 (resolved), P1 (ready), P2 (monitor), P3 (deferred).
+- Next-action mapping: all tasks in 03_NEXT_ACTION.md linked to audit risk IDs.
+- Project Brain correction: ## Core Rule split into ## Core Value and ## Safety Boundary.
+  Core Value now explicitly states Investment OS purpose (market profit, decision quality,
+  trend identification, high-probability detection, swing discipline, risk awareness).
+- memory/04_SYSTEM_AUDIT.md added to session-start read list in Memory Principle.
+- System Audit Memory Rule added to 00_PROJECT_BRAIN.md.
+- Market Context Gate v0.2 confirmed DEFERRED: R-001/R-002/R-003/R-011 gated on explicit approval.
+- No runtime code changes this session. No sensitive investment data changes.
+
 ## 2026-05-02 — Market calendar and governance session
 
 Major outcomes:

@@ -288,4 +288,36 @@ through the AI collaboration protocol. No broker automation violations observed.
 
 ---
 
+---
+
+## Audit Update: 2026-05-02 Session Close
+
+| Field | Value |
+|-------|-------|
+| Update time | 2026-05-02 (session close) |
+| Branch | add-daily-decision-dashboard-v0-20260426_2057 |
+| Latest commit at update | bdc508c |
+| Scope | Memory-only updates; no runtime code changes; no sensitive data changes |
+
+**Changes recorded this update:**
+
+1. `memory/00_PROJECT_BRAIN.md` correction:
+   - `## Core Rule` renamed and split into `## Core Value` and `## Safety Boundary`.
+   - Core Value now explicitly states the system's investment purpose (market profit,
+     decision quality, trend identification, high-probability detection, swing discipline,
+     emotional-trade reduction, structured decision support).
+   - Safety Boundary retains the original no-broker-login / no-auto-trade rules.
+   - `memory/04_SYSTEM_AUDIT.md` added to session-start read list under Memory Principle.
+   - `## System Audit Memory Rule` added: defines required audit entry structure and
+     establishes 03 (what to do) vs 04 (why) separation.
+
+2. Risk register and remediation plan:
+   - R-001 to R-011 documented with severity, impact, status, and remediation plan.
+   - Priorities: P0 (R-008, R-009 resolved), P1 (R-004 ready, R-007 at merge),
+     P2 (R-005 monitor, R-006 accepted, R-010 future), P3 (R-001/002/003/011 deferred).
+   - v0.2 market context gate confirmed DEFERRED: no implementation without explicit approval.
+
+3. No runtime code changes. No sensitive investment data changes.
+   All 34 universe tickers confirmed loading cleanly as of last run (2026-05-02).
+
 *End of audit entry 2026-05-02*

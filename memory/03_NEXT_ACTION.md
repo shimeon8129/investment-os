@@ -56,9 +56,9 @@ Priority order:
 
 ## Monitor (no action unless triggered)
 
-- R-005: subprocess timeout 90s — monitor; act only if pipeline_main_v1 times out
-- R-006: stale 2026-05-01 report — accepted historical artifact
-- R-010: calendar source completeness — revisit before 2027
+- R-005: subprocess timeout 90s — MONITOR; act only if pipeline_main_v1 times out
+- R-006: stale 2026-05-01 report — ACCEPTED historical artifact; no action
+- R-010: calendar source completeness — FUTURE; cross-check before 2027; approval required for any calendar data change
 
 ## Guardrails
 
