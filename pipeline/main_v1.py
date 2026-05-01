@@ -91,7 +91,7 @@ def run_pipeline(capital=100000):
     # 🟩 3. TW Data
     # =========================================
 
-    close, volume = load_price_data(tw_tickers, period="2y")
+    close, volume = load_price_data(tw_tickers, period="1y")
     features = compute_features(close, volume)
 
     # =========================================
