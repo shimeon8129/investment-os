@@ -1,60 +1,10 @@
 {
   "date": "2026-05-02",
-  "generated_at": "2026-05-02 00:13:55",
-  "runtime": "Investment OS v0.2 bootstrap",
-  "watchlist_loaded": true,
-  "watchlist_count": 27,
-  "holdings_loaded": true,
-  "holdings_count": 8,
-  "checks": [
-    {
-      "label": "daily_decision_dashboard",
-      "command": [
-        "/usr/bin/python3",
-        "-m",
-        "reporting.daily_decision_dashboard"
-      ],
-      "returncode": 0,
-      "stdout": "Candidate source: /home/shimeon/investment_os/data/candidates.json\nDaily decision dashboard written to: /home/shimeon/investment_os/docs/DAILY_DECISION_DASHBOARD_20260502.md\n",
-      "stderr": "",
-      "status": "PASS"
-    },
-    {
-      "label": "smoke_daily_decision_dashboard",
-      "command": [
-        "/usr/bin/python3",
-        "tests/smoke_daily_decision_dashboard.py"
-      ],
-      "returncode": 0,
-      "stdout": "Smoke dashboard generated: /home/shimeon/investment_os/docs/DAILY_DECISION_DASHBOARD_SMOKE_TEST.md\nDaily decision dashboard smoke test passed.\n",
-      "stderr": "",
-      "status": "PASS"
-    },
-    {
-      "label": "smoke_portfolio_holdings",
-      "command": [
-        "/usr/bin/python3",
-        "tests/smoke_portfolio_holdings.py"
-      ],
-      "returncode": 0,
-      "stdout": "As of: 2026-04-29\nCurrency: TWD\nMarket: TW\nPosition count: 8\n009816 富邦台灣TOP50 5000 ETF\n00992A 主動群益台灣科技創新 5000 ETF\n2330 台積電 50 stock\n2408 南亞科 120 stock\n2345 智邦 55 stock\n3017 奇鋐 20 stock\n3711 日月光 50 stock\n6830 汎銓 20 stock\nPortfolio holdings smoke test passed.\n",
-      "stderr": "",
-      "status": "PASS"
-    },
-    {
-      "label": "pipeline_main_v1",
-      "command": [
-        "/usr/bin/python3",
-        "-m",
-        "pipeline.main_v1"
-      ],
-      "returncode": 0,
-      "stdout": "\n==============================\n🚀 Investment OS Running\n==============================\n✔ NVDA loaded\n✔ SMH loaded\n✔ TSM loaded\n✔ ^IXIC loaded\n✔ ^VIX loaded\n\n📊 Loaded tickers (5): ['NVDA', 'SMH', 'TSM', '^IXIC', '^VIX']\n\n=== MARKET ===\nState: RANGE | Score: 0.0028\nVIX: 16.83\n✔ 2467.TW loaded\n✔ 3131.TWO loaded\n✔ 3583.TW loaded\n✔ 6640.TWO loaded\n✔ 6830.TW loaded\n✔ 6187.TWO loaded\n✔ 5443.TWO loaded\n✔ 6139.TW loaded\n✔ 3680.TWO loaded\n✔ 2464.TW loaded\n✔ 3413.TW loaded\n✔ 3711.TW loaded\n✔ 2449.TW loaded\n✔ 6239.TW loaded\n✔ 6147.TWO loaded\n✔ 6257.TW loaded\n✔ 2382.TW loaded\n✔ 3231.TW loaded\n✔ 6669.TW loaded\n✔ 2356.TW loaded\n✔ 3706.TW loaded\n✔ 2376.TW loaded\n✔ 2377.TW loaded\n✔ 2313.TW loaded\n✔ 3037.TW loaded\n✔ 8046.TW loaded\n✔ 3189.TW loaded\n✔ 2368.TW loaded\n✔ 3044.TW loaded\n✔ 8155.TWO loaded\n✔ 2330.TW loaded\n✔ 2454.TW loaded\n✔ 3661.TW loaded\n✔ 3443.TW loaded\n\n📊 Loaded tickers (34): ['2467.TW', '3131.TWO', '3583.TW', '6640.TWO', '6830.TW', '6187.TWO', '5443.TWO', '6139.TW', '3680.TWO', '2464.TW', '3413.TW', '3711.TW', '2449.TW', '6239.TW', '6147.TWO', '6257.TW', '2382.TW', '3231.TW', '6669.TW', '2356.TW', '3706.TW', '2376.TW', '2377.TW', '2313.TW', '3037.TW', '8046.TW', '3189.TW', '2368.TW', '3044.TW', '8155.TWO', '2330.TW', '2454.TW', '3661.TW', '3443.TW']\n\n=== SCANNER ===\n\n✅ Candidates: 34\n2467.TW 志聖 → Score: 2 | Minervini: 0 | READY ⚡️READY | Price: 609.0\n3583.TW 辛耘 → Score: 2 | Minervini: 0 | READY ⚡️READY | Price: 792.0\n5443.TWO 均豪 → Score: 2 | Minervini: 0 | READY ⚡️READY | Price: 129.5\n3680.TWO 家登 → Score: 2 | Minervini: 0 | READY ⚡️READY | Price: 537.0\n2464.TW 盟立 → Score: 2 | Minervini: 0 | READY ⚡️READY | Price: 113.5\n3711.TW 日月光投控 → Score: 2 | Minervini: 0 | READY ⚡️READY | Price: 478.0\n2449.TW 京元電子 → Score: 2 | Minervini: 0 | READY ⚡️READY | Price: 302.5\n6147.TWO 頎邦 → Score: 2 | Minervini: 0 | READY ⚡️READY | Price: 163.0\n2377.TW 微星 → Score: 2 | Minervini: 0 | READY ⚡️READY | Price: 97.69999694824219\n3037.TW 欣興 → Score: 2 | Minervini: 0 | READY ⚡️READY | Price: 883.0\n\n=== SIGNAL ===\n2467.TW 志聖 → BUY\n3583.TW 辛耘 → BUY\n5443.TWO 均豪 → BUY\n3680.TWO 家登 → BUY\n2464.TW 盟立 → BUY\n3711.TW 日月光投控 → BUY\n2449.TW 京元電子 → BUY\n6147.TWO 頎邦 → BUY\n2377.TW 微星 → BUY\n3037.TW 欣興 → BUY\n\n=== TOP PICKS ===\n\n#1 3711.TW 日月光投控 (Packaging)\n   Score: 173.5 | Signal: BUY | Level: READY\n   Minervini: 0 | Narrative: STRONG 93.33 (count=3) | NewsHeat: 48 (news=2, sources=2) | Chips: 85 BUY (total=2,324,129)\n\n#2 2464.TW 盟立 (Equipment)\n   Score: 151.4 | Signal: BUY | Level: READY\n   Minervini: 0 | Narrative: NONE 0 (count=0) | NewsHeat: 86 (news=5, sources=4) | Chips: 80 BUY (total=6,619,976)\n\n#3 2449.TW 京元電子 (Packaging)\n   Score: 145.2 | Signal: BUY | Level: READY\n   Minervini: 0 | Narrative: STRONG 85.0 (count=3) | NewsHeat: 0 (news=0, sources=0) | Chips: 0 NONE (total=0)\n\n\n=== DECISION ===\n2464.TW 盟立 → HOLD (ALREADY_IN_POSITION)\n3711.TW 日月光投控 → HOLD (ALREADY_IN_POSITION)\n2449.TW 京元電子 → HOLD (ALREADY_IN_POSITION)\n\n=== EXIT CHECK ===\n3583.TW → EXIT_ALL\n6187.TWO → EXIT_ALL\n3680.TWO → HOLD\n3711.TW → REDUCE\n2464.TW → HOLD\n2449.TW → EXIT_ALL\n\n📸 Snapshot written: data/processed/mainline_snapshot.json\n\n==============================\n✅ Pipeline Done\n==============================\n",
-      "stderr": "",
-      "status": "PASS"
-    }
-  ],
-  "status": "PASS",
+  "generated_at": "2026-05-02 00:19:19",
+  "status": "MARKET_CLOSED",
+  "market_closed": true,
+  "reason": "weekend",
+  "checks": [],
   "safety": {
     "broker_login": false,
     "auto_trade": false,

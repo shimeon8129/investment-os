@@ -79,6 +79,57 @@ def run_module_or_script(label: str, command: list[str]) -> dict:
 def main() -> int:
     log("=== Investment OS daily_run start ===")
 
+    if datetime.now().weekday() >= 5:
+        log("[INFO] Weekend detected — market closed, skipping pipeline")
+        snapshot = {
+            "date": today,
+            "generated_at": now,
+            "status": "MARKET_CLOSED",
+            "market_closed": True,
+            "reason": "weekend",
+            "checks": [],
+            "safety": {
+                "broker_login": False,
+                "auto_trade": False,
+                "advisory_only": True,
+            },
+        }
+        snapshot_file.write_text(
+            json.dumps(snapshot, ensure_ascii=False, indent=2),
+            encoding="utf-8",
+        )
+        report_lines = [
+            f"# Investment OS Daily Report - {today}",
+            "",
+            f"Generated at: {now}",
+            "",
+            "## Runtime Status",
+            "",
+            "- Status: MARKET_CLOSED",
+            "- Market closed: true",
+            "- Reason: weekend",
+            "",
+            "> No market pipeline was run. Markets are closed on weekends.",
+            "",
+            "## Safety",
+            "",
+            "- Broker login: disabled",
+            "- Auto trading: disabled",
+            "- Advisory only: true",
+            "",
+            "## Output Files",
+            "",
+            f"- `{snapshot_file}`",
+            f"- `{report_file}`",
+            f"- `{log_file}`",
+            "",
+        ]
+        report_file.write_text("\n".join(report_lines), encoding="utf-8")
+        log(f"[WRITE] {snapshot_file}")
+        log(f"[WRITE] {report_file}")
+        log("=== Investment OS daily_run done (market closed) ===")
+        return 0
+
     watchlist = read_json(ROOT / "data" / "watchlist.json", fallback={})
     holdings = read_json(ROOT / "data" / "portfolio" / "current_holdings.json", fallback={})
 
