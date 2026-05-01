@@ -9,6 +9,8 @@ from datetime import datetime
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+from utils.market_calendar import get_market_context
 LOG_DIR = ROOT / "logs"
 REPORT_DIR = ROOT / "reports" / "daily"
 PROCESSED_DIR = ROOT / "data" / "processed"
@@ -79,14 +81,20 @@ def run_module_or_script(label: str, command: list[str]) -> dict:
 def main() -> int:
     log("=== Investment OS daily_run start ===")
 
-    if datetime.now().weekday() >= 5:
-        log("[INFO] Weekend detected — market closed, skipping pipeline")
+    mctx = get_market_context()
+    tw_status = mctx["markets"]["TW"]["status"]
+    tw_open = mctx["markets"]["TW"]["is_open"]
+    log(f"[CALENDAR] TW={tw_status}")
+
+    if not tw_open:
+        log(f"[INFO] TW market closed ({tw_status}) — skipping pipeline")
         snapshot = {
             "date": today,
             "generated_at": now,
             "status": "MARKET_CLOSED",
             "market_closed": True,
-            "reason": "weekend",
+            "reason": tw_status,
+            "market_context": mctx,
             "checks": [],
             "safety": {
                 "broker_login": False,
@@ -106,10 +114,16 @@ def main() -> int:
             "## Runtime Status",
             "",
             "- Status: MARKET_CLOSED",
-            "- Market closed: true",
-            "- Reason: weekend",
+            f"- Reason: {tw_status}",
             "",
-            "> No market pipeline was run. Markets are closed on weekends.",
+            "> No market pipeline was run. TW market is closed.",
+            "",
+            "## Market Calendar",
+            "",
+        ]
+        for mkt, info in mctx["markets"].items():
+            report_lines.append(f"- {mkt}: {info['status']}")
+        report_lines += [
             "",
             "## Safety",
             "",
@@ -175,6 +189,7 @@ def main() -> int:
         "date": today,
         "generated_at": now,
         "runtime": "Investment OS v0.2 bootstrap",
+        "market_context": mctx,
         "watchlist_loaded": bool(watchlist),
         "watchlist_count": len(watchlist.get("tickers", [])) if isinstance(watchlist, dict) else 0,
         "holdings_loaded": bool(holdings),
@@ -197,6 +212,13 @@ def main() -> int:
         f"# Investment OS Daily Report - {today}",
         "",
         f"Generated at: {now}",
+        "",
+        "## Market Calendar",
+        "",
+    ]
+    for mkt, info in mctx["markets"].items():
+        report_lines.append(f"- {mkt}: {info['status']}")
+    report_lines += [
         "",
         "## Runtime Status",
         "",

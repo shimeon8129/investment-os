@@ -1,14 +1,18 @@
 # Investment OS Daily Report - 2026-05-02
 
-Generated at: 2026-05-02 00:19:19
+Generated at: 2026-05-02 00:32:43
 
 ## Runtime Status
 
 - Status: MARKET_CLOSED
-- Market closed: true
-- Reason: weekend
+- Reason: CLOSED_WEEKEND
 
-> No market pipeline was run. Markets are closed on weekends.
+> No market pipeline was run. TW market is closed.
+
+## Market Calendar
+
+- TW: CLOSED_WEEKEND
+- US: CLOSED_WEEKEND
 
 ## Safety
 
