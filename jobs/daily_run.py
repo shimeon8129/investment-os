@@ -110,6 +110,14 @@ def main() -> int:
             )
         )
 
+    if (ROOT / "pipeline" / "main_v1.py").exists():
+        checks.append(
+            run_module_or_script(
+                "pipeline_main_v1",
+                [sys.executable, "-m", "pipeline.main_v1"],
+            )
+        )
+
     snapshot = {
         "date": today,
         "generated_at": now,
