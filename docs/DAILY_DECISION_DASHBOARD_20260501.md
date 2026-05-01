@@ -2,8 +2,8 @@
 
 ## Source
 
-- Holdings file: `/workspace/investment_os/data/portfolio/current_holdings.json`
-- Candidate file: `/workspace/investment_os/data/candidates.json`
+- Holdings file: `/home/shimeon/investment_os/data/portfolio/current_holdings.json`
+- Candidate file: `/home/shimeon/investment_os/data/candidates.json`
 - Holdings as_of: `2026-04-29`
 
 ## Purpose
