@@ -6,7 +6,22 @@ Investment OS is an AI-assisted investment research, scanner, reporting, and dec
 
 It is not an auto-trading system.
 
-## Core Rule
+## Core Value
+
+Investment OS exists to help the user pursue market profit by improving investment decision quality.
+
+Specific goals:
+- Market awareness: understand current macro and sector conditions
+- Trend identification: detect emerging and confirmed trends early
+- High-probability opportunity detection: surface actionable candidates
+- Swing-trading discipline: structured entry, position sizing, and exit logic
+- Risk awareness: apply market locks, position locks, and risk filters
+- Emotional-trade reduction: replace impulse decisions with structured signals
+- Structured decision support: produce clear advisory output for human review
+
+## Safety Boundary
+
+Investment OS is not an auto-trading system.
 
 Investment OS must never:
 - Login to broker accounts
@@ -49,7 +64,24 @@ Every new AI session should first read:
 - memory/01_SYSTEM_STATUS.md
 - memory/02_SESSION_LOG.md
 - memory/03_NEXT_ACTION.md
+- memory/04_SYSTEM_AUDIT.md
 
+## System Audit Memory Rule
+
+`memory/04_SYSTEM_AUDIT.md` is the dated audit, risk, and remediation record.
+
+Every audit entry must include:
+- Audit date and time
+- Branch and commit scope
+- Current system state table
+- Risk IDs (R-XXX) with severity, status, and impact
+- Remediation plan per risk (priority P0–P3, do-now flag, approval required)
+- Related next action mapping
+
+`memory/03_NEXT_ACTION.md` explains **what to do next**.
+`memory/04_SYSTEM_AUDIT.md` explains **why** — the risk basis behind each decision.
+
+Both must be kept in sync. When a task is completed, update both files.
 
 ## Collaboration Rule
 
