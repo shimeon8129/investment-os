@@ -16,6 +16,26 @@ Investment OS must never:
 
 All trading execution remains manual.
 
+## Sensitive Investment Data Protection Rule
+
+Investment-context data must be protected from automatic deletion or silent mutation.
+
+Sensitive investment data includes: universe files, watchlists, holdings, portfolio files, user-observed tickers, trade logs, and manually curated research targets.
+
+Claude Code, ChatGPT, or any automation must not remove, replace, downgrade, or silently mutate sensitive investment data without explicit user approval.
+
+**A data provider failure is not evidence that a ticker is invalid.**
+
+- `yfinance no price data` does not mean the ticker is delisted.
+- Missing OHLCV data, API timeout, stale data, or provider warning must be classified as `data_warning`, not as deletion permission.
+- Correct handling: keep the ticker, surface the warning in reports, investigate alternate data sources, and ask the user before any removal.
+
+**Approval requirement:**
+
+For sensitive investment data changes, Claude Code may inspect files and propose a diff, but must not auto-commit or auto-push. The user must explicitly approve the exact diff before commit or push. Validation success does not override the approval requirement.
+
+This rule has higher priority than the Local Claude Code Git Workflow Rule.
+
 ## Current Strategic Problem
 
 The project has grown large across many sessions. The main issue is no longer lack of modules, but session memory decay and fragmented integration.
