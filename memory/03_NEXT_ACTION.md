@@ -25,6 +25,13 @@ Priority order:
 3. Branch merge to main (when ready)
    - After ticker hygiene and report polish pass validation.
 
+4. Market session phase enhancement (future, post-MVP)
+   - utils/market_calendar.py currently classifies: OPEN, CLOSED_WEEKEND,
+     CLOSED_HOLIDAY, OPEN_EARLY_CLOSE.
+   - It does not yet classify intraday phases: PRE_MARKET, REGULAR_SESSION,
+     POST_MARKET, CLOSED_BY_TIME.
+   - Add as a future enhancement after MVP stabilization. Do not implement now.
+
 ## Guardrails
 
 Do not:
