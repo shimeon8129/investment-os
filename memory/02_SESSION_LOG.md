@@ -1,6 +1,26 @@
 # Investment OS｜Session Log
 
-## 2026-05-01
+## 2026-05-01 (continued — mainline MVP integration)
+
+Major outcomes:
+- Created pipeline/main_v1.py: clean extraction of Block B from pipeline/main.py.
+  Applied surgical cleanups per docs/MAINLINE_REVIEW_20260501.md:
+  removed debug prints, duplicate write_trade_log call, unused imports.
+- Converted pipeline/main_v1.py to advisory-only snapshot producer:
+  writes data/processed/mainline_snapshot.json with market state, candidates,
+  signals, ranked, decisions, exit signals, and safety flags.
+- Validated pipeline/main_v1.py standalone (python3 -m pipeline.main_v1): PASS.
+- Integrated pipeline_main_v1 into jobs/daily_run.py as a new check block.
+- Added Mainline Snapshot section to daily report:
+  market state, market score, VIX, top 5 ranked table, decisions table.
+- Full daily runner validation (python3 jobs/daily_run.py): PASS.
+- Known non-blocking warning: 8046.TWO and 3189.TWO have no price data (delisted).
+
+Added memory rules:
+- Local Claude Code Git Workflow Rule
+- Claude Code Token Discipline Rule
+
+## 2026-05-01 (earlier)
 
 Major outcomes:
 - Confirmed Hermes daily runner works.
