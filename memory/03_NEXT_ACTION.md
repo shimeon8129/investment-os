@@ -12,10 +12,13 @@ Latest full run: PASS.
 
 Priority order:
 
-1. Ticker hygiene
-   - Remove or replace 8046.TWO and 3189.TWO from universe (delisted, no price data).
-   - Edit only scanner/universe.py or the relevant universe source file.
-   - Validate with python3 -m pipeline.main_v1 — confirm no delisted warnings.
+1. Ticker hygiene (resolved + standing rule)
+   - 8046 and 3189 suffix issue has been fixed: .TWO → .TW in data/universe_tw.csv.
+   - Do not remove user-observed tickers because of provider warnings (yfinance
+     no price data is a data_warning, not deletion permission).
+   - Future ticker hygiene: classify provider failures as data_warning, surface in
+     reports, investigate alternate sources, and require explicit user approval
+     before any sensitive investment data change.
 
 2. Human summary / report polish
    - Review reports/daily output for readability.
