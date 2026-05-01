@@ -1,0 +1,51 @@
+{
+  "date": "2026-05-01",
+  "generated_at": "2026-05-01 07:25:28",
+  "runtime": "Investment OS v0.2 bootstrap",
+  "watchlist_loaded": true,
+  "watchlist_count": 27,
+  "holdings_loaded": true,
+  "holdings_count": 8,
+  "checks": [
+    {
+      "label": "daily_decision_dashboard",
+      "command": [
+        "/usr/bin/python3",
+        "-m",
+        "reporting.daily_decision_dashboard"
+      ],
+      "returncode": 0,
+      "stdout": "Candidate source: /workspace/investment_os/data/candidates.json\nDaily decision dashboard written to: /workspace/investment_os/docs/DAILY_DECISION_DASHBOARD_20260501.md\n",
+      "stderr": "",
+      "status": "PASS"
+    },
+    {
+      "label": "smoke_daily_decision_dashboard",
+      "command": [
+        "/usr/bin/python3",
+        "tests/smoke_daily_decision_dashboard.py"
+      ],
+      "returncode": 0,
+      "stdout": "Smoke dashboard generated: /workspace/investment_os/docs/DAILY_DECISION_DASHBOARD_SMOKE_TEST.md\nDaily decision dashboard smoke test passed.\n",
+      "stderr": "",
+      "status": "PASS"
+    },
+    {
+      "label": "smoke_portfolio_holdings",
+      "command": [
+        "/usr/bin/python3",
+        "tests/smoke_portfolio_holdings.py"
+      ],
+      "returncode": 0,
+      "stdout": "As of: 2026-04-29\nCurrency: TWD\nMarket: TW\nPosition count: 8\n009816 富邦台灣TOP50 5000 ETF\n00992A 主動群益台灣科技創新 5000 ETF\n2330 台積電 50 stock\n2408 南亞科 120 stock\n2345 智邦 55 stock\n3017 奇鋐 20 stock\n3711 日月光 50 stock\n6830 汎銓 20 stock\nPortfolio holdings smoke test passed.\n",
+      "stderr": "",
+      "status": "PASS"
+    }
+  ],
+  "status": "PASS",
+  "safety": {
+    "broker_login": false,
+    "auto_trade": false,
+    "advisory_only": true
+  }
+}

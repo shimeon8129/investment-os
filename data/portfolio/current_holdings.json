@@ -1,5 +1,5 @@
 {
-  "as_of": "2026-04-26",
+  "as_of": "2026-04-29",
   "currency": "TWD",
   "market": "TW",
   "source": "manual_user_input",
@@ -8,6 +8,9 @@
       "ticker": "009816",
       "name": "富邦台灣TOP50",
       "shares": 5000,
+      "entry_price": 11.42,
+      "cost_basis": 57080,
+      "broker_market_value": 65750,
       "asset_type": "ETF",
       "market": "TW"
     },
@@ -15,6 +18,9 @@
       "ticker": "00992A",
       "name": "主動群益台灣科技創新",
       "shares": 5000,
+      "entry_price": 16.85,
+      "cost_basis": 84249,
+      "broker_market_value": 85200,
       "asset_type": "ETF",
       "market": "TW"
     },
@@ -22,6 +28,19 @@
       "ticker": "2330",
       "name": "台積電",
       "shares": 50,
+      "entry_price": 1767.5,
+      "cost_basis": 88375,
+      "broker_market_value": 110750,
+      "asset_type": "stock",
+      "market": "TW"
+    },
+    {
+      "ticker": "2408",
+      "name": "南亞科",
+      "shares": 120,
+      "entry_price": 236,
+      "cost_basis": 28360,
+      "broker_market_value": 28500,
       "asset_type": "stock",
       "market": "TW"
     },
@@ -29,6 +48,9 @@
       "ticker": "2345",
       "name": "智邦",
       "shares": 55,
+      "entry_price": 1830.75,
+      "cost_basis": 100691,
+      "broker_market_value": 126225,
       "asset_type": "stock",
       "market": "TW"
     },
@@ -36,6 +58,9 @@
       "ticker": "3017",
       "name": "奇鋐",
       "shares": 20,
+      "entry_price": 2803.95,
+      "cost_basis": 56079,
+      "broker_market_value": 55600,
       "asset_type": "stock",
       "market": "TW"
     },
@@ -43,6 +68,9 @@
       "ticker": "3711",
       "name": "日月光",
       "shares": 50,
+      "entry_price": 412.58,
+      "cost_basis": 20629,
+      "broker_market_value": 24775,
       "asset_type": "stock",
       "market": "TW"
     },
@@ -50,6 +78,9 @@
       "ticker": "6830",
       "name": "汎銓",
       "shares": 20,
+      "entry_price": 460,
+      "cost_basis": 9200,
+      "broker_market_value": 14320,
       "asset_type": "stock",
       "market": "TW"
     }

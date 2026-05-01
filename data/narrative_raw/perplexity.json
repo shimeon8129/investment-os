@@ -2,64 +2,289 @@
   {
     "ticker": "2467.TW",
     "name": "志聖",
-    "narrative_score": 85,
-    "narrative_strength": "HIGH",
-    "theme": "先進封裝設備",
-    "summary": "台積電CoWoS先進封裝關鍵設備供應商，受AI伺服器需求帶動出貨成長。",
-    "confidence": 95
-  },
-  {
-    "ticker": "6830.TW",
-    "name": "汎銓",
-    "narrative_score": 75,
-    "narrative_strength": "HIGH",
-    "theme": "AI檢測/CPO設備",
-    "summary": "AI伺服器、先進封裝與矽光子檢測服務供應商，具結構性成長潛力。",
-    "confidence": 85
+    "narrative_score": 70,
+    "narrative_strength": "MID",
+    "theme": "AI 伺服器零組件",
+    "summary": "志聖在 AI 伺服器零組件的供應鏈中扮演重要角色，近期訂單能見度佳",
+    "confidence": 80
   },
   {
     "ticker": "3131.TWO",
     "name": "弘塑",
-    "narrative_score": 90,
-    "narrative_strength": "HIGH",
-    "theme": "半導體濕製程設備",
-    "summary": "AI晶片與先進封裝(CoWoS/SoIC)濕製程設備領導廠商，獲高盛看好。",
-    "confidence": 95
+    "narrative_score": 40,
+    "narrative_strength": "LOW",
+    "theme": "非 AI 相關產業",
+    "summary": "弘塑的主要業務非 AI 相關產業，短期內難以受惠於 AI 供應鏈",
+    "confidence": 60
   },
   {
     "ticker": "3583.TW",
     "name": "辛耘",
-    "narrative_score": 80,
+    "narrative_score": 85,
     "narrative_strength": "HIGH",
-    "theme": "先進封裝設備",
-    "summary": "台積電CoWoS濕製程與貼合剝離設備供應商，AI需求帶動營收連5年新高。",
+    "theme": "AI 供應鏈材料",
+    "summary": "辛耘的產品在 AI 供應鏈中具有重要地位，目前訂單充足",
     "confidence": 90
-  },
-  {
-    "ticker": "6187.TWO",
-    "name": "萬潤",
-    "narrative_score": 70,
-    "narrative_strength": "MID",
-    "theme": "CoWoS先進封裝設備",
-    "summary": "提供CoWoS先進封裝製程設備，受AI供應鏈需求看好。",
-    "confidence": 75
   },
   {
     "ticker": "6640.TWO",
     "name": "均華",
-    "narrative_score": 0,
+    "narrative_score": 50,
     "narrative_strength": "LOW",
-    "theme": "",
-    "summary": "",
-    "confidence": 0
+    "theme": "非核心產業",
+    "summary": "均華的業務非 AI 供應鏈核心產業，短期內難以受惠",
+    "confidence": 50
+  },
+  {
+    "ticker": "6830.TW",
+    "name": "汎銓",
+    "narrative_score": 60,
+    "narrative_strength": "MID",
+    "theme": "AI 伺服器零組件",
+    "summary": "汎銓在 AI 伺服器零組件的供應鏈中有一定地位，但近期訂單能見度一般",
+    "confidence": 70
+  },
+  {
+    "ticker": "6187.TWO",
+    "name": "萬潤",
+    "narrative_score": 30,
+    "narrative_strength": "LOW",
+    "theme": "非 AI 相關產業",
+    "summary": "萬潤的主要業務非 AI 相關產業，短期內難以受惠於 AI 供應鏈",
+    "confidence": 40
   },
   {
     "ticker": "5443.TWO",
     "name": "均豪",
-    "narrative_score": 0,
+    "narrative_score": 45,
     "narrative_strength": "LOW",
-    "theme": "",
-    "summary": "",
-    "confidence": 0
+    "theme": "非核心產業",
+    "summary": "均豪的業務非 AI 供應鏈核心產業，短期內難以受惠",
+    "confidence": 50
+  },
+  {
+    "ticker": "6139.TW",
+    "name": "亞翔",
+    "narrative_score": 80,
+    "narrative_strength": "HIGH",
+    "theme": "AI 供應鏈材料",
+    "summary": "亞翔的產品在 AI 供應鏈中具有重要地位，目前訂單充足",
+    "confidence": 85
+  },
+  {
+    "ticker": "3680.TWO",
+    "name": "家登",
+    "narrative_score": 55,
+    "narrative_strength": "LOW",
+    "theme": "非核心產業",
+    "summary": "家登的業務非 AI 供應鏈核心產業，短期內難以受惠",
+    "confidence": 55
+  },
+  {
+    "ticker": "2464.TW",
+    "name": "盟立",
+    "narrative_score": 75,
+    "narrative_strength": "MID",
+    "theme": "AI 伺服器零組件",
+    "summary": "盟立在 AI 伺服器零組件的供應鏈中有一定地位，近期訂單能見度佳",
+    "confidence": 80
+  },
+  {
+    "ticker": "3413.TW",
+    "name": "京鼎",
+    "narrative_score": 90,
+    "narrative_strength": "HIGH",
+    "theme": "AI 供應鏈核心零組件",
+    "summary": "京鼎的產品在 AI 供應鏈中具有核心地位，目前訂單充足",
+    "confidence": 95
+  },
+  {
+    "ticker": "3711.TW",
+    "name": "日月光投控",
+    "narrative_score": 95,
+    "narrative_strength": "HIGH",
+    "theme": "AI 供應鏈核心零組件",
+    "summary": "日月光投控的產品在 AI 供應鏈中具有核心地位，目前訂單充足",
+    "confidence": 98
+  },
+  {
+    "ticker": "2449.TW",
+    "name": "京元電子",
+    "narrative_score": 85,
+    "narrative_strength": "HIGH",
+    "theme": "AI 供應鏈材料",
+    "summary": "京元電子在 AI 供應鏈中具有重要地位，目前訂單充足",
+    "confidence": 90
+  },
+  {
+    "ticker": "6239.TW",
+    "name": "力成",
+    "narrative_score": 60,
+    "narrative_strength": "MID",
+    "theme": "AI 伺服器零組件",
+    "summary": "力成在 AI 伺服器零組件的供應鏈中有一定地位，但近期訂單能見度一般",
+    "confidence": 70
+  },
+  {
+    "ticker": "6147.TWO",
+    "name": "頎邦",
+    "narrative_score": 40,
+    "narrative_strength": "LOW",
+    "theme": "非 AI 相關產業",
+    "summary": "頎邦的主要業務非 AI 相關產業，短期內難以受惠於 AI 供應鏈",
+    "confidence": 50
+  },
+  {
+    "ticker": "6257.TW",
+    "name": "矽格",
+    "narrative_score": 80,
+    "narrative_strength": "HIGH",
+    "theme": "AI 供應鏈材料",
+    "summary": "矽格的產品在 AI 供應鏈中具有重要地位，目前訂單充足",
+    "confidence": 85
+  },
+  {
+    "ticker": "2382.TW",
+    "name": "廣達",
+    "narrative_score": 70,
+    "narrative_strength": "MID",
+    "theme": "AI 伺服器製造",
+    "summary": "廣達在 AI 伺服器製造中扮演重要角色，近期訂單能見度佳",
+    "confidence": 80
+  },
+  {
+    "ticker": "3231.TW",
+    "name": "緯創",
+    "narrative_score": 75,
+    "narrative_strength": "MID",
+    "theme": "AI 伺服器製造",
+    "summary": "緯創在 AI 伺服器製造中有一定地位，近期訂單能見度佳",
+    "confidence": 80
+  },
+  {
+    "ticker": "6669.TW",
+    "name": "緯穎",
+    "narrative_score": 60,
+    "narrative_strength": "MID",
+    "theme": "AI 伺服器零組件",
+    "summary": "緯穎在 AI 伺服器零組件的供應鏈中有一定地位，但近期訂單能見度一般",
+    "confidence": 70
+  },
+  {
+    "ticker": "2356.TW",
+    "name": "英業達",
+    "narrative_score": 80,
+    "narrative_strength": "HIGH",
+    "theme": "AI 伺服器製造",
+    "summary": "英業達在 AI 伺服器製造中扮演重要角色，目前訂單充足",
+    "confidence": 85
+  },
+  {
+    "ticker": "3706.TW",
+    "name": "神達",
+    "narrative_score": 70,
+    "narrative_strength": "MID",
+    "theme": "AI 伺服器零組件",
+    "summary": "神達在 AI 伺服器零組件的供應鏈中有一定地位，近期訂單能見度佳",
+    "confidence": 80
+  },
+  {
+    "ticker": "2376.TW",
+    "name": "技嘉",
+    "narrative_score": 85,
+    "narrative_strength": "HIGH",
+    "theme": "AI 伺服器製造",
+    "summary": "技嘉在 AI 伺服器製造中扮演重要角色，目前訂單充足",
+    "confidence": 90
+  },
+  {
+    "ticker": "2377.TW",
+    "name": "微星",
+    "narrative_score": 80,
+    "narrative_strength": "HIGH",
+    "theme": "AI 伺服器製造",
+    "summary": "微星在 AI 伺服器製造中扮演重要角色，目前訂單充足",
+    "confidence": 85
+  },
+  {
+    "ticker": "2313.TW",
+    "name": "華通",
+    "narrative_score": 60,
+    "narrative_strength": "MID",
+    "theme": "AI 伺服器零組件",
+    "summary": "華通在 AI 伺服器零組件的供應鏈中有一定地位，但近期訂單能見度一般",
+    "confidence": 70
+  },
+  {
+    "ticker": "3037.TW",
+    "name": "欣興",
+    "narrative_score": 40,
+    "narrative_strength": "LOW",
+    "theme": "非 AI 相關產業",
+    "summary": "欣興的主要業務非 AI 相關產業，短期內難以受惠於 AI 供應鏈",
+    "confidence": 50
+  },
+  {
+    "ticker": "2368.TW",
+    "name": "金像電",
+    "narrative_score": 55,
+    "narrative_strength": "LOW",
+    "theme": "非核心產業",
+    "summary": "金像電的業務非 AI 供應鏈核心產業，短期內難以受惠",
+    "confidence": 55
+  },
+  {
+    "ticker": "3044.TW",
+    "name": "健鼎",
+    "narrative_score": 45,
+    "narrative_strength": "LOW",
+    "theme": "非 AI 相關產業",
+    "summary": "健鼎的主要業務非 AI 相關產業，短期內難以受惠於 AI 供應鏈",
+    "confidence": 50
+  },
+  {
+    "ticker": "8155.TWO",
+    "name": "博智",
+    "narrative_score": 30,
+    "narrative_strength": "LOW",
+    "theme": "非 AI 相關產業",
+    "summary": "博智的主要業務非 AI 相關產業，短期內難以受惠於 AI 供應鏈",
+    "confidence": 40
+  },
+  {
+    "ticker": "2330.TW",
+    "name": "台積電",
+    "narrative_score": 98,
+    "narrative_strength": "HIGH",
+    "theme": "AI 供應鏈核心零組件",
+    "summary": "台積電的產品在 AI 供應鏈中具有核心地位，目前訂單充足",
+    "confidence": 99
+  },
+  {
+    "ticker": "2454.TW",
+    "name": "聯發科",
+    "narrative_score": 90,
+    "narrative_strength": "HIGH",
+    "theme": "AI 供應鏈核心零組件",
+    "summary": "聯發科的產品在 AI 供應鏈中具有核心地位，目前訂單充足",
+    "confidence": 95
+  },
+  {
+    "ticker": "3661.TW",
+    "name": "世芯-KY",
+    "narrative_score": 80,
+    "narrative_strength": "HIGH",
+    "theme": "AI 供應鏈材料",
+    "summary": "世芯-KY 的產品在 AI 供應鏈中具有重要地位，目前訂單充足",
+    "confidence": 85
+  },
+  {
+    "ticker": "3443.TW",
+    "name": "創意",
+    "narrative_score": 70,
+    "narrative_strength": "MID",
+    "theme": "AI 伺服器零組件",
+    "summary": "創意在 AI 伺服器零組件的供應鏈中有一定地位，近期訂單能見度佳",
+    "confidence": 80
   }
 ]

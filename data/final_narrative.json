@@ -1,29 +1,71 @@
 [
   {
-    "ticker": "6640.TWO",
-    "name": "均華",
-    "consensus_score": 86.0,
-    "consensus_count": 2,
-    "strength": "MEDIUM"
+    "ticker": "2330.TW",
+    "name": "台積電",
+    "consensus_score": 97.0,
+    "consensus_count": 3,
+    "strength": "STRONG"
   },
   {
-    "ticker": "2467.TW",
-    "name": "志聖",
+    "ticker": "3711.TW",
+    "name": "日月光投控",
+    "consensus_score": 93.33,
+    "consensus_count": 3,
+    "strength": "STRONG"
+  },
+  {
+    "ticker": "2454.TW",
+    "name": "聯發科",
+    "consensus_score": 91.67,
+    "consensus_count": 3,
+    "strength": "STRONG"
+  },
+  {
+    "ticker": "3413.TW",
+    "name": "京鼎",
+    "consensus_score": 86.67,
+    "consensus_count": 3,
+    "strength": "STRONG"
+  },
+  {
+    "ticker": "2356.TW",
+    "name": "英業達",
+    "consensus_score": 86.67,
+    "consensus_count": 3,
+    "strength": "STRONG"
+  },
+  {
+    "ticker": "2449.TW",
+    "name": "京元電子",
     "consensus_score": 85.0,
     "consensus_count": 3,
     "strength": "STRONG"
   },
   {
-    "ticker": "3131.TWO",
-    "name": "弘塑",
-    "consensus_score": 83.33,
+    "ticker": "2376.TW",
+    "name": "技嘉",
+    "consensus_score": 85.0,
     "consensus_count": 3,
     "strength": "STRONG"
   },
   {
-    "ticker": "3583.TW",
-    "name": "辛耘",
-    "consensus_score": 82.0,
+    "ticker": "3231.TW",
+    "name": "緯創",
+    "consensus_score": 81.67,
+    "consensus_count": 3,
+    "strength": "STRONG"
+  },
+  {
+    "ticker": "2377.TW",
+    "name": "微星",
+    "consensus_score": 80.0,
+    "consensus_count": 3,
+    "strength": "STRONG"
+  },
+  {
+    "ticker": "3661.TW",
+    "name": "世芯-KY",
+    "consensus_score": 80.0,
     "consensus_count": 3,
     "strength": "STRONG"
   }
