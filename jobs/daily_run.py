@@ -194,7 +194,16 @@ def main() -> int:
             )
         )
 
+    # P1 entry audit — advisory-only, non-blocking; result NOT in checks[]
+    p1_audit_check = None
+    if (ROOT / "audit" / "p1_entry_audit.py").exists():
+        p1_audit_check = run_module_or_script(
+            "p1_entry_audit",
+            [sys.executable, "-m", "audit.p1_entry_audit"],
+        )
+
     mainline_snap = read_json(PROCESSED_DIR / "mainline_snapshot.json", fallback={})
+    p1_audit_snap = read_json(PROCESSED_DIR / "p1_audit_report.json", fallback={})
 
     snapshot = {
         "date": today,
@@ -317,6 +326,38 @@ def main() -> int:
     else:
         report_lines += [
             "- Mainline snapshot: missing",
+            "",
+        ]
+
+    # P1 Entry Audit report section — advisory, non-blocking
+    p1_ok = (
+        p1_audit_check is not None
+        and p1_audit_check.get("status") == "PASS"
+        and bool(p1_audit_snap)
+    )
+    report_lines += ["## P1 Entry Audit", ""]
+    if p1_ok:
+        s = p1_audit_snap.get("audit_summary", {})
+        p1_date = p1_audit_snap.get("generated_at", today)[:10].replace("-", "")
+        report_lines += [
+            f"- Total signals audited: {s.get('total_signals', 0)}",
+            f"- EntryLock: PASS={s.get('entry_lock_PASS', 0)} "
+            f"WARN={s.get('entry_lock_WARN', 0)} "
+            f"BLOCK={s.get('entry_lock_BLOCK', 0)} "
+            f"SKIP={s.get('entry_lock_SKIP', 0)}",
+            f"- P1 Action: ENTRY={s.get('p1_audit_ENTRY', 0)} "
+            f"ENTRY_REDUCED={s.get('p1_audit_ENTRY_REDUCED', 0)} "
+            f"WAIT={s.get('p1_audit_WAIT', 0)} "
+            f"SKIP={s.get('p1_audit_SKIP', 0)} "
+            f"UNAVAIL={s.get('p1_audit_DATA_UNAVAILABLE', 0)}",
+            f"- Divergences: {s.get('divergence_count', 0)}",
+            "- Advisory only. No runtime decisions changed.",
+            f"- Report: docs/P1_ENTRY_AUDIT_{p1_date}.md",
+            "",
+        ]
+    else:
+        report_lines += [
+            "- P1 Entry Audit: UNAVAILABLE (subprocess failed or report not found)",
             "",
         ]
 
