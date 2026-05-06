@@ -20,17 +20,22 @@ def generate_entry_signal(close, volume, features, candidate_info=None):
     for col in close.columns:
 
         # === 防呆 ===
-        if len(close[col]) < 20:
+        valid_close = close[col].dropna()
+
+        if len(valid_close) < 20:
             signals[col] = ""
             continue
 
         try:
-            latest_close = close[col].iloc[-1]
-            prev_close = close[col].iloc[-2]
-            prev_high = close[col].rolling(20).max().iloc[-2]
+            latest_idx = valid_close.index[-1]
+            prev_idx = valid_close.index[-2]
 
-            latest_ma5 = ma5[col].iloc[-1]
-            latest_vol = vol_ratio[col].iloc[-1]
+            latest_close = valid_close.iloc[-1]
+            prev_close = valid_close.iloc[-2]
+            prev_high = valid_close.rolling(20).max().iloc[-2]
+
+            latest_ma5 = ma5[col].loc[latest_idx]
+            latest_vol = vol_ratio[col].loc[latest_idx]
 
         except Exception:
             signals[col] = ""

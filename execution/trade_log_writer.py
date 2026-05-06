@@ -38,6 +38,17 @@ def _get_open_positions(log):
     return positions
 
 
+def _latest_valid_price(close, ticker):
+    if ticker not in close.columns:
+        return None
+
+    series = close[ticker].dropna()
+    if series.empty:
+        return None
+
+    return float(series.iloc[-1])
+
+
 def write_trade_log(decisions, close, filepath="data/trade_log.json"):
     """
     寫入 BUY / SELL（含 PnL）
@@ -58,7 +69,10 @@ def write_trade_log(decisions, close, filepath="data/trade_log.json"):
             if ticker in open_positions:
                 continue  # 避免重複
 
-            price = float(close[ticker].iloc[-1])
+            price = _latest_valid_price(close, ticker)
+            if price is None:
+                continue
+
             size = d.get("position_size", 0)
 
             new_entries.append({
@@ -78,7 +92,9 @@ def write_trade_log(decisions, close, filepath="data/trade_log.json"):
 
             entry = open_positions[ticker]
             entry_price = entry["price"]
-            exit_price = float(close[ticker].iloc[-1])
+            exit_price = _latest_valid_price(close, ticker)
+            if exit_price is None:
+                continue
 
             pnl_pct = (exit_price - entry_price) / entry_price
 

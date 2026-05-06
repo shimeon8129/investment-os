@@ -1,0 +1,94 @@
+{
+  "date": "2026-04-29",
+  "source": "twse_tpex_institutional",
+  "market_dates": {
+    "TWSE": "2026-04-28",
+    "TPEX": "2026-04-29"
+  },
+  "items": [
+    {
+      "ticker": "3711.TW",
+      "code": "3711",
+      "name": "日月光投控",
+      "market": "TWSE",
+      "foreign_net_buy": 1400594,
+      "trust_net_buy": 1112721,
+      "dealer_net_buy": -189186,
+      "institutional_net_buy": 2324129,
+      "chip_score": 85,
+      "institutional_bias": "BUY"
+    },
+    {
+      "ticker": "2464.TW",
+      "code": "2464",
+      "name": "盟立",
+      "market": "TWSE",
+      "foreign_net_buy": 6326570,
+      "trust_net_buy": 0,
+      "dealer_net_buy": 293406,
+      "institutional_net_buy": 6619976,
+      "chip_score": 80,
+      "institutional_bias": "BUY"
+    },
+    {
+      "ticker": "3044.TW",
+      "code": "3044",
+      "name": "健鼎",
+      "market": "TWSE",
+      "foreign_net_buy": 92702,
+      "trust_net_buy": -200136,
+      "dealer_net_buy": -187189,
+      "institutional_net_buy": -294623,
+      "chip_score": 5,
+      "institutional_bias": "SELL"
+    },
+    {
+      "ticker": "3583.TW",
+      "code": "3583",
+      "name": "辛耘",
+      "market": "TWSE",
+      "foreign_net_buy": -88704,
+      "trust_net_buy": -188000,
+      "dealer_net_buy": -7021,
+      "institutional_net_buy": -283725,
+      "chip_score": 0,
+      "institutional_bias": "SELL"
+    },
+    {
+      "ticker": "6669.TW",
+      "code": "6669",
+      "name": "緯穎",
+      "market": "TWSE",
+      "foreign_net_buy": -397921,
+      "trust_net_buy": 271594,
+      "dealer_net_buy": -8699,
+      "institutional_net_buy": -135026,
+      "chip_score": 0,
+      "institutional_bias": "SELL"
+    },
+    {
+      "ticker": "2377.TW",
+      "code": "2377",
+      "name": "微星",
+      "market": "TWSE",
+      "foreign_net_buy": -363037,
+      "trust_net_buy": -27934,
+      "dealer_net_buy": 47105,
+      "institutional_net_buy": -343866,
+      "chip_score": 0,
+      "institutional_bias": "SELL"
+    },
+    {
+      "ticker": "3037.TW",
+      "code": "3037",
+      "name": "欣興",
+      "market": "TWSE",
+      "foreign_net_buy": -4724899,
+      "trust_net_buy": -197681,
+      "dealer_net_buy": -1539237,
+      "institutional_net_buy": -6461817,
+      "chip_score": 0,
+      "institutional_bias": "SELL"
+    }
+  ]
+}

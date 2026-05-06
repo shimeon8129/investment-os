@@ -298,6 +298,14 @@ def apply_risk_filters(decisions, portfolio, capital=100000, market_state="BULL"
             decision["risk_check"] = "PASS"
             decision["market_coeff"] = round(market_coefficient, 2)
             
+        elif reason == "SINGLE_POSITION_EXCEED" and final_size > 0:
+            # 單股超限是可縮倉風險，不應直接拒單。
+            decision["action"] = "BUY"
+            decision["position_size"] = final_size
+            decision["risk_check"] = "PASS_ADJUSTED"
+            decision["risk_reason"] = reason
+            decision["market_coeff"] = round(market_coefficient, 2)
+
         else:
             # ❌ 失敗風險檢查 → 拒絕進場
             decision["action"] = "NO_TRADE"

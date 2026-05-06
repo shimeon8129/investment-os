@@ -1,10 +1,347 @@
-[
-  {"ticker": "2467.TW", "name": "志聖"},
-  {"ticker": "6830.TW", "name": "汎銓"},
-  {"ticker": "5443.TWO", "name": "均豪"},
-  {"ticker": "3167.TW", "name": "大量"},
-  {"ticker": "6187.TWO", "name": "萬潤"},
-  {"ticker": "3131.TWO", "name": "弘塑"},
-  {"ticker": "3583.TW", "name": "辛耘"},
-  {"ticker": "6640.TWO", "name": "均華"}
-]
+{
+  "version": "0.4",
+  "name": "AI Investment OS Watchlist",
+  "market": "TW",
+  "currency": "TWD",
+  "updated_at": "2026-05-01 07:25:28",
+  "editable_source": "data/master/ai_watchlist_source.csv",
+  "schema": {
+    "machine_fields": [
+      "symbol",
+      "name",
+      "yf_symbol",
+      "active"
+    ],
+    "annotation_fields": [
+      "meta.layer",
+      "meta.industry",
+      "meta.ai_note"
+    ]
+  },
+  "tickers": [
+    {
+      "symbol": "2454",
+      "name": "聯發科",
+      "yf_symbol": "2454.TW",
+      "active": true,
+      "meta": {
+        "layer": "第一層",
+        "layer_order": 1,
+        "industry": "ASIC/IC 設計",
+        "ai_note": "跨足雲端大廠 (CSP) 自研晶片，AI 邊緣運算指標。"
+      }
+    },
+    {
+      "symbol": "6187",
+      "name": "萬潤",
+      "yf_symbol": "6187.TWO",
+      "active": true,
+      "meta": {
+        "layer": "第一層",
+        "layer_order": 1,
+        "industry": "先進封裝設備",
+        "ai_note": "CoWoS 點膠與檢測設備，台積電擴產主要受惠者。"
+      }
+    },
+    {
+      "symbol": "3711",
+      "name": "日月光投控",
+      "yf_symbol": "3711.TW",
+      "active": true,
+      "meta": {
+        "layer": "第一層",
+        "layer_order": 1,
+        "industry": "先進封裝龍頭",
+        "ai_note": "全球封測龍頭，與台積電合作異質整合封裝。"
+      }
+    },
+    {
+      "symbol": "2330",
+      "name": "台積電",
+      "yf_symbol": "2330.TW",
+      "active": true,
+      "meta": {
+        "layer": "第一層",
+        "layer_order": 1,
+        "industry": "晶圓代工",
+        "ai_note": "全球 AI 算力唯一物理核心，CoWoS 產能指標。"
+      }
+    },
+    {
+      "symbol": "6830",
+      "name": "汎銓",
+      "yf_symbol": "6830.TW",
+      "active": true,
+      "meta": {
+        "layer": "第一層",
+        "layer_order": 1,
+        "industry": "材料分析 (MA)",
+        "ai_note": "2nm/先進製程研發先行指標，確認良率門神。"
+      }
+    },
+    {
+      "symbol": "7769",
+      "name": "鴻勁",
+      "yf_symbol": "7769.TWO",
+      "active": true,
+      "meta": {
+        "layer": "第一層",
+        "layer_order": 1,
+        "industry": "測試設備",
+        "ai_note": "AI 晶片高階測試分選機 (ATC)，掌握極限溫控技術。"
+      }
+    },
+    {
+      "symbol": "3661",
+      "name": "世芯-KY",
+      "yf_symbol": "3661.TWO",
+      "active": true,
+      "meta": {
+        "layer": "第一層",
+        "layer_order": 1,
+        "industry": "矽智財 (IP)",
+        "ai_note": "高階 AI ASIC 設計龍頭，主要客戶為美系雲端廠。"
+      }
+    },
+    {
+      "symbol": "3105",
+      "name": "穩懋",
+      "yf_symbol": "3105.TWO",
+      "active": true,
+      "meta": {
+        "layer": "第二層",
+        "layer_order": 2,
+        "industry": "二類半導體",
+        "ai_note": "化合物半導體龍頭，供應光通訊 VCSEL 與感測元件。"
+      }
+    },
+    {
+      "symbol": "4979",
+      "name": "華星光",
+      "yf_symbol": "4979.TWO",
+      "active": true,
+      "meta": {
+        "layer": "第二層",
+        "layer_order": 2,
+        "industry": "光收發模組",
+        "ai_note": "800G 高速光模組，與美系網通廠連動性極強。"
+      }
+    },
+    {
+      "symbol": "3363",
+      "name": "上詮",
+      "yf_symbol": "3363.TWO",
+      "active": true,
+      "meta": {
+        "layer": "第二層",
+        "layer_order": 2,
+        "industry": "矽光子 / CPO",
+        "ai_note": "台積電 CPO 封裝體系夥伴，解決數據傳輸能耗瓶頸。"
+      }
+    },
+    {
+      "symbol": "3081",
+      "name": "聯亞",
+      "yf_symbol": "3081.TWO",
+      "active": true,
+      "meta": {
+        "layer": "第二層",
+        "layer_order": 2,
+        "industry": "矽光子磊晶",
+        "ai_note": "關鍵雷射源 (LD) 供應，矽光子理論物理層核心。"
+      }
+    },
+    {
+      "symbol": "2345",
+      "name": "智邦",
+      "yf_symbol": "2345.TW",
+      "active": true,
+      "meta": {
+        "layer": "第二層",
+        "layer_order": 2,
+        "industry": "高速交換器",
+        "ai_note": "800G/1.6T 高速交換器，AI 集群的交通部長。"
+      }
+    },
+    {
+      "symbol": "6781",
+      "name": "AES-KY",
+      "yf_symbol": "6781.TW",
+      "active": true,
+      "meta": {
+        "layer": "第三層",
+        "layer_order": 3,
+        "industry": "伺服器 BBU",
+        "ai_note": "AI 伺服器備援電池系統，近期市場資金熱點。"
+      }
+    },
+    {
+      "symbol": "2059",
+      "name": "川湖",
+      "yf_symbol": "2059.TW",
+      "active": true,
+      "meta": {
+        "layer": "第三層",
+        "layer_order": 3,
+        "industry": "伺服器導軌",
+        "ai_note": "壟斷性高毛利標的，受惠 AI 機櫃重型化趨勢。"
+      }
+    },
+    {
+      "symbol": "3017",
+      "name": "奇鋐",
+      "yf_symbol": "3017.TW",
+      "active": true,
+      "meta": {
+        "layer": "第三層",
+        "layer_order": 3,
+        "industry": "散熱模組",
+        "ai_note": "液冷 (Cold Plate) 領頭羊，提供完整 CDU 方案。"
+      }
+    },
+    {
+      "symbol": "3324",
+      "name": "雙鴻",
+      "yf_symbol": "3324.TW",
+      "active": true,
+      "meta": {
+        "layer": "第三層",
+        "layer_order": 3,
+        "industry": "散熱模組",
+        "ai_note": "水冷系統整合能力強，GB200 關鍵供應商。"
+      }
+    },
+    {
+      "symbol": "2308",
+      "name": "台達電",
+      "yf_symbol": "2308.TW",
+      "active": true,
+      "meta": {
+        "layer": "第三層",
+        "layer_order": 3,
+        "industry": "電源 / 能源",
+        "ai_note": "伺服器高效率供電方案，全球資料中心標準配備。"
+      }
+    },
+    {
+      "symbol": "2337",
+      "name": "旺宏",
+      "yf_symbol": "2337.TW",
+      "active": true,
+      "meta": {
+        "layer": "第四層",
+        "layer_order": 4,
+        "industry": "NOR Flash",
+        "ai_note": "伺服器與邊緣裝置韌體儲存，AI 啟動關鍵件。"
+      }
+    },
+    {
+      "symbol": "2449",
+      "name": "京元電子",
+      "yf_symbol": "2449.TW",
+      "active": true,
+      "meta": {
+        "layer": "第四層",
+        "layer_order": 4,
+        "industry": "封裝測試",
+        "ai_note": "高階 AI 晶片最終測試 (FT)，產能利用率指標。"
+      }
+    },
+    {
+      "symbol": "6515",
+      "name": "穎崴",
+      "yf_symbol": "6515.TWO",
+      "active": true,
+      "meta": {
+        "layer": "第四層",
+        "layer_order": 4,
+        "industry": "記憶體介面",
+        "ai_note": "AI 晶片測試座 (Socket) 指標，掌握高階客測訂單。"
+      }
+    },
+    {
+      "symbol": "8299",
+      "name": "群聯",
+      "yf_symbol": "8299.TWO",
+      "active": true,
+      "meta": {
+        "layer": "第四層",
+        "layer_order": 4,
+        "industry": "記憶體控制",
+        "ai_note": "引領大容量 AI SSD 解決方案與在地化運算技術。"
+      }
+    },
+    {
+      "symbol": "3260",
+      "name": "威剛",
+      "yf_symbol": "3260.TW",
+      "active": true,
+      "meta": {
+        "layer": "第四層",
+        "layer_order": 4,
+        "industry": "記憶體模組",
+        "ai_note": "AI PC/Phone 換機潮帶動 DDR5 與 SSD 出貨。"
+      }
+    },
+    {
+      "symbol": "3231",
+      "name": "緯創",
+      "yf_symbol": "3231.TW",
+      "active": true,
+      "meta": {
+        "layer": "第五層",
+        "layer_order": 5,
+        "industry": "GPU 系統板",
+        "ai_note": "掌握 GPU 加速卡與 Baseboard 代工，獲利結構改善。"
+      }
+    },
+    {
+      "symbol": "2317",
+      "name": "鴻海",
+      "yf_symbol": "2317.TW",
+      "active": true,
+      "meta": {
+        "layer": "第五層",
+        "layer_order": 5,
+        "industry": "系統代工 (ODM)",
+        "ai_note": "具備最強垂直整合力，GB200 全機櫃出貨指標。"
+      }
+    },
+    {
+      "symbol": "2382",
+      "name": "廣達",
+      "yf_symbol": "2382.TW",
+      "active": true,
+      "meta": {
+        "layer": "第五層",
+        "layer_order": 5,
+        "industry": "系統代工 (ODM)",
+        "ai_note": "與雲端三巨頭深度合作，AI 伺服器研發實力最強。"
+      }
+    },
+    {
+      "symbol": "2376",
+      "name": "技嘉",
+      "yf_symbol": "2376.TW",
+      "active": true,
+      "meta": {
+        "layer": "第五層",
+        "layer_order": 5,
+        "industry": "系統品牌",
+        "ai_note": "二線伺服器彈性之王，散熱技術整合具優勢。"
+      }
+    },
+    {
+      "symbol": "6669",
+      "name": "緯穎",
+      "yf_symbol": "6669.TWO",
+      "active": true,
+      "meta": {
+        "layer": "第五層",
+        "layer_order": 5,
+        "industry": "雲端代工 (ODM)",
+        "ai_note": "100% 純 AI 伺服器供應商，主要客戶為 Meta/MSFT。"
+      }
+    }
+  ]
+}

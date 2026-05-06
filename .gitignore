@@ -3,3 +3,10 @@ __pycache__/
 *.pyc
 .env
 .DS_Store
+
+# Local runtime noise
+logs/
+*.log
+*.bak_*
+__pycache__/
+*.pyc

@@ -2,64 +2,289 @@
   {
     "ticker": "2467.TW",
     "name": "志聖",
-    "narrative_score": 85,
-    "narrative_strength": "HIGH",
-    "theme": "CoWoS 設備與先進封裝",
-    "summary": "受惠於台積電先進封裝產能擴張，烤箱與熱製程設備需求強勁，供應鏈地位穩固。",
-    "confidence": 90
-  },
-  {
-    "ticker": "6830.TW",
-    "name": "汎銓",
-    "narrative_score": 80,
-    "narrative_strength": "HIGH",
-    "theme": "半導體材料分析 (MA)",
-    "summary": "先進製程節點研發帶動材料分析需求，在高階製程市佔率極高，具備技術領先優勢。",
-    "confidence": 90
+    "narrative_score": 40,
+    "narrative_strength": "LOW",
+    "theme": "非核心供應鏈",
+    "summary": "公司業務與AI供應鏈關聯度低，缺乏明顯催化劑",
+    "confidence": 60
   },
   {
     "ticker": "3131.TWO",
     "name": "弘塑",
-    "narrative_score": 90,
-    "narrative_strength": "HIGH",
-    "theme": "CoWoS 濕製程設備",
-    "summary": "作為台積電先進封裝濕製程設備主力供應商，受惠於 CoWoS 產能倍增計畫，訂單能見度高。",
-    "confidence": 95
+    "narrative_score": 30,
+    "narrative_strength": "LOW",
+    "theme": "非核心供應鏈",
+    "summary": "公司業務與AI供應鏈關聯度低，缺乏明顯催化劑",
+    "confidence": 50
   },
   {
     "ticker": "3583.TW",
     "name": "辛耘",
-    "narrative_score": 88,
-    "narrative_strength": "HIGH",
-    "theme": "濕製程設備與再生晶圓",
-    "summary": "受惠於先進封裝擴產及再生晶圓需求穩健，濕製程設備在 CoWoS 供應鏈中扮演關鍵角色。",
-    "confidence": 92
+    "narrative_score": 50,
+    "narrative_strength": "LOW",
+    "theme": "半導體材料",
+    "summary": "公司業務與半導體材料相關，但缺乏明顯的AI供應鏈催化劑",
+    "confidence": 70
   },
   {
     "ticker": "6640.TWO",
     "name": "均華",
-    "narrative_score": 82,
-    "narrative_strength": "HIGH",
-    "theme": "晶片挑揀設備 (Pick and Place)",
-    "summary": "專精於高精度挑揀設備，在先進封裝後段製程具有競爭力，隨擴產週期獲利看漲。",
-    "confidence": 88
+    "narrative_score": 20,
+    "narrative_strength": "LOW",
+    "theme": "非核心供應鏈",
+    "summary": "公司業務與AI供應鏈關聯度低，缺乏明顯催化劑",
+    "confidence": 40
+  },
+  {
+    "ticker": "6830.TW",
+    "name": "汎銓",
+    "narrative_score": 60,
+    "narrative_strength": "MID",
+    "theme": "半導體設備",
+    "summary": "公司業務與半導體設備相關，具有中等程度的AI供應鏈催化劑",
+    "confidence": 80
   },
   {
     "ticker": "6187.TWO",
     "name": "萬潤",
-    "narrative_score": 87,
-    "narrative_strength": "HIGH",
-    "theme": "封裝點膠與檢查設備",
-    "summary": "先進封裝與 3D 封裝趨勢下，點膠、散熱片黏貼及量測設備需求激增，為主要受益者之一。",
-    "confidence": 90
+    "narrative_score": 30,
+    "narrative_strength": "LOW",
+    "theme": "非核心供應鏈",
+    "summary": "公司業務與AI供應鏈關聯度低，缺乏明顯催化劑",
+    "confidence": 50
   },
   {
     "ticker": "5443.TWO",
     "name": "均豪",
-    "narrative_score": 75,
+    "narrative_score": 40,
+    "narrative_strength": "LOW",
+    "theme": "非核心供應鏈",
+    "summary": "公司業務與AI供應鏈關聯度低，缺乏明顯催化劑",
+    "confidence": 60
+  },
+  {
+    "ticker": "6139.TW",
+    "name": "亞翔",
+    "narrative_score": 50,
+    "narrative_strength": "LOW",
+    "theme": "半導體材料",
+    "summary": "公司業務與半導體材料相關，但缺乏明顯的AI供應鏈催化劑",
+    "confidence": 70
+  },
+  {
+    "ticker": "3680.TWO",
+    "name": "家登",
+    "narrative_score": 20,
+    "narrative_strength": "LOW",
+    "theme": "非核心供應鏈",
+    "summary": "公司業務與AI供應鏈關聯度低，缺乏明顯催化劑",
+    "confidence": 40
+  },
+  {
+    "ticker": "2464.TW",
+    "name": "盟立",
+    "narrative_score": 70,
     "narrative_strength": "MID",
-    "theme": "自動化檢測設備",
-    "summary": "轉型跨入半導體檢測與自動化領域，與 G2 聯盟合作綜效逐步顯現，在先進製程周邊設備佔有一席之地。",
+    "theme": "半導體設備",
+    "summary": "公司業務與半導體設備相關，具有中等程度的AI供應鏈催化劑",
+    "confidence": 85
+  },
+  {
+    "ticker": "3413.TW",
+    "name": "京鼎",
+    "narrative_score": 80,
+    "narrative_strength": "HIGH",
+    "theme": "半導體封裝",
+    "summary": "公司業務與半導體封裝相關，具有高程度的AI供應鏈催化劑",
+    "confidence": 95
+  },
+  {
+    "ticker": "3711.TW",
+    "name": "日月光投控",
+    "narrative_score": 90,
+    "narrative_strength": "HIGH",
+    "theme": "半導體封裝",
+    "summary": "公司業務與半導體封裝相關，具有高程度的AI供應鏈催化劑",
+    "confidence": 98
+  },
+  {
+    "ticker": "2449.TW",
+    "name": "京元電子",
+    "narrative_score": 85,
+    "narrative_strength": "HIGH",
+    "theme": "半導體材料",
+    "summary": "公司業務與半導體材料相關，具有高程度的AI供應鏈催化劑",
+    "confidence": 92
+  },
+  {
+    "ticker": "6239.TW",
+    "name": "力成",
+    "narrative_score": 60,
+    "narrative_strength": "MID",
+    "theme": "半導體設備",
+    "summary": "公司業務與半導體設備相關，具有中等程度的AI供應鏈催化劑",
+    "confidence": 80
+  },
+  {
+    "ticker": "6147.TWO",
+    "name": "頎邦",
+    "narrative_score": 30,
+    "narrative_strength": "LOW",
+    "theme": "非核心供應鏈",
+    "summary": "公司業務與AI供應鏈關聯度低，缺乏明顯催化劑",
+    "confidence": 50
+  },
+  {
+    "ticker": "6257.TW",
+    "name": "矽格",
+    "narrative_score": 50,
+    "narrative_strength": "LOW",
+    "theme": "半導體材料",
+    "summary": "公司業務與半導體材料相關，但缺乏明顯的AI供應鏈催化劑",
+    "confidence": 70
+  },
+  {
+    "ticker": "2382.TW",
+    "name": "廣達",
+    "narrative_score": 80,
+    "narrative_strength": "HIGH",
+    "theme": "電子製造服務",
+    "summary": "公司業務與電子製造服務相關，具有高程度的AI供應鏈催化劑",
+    "confidence": 95
+  },
+  {
+    "ticker": "3231.TW",
+    "name": "緯創",
+    "narrative_score": 85,
+    "narrative_strength": "HIGH",
+    "theme": "電子製造服務",
+    "summary": "公司業務與電子製造服務相關，具有高程度的AI供應鏈催化劑",
+    "confidence": 98
+  },
+  {
+    "ticker": "6669.TW",
+    "name": "緯穎",
+    "narrative_score": 70,
+    "narrative_strength": "MID",
+    "theme": "電子製造服務",
+    "summary": "公司業務與電子製造服務相關，具有中等程度的AI供應鏈催化劑",
+    "confidence": 85
+  },
+  {
+    "ticker": "2356.TW",
+    "name": "英業達",
+    "narrative_score": 90,
+    "narrative_strength": "HIGH",
+    "theme": "電子製造服務",
+    "summary": "公司業務與電子製造服務相關，具有高程度的AI供應鏈催化劑",
+    "confidence": 99
+  },
+  {
+    "ticker": "3706.TW",
+    "name": "神達",
+    "narrative_score": 80,
+    "narrative_strength": "HIGH",
+    "theme": "電子製造服務",
+    "summary": "公司業務與電子製造服務相關，具有高程度的AI供應鏈催化劑",
+    "confidence": 96
+  },
+  {
+    "ticker": "2376.TW",
+    "name": "技嘉",
+    "narrative_score": 85,
+    "narrative_strength": "HIGH",
+    "theme": "電子製造服務",
+    "summary": "公司業務與電子製造服務相關，具有高程度的AI供應鏈催化劑",
+    "confidence": 98
+  },
+  {
+    "ticker": "2377.TW",
+    "name": "微星",
+    "narrative_score": 80,
+    "narrative_strength": "HIGH",
+    "theme": "電子製造服務",
+    "summary": "公司業務與電子製造服務相關，具有高程度的AI供應鏈催化劑",
+    "confidence": 95
+  },
+  {
+    "ticker": "2313.TW",
+    "name": "華通",
+    "narrative_score": 70,
+    "narrative_strength": "MID",
+    "theme": "電子製造服務",
+    "summary": "公司業務與電子製造服務相關，具有中等程度的AI供應鏈催化劑",
+    "confidence": 85
+  },
+  {
+    "ticker": "3037.TW",
+    "name": "欣興",
+    "narrative_score": 60,
+    "narrative_strength": "MID",
+    "theme": "電子製造服務",
+    "summary": "公司業務與電子製造服務相關，具有中等程度的AI供應鏈催化劑",
+    "confidence": 80
+  },
+  {
+    "ticker": "2368.TW",
+    "name": "金像電",
+    "narrative_score": 50,
+    "narrative_strength": "LOW",
+    "theme": "電子製造服務",
+    "summary": "公司業務與電子製造服務相關，但缺乏明顯的AI供應鏈催化劑",
+    "confidence": 70
+  },
+  {
+    "ticker": "3044.TW",
+    "name": "健鼎",
+    "narrative_score": 40,
+    "narrative_strength": "LOW",
+    "theme": "電子製造服務",
+    "summary": "公司業務與電子製造服務相關，但缺乏明顯的AI供應鏈催化劑",
+    "confidence": 60
+  },
+  {
+    "ticker": "8155.TWO",
+    "name": "博智",
+    "narrative_score": 30,
+    "narrative_strength": "LOW",
+    "theme": "非核心供應鏈",
+    "summary": "公司業務與AI供應鏈關聯度低，缺乏明顯催化劑",
+    "confidence": 50
+  },
+  {
+    "ticker": "2330.TW",
+    "name": "台積電",
+    "narrative_score": 95,
+    "narrative_strength": "HIGH",
+    "theme": "半導體製造",
+    "summary": "公司業務與半導體製造相關，具有高程度的AI供應鏈催化劑",
+    "confidence": 99
+  },
+  {
+    "ticker": "2454.TW",
+    "name": "聯發科",
+    "narrative_score": 90,
+    "narrative_strength": "HIGH",
+    "theme": "半導體設計",
+    "summary": "公司業務與半導體設計相關，具有高程度的AI供應鏈催化劑",
+    "confidence": 98
+  },
+  {
+    "ticker": "3661.TW",
+    "name": "世芯-KY",
+    "narrative_score": 80,
+    "narrative_strength": "HIGH",
+    "theme": "半導體製造",
+    "summary": "公司業務與半導體製造相關，具有高程度的AI供應鏈催化劑",
+    "confidence": 96
+  },
+  {
+    "ticker": "3443.TW",
+    "name": "創意",
+    "narrative_score": 70,
+    "narrative_strength": "MID",
+    "theme": "半導體設計",
+    "summary": "公司業務與半導體設計相關，具有中等程度的AI供應鏈催化劑",
     "confidence": 85
   }
 ]

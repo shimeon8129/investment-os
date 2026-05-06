@@ -1,1 +1,44 @@
-[]
+[
+    {
+        "date": "2026-04-29",
+        "ticker": "3583.TW",
+        "action": "BUY",
+        "price": 736.0,
+        "size": 0.1
+    },
+    {
+        "date": "2026-04-29",
+        "ticker": "6187.TWO",
+        "action": "BUY",
+        "price": 1080.0,
+        "size": 0.1
+    },
+    {
+        "date": "2026-04-29",
+        "ticker": "3680.TWO",
+        "action": "BUY",
+        "price": 449.0,
+        "size": 0.1
+    },
+    {
+        "date": "2026-04-29",
+        "ticker": "3711.TW",
+        "action": "BUY",
+        "price": 495.5,
+        "size": 0.1
+    },
+    {
+        "date": "2026-04-29",
+        "ticker": "2464.TW",
+        "action": "BUY",
+        "price": 97.0,
+        "size": 0.1
+    },
+    {
+        "date": "2026-05-01",
+        "ticker": "2449.TW",
+        "action": "BUY",
+        "price": 302.5,
+        "size": 0.1
+    }
+]
