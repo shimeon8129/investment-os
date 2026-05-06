@@ -9,7 +9,7 @@ Current working branch:
 add-daily-decision-dashboard-v0-20260426_2057
 
 Latest snapshot pushed:
-2026-05-02
+2026-05-07
 
 ## Current Reality
 
@@ -53,10 +53,12 @@ Mainline fragmentation has been largely resolved.
 
 4. jobs/daily_run.py ✅ ACTIVE
    - Hermes-compatible daily runtime orchestrator.
-   - Runs: daily_decision_dashboard, smoke tests, pipeline_main_v1.
+   - Runs: daily_decision_dashboard, smoke tests, pipeline_main_v1, p1_entry_audit.
+   - p1_entry_audit is non-blocking advisory (P2-A); failure does not affect status.
    - Market calendar gate v0.1 integrated: skips pipeline when TW is closed.
-   - Daily report includes Market Calendar section and Mainline Snapshot section.
-   - Latest run: MARKET_CLOSED (2026-05-02, weekend)
+   - Daily report includes: Market Calendar, Human Summary, Mainline Snapshot,
+     P1 Entry Audit, Checks, Safety, Output Files sections.
+   - Latest run: ALL PASS (2026-05-07, TW OPEN)
 
 ## Market Calendar Gate
 
@@ -88,27 +90,29 @@ v0.2 (spec only — do not implement until explicitly approved):
 Fixed to 8046.TW (南電, PCB, CORE) and 3189.TW (景碩, PCB, LAG).
 Both confirmed loading cleanly.
 
+## Architecture v1.6 Status
+
+- P0 (EntryLockEngine, TradeSetupBuilder, PositionSizing): ✅ COMPLETE
+- P1 (p1_entry_audit parallel runner): ✅ COMPLETE — merged from architecture-v1-6-p1-audit
+- P2-A (daily_run.py P1 integration): ✅ COMPLETE — non-blocking advisory subprocess
+
 ## MVP Progress
 
-~98% complete.
+~100% complete (pre-merge).
 
 Remaining:
-- Branch merge readiness review (R-001 to R-011).
+- Merge `add-daily-decision-dashboard-v0-20260426_2057` to main (pending explicit user approval).
 - v0.2 market context (future, gated on explicit approval).
 
-## Session Close Status — 2026-05-02 (final)
+## Session Status — 2026-05-07 Pre-Merge Cleanup
 
-MVP candidate is stable at ~98%. All planned polish tasks complete.
+Pre-merge cleanup complete. Branch is ready for merge to main.
 
-Summary of session state:
-- Step 1 COMPLETE: memory/00_PROJECT_BRAIN.md separates Core Value from Safety Boundary,
-  includes memory/04_SYSTEM_AUDIT.md in session-start recall, has System Audit Memory Rule.
-- Step 2 COMPLETE: session close memory and audit structure updated.
-- Step 3 COMPLETE: jobs/daily_run.py now adds Human Summary section to daily reports.
-  Market-closed report: no new trading decision, TW/US market status, v0.1 skip note, advisory-only.
-  Open-market report: market_state, market_score, VIX, top 3 candidates with scores,
-  decision counts by action, advisory-only note.
-- R-004 Human summary/report polish: RESOLVED.
-- Next ready task: Branch merge readiness review (R-001 to R-011).
+- F-001 RESOLVED: pipeline/main.py reverted to main branch state.
+- R-012 ACCEPTED: execution/risk.py SINGLE_POSITION_EXCEED PASS_ADJUSTED behaviour approved.
+- Sensitive data approved: current_holdings.json, trade_log.json, watchlist.json v0.4.
+- All validations pass: py_compile, smoke_p1_entry_audit (20/20), daily_run ALL PASS.
+- Unstaged runtime outputs (candidates.json, processed/*.json, daily reports) intentionally
+  NOT staged — these are generated artifacts from today's validation run.
+- Merge blocked only by: explicit user approval to execute.
 - Market Context Gate v0.2: DEFERRED (R-001/R-002/R-003/R-011), approval required.
-- No runtime code changes this session close. No sensitive investment data changes.

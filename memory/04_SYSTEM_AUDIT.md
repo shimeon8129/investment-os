@@ -236,6 +236,21 @@ through the AI collaboration protocol. No broker automation violations observed.
   spec. Do not implement until explicitly approved.
 - **Status:** ⚠️ Open — tracked in v0.2 spec, gated on approval
 
+#### R-012 — `execution/risk.py` SINGLE_POSITION_EXCEED 縮倉行為變更
+- **Category:** Risk Logic / Execution Gate
+- **Severity:** Medium (behaviour change affecting advisory output)
+- **Description:** `apply_risk_filters()` in `execution/risk.py` has a new `elif`
+  branch: when `reason == "SINGLE_POSITION_EXCEED"` and `final_size > 0`, the
+  decision is allowed through as `action = "BUY"` with `risk_check = "PASS_ADJUSTED"`
+  and the reduced `final_size`. Previously this case fell through to the `else`
+  block and produced `action = "NO_TRADE"`. Code comment: "單股超限是可縮倉風險，
+  不應直接拒單。"
+- **Impact:** Tickers that previously showed NO_TRADE due to single-position-size
+  limit may now show BUY (PASS_ADJUSTED) with reduced position size. System remains
+  advisory-only; no actual trades are placed.
+- **User decision:** APPROVED 2026-05-07. New PASS_ADJUSTED behaviour accepted.
+- **Status:** ✅ ACCEPTED — user approved 2026-05-07
+
 ---
 
 ### Remediation Plan
@@ -253,6 +268,7 @@ through the AI collaboration protocol. No broker automation violations observed.
 | R-009 | ✅ Resolved. 8046.TW and 3189.TW confirmed loading cleanly. | Resolved — data/universe_tw.csv fixed | P0 | RESOLVED | N/A | N/A |
 | R-010 | Cross-check TW and US holiday lists against official exchange announcements; add TW early_close dates if applicable | Not yet in next actions — revisit before 2027 | P2 | MONITOR | No — 2026 calendar in use | No for verification; Yes for changes to calendar data |
 | R-011 | Add `session_phase` to `get_market_context()` using `regular_session` open/close times from calendar config | Task 6 — Market session phase enhancement | P3 | DEFERRED | No | Yes — gated on v0.2 / post-MVP approval |
+| R-012 | Accept new PASS_ADJUSTED path in `execution/risk.py`; document as user-approved | Merge readiness review 2026-05-07 | P1 | ✅ ACCEPTED | N/A | N/A — approved 2026-05-07 |
 
 **Priority definitions:**
 - P0 — Resolved; no action needed
@@ -277,6 +293,7 @@ through the AI collaboration protocol. No broker automation violations observed.
 | Ticker suffix mismatch | R-009 | ✅ Resolved | Done |
 | Calendar source completeness | R-010 | Not yet in next actions | Low/Future |
 | Missing session phases | R-011 | Task 6 (future, post-MVP) | Future |
+| SINGLE_POSITION_EXCEED behaviour change | R-012 | Merge readiness review — ACCEPTED 2026-05-07 | Done |
 
 **Immediate open tasks (from 03_NEXT_ACTION.md):**
 1. Memory and state review — this audit fulfills that task
@@ -348,3 +365,77 @@ No sensitive investment data changed. No runtime pipeline logic changed.
 **Next P1 task: Branch merge readiness review (R-001 to R-011)**
 
 *End of audit entry 2026-05-02*
+
+---
+
+## Audit Update: 2026-05-07 Pre-Merge Cleanup
+
+| Field | Value |
+|-------|-------|
+| Update time | 2026-05-07 |
+| Audited by | Claude Code (claude-sonnet-4-6) |
+| Branch | add-daily-decision-dashboard-v0-20260426_2057 |
+| Latest commit at update | (pre-cleanup commit, see below) |
+| Scope | P1+P2-A architecture complete; pre-merge cleanup; R-012 addition; memory sync |
+
+**Architecture v1.6 P0 / P1 / P2-A — COMPLETE**
+
+- P0: `decision/entry_lock_engine.py`, `decision/trade_setup_builder.py`,
+  `risk/position_sizing.py` — all validated, smoke tests pass.
+- P1: `audit/p1_entry_audit.py`, `audit/__init__.py`,
+  `reporting/p1_entry_audit_report.py`, `tests/smoke_p1_entry_audit.py` —
+  merged from branch `architecture-v1-6-p1-audit`. Smoke test 20/20 PASS.
+- P2-A: `jobs/daily_run.py` now runs `audit.p1_entry_audit` as a non-blocking
+  advisory subprocess after `pipeline_main_v1`. P1 result is in `p1_audit_check`
+  (not in `checks[]`); P1 FAIL does not downgrade daily status. `## P1 Entry Audit`
+  section added to daily report. Validated: `python3 -m jobs.daily_run` — ALL PASS.
+
+**F-001 cleanup — pipeline/main.py reverted**
+
+`pipeline/main.py` had received imports and logic changes in violation of the
+legacy-preservation guardrail. Reverted to `main` branch state via
+`git checkout main -- pipeline/main.py`. py_compile PASS after revert.
+
+**R-012 — ACCEPTED (user approved 2026-05-07)**
+
+`execution/risk.py` SINGLE_POSITION_EXCEED → PASS_ADJUSTED behaviour accepted.
+See R-012 entry in Risk Register above.
+
+**Sensitive investment data — user-approved for merge**
+
+| File | Decision |
+|------|---------|
+| `data/portfolio/current_holdings.json` | ✅ Approved by user 2026-05-07 |
+| `data/trade_log.json` | ✅ Approved by user 2026-05-07 |
+| `data/watchlist.json` (v0.4 format) | ✅ Approved by user 2026-05-07 |
+| `data/universe_tw.csv` (R-009 suffix fix) | ✅ Previously approved |
+
+**Validation at update time**
+
+- py_compile × 5 key files: ALL PASS
+- `tests/smoke_p1_entry_audit.py`: 20/20 PASS
+- `python3 -m jobs.daily_run` (2026-05-07, TW OPEN): ALL PASS
+  - daily_decision_dashboard: PASS
+  - smoke_daily_decision_dashboard: PASS
+  - smoke_portfolio_holdings: PASS
+  - pipeline_main_v1: PASS
+  - p1_entry_audit: PASS
+
+**Updated risk register status at 2026-05-07**
+
+| Risk | Status |
+|------|--------|
+| R-001 to R-003 | DEFERRED (v0.2 gate) |
+| R-004 | ✅ RESOLVED |
+| R-005 | MONITOR |
+| R-006 | ACCEPTED |
+| R-007 | OPEN — orphaned, not blocking |
+| R-008, R-009 | ✅ RESOLVED |
+| R-010 | MONITOR |
+| R-011 | DEFERRED (v0.2 gate) |
+| R-012 | ✅ ACCEPTED (2026-05-07) |
+
+**Next task: merge `add-daily-decision-dashboard-v0-20260426_2057` to `main`**
+Pending explicit user approval to execute merge.
+
+*End of audit entry 2026-05-07*
