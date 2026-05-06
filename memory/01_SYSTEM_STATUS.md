@@ -110,15 +110,15 @@ Post-merge validation on main:
 
 Next phase: observation. No feature expansion until explicitly approved.
 
-## Session Status — 2026-05-07 MVP Merge Complete
+## Session Status — 2026-05-07 Observation Phase
 
 Feature branch `add-daily-decision-dashboard-v0-20260426_2057` fully absorbed by main.
-Active baseline is now main.
+Active baseline is now main. Observation phase active.
 
-- Architecture v0.1 (daily_run + market calendar gate): ✅ merged
-- Architecture v1.6 P0 (EntryLockEngine, TradeSetupBuilder, PositionSizing): ✅ merged
-- Architecture v1.6 P1 (p1_entry_audit parallel runner): ✅ merged
-- Architecture v1.6 P2-A (daily_run non-blocking P1 audit integration): ✅ merged
-- Post-merge validation on main: ALL PASS (py_compile, smoke, daily_run 5 subprocesses)
+- Architecture v0.1 + v1.6 P0/P1/P2-A: ✅ merged, validated, operational.
+- First post-merge observation run: 2026-05-07, TW OPEN — ALL PASS (5 subprocesses).
+  Outputs: data/processed/signal_snapshot.json, reports/daily/2026-05-07_daily_report.md
+- No post-merge regression detected.
 - Runtime outputs (candidates.json, processed/*.json, daily reports): NOT committed (expected).
 - Market Context Gate v0.2: DEFERRED (R-001/R-002/R-003/R-011), approval required.
+- Do not implement new features. Do not modify runtime logic. Do not start v0.2.

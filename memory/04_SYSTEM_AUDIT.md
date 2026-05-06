@@ -506,3 +506,26 @@ Branch `add-daily-decision-dashboard-v0-20260426_2057` is fully absorbed by main
 Next phase: observation. No feature expansion until explicitly approved.
 
 *End of audit entry 2026-05-07 (merge completion)*
+
+---
+
+## Observation Run: 2026-05-07
+
+| Field | Value |
+|-------|-------|
+| Date | 2026-05-07 |
+| Branch | main |
+| Remote | up to date with origin/main |
+| Market gate | TW = OPEN |
+| Result | ALL PASS |
+
+Subprocesses: daily_decision_dashboard / smoke_daily_decision_dashboard /
+smoke_portfolio_holdings / pipeline_main_v1 / p1_entry_audit — all PASS.
+
+Outputs written: `data/processed/signal_snapshot.json`,
+`reports/daily/2026-05-07_daily_report.md`.
+
+No post-merge regression detected. MVP main baseline operational.
+Observation phase active. No new features. No runtime logic changes. v0.2 DEFERRED.
+
+*End of observation run 2026-05-07*
