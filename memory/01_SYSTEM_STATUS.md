@@ -6,7 +6,7 @@ Repo:
 https://github.com/shimeon8129/investment-os
 
 Current working branch:
-add-daily-decision-dashboard-v0-20260426_2057
+main
 
 Latest snapshot pushed:
 2026-05-07
@@ -98,21 +98,27 @@ Both confirmed loading cleanly.
 
 ## MVP Progress
 
-~100% complete (pre-merge).
+✅ 100% complete. All architecture phases merged to main.
 
-Remaining:
-- Merge `add-daily-decision-dashboard-v0-20260426_2057` to main (pending explicit user approval).
-- v0.2 market context (future, gated on explicit approval).
+Merge commit: d7cb447 — "Merge Investment OS MVP — Architecture v0.1 + v1.6 P0/P1/P2-A"
+Merged: 2026-05-07.
 
-## Session Status — 2026-05-07 Pre-Merge Cleanup
+Post-merge validation on main:
+- py_compile × 4: ALL PASS
+- tests/smoke_p1_entry_audit.py: 20/20 PASS
+- python3 -m jobs.daily_run (2026-05-07, TW OPEN): ALL PASS
 
-Pre-merge cleanup complete. Branch is ready for merge to main.
+Next phase: observation. No feature expansion until explicitly approved.
 
-- F-001 RESOLVED: pipeline/main.py reverted to main branch state.
-- R-012 ACCEPTED: execution/risk.py SINGLE_POSITION_EXCEED PASS_ADJUSTED behaviour approved.
-- Sensitive data approved: current_holdings.json, trade_log.json, watchlist.json v0.4.
-- All validations pass: py_compile, smoke_p1_entry_audit (20/20), daily_run ALL PASS.
-- Unstaged runtime outputs (candidates.json, processed/*.json, daily reports) intentionally
-  NOT staged — these are generated artifacts from today's validation run.
-- Merge blocked only by: explicit user approval to execute.
+## Session Status — 2026-05-07 MVP Merge Complete
+
+Feature branch `add-daily-decision-dashboard-v0-20260426_2057` fully absorbed by main.
+Active baseline is now main.
+
+- Architecture v0.1 (daily_run + market calendar gate): ✅ merged
+- Architecture v1.6 P0 (EntryLockEngine, TradeSetupBuilder, PositionSizing): ✅ merged
+- Architecture v1.6 P1 (p1_entry_audit parallel runner): ✅ merged
+- Architecture v1.6 P2-A (daily_run non-blocking P1 audit integration): ✅ merged
+- Post-merge validation on main: ALL PASS (py_compile, smoke, daily_run 5 subprocesses)
+- Runtime outputs (candidates.json, processed/*.json, daily reports): NOT committed (expected).
 - Market Context Gate v0.2: DEFERRED (R-001/R-002/R-003/R-011), approval required.

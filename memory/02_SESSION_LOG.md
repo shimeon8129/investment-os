@@ -1,5 +1,26 @@
 # Investment OS｜Session Log
 
+## 2026-05-07 — MVP main merge completion
+
+Session summary:
+- Performed full merge readiness review for branch add-daily-decision-dashboard-v0-20260426_2057.
+- Identified F-001 (pipeline/main.py guardrail violation) and F-002 (R-012:
+  execution/risk.py SINGLE_POSITION_EXCEED PASS_ADJUSTED behaviour change).
+- User approved: A1 R-012 PASS_ADJUSTED accepted, A2 pipeline/main.py revert,
+  A3 current_holdings.json, A4 trade_log.json, A5 watchlist.json v0.4.
+- Pre-merge cleanup: pipeline/main.py reverted to main state; memory files updated;
+  all validations passed; cleanup committed and pushed.
+- Merge executed: git merge --no-ff → commit d7cb447
+  "Merge Investment OS MVP — Architecture v0.1 + v1.6 P0/P1/P2-A" pushed to origin/main.
+- Post-merge validation on main: py_compile × 4 PASS, smoke_p1_entry_audit 20/20 PASS,
+  daily_run ALL PASS (5 subprocesses: daily_decision_dashboard, smoke_daily_decision_dashboard,
+  smoke_portfolio_holdings, pipeline_main_v1, p1_entry_audit).
+- Feature branch add-daily-decision-dashboard-v0-20260426_2057 fully absorbed by main.
+- Active baseline is now main. No runtime outputs committed (expected).
+- Architecture v0.1 + v1.6 P0/P1/P2-A: all merged, validated, operational.
+- Risk register at merge: R-001 to R-003 DEFERRED, R-004 RESOLVED, R-005/R-010 MONITOR,
+  R-006 ACCEPTED, R-007 OPEN, R-008/R-009 RESOLVED, R-011 DEFERRED, R-012 ACCEPTED.
+
 ## 2026-05-02 — Session close (human summary polish)
 
 Session close summary:

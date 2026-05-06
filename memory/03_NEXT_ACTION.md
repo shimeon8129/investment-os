@@ -2,19 +2,23 @@
 
 ## Current State
 
-MVP is ~100% complete. Branch `add-daily-decision-dashboard-v0-20260426_2057` is
-ready for merge to main pending explicit user approval.
+✅ MVP 100% complete. Merged to main 2026-05-07.
+Merge commit: d7cb447 — "Merge Investment OS MVP — Architecture v0.1 + v1.6 P0/P1/P2-A"
+Active baseline: main branch.
 
-Active components:
+Active components on main:
 - pipeline/main_v1.py — advisory snapshot producer, runs cleanly (34 tickers)
 - jobs/daily_run.py — market calendar gate v0.1, daily report, P1 audit integrated
 - audit/p1_entry_audit.py — P1 parallel audit runner (advisory, non-blocking)
 - utils/market_calendar.py — OPEN / CLOSED_WEEKEND / CLOSED_HOLIDAY / OPEN_EARLY_CLOSE
 - config/market_calendar.json — TW and US 2026 calendars
 
-Latest run: ALL PASS (2026-05-07, TW OPEN)
+Post-merge validation on main: ALL PASS (2026-05-07, TW OPEN)
+- py_compile × 4: PASS
+- tests/smoke_p1_entry_audit.py: 20/20 PASS
+- python3 -m jobs.daily_run: 5 subprocesses ALL PASS
 
-Audit: memory/04_SYSTEM_AUDIT.md (updated 2026-05-07) — 12 risks assessed (R-012 added).
+Audit: memory/04_SYSTEM_AUDIT.md (updated 2026-05-07) — 12 risks assessed (R-012 accepted).
 
 ## Next Engineering Tasks
 
@@ -37,15 +41,13 @@ Priority order:
      skip note, advisory-only. Open-market: market_state/score/VIX, top 3 candidates,
      decision counts, advisory-only. Commit: 10a02e3.
 
-4. Branch merge to main — Audit: R-001 to R-012 | Priority: P1 | Status: READY TO MERGE
-   - Pre-merge cleanup COMPLETE (2026-05-07):
-     - F-001 RESOLVED: pipeline/main.py reverted to main.
-     - R-012 ACCEPTED: execution/risk.py SINGLE_POSITION_EXCEED PASS_ADJUSTED approved.
-     - Sensitive data A3/A4/A5 approved: current_holdings.json, trade_log.json, watchlist.json v0.4.
-     - All validations pass. Memory files updated.
-   - R-007 (decision_engine.py): orphaned file remains OPEN / out-of-scope; acceptable at merge.
-   - Merge blocked only by: explicit user approval to execute.
-   - Do not merge without explicit user approval.
+4. Branch merge to main — Audit: R-001 to R-012 | Priority: P1 | Status: ✅ COMPLETE
+   - Merged 2026-05-07. Commit d7cb447 on origin/main.
+   - F-001 RESOLVED: pipeline/main.py reverted to main.
+   - R-012 ACCEPTED: execution/risk.py SINGLE_POSITION_EXCEED PASS_ADJUSTED approved.
+   - Sensitive data A3/A4/A5 approved: current_holdings.json, trade_log.json, watchlist.json v0.4.
+   - Post-merge validation on main: ALL PASS.
+   - R-007 (decision_engine.py): orphaned file remains OPEN / out-of-scope; no blocking.
 
 5. Market Context Gate v0.2 — Audit: R-001, R-002, R-003, R-011 | Priority: P3 | Status: DEFERRED
    - DEFERRED. Do not implement until explicitly approved by user.
@@ -75,13 +77,12 @@ Do not:
 - Expand external AI agents
 - Modify broker/execution automation
 - Modify pipeline/main.py (legacy, preserved as reference)
-- Modify decision/decision_engine.py (out of scope until merge review)
+- Modify decision/decision_engine.py (out of scope until explicitly scoped)
 - Remove or mutate sensitive investment data without explicit user approval
 - Implement v0.2 market context until explicitly approved
-- Merge branch to main without explicit user approval
 
 Do:
-- Work on a branch
+- Work on a branch (for any new feature work)
 - Read repo memory before each task
 - Make minimal targeted changes
 - Validate before committing

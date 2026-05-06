@@ -439,3 +439,70 @@ See R-012 entry in Risk Register above.
 Pending explicit user approval to execute merge.
 
 *End of audit entry 2026-05-07*
+
+---
+
+## Audit Update: 2026-05-07 MVP Main Merge Completion
+
+| Field | Value |
+|-------|-------|
+| Update time | 2026-05-07 |
+| Audited by | Claude Code (claude-sonnet-4-6) |
+| Branch merged | add-daily-decision-dashboard-v0-20260426_2057 → main |
+| Merge commit | d7cb447 |
+| Scope | Post-merge validation on main; memory sync |
+
+**Merge completed 2026-05-07**
+
+Merge commit: `d7cb447` — "Merge Investment OS MVP — Architecture v0.1 + v1.6 P0/P1/P2-A"
+
+Branch `add-daily-decision-dashboard-v0-20260426_2057` is fully absorbed by main.
+`git diff --name-status main origin/add-daily-decision-dashboard-v0-20260426_2057 | wc -l` = 0.
+
+**Post-merge validation on main — ALL PASS**
+
+| Check | Result |
+|-------|--------|
+| py_compile jobs/daily_run.py | PASS |
+| py_compile pipeline/main_v1.py | PASS |
+| py_compile audit/p1_entry_audit.py | PASS |
+| py_compile reporting/p1_entry_audit_report.py | PASS |
+| tests/smoke_p1_entry_audit.py | 20/20 PASS |
+| python3 -m jobs.daily_run (TW OPEN) | ALL PASS |
+| — daily_decision_dashboard | PASS |
+| — smoke_daily_decision_dashboard | PASS |
+| — smoke_portfolio_holdings | PASS |
+| — pipeline_main_v1 | PASS |
+| — p1_entry_audit | PASS |
+
+**Active runtime on main**
+
+| Component | File | Status |
+|-----------|------|--------|
+| Active mainline | pipeline/main_v1.py | ✅ Active |
+| Daily runner | jobs/daily_run.py | ✅ Active — 5 subprocesses |
+| P1 audit runner | audit/p1_entry_audit.py | ✅ Active — non-blocking advisory |
+| Market calendar utils | utils/market_calendar.py | ✅ Active |
+| Market calendar config | config/market_calendar.json | ✅ Active — TW + US 2026 |
+| Risk gate | execution/risk.py | ✅ Active — R-012 PASS_ADJUSTED accepted |
+| Legacy mainline | pipeline/main.py | ✅ Preserved — do not modify |
+| Orphaned engine | decision/decision_engine.py | ⚠️ Orphaned — out of scope |
+
+**Risk register status at merge**
+
+| Risk | Status |
+|------|--------|
+| R-001 to R-003 | DEFERRED (v0.2 gate) |
+| R-004 | ✅ RESOLVED |
+| R-005 | MONITOR |
+| R-006 | ACCEPTED |
+| R-007 | OPEN — orphaned, not blocking |
+| R-008, R-009 | ✅ RESOLVED |
+| R-010 | MONITOR |
+| R-011 | DEFERRED (v0.2 gate) |
+| R-012 | ✅ ACCEPTED (2026-05-07) |
+
+**Active baseline is now main. MVP is complete.**
+Next phase: observation. No feature expansion until explicitly approved.
+
+*End of audit entry 2026-05-07 (merge completion)*
