@@ -529,3 +529,90 @@ No post-merge regression detected. MVP main baseline operational.
 Observation phase active. No new features. No runtime logic changes. v0.2 DEFERRED.
 
 *End of observation run 2026-05-07*
+
+---
+
+## Audit Update: 2026-05-07 Position Source Fix
+
+| Field | Value |
+|-------|-------|
+| Update time | 2026-05-07 |
+| Audited by | Claude Code (claude-sonnet-4-6) |
+| Branch | main |
+| Commits | b4a9e07 (fix), 77a71bf (memory update) |
+| Scope | Active position source correction; observation phase |
+
+### INC-003 — Advisory trade_log rows used as active broker positions
+
+- **Date:** 2026-05-07
+- **What happened:** Audit `reports/observation/2026-05-07_trade_log_vs_holdings_audit.md`
+  revealed that `execution/portfolio.py:load_portfolio()` read `data/trade_log.json` and
+  treated all advisory BUY rows as real broker positions. `data/portfolio/current_holdings.json`
+  (actual broker holdings) was only used by reporting modules and had no influence on
+  position lock or exit check.
+- **Root cause:** `pipeline/main_v1.py` called `load_portfolio()` which replayed advisory
+  BUY rows as live positions. No synchronisation existed between the two sources.
+- **Impact:** 4 advisory-only tickers (3583.TW, 6187.TWO, 3680.TWO, 2449.TW) were treated
+  as active positions → would have triggered false `ALREADY_IN_POSITION` if re-nominated.
+  6 real broker holdings (009816, 00992A, 2330, 2345, 2408, 6830) were invisible to exit
+  check. Entry price for 3711 was advisory (495.5) rather than broker-confirmed (412.0).
+  Same class of bug as 2464.TW false lock (commit 3292ab1).
+- **Resolution:** Added `load_portfolio_from_holdings()` to `execution/portfolio.py`:
+  reads `current_holdings.json`, normalises tickers to `.TW` suffix format.
+  Updated `pipeline/main_v1.py` to call `load_portfolio_from_holdings()` instead of
+  `load_portfolio()`. `load_portfolio()` retained for advisory/historical/performance use only.
+- **Validation:** py_compile PASS. smoke_p1_entry_audit 20/20 PASS. smoke_portfolio_holdings
+  PASS. Full observation wrapper: ALL PASS (5 subprocesses). EXIT CHECK confirmed showing
+  real holdings (2330, 3711, 6830); advisory tickers absent.
+- **Status:** ✅ Resolved — commit b4a9e07, pushed to origin/main
+
+---
+
+### Observation Flag: 6830.TW 汎銓 — EXIT_ALL after position source fix
+
+- **Date:** 2026-05-07
+- **Finding:** After position source correction, `check_exit()` evaluated 6830.TW using
+  broker-confirmed `entry_price = 712.8` (from `current_holdings.json`). The trailing-stop
+  check (drawdown from 1-year highest price > 7%) triggered `EXIT_ALL`.
+- **Is this a regression?** No. This is expected and correct behavior. Prior to the fix,
+  the advisory `entry_price = 495.5` (from `trade_log.json`) was used instead.
+- **Action required:** Manual owner review of 6830.TW 汎銓 position.
+  Do not take real-world action based on pipeline advisory output alone.
+  Owner must confirm whether the EXIT_ALL signal is actionable given actual market conditions.
+- **Status:** ⚠️ Open — awaiting manual owner review. No code change required.
+
+---
+
+### R-013 — Active position source was advisory rather than broker-confirmed
+
+- **Category:** Data Integrity / Position State
+- **Severity:** High (at time of discovery) → Resolved
+- **Description:** See INC-003. `load_portfolio()` treated advisory `trade_log.json`
+  BUY rows as real active positions. Broker-confirmed `current_holdings.json` had no role
+  in position lock or exit check.
+- **Resolution:** `load_portfolio_from_holdings()` added; `pipeline/main_v1.py` updated.
+  `current_holdings.json` is now the authoritative source for active positions.
+- **Residual risk:** `feedback/performance.py` still uses `trade_log.json` for advisory
+  P&L analytics. When real SELL rows are added, P&L will be computed from advisory entry
+  prices, not actual broker execution prices. Acceptable for advisory simulation context.
+  If owner ever needs real P&L tracking, this must be re-evaluated.
+- **Status:** ✅ Resolved — residual risk noted, advisory context acceptable
+
+---
+
+### Updated risk register status at 2026-05-07 (position source fix)
+
+| Risk | Status |
+|------|--------|
+| R-001 to R-003 | DEFERRED (v0.2 gate) |
+| R-004 | ✅ RESOLVED |
+| R-005 | MONITOR |
+| R-006 | ACCEPTED |
+| R-007 | OPEN — orphaned, not blocking |
+| R-008, R-009 | ✅ RESOLVED |
+| R-010 | MONITOR |
+| R-011 | DEFERRED (v0.2 gate) |
+| R-012 | ✅ ACCEPTED (2026-05-07) |
+| R-013 | ✅ RESOLVED (2026-05-07) |
+
+*End of audit entry 2026-05-07 (position source fix)*

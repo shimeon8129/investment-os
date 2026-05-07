@@ -18,7 +18,8 @@ Post-merge validation on main: ALL PASS (2026-05-07, TW OPEN)
 - tests/smoke_p1_entry_audit.py: 20/20 PASS
 - python3 -m jobs.daily_run: 5 subprocesses ALL PASS
 
-Audit: memory/04_SYSTEM_AUDIT.md (updated 2026-05-07) — 12 risks assessed (R-012 accepted).
+Audit: memory/04_SYSTEM_AUDIT.md (updated 2026-05-07) — 13 risks assessed (R-012, R-013 resolved).
+Position source fix: commit b4a9e07. Active positions now from current_holdings.json.
 
 ## Next Engineering Tasks
 
@@ -28,7 +29,15 @@ Priority order:
    - execution/portfolio.py: added load_portfolio_from_holdings() from current_holdings.json.
    - pipeline/main_v1.py: switched portfolio = load_portfolio_from_holdings().
    - load_portfolio() (trade_log) retained for advisory/performance use only.
+   - Validation: full observation wrapper ALL PASS (5 subprocesses).
    - Audit report: reports/observation/2026-05-07_trade_log_vs_holdings_audit.md.
+
+0a. 6830.TW 汎銓 — EXIT_ALL manual review flag ⚠️ OPEN
+   - After position source fix, check_exit() evaluated 6830 using broker entry_price=712.8.
+   - Trailing stop (drawdown from 1y highest > 7%) triggered EXIT_ALL.
+   - This is NOT a regression. It is expected behavior after using real broker entry price.
+   - Action required: manual owner review of 6830 position before any real-world decision.
+   - No code change needed. Advisory signal only.
 
 1. Ticker hygiene (resolved + standing rule) — Audit: R-008, R-009 RESOLVED
    - 8046 and 3189 suffix issue has been fixed: .TWO → .TW in data/universe_tw.csv.
