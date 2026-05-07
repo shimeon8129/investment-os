@@ -1,189 +1,143 @@
 {
-  "generated_at": "2026-05-02T00:14:02.661675",
-  "market_state": "RANGE",
-  "market_score": 0.0028,
-  "vix_value": 16.829999923706055,
+  "generated_at": "2026-05-07T11:35:26.360915",
+  "market_state": "BULL",
+  "market_score": 0.0388,
+  "vix_value": 17.389999389648438,
   "candidates": [
+    {
+      "ticker": "6830.TW",
+      "name": "6830.TW",
+      "score": 2,
+      "level": "READY",
+      "price": 881.0
+    },
+    {
+      "ticker": "2356.TW",
+      "name": "2356.TW",
+      "score": 2,
+      "level": "READY",
+      "price": 49.900001525878906
+    },
+    {
+      "ticker": "3706.TW",
+      "name": "3706.TW",
+      "score": 2,
+      "level": "READY",
+      "price": 87.19999694824219
+    },
+    {
+      "ticker": "2376.TW",
+      "name": "2376.TW",
+      "score": 2,
+      "level": "READY",
+      "price": 312.0
+    },
     {
       "ticker": "2467.TW",
       "name": "2467.TW",
-      "score": 2,
-      "level": "READY",
-      "price": 609.0
+      "score": 1,
+      "level": "EARLY",
+      "price": 560.0
     },
     {
       "ticker": "3583.TW",
       "name": "3583.TW",
-      "score": 2,
-      "level": "READY",
-      "price": 792.0
+      "score": 1,
+      "level": "EARLY",
+      "price": 808.0
     },
     {
       "ticker": "5443.TWO",
       "name": "5443.TWO",
-      "score": 2,
-      "level": "READY",
-      "price": 129.5
+      "score": 1,
+      "level": "EARLY",
+      "price": 126.0
+    },
+    {
+      "ticker": "6139.TW",
+      "name": "6139.TW",
+      "score": 1,
+      "level": "EARLY",
+      "price": 715.0
     },
     {
       "ticker": "3680.TWO",
       "name": "3680.TWO",
-      "score": 2,
-      "level": "READY",
-      "price": 537.0
+      "score": 1,
+      "level": "EARLY",
+      "price": 588.0
     },
     {
       "ticker": "2464.TW",
       "name": "2464.TW",
-      "score": 2,
-      "level": "READY",
-      "price": 113.5
-    },
-    {
-      "ticker": "3711.TW",
-      "name": "3711.TW",
-      "score": 2,
-      "level": "READY",
-      "price": 478.0
-    },
-    {
-      "ticker": "2449.TW",
-      "name": "2449.TW",
-      "score": 2,
-      "level": "READY",
-      "price": 302.5
-    },
-    {
-      "ticker": "6147.TWO",
-      "name": "6147.TWO",
-      "score": 2,
-      "level": "READY",
-      "price": 163.0
-    },
-    {
-      "ticker": "2377.TW",
-      "name": "2377.TW",
-      "score": 2,
-      "level": "READY",
-      "price": 97.69999694824219
-    },
-    {
-      "ticker": "3037.TW",
-      "name": "3037.TW",
-      "score": 2,
-      "level": "READY",
-      "price": 883.0
+      "score": 1,
+      "level": "EARLY",
+      "price": 108.5
     }
   ],
   "signals": [
     {
-      "ticker": "2467.TW",
+      "ticker": "6830.TW",
+      "signal": "BUY",
+      "level": "READY"
+    },
+    {
+      "ticker": "2356.TW",
+      "signal": "BUY",
+      "level": "READY"
+    },
+    {
+      "ticker": "3706.TW",
+      "signal": "BUY",
+      "level": "READY"
+    },
+    {
+      "ticker": "2376.TW",
       "signal": "BUY",
       "level": "READY"
     },
     {
       "ticker": "3583.TW",
-      "signal": "BUY",
-      "level": "READY"
+      "signal": "READY_PULLBACK",
+      "level": "EARLY"
     },
     {
-      "ticker": "5443.TWO",
-      "signal": "BUY",
-      "level": "READY"
-    },
-    {
-      "ticker": "3680.TWO",
-      "signal": "BUY",
-      "level": "READY"
-    },
-    {
-      "ticker": "2464.TW",
-      "signal": "BUY",
-      "level": "READY"
-    },
-    {
-      "ticker": "3711.TW",
-      "signal": "BUY",
-      "level": "READY"
-    },
-    {
-      "ticker": "2449.TW",
-      "signal": "BUY",
-      "level": "READY"
-    },
-    {
-      "ticker": "6147.TWO",
-      "signal": "BUY",
-      "level": "READY"
-    },
-    {
-      "ticker": "2377.TW",
-      "signal": "BUY",
-      "level": "READY"
-    },
-    {
-      "ticker": "3037.TW",
-      "signal": "BUY",
-      "level": "READY"
+      "ticker": "6139.TW",
+      "signal": "READY_PULLBACK",
+      "level": "EARLY"
     }
   ],
   "ranked": [
     {
-      "ticker": "3711.TW",
-      "name": "日月光投控",
-      "sector": "Packaging",
+      "ticker": "2356.TW",
+      "name": "英業達",
+      "sector": "Server",
       "signal": "BUY",
       "level": "READY",
       "scanner_score": 2,
       "minervini_score": 0,
       "passed_minervini_core": false,
-      "narrative_score": 93.33,
+      "narrative_score": 86.67,
       "narrative_strength": "STRONG",
       "narrative_count": 3,
-      "narrative_bonus": 38.666,
-      "news_heat_score": 48,
-      "news_count": 2,
-      "source_count": 2,
-      "news_heat_bonus": 9.600000000000001,
-      "chip_score": 85,
-      "institutional_bias": "BUY",
-      "foreign_net_buy": 1400594,
-      "trust_net_buy": 1112721,
-      "dealer_net_buy": -189186,
-      "institutional_net_buy": 2324129,
-      "chip_bonus": 17.0,
-      "score": 173.46599999999998
-    },
-    {
-      "ticker": "2464.TW",
-      "name": "盟立",
-      "sector": "Equipment",
-      "signal": "BUY",
-      "level": "READY",
-      "scanner_score": 2,
-      "minervini_score": 0,
-      "passed_minervini_core": false,
-      "narrative_score": 0,
-      "narrative_strength": "NONE",
-      "narrative_count": 0,
-      "narrative_bonus": 0,
-      "news_heat_score": 86,
-      "news_count": 5,
-      "source_count": 4,
-      "news_heat_bonus": 17.2,
-      "chip_score": 80,
-      "institutional_bias": "BUY",
-      "foreign_net_buy": 6326570,
+      "narrative_bonus": 37.334,
+      "news_heat_score": 0,
+      "news_count": 0,
+      "source_count": 0,
+      "news_heat_bonus": 0,
+      "chip_score": 0,
+      "institutional_bias": "NONE",
+      "foreign_net_buy": 0,
       "trust_net_buy": 0,
-      "dealer_net_buy": 293406,
-      "institutional_net_buy": 6619976,
-      "chip_bonus": 16.0,
-      "score": 151.4
+      "dealer_net_buy": 0,
+      "institutional_net_buy": 0,
+      "chip_bonus": 0,
+      "score": 145.534
     },
     {
-      "ticker": "2449.TW",
-      "name": "京元電子",
-      "sector": "Packaging",
+      "ticker": "2376.TW",
+      "name": "技嘉",
+      "sector": "Server",
       "signal": "BUY",
       "level": "READY",
       "scanner_score": 2,
@@ -207,34 +161,8 @@
       "score": 145.2
     },
     {
-      "ticker": "2377.TW",
-      "name": "微星",
-      "sector": "Server",
-      "signal": "BUY",
-      "level": "READY",
-      "scanner_score": 2,
-      "minervini_score": 0,
-      "passed_minervini_core": false,
-      "narrative_score": 80.0,
-      "narrative_strength": "STRONG",
-      "narrative_count": 3,
-      "narrative_bonus": 36.0,
-      "news_heat_score": 0,
-      "news_count": 0,
-      "source_count": 0,
-      "news_heat_bonus": 0,
-      "chip_score": 0,
-      "institutional_bias": "SELL",
-      "foreign_net_buy": -363037,
-      "trust_net_buy": -27934,
-      "dealer_net_buy": 47105,
-      "institutional_net_buy": -343866,
-      "chip_bonus": 0.0,
-      "score": 144.2
-    },
-    {
-      "ticker": "3680.TWO",
-      "name": "家登",
+      "ticker": "6830.TW",
+      "name": "汎銓",
       "sector": "Equipment",
       "signal": "BUY",
       "level": "READY",
@@ -245,10 +173,10 @@
       "narrative_strength": "NONE",
       "narrative_count": 0,
       "narrative_bonus": 0,
-      "news_heat_score": 29,
-      "news_count": 1,
-      "source_count": 1,
-      "news_heat_bonus": 5.800000000000001,
+      "news_heat_score": 0,
+      "news_count": 0,
+      "source_count": 0,
+      "news_heat_bonus": 0,
       "chip_score": 0,
       "institutional_bias": "NONE",
       "foreign_net_buy": 0,
@@ -256,15 +184,41 @@
       "dealer_net_buy": 0,
       "institutional_net_buy": 0,
       "chip_bonus": 0,
-      "score": 124.0
+      "score": 118.2
+    },
+    {
+      "ticker": "3706.TW",
+      "name": "神達",
+      "sector": "Server",
+      "signal": "BUY",
+      "level": "READY",
+      "scanner_score": 2,
+      "minervini_score": 0,
+      "passed_minervini_core": false,
+      "narrative_score": 0,
+      "narrative_strength": "NONE",
+      "narrative_count": 0,
+      "narrative_bonus": 0,
+      "news_heat_score": 0,
+      "news_count": 0,
+      "source_count": 0,
+      "news_heat_bonus": 0,
+      "chip_score": 0,
+      "institutional_bias": "NONE",
+      "foreign_net_buy": 0,
+      "trust_net_buy": 0,
+      "dealer_net_buy": 0,
+      "institutional_net_buy": 0,
+      "chip_bonus": 0,
+      "score": 108.2
     },
     {
       "ticker": "3583.TW",
       "name": "辛耘",
       "sector": "Equipment",
-      "signal": "BUY",
-      "level": "READY",
-      "scanner_score": 2,
+      "signal": "READY_PULLBACK",
+      "level": "EARLY",
+      "scanner_score": 1,
       "minervini_score": 0,
       "passed_minervini_core": false,
       "narrative_score": 0,
@@ -282,15 +236,15 @@
       "dealer_net_buy": -7021,
       "institutional_net_buy": -283725,
       "chip_bonus": 0.0,
-      "score": 123.0
+      "score": 58.900000000000006
     },
     {
-      "ticker": "2467.TW",
-      "name": "志聖",
+      "ticker": "6139.TW",
+      "name": "亞翔",
       "sector": "Equipment",
-      "signal": "BUY",
-      "level": "READY",
-      "scanner_score": 2,
+      "signal": "READY_PULLBACK",
+      "level": "EARLY",
+      "scanner_score": 1,
       "minervini_score": 0,
       "passed_minervini_core": false,
       "narrative_score": 0,
@@ -308,111 +262,39 @@
       "dealer_net_buy": 0,
       "institutional_net_buy": 0,
       "chip_bonus": 0,
-      "score": 118.2
-    },
-    {
-      "ticker": "5443.TWO",
-      "name": "均豪",
-      "sector": "Equipment",
-      "signal": "BUY",
-      "level": "READY",
-      "scanner_score": 2,
-      "minervini_score": 0,
-      "passed_minervini_core": false,
-      "narrative_score": 0,
-      "narrative_strength": "NONE",
-      "narrative_count": 0,
-      "narrative_bonus": 0,
-      "news_heat_score": 0,
-      "news_count": 0,
-      "source_count": 0,
-      "news_heat_bonus": 0,
-      "chip_score": 0,
-      "institutional_bias": "NONE",
-      "foreign_net_buy": 0,
-      "trust_net_buy": 0,
-      "dealer_net_buy": 0,
-      "institutional_net_buy": 0,
-      "chip_bonus": 0,
-      "score": 118.2
-    },
-    {
-      "ticker": "6147.TWO",
-      "name": "頎邦",
-      "sector": "Packaging",
-      "signal": "BUY",
-      "level": "READY",
-      "scanner_score": 2,
-      "minervini_score": 0,
-      "passed_minervini_core": false,
-      "narrative_score": 0,
-      "narrative_strength": "NONE",
-      "narrative_count": 0,
-      "narrative_bonus": 0,
-      "news_heat_score": 0,
-      "news_count": 0,
-      "source_count": 0,
-      "news_heat_bonus": 0,
-      "chip_score": 0,
-      "institutional_bias": "NONE",
-      "foreign_net_buy": 0,
-      "trust_net_buy": 0,
-      "dealer_net_buy": 0,
-      "institutional_net_buy": 0,
-      "chip_bonus": 0,
-      "score": 108.2
-    },
-    {
-      "ticker": "3037.TW",
-      "name": "欣興",
-      "sector": "PCB",
-      "signal": "BUY",
-      "level": "READY",
-      "scanner_score": 2,
-      "minervini_score": 0,
-      "passed_minervini_core": false,
-      "narrative_score": 0,
-      "narrative_strength": "NONE",
-      "narrative_count": 0,
-      "narrative_bonus": 0,
-      "news_heat_score": 0,
-      "news_count": 0,
-      "source_count": 0,
-      "news_heat_bonus": 0,
-      "chip_score": 0,
-      "institutional_bias": "SELL",
-      "foreign_net_buy": -4724899,
-      "trust_net_buy": -197681,
-      "dealer_net_buy": -1539237,
-      "institutional_net_buy": -6461817,
-      "chip_bonus": 0.0,
-      "score": 108.2
+      "score": 54.1
     }
   ],
   "decisions": {
-    "3711.TW": {
-      "action": "HOLD",
-      "position_size": 0.16000000000000003,
+    "2356.TW": {
+      "action": "BUY",
+      "position_size": 0.1,
       "stop_loss": 0.05,
       "signal": "BUY",
-      "reason": "ALREADY_IN_POSITION",
-      "reason_detail": "RANGE market - VIX 16.8"
+      "reason": "NORMAL",
+      "risk_check": "PASS_ADJUSTED",
+      "risk_reason": "SINGLE_POSITION_EXCEED",
+      "market_coeff": 0.85
     },
-    "2464.TW": {
-      "action": "HOLD",
-      "position_size": 0.16000000000000003,
+    "2376.TW": {
+      "action": "BUY",
+      "position_size": 0.1,
       "stop_loss": 0.05,
       "signal": "BUY",
-      "reason": "ALREADY_IN_POSITION",
-      "reason_detail": "RANGE market - VIX 16.8"
+      "reason": "NORMAL",
+      "risk_check": "PASS_ADJUSTED",
+      "risk_reason": "SINGLE_POSITION_EXCEED",
+      "market_coeff": 0.85
     },
-    "2449.TW": {
-      "action": "HOLD",
-      "position_size": 0.16000000000000003,
+    "6830.TW": {
+      "action": "BUY",
+      "position_size": 0.1,
       "stop_loss": 0.05,
       "signal": "BUY",
-      "reason": "ALREADY_IN_POSITION",
-      "reason_detail": "RANGE market - VIX 16.8"
+      "reason": "NORMAL",
+      "risk_check": "PASS_ADJUSTED",
+      "risk_reason": "SINGLE_POSITION_EXCEED",
+      "market_coeff": 0.85
     }
   },
   "exit_signals": {},

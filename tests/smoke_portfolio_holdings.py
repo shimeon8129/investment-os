@@ -23,12 +23,13 @@ def main():
         )
 
     assert get_holding_shares("009816") == 5000
-    assert get_holding_shares("00992A") == 5000
+    assert get_holding_shares("00992A") == 2000
     assert get_holding_shares("2330") == 50
     assert get_holding_shares("2345") == 55
-    assert get_holding_shares("3017") == 20
+    assert get_holding_shares("2408") == 120
     assert get_holding_shares("3711") == 50
-    assert get_holding_shares("6830") == 20
+    assert get_holding_shares("6830") == 50
+    assert get_holding_shares("3017") == 0
     assert get_holding_shares("9999") == 0
 
     print("Portfolio holdings smoke test passed.")
