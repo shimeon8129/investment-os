@@ -5,7 +5,9 @@ Provides ETF holdings data and price data for the discovery pool.
 ETF holdings are embedded as static data (v0.1 offline-safe).
 Price data is fetched from yfinance with graceful fallback.
 """
+import contextlib
 import csv
+import io
 from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
@@ -208,6 +210,23 @@ _ETF_HOLDINGS: dict = {
 }
 
 
+def _load_two_suffix_set() -> set:
+    """Return set of ticker codes known to be TPEx (.TWO) listed, from universe_tw.csv."""
+    two_set = set()
+    universe_path = PROJECT_ROOT / "data" / "universe_tw.csv"
+    if not universe_path.exists():
+        return two_set
+    with open(universe_path, "r", encoding="utf-8") as f:
+        for row in csv.DictReader(f):
+            ticker = row.get("ticker", "").strip()
+            if ticker.endswith(".TWO"):
+                two_set.add(ticker.split(".")[0])
+    return two_set
+
+
+_TWO_TICKERS: set | None = None
+
+
 def load_ai_watchlist_codes() -> set:
     """Return set of ticker codes from data/master/ai_watchlist_source.csv."""
     codes = set()
@@ -247,24 +266,35 @@ def get_etf_holdings(etf_code: str, log_sink: list | None = None) -> list:
     return holdings
 
 
+def _yf_history_silent(ticker_obj, period: str):
+    """Call yfinance history() suppressing stdout/stderr noise (404, delisted msgs)."""
+    buf = io.StringIO()
+    with contextlib.redirect_stdout(buf), contextlib.redirect_stderr(buf):
+        return ticker_obj.history(period=period)
+
+
 def fetch_price(ticker_code: str, log_sink: list | None = None) -> dict:
     """
-    Try yfinance for last close + pct_change for a TW stock.
-    Returns {"close": float|"DATA_MISSING", "pct_change": float|"DATA_MISSING"}.
-    Never raises.
+    Fetch last close + pct_change for a TW/TWO stock via yfinance.
+    Tries the correct suffix first (TWO for known OTC stocks, TW otherwise).
+    Suppresses yfinance 404 noise. Returns DATA_MISSING on failure. Never raises.
     """
+    global _TWO_TICKERS
+    if _TWO_TICKERS is None:
+        _TWO_TICKERS = _load_two_suffix_set()
     if log_sink is None:
         log_sink = []
     try:
         import yfinance as yf
-        yf_ticker = f"{ticker_code}.TW"
-        t = yf.Ticker(yf_ticker)
-        hist = t.history(period="5d")
-        if hist.empty or len(hist) < 2:
-            yf_ticker = f"{ticker_code}.TWO"
-            t = yf.Ticker(yf_ticker)
-            hist = t.history(period="5d")
-        if hist.empty or len(hist) < 2:
+        suffixes = [".TWO", ".TW"] if ticker_code in _TWO_TICKERS else [".TW", ".TWO"]
+        hist = None
+        for suffix in suffixes:
+            t = yf.Ticker(f"{ticker_code}{suffix}")
+            h = _yf_history_silent(t, "5d")
+            if not h.empty and len(h) >= 2:
+                hist = h
+                break
+        if hist is None:
             log_sink.append(f"[PRICE] {ticker_code}: no history data")
             return {"close": "DATA_MISSING", "pct_change": "DATA_MISSING"}
         close_today = float(hist["Close"].iloc[-1])

@@ -11,6 +11,33 @@ from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DISCOVERY_DIR = PROJECT_ROOT / "data" / "discovery"
+_AI_WATCHLIST_PATH = PROJECT_ROOT / "data" / "master" / "ai_watchlist_source.csv"
+_UNIVERSE_PATH = PROJECT_ROOT / "data" / "universe_tw.csv"
+
+
+def _build_industry_lookup() -> dict:
+    """
+    Build {ticker_code: industry_str} from two sources:
+    1. universe_tw.csv sector (broad fallback)
+    2. ai_watchlist_source.csv 產業類別 (overrides, more specific)
+    """
+    lookup = {}
+    if _UNIVERSE_PATH.exists():
+        with open(_UNIVERSE_PATH, "r", encoding="utf-8") as f:
+            for row in csv.DictReader(f):
+                code = row.get("ticker", "").split(".")[0].strip()
+                sector = row.get("sector", "").strip()
+                if code and sector:
+                    lookup[code] = sector
+    if _AI_WATCHLIST_PATH.exists():
+        with open(_AI_WATCHLIST_PATH, "r", encoding="utf-8") as f:
+            for row in csv.DictReader(f):
+                code = row.get("股票代號", "").strip()
+                industry = row.get("產業類別", "").strip()
+                enabled = row.get("啟用", "").strip().lower()
+                if code and industry and enabled == "true":
+                    lookup[code] = industry
+    return lookup
 
 REQUIRED_COLUMNS = [
     "date", "ticker", "name", "industry",
@@ -146,10 +173,12 @@ def build_pool(validated: list,
         run_date = datetime.now().strftime("%Y-%m-%d")
 
     merged = _deduplicate(validated, ai_watchlist_codes)
+    industry_lookup = _build_industry_lookup()
 
     for rec in merged:
         rec["date"] = run_date
-        rec["industry"] = rec.get("industry", "")
+        if not rec.get("industry"):
+            rec["industry"] = industry_lookup.get(rec["normalized_ticker"], "")
         rec["discovery_score"] = _calc_score(rec)
         rec["discovery_status"] = _get_discovery_status(rec)
         rec["recommended_action"] = _get_recommended_action(rec)
