@@ -1,0 +1,15 @@
+[Unit]
+Description=Investment OS Daily Observation Run
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+WorkingDirectory=/home/shimeon/investment_os
+ExecStart=/usr/bin/python3 -m jobs.observation_daily
+Environment=PYTHONPATH=/home/shimeon/investment_os
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=default.target
