@@ -3,7 +3,10 @@
 ## Current State
 
 ✅ MVP 100% complete. Merged to main 2026-05-07.
+✅ MVP-Auto-Intraday-Observation v0.1 Phase A + B complete. 2026-05-08.
+
 Merge commit: d7cb447 — "Merge Investment OS MVP — Architecture v0.1 + v1.6 P0/P1/P2-A"
+Latest commit: 1b44a4a — "feat(observation): add intraday observation systemd timers v0.1"
 Active baseline: main branch.
 
 Active components on main:
@@ -12,11 +15,21 @@ Active components on main:
 - audit/p1_entry_audit.py — P1 parallel audit runner (advisory, non-blocking)
 - utils/market_calendar.py — OPEN / CLOSED_WEEKEND / CLOSED_HOLIDAY / OPEN_EARLY_CLOSE
 - config/market_calendar.json — TW and US 2026 calendars
+- jobs/intraday_observation.py — manual intraday slot runner (Phase A, a10e0f2)
+- scripts/run_intraday_observation.sh — shell wrapper for intraday runner
+- systemd/investment-os-intraday-observation@.service — template service (Phase B, 1b44a4a)
+- systemd/investment-os-intraday-*.timer (×6) — Mon..Fri timers 08:30–14:30 CST
 
-Post-merge validation on main: ALL PASS (2026-05-07, TW OPEN)
-- py_compile × 4: PASS
-- tests/smoke_p1_entry_audit.py: 20/20 PASS
-- python3 -m jobs.daily_run: 5 subprocesses ALL PASS
+Intraday timers status (2026-05-08 01:12 CST):
+- All 6 timers: enabled, active (waiting)
+- Next trigger: 2026-05-08 08:30 CST (pre_market)
+- Monitor: journalctl --user -u 'investment-os-intraday-*' -f
+
+Stash on hold (requires owner decision before resuming):
+- stash@{0}: "WIP price context reporting before intraday timers"
+  Files: decision/entry_lock_engine.py, reporting/p1_entry_audit_report.py
+  Nature: additive price_data field + Price Context report section
+  Action needed: owner approve to commit, or git stash drop to discard
 
 Audit: memory/04_SYSTEM_AUDIT.md (updated 2026-05-08) — 13 risks assessed (R-002/R-003 PARTIAL via v0.2-lite patch).
 Position source fix: commit b4a9e07. Active positions now from current_holdings.json.

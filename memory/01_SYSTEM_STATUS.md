@@ -118,20 +118,54 @@ Post-merge validation on main:
 
 Next phase: observation. No feature expansion until explicitly approved.
 
+## Intraday Observation Automation — v0.1 (2026-05-08)
+
+### Phase A — Manual Runner (commit a10e0f2)
+- jobs/intraday_observation.py: accepts one slot arg, runs jobs.daily_run,
+  captures git status before/after, writes slot report/log/snapshot copies.
+- scripts/run_intraday_observation.sh: shell wrapper, sets PYTHONPATH.
+- Supported slots: pre_market | market_open | mid_morning |
+  noon_review | pre_close | post_close_review
+- Outputs written to:
+  reports/intraday/YYYY-MM-DD/HHMM_<slot>.md
+  logs/intraday/YYYY-MM-DD/HHMM_<slot>.log
+  data/processed/intraday/YYYY-MM-DD/HHMM_{signal,mainline}_snapshot.json
+- All 6 manual slot dry runs: PASS (2026-05-08)
+
+### Phase B — systemd User Timers (commit 1b44a4a)
+- systemd/investment-os-intraday-observation@.service: template service
+- 6 timers (Mon..Fri, Asia/Taipei system timezone):
+  - investment-os-intraday-pre-market.timer     → 08:30
+  - investment-os-intraday-market-open.timer    → 09:05
+  - investment-os-intraday-mid-morning.timer    → 10:30
+  - investment-os-intraday-noon-review.timer    → 12:00
+  - investment-os-intraday-pre-close.timer      → 13:10
+  - investment-os-intraday-post-close.timer     → 14:30
+- All timers: enabled, active (waiting). Next trigger: 2026-05-08 08:30 CST.
+- Manual systemd service test: status=0/SUCCESS (market_open, 01:10 CST)
+- Note: TimeZone= key ignored by this systemd version (non-blocking;
+  system TZ = Asia/Taipei so OnCalendar fires at correct wall-clock time).
+- Existing 16:00 observation automation: untouched.
+
+### Stash — WIP Price Context Reporting
+- stash@{0}: "WIP price context reporting before intraday timers"
+  - decision/entry_lock_engine.py: price_data added to _evaluate_ticker return dict
+  - reporting/p1_entry_audit_report.py: _section_price_context() added
+  - Status: stashed for owner review. Needs explicit decision: commit or drop.
+  - Do not implement or commit without owner approval.
+
 ## Session Status — 2026-05-08 Observation Phase
 
 Feature branch `add-daily-decision-dashboard-v0-20260426_2057` fully absorbed by main.
-Active baseline is now main. Observation phase active.
+Active baseline is now main. Intraday observation automation active.
 
 - Architecture v0.1 + v1.6 P0/P1/P2-A: ✅ merged, validated, operational.
 - v0.2-lite Report Truthfulness Patch: ✅ applied 2026-05-08, commit 1e5e6cf.
-  Files changed: utils/market_calendar.py, jobs/daily_run.py.
-  Report now shows: report_label=TODAY_MARKET_OPEN, latest_full_trading_day=2026-05-07,
-  data_as_of_date=UNKNOWN, data_mode=OBSERVATION.
-- Observation run 2026-05-08, TW OPEN — ALL PASS.
-  Outputs: data/processed/signal_snapshot.json, reports/daily/2026-05-08_daily_report.md
-- No regression from v0.2-lite patch.
-- Runtime outputs (candidates.json, processed/*.json, daily reports): NOT committed (expected).
+- MVP-Auto-Intraday-Observation Phase A: ✅ commit a10e0f2 (2026-05-08).
+- MVP-Auto-Intraday-Observation Phase B: ✅ commit 1b44a4a (2026-05-08).
+  6 systemd user timers enabled. First auto-run: 2026-05-08 08:30 CST.
+- Runtime outputs (candidates.json, processed/*.json, daily reports,
+  intraday reports/logs): NOT committed (expected).
 - Market Context Gate v0.2 full implementation: still DEFERRED (R-001/R-011), approval required.
 - R-002 and R-003: PARTIAL — surfaced via v0.2-lite patch. Full automation deferred.
 - Do not implement new features. Do not modify runtime logic. Do not start full v0.2.

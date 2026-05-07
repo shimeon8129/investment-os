@@ -1,5 +1,46 @@
 # Investment OS｜Session Log
 
+## 2026-05-08 — MVP-Auto-Intraday-Observation Phase A + B
+
+Session summary:
+- Implemented and validated manual intraday observation runner (Phase A).
+- Installed and validated systemd user timers for intraday automation (Phase B).
+- Stashed unrelated WIP price context reporting changes to clear Phase B blocker.
+- Final readiness check PASS. All 6 timers active (waiting) for 2026-05-08 morning.
+
+Phase A (commit a10e0f2):
+- jobs/intraday_observation.py: new manual intraday observation runner.
+  Accepts one slot arg (pre_market/market_open/mid_morning/noon_review/
+  pre_close/post_close_review). Runs jobs.daily_run, captures git status
+  before/after, writes slot report/log/snapshot copies to dated intraday folders.
+- scripts/run_intraday_observation.sh: shell wrapper for the above.
+- All 6 manual dry runs: PASS. Slot reports contain Data Freshness block.
+- Remote push verified PASS. Existing 16:00 automation untouched.
+
+Stash (between Phase A and B):
+- git stash push "WIP price context reporting before intraday timers"
+  -- decision/entry_lock_engine.py reporting/p1_entry_audit_report.py
+- stash@{0} created. Blocker cleared. Needs owner review before resuming.
+
+Phase B (commit 1b44a4a):
+- systemd/investment-os-intraday-observation@.service: template service.
+- 6 timers installed to ~/.config/systemd/user/, enabled with --now:
+  pre_market 08:30 / market_open 09:05 / mid_morning 10:30 /
+  noon_review 12:00 / pre_close 13:10 / post_close_review 14:30
+  (all Mon..Fri, system TZ Asia/Taipei)
+- systemd verify: PASS (TimeZone= warning pre-existing, non-blocking)
+- systemctl --user start market_open service test: status=0/SUCCESS
+- list-timers: 6 timers listed, all active (waiting)
+- First scheduled trigger: 2026-05-08 08:30:00 CST
+- Remote push verified PASS. Existing 16:00 automation untouched.
+
+Validation summary (2026-05-08 01:12 CST):
+- HEAD = origin/main = 1b44a4a: PASS
+- All 6 timers active (waiting): PASS
+- market_open service previous result: SUCCESS
+- Stash preserved: stash@{0} WIP price context reporting
+- Recommendation: READY_FOR_2026-05-08_MORNING_AUTOMATION
+
 ## 2026-05-08 — v0.2-lite Report Truthfulness Patch
 
 Session summary:
