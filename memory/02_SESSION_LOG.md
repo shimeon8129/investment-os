@@ -1,5 +1,20 @@
 # Investment OS｜Session Log
 
+## 2026-05-07 — Position source fix (trade_log → current_holdings)
+
+Session summary:
+- Ran Trade Log vs Current Holdings audit: FAIL verdict.
+  Report: reports/observation/2026-05-07_trade_log_vs_holdings_audit.md
+- Root cause: execution/portfolio.py:load_portfolio() treated advisory trade_log BUY rows
+  as real broker positions. 4 advisory-only tickers (3583, 6187, 3680, 2449) were live
+  in position lock and exit check; 6 real holdings (009816, 00992A, 2330, 2345, 2408, 6830)
+  were invisible to both.
+- Fix: added load_portfolio_from_holdings() in execution/portfolio.py — reads
+  current_holdings.json, normalises ticker suffixes to .TW format.
+  Updated pipeline/main_v1.py to use new function; load_portfolio() retained (advisory only).
+- Validation: py_compile PASS, smoke_p1_entry_audit 20/20 PASS, smoke_portfolio_holdings PASS.
+- Committed b4a9e07, pushed to origin/main.
+
 ## 2026-05-07 — MVP main merge completion
 
 Session summary:

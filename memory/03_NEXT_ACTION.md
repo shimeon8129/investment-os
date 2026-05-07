@@ -24,6 +24,12 @@ Audit: memory/04_SYSTEM_AUDIT.md (updated 2026-05-07) — 12 risks assessed (R-0
 
 Priority order:
 
+0. Position source fix — ✅ RESOLVED (2026-05-07, commit b4a9e07)
+   - execution/portfolio.py: added load_portfolio_from_holdings() from current_holdings.json.
+   - pipeline/main_v1.py: switched portfolio = load_portfolio_from_holdings().
+   - load_portfolio() (trade_log) retained for advisory/performance use only.
+   - Audit report: reports/observation/2026-05-07_trade_log_vs_holdings_audit.md.
+
 1. Ticker hygiene (resolved + standing rule) — Audit: R-008, R-009 RESOLVED
    - 8046 and 3189 suffix issue has been fixed: .TWO → .TW in data/universe_tw.csv.
    - Do not remove user-observed tickers because of provider warnings (yfinance
