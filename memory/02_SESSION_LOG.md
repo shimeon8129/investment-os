@@ -1,5 +1,46 @@
 # Investment OS｜Session Log
 
+## 2026-05-08 — v0.2-lite Report Truthfulness Patch
+
+Session summary:
+- Applied minimal report truthfulness patch to address R-002 and R-003 (partial).
+- No trading logic, scoring, EntryLockEngine, or decision rules modified.
+- Changes: 2 files, 50 insertions. Commit 1e5e6cf pushed to origin/main.
+
+utils/market_calendar.py:
+- Added `timedelta` import.
+- Added `get_latest_full_trading_day(market, d)`: returns most recent completed
+  trading day strictly before d by scanning backwards up to 30 days.
+
+jobs/daily_run.py:
+- Import `get_latest_full_trading_day`.
+- After `get_market_context()`, compute `_FRESHNESS_META` dict and `_FRESHNESS_LINES`
+  markdown block containing: report_label, run_date, market_date, market_status,
+  latest_full_trading_day, data_as_of_date=UNKNOWN, data_mode=OBSERVATION,
+  data_freshness_warning.
+- report_label logic: TODAY_MARKET_OPEN if TW open, else MARKET_CLOSED_SNAPSHOT.
+- _FRESHNESS_META spread into signal_snapshot.json (both market-open and market-closed paths).
+- _FRESHNESS_LINES inserted into daily report as ## Data Freshness section
+  (before ## Runtime Status on market-closed path; before ## Market Calendar on open path).
+
+Validation:
+- py_compile jobs/daily_run.py: PASS
+- py_compile utils/market_calendar.py: PASS
+- python3 -m jobs.daily_run (2026-05-08, TW OPEN): ALL PASS
+- smoke_daily_decision_dashboard: PASS
+- smoke_portfolio_holdings: PASS
+- GitHub remote read verification (market_calendar.py + daily_run.py): PASS
+- ## Data Freshness in 2026-05-08_daily_report.md: PASS
+
+Risk register updates:
+- R-002 (data_as_of_date missing): ⚠️ PARTIAL — data_as_of_date=UNKNOWN now surfaced.
+  Full derived-date automation still gated on v0.2 approval.
+- R-003 (report lacks data vintage label): ⚠️ PARTIAL — report_label now in
+  ## Data Freshness. Full v0.2 Mainline Snapshot integration still deferred.
+- R-001/R-011 (closed-day pipeline skip, market session phases): still DEFERRED.
+
+No sensitive investment data changed. No Notion update this session (no new Notion page target specified).
+
 ## 2026-05-07 — Position source fix (trade_log → current_holdings)
 
 Session summary:

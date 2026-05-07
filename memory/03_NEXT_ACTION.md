@@ -18,8 +18,9 @@ Post-merge validation on main: ALL PASS (2026-05-07, TW OPEN)
 - tests/smoke_p1_entry_audit.py: 20/20 PASS
 - python3 -m jobs.daily_run: 5 subprocesses ALL PASS
 
-Audit: memory/04_SYSTEM_AUDIT.md (updated 2026-05-07) — 13 risks assessed (R-012, R-013 resolved).
+Audit: memory/04_SYSTEM_AUDIT.md (updated 2026-05-08) — 13 risks assessed (R-002/R-003 PARTIAL via v0.2-lite patch).
 Position source fix: commit b4a9e07. Active positions now from current_holdings.json.
+v0.2-lite patch: commit 1e5e6cf (2026-05-08). Data Freshness section in daily report + snapshot.
 
 ## Next Engineering Tasks
 
@@ -64,12 +65,14 @@ Priority order:
    - Post-merge validation on main: ALL PASS.
    - R-007 (decision_engine.py): orphaned file remains OPEN / out-of-scope; no blocking.
 
-5. Market Context Gate v0.2 — Audit: R-001, R-002, R-003, R-011 | Priority: P3 | Status: DEFERRED
-   - DEFERRED. Do not implement until explicitly approved by user.
+5. Market Context Gate v0.2 full — Audit: R-001, R-002, R-003, R-011 | Priority: P3 | Status: PARTIAL/DEFERRED
+   - v0.2-lite patch applied 2026-05-08 (commit 1e5e6cf): R-002 and R-003 partially addressed.
+     data_as_of_date=UNKNOWN, report_label, latest_full_trading_day now surfaced.
+   - Full v0.2 still DEFERRED. Do not implement until explicitly approved by user.
    - Spec defined in docs/MARKET_CONTEXT_GATE_V0_2.md.
-   - Addresses: latest_full_trading_day, data_as_of_date, data_mode, pipeline_policy,
-     report_label per market. Key principle: market closed ≠ no data.
-   - Gate on MVP branch merge first. Approval required before any code change.
+   - Remaining: derived data_as_of_date from pipeline data, pipeline_policy per market,
+     running pipeline on closed days using latest_full_trading_day data.
+   - Key principle: market closed ≠ no data. Approval required before any further code change.
 
 6. Market session phase enhancement — Audit: R-011 | Priority: P3 | Status: DEFERRED
    - DEFERRED. Do not implement until explicitly approved.

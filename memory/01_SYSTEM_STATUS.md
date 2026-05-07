@@ -9,7 +9,7 @@ Current working branch:
 main
 
 Latest snapshot pushed:
-2026-05-07
+2026-05-08
 
 ## Current Reality
 
@@ -56,9 +56,13 @@ Mainline fragmentation has been largely resolved.
    - Runs: daily_decision_dashboard, smoke tests, pipeline_main_v1, p1_entry_audit.
    - p1_entry_audit is non-blocking advisory (P2-A); failure does not affect status.
    - Market calendar gate v0.1 integrated: skips pipeline when TW is closed.
-   - Daily report includes: Market Calendar, Human Summary, Mainline Snapshot,
-     P1 Entry Audit, Checks, Safety, Output Files sections.
-   - Latest run: ALL PASS (2026-05-07, TW OPEN)
+   - Daily report includes: Data Freshness, Market Calendar, Human Summary,
+     Mainline Snapshot, P1 Entry Audit, Checks, Safety, Output Files sections.
+   - v0.2-lite patch (2026-05-08): added ## Data Freshness to both report paths;
+     snapshot now includes run_date, market_date, market_status,
+     latest_full_trading_day, data_as_of_date (UNKNOWN), data_mode, report_label,
+     data_freshness_warning. Commit: 1e5e6cf.
+   - Latest run: ALL PASS (2026-05-08, TW OPEN)
 
 ## Market Calendar Gate
 
@@ -66,7 +70,11 @@ v0.1 (current):
 - config/market_calendar.json: TW and US holiday + early_close calendars.
 - utils/market_calendar.py: classifies OPEN, CLOSED_WEEKEND, CLOSED_HOLIDAY,
   OPEN_EARLY_CLOSE. get_market_context() returns per-market status dict.
+  get_latest_full_trading_day(market, d) added (2026-05-08): returns most recent
+  completed trading day strictly before d.
 - jobs/daily_run.py: if TW not open, writes MARKET_CLOSED snapshot and report.
+  v0.2-lite (2026-05-08): both report paths now include ## Data Freshness section
+  with report_label, data_as_of_date=UNKNOWN, latest_full_trading_day, data_mode=OBSERVATION.
 
 v0.2 (spec only — do not implement until explicitly approved):
 - Defined in docs/MARKET_CONTEXT_GATE_V0_2.md.
@@ -110,15 +118,20 @@ Post-merge validation on main:
 
 Next phase: observation. No feature expansion until explicitly approved.
 
-## Session Status — 2026-05-07 Observation Phase
+## Session Status — 2026-05-08 Observation Phase
 
 Feature branch `add-daily-decision-dashboard-v0-20260426_2057` fully absorbed by main.
 Active baseline is now main. Observation phase active.
 
 - Architecture v0.1 + v1.6 P0/P1/P2-A: ✅ merged, validated, operational.
-- First post-merge observation run: 2026-05-07, TW OPEN — ALL PASS (5 subprocesses).
-  Outputs: data/processed/signal_snapshot.json, reports/daily/2026-05-07_daily_report.md
-- No post-merge regression detected.
+- v0.2-lite Report Truthfulness Patch: ✅ applied 2026-05-08, commit 1e5e6cf.
+  Files changed: utils/market_calendar.py, jobs/daily_run.py.
+  Report now shows: report_label=TODAY_MARKET_OPEN, latest_full_trading_day=2026-05-07,
+  data_as_of_date=UNKNOWN, data_mode=OBSERVATION.
+- Observation run 2026-05-08, TW OPEN — ALL PASS.
+  Outputs: data/processed/signal_snapshot.json, reports/daily/2026-05-08_daily_report.md
+- No regression from v0.2-lite patch.
 - Runtime outputs (candidates.json, processed/*.json, daily reports): NOT committed (expected).
-- Market Context Gate v0.2: DEFERRED (R-001/R-002/R-003/R-011), approval required.
-- Do not implement new features. Do not modify runtime logic. Do not start v0.2.
+- Market Context Gate v0.2 full implementation: still DEFERRED (R-001/R-011), approval required.
+- R-002 and R-003: PARTIAL — surfaced via v0.2-lite patch. Full automation deferred.
+- Do not implement new features. Do not modify runtime logic. Do not start full v0.2.

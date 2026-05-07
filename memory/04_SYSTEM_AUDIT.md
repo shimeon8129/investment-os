@@ -2,6 +2,66 @@
 
 ---
 
+## Audit Entry: 2026-05-08
+
+### Metadata
+
+| Field | Value |
+|-------|-------|
+| Audit date | 2026-05-08 |
+| Audited by | Claude Code (claude-sonnet-4-6) |
+| Branch | main |
+| Commit | 1e5e6cf |
+| Files changed | utils/market_calendar.py, jobs/daily_run.py |
+| Patch scope | v0.2-lite Report Truthfulness Patch — observation-phase labelling only |
+
+---
+
+### Patch Summary
+
+Minimal patch to improve daily report and snapshot truthfulness during Observation Phase.
+No trading logic, scoring, EntryLockEngine, or decision rules modified.
+
+**utils/market_calendar.py** (2 changes):
+- Added `timedelta` to imports.
+- New function: `get_latest_full_trading_day(market, d)` — scans backwards from d-1
+  up to 30 days to return the most recent completed trading day.
+
+**jobs/daily_run.py** (3 changes):
+- Import `get_latest_full_trading_day`.
+- Compute `_FRESHNESS_META` + `_FRESHNESS_LINES` after `get_market_context()`.
+  Fields: run_date, market_date, market_status, latest_full_trading_day,
+  data_as_of_date=UNKNOWN, data_mode=OBSERVATION, report_label,
+  data_freshness_warning (explicit MVP limitation note).
+  report_label: TODAY_MARKET_OPEN or MARKET_CLOSED_SNAPSHOT.
+- Both report paths (market-open and market-closed) now include `## Data Freshness`
+  section and snapshot JSON includes all freshness fields.
+
+### Validation Results
+
+| Check | Result |
+|-------|--------|
+| py_compile jobs/daily_run.py | ✅ PASS |
+| py_compile utils/market_calendar.py | ✅ PASS |
+| python3 -m jobs.daily_run (2026-05-08, TW OPEN) | ✅ PASS |
+| smoke_daily_decision_dashboard | ✅ PASS |
+| smoke_portfolio_holdings | ✅ PASS |
+| GitHub remote read (both files) | ✅ PASS |
+| ## Data Freshness in daily report | ✅ VERIFIED |
+
+### Risk Register Delta
+
+| Risk | Old Status | New Status | Notes |
+|------|-----------|-----------|-------|
+| R-002 data_as_of_date missing | ⚠️ Open | ⚠️ PARTIAL | UNKNOWN now surfaced in snapshot + report |
+| R-003 report lacks data vintage | ⚠️ Open | ⚠️ PARTIAL | report_label in ## Data Freshness |
+| R-001 closed-day pipeline skip | ⚠️ Open | ⚠️ Open | No change — full v0.2 still deferred |
+| R-011 market session phases | ⚠️ Open | ⚠️ Open | No change — full v0.2 still deferred |
+
+No other risks changed. No new risks introduced.
+
+---
+
 ## Audit Entry: 2026-05-02
 
 ### Metadata
