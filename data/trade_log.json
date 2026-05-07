@@ -28,21 +28,6 @@
         "size": 0.1
     },
     {
-        "date": "2026-04-29",
-        "ticker": "2464.TW",
-        "action": "BUY",
-        "price": 97.0,
-        "size": 0.1
-    },
-    {
-        "date": "2026-05-07",
-        "ticker": "2464.TW",
-        "action": "SELL",
-        "price": 113.0,
-        "size": 0.1,
-        "note": "correction: position was never executed; removing from active portfolio"
-    },
-    {
         "date": "2026-05-01",
         "ticker": "2449.TW",
         "action": "BUY",
