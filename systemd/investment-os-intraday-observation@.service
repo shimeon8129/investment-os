@@ -1,0 +1,15 @@
+[Unit]
+Description=Investment OS Intraday Observation — slot %i
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+WorkingDirectory=/home/shimeon/investment_os
+ExecStart=/home/shimeon/investment_os/scripts/run_intraday_observation.sh %i
+Environment=PYTHONPATH=/home/shimeon/investment_os
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=default.target

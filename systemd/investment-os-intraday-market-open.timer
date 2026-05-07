@@ -1,0 +1,11 @@
+[Unit]
+Description=Investment OS Intraday Observation Timer — market_open 09:05 Asia/Taipei
+
+[Timer]
+OnCalendar=Mon..Fri 09:05:00
+TimeZone=Asia/Taipei
+Persistent=false
+Unit=investment-os-intraday-observation@market_open.service
+
+[Install]
+WantedBy=timers.target

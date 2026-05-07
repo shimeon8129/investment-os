@@ -1,0 +1,11 @@
+[Unit]
+Description=Investment OS Intraday Observation Timer — noon_review 12:00 Asia/Taipei
+
+[Timer]
+OnCalendar=Mon..Fri 12:00:00
+TimeZone=Asia/Taipei
+Persistent=false
+Unit=investment-os-intraday-observation@noon_review.service
+
+[Install]
+WantedBy=timers.target
