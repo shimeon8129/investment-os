@@ -36,7 +36,7 @@ from execution.trade import execute_trade
 from execution.exit import check_exit
 
 # === PORTFOLIO ===
-from execution.portfolio import load_portfolio
+from execution.portfolio import load_portfolio_from_holdings
 
 # === MARKET ===
 from decision.market import market_filter
@@ -230,7 +230,7 @@ def run_pipeline(capital=100000):
         print("⚠️ execute_trade returned None, using empty dict")
         decisions = {}
 
-    portfolio = load_portfolio()
+    portfolio = load_portfolio_from_holdings()
 
     print("\n=== DECISION ===")
 
