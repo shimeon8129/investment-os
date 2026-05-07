@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import json
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 from pathlib import Path
 
 _CALENDAR_PATH = Path(__file__).resolve().parents[1] / "config" / "market_calendar.json"
@@ -41,6 +41,20 @@ def is_market_open(market: str, d: date | None = None) -> str:
         return _STATUS_EARLY_CLOSE
 
     return _STATUS_OPEN
+
+
+def get_latest_full_trading_day(market: str = "TW", d: date | None = None) -> date:
+    """Return the most recent completed trading day strictly before d (or today)."""
+    if d is None:
+        d = datetime.now().date()
+    if isinstance(d, datetime):
+        d = d.date()
+    candidate = d - timedelta(days=1)
+    for _ in range(30):
+        if is_market_open(market, candidate) in (_STATUS_OPEN, _STATUS_EARLY_CLOSE):
+            return candidate
+        candidate -= timedelta(days=1)
+    return candidate
 
 
 def get_market_context(d: date | None = None) -> dict:

@@ -10,7 +10,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
-from utils.market_calendar import get_market_context
+from utils.market_calendar import get_market_context, get_latest_full_trading_day
 LOG_DIR = ROOT / "logs"
 REPORT_DIR = ROOT / "reports" / "daily"
 PROCESSED_DIR = ROOT / "data" / "processed"
@@ -86,6 +86,32 @@ def main() -> int:
     tw_open = mctx["markets"]["TW"]["is_open"]
     log(f"[CALENDAR] TW={tw_status}")
 
+    latest_full_trading_day = get_latest_full_trading_day("TW").isoformat()
+    report_label = "TODAY_MARKET_OPEN" if tw_open else "MARKET_CLOSED_SNAPSHOT"
+    _FRESHNESS_META = {
+        "run_date": today,
+        "market_date": mctx["date"],
+        "market_status": tw_status,
+        "latest_full_trading_day": latest_full_trading_day,
+        "data_as_of_date": "UNKNOWN",
+        "data_mode": "OBSERVATION",
+        "report_label": report_label,
+        "data_freshness_warning": "Data vintage not explicitly available in current MVP pipeline.",
+    }
+    _FRESHNESS_LINES = [
+        "## Data Freshness",
+        "",
+        f"- report_label: `{report_label}`",
+        f"- run_date: {today}",
+        f"- market_date: {mctx['date']}",
+        f"- market_status (TW): {tw_status}",
+        f"- latest_full_trading_day (TW): {latest_full_trading_day}",
+        "- data_as_of_date: UNKNOWN",
+        "- data_mode: OBSERVATION",
+        "> **Warning:** Data vintage not explicitly available in current MVP pipeline.",
+        "",
+    ]
+
     if not tw_open:
         log(f"[INFO] TW market closed ({tw_status}) — skipping pipeline")
         snapshot = {
@@ -101,6 +127,7 @@ def main() -> int:
                 "auto_trade": False,
                 "advisory_only": True,
             },
+            **_FRESHNESS_META,
         }
         snapshot_file.write_text(
             json.dumps(snapshot, ensure_ascii=False, indent=2),
@@ -111,6 +138,9 @@ def main() -> int:
             "",
             f"Generated at: {now}",
             "",
+        ]
+        report_lines += _FRESHNESS_LINES
+        report_lines += [
             "## Runtime Status",
             "",
             "- Status: MARKET_CLOSED",
@@ -221,6 +251,7 @@ def main() -> int:
             "auto_trade": False,
             "advisory_only": True,
         },
+        **_FRESHNESS_META,
     }
 
     snapshot_file.write_text(
@@ -233,6 +264,9 @@ def main() -> int:
         "",
         f"Generated at: {now}",
         "",
+    ]
+    report_lines += _FRESHNESS_LINES
+    report_lines += [
         "## Market Calendar",
         "",
     ]
