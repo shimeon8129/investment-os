@@ -264,3 +264,17 @@ def test_generate_replay_page_no_data(tmp_path):
     html = (tmp_path / "replay.html").read_text()
     assert "Replay" in html
     assert "尚無資料" in html
+
+
+from reporting.web_report_generator import generate_all
+
+
+def test_generate_all_creates_all_three_files(tmp_path):
+    generate_all(web_dir=tmp_path)
+    assert (tmp_path / "status.html").exists()
+    assert (tmp_path / "history.html").exists()
+    assert (tmp_path / "replay.html").exists()
+
+
+def test_generate_all_does_not_raise_on_missing_data(tmp_path):
+    generate_all(web_dir=tmp_path)

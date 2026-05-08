@@ -322,3 +322,15 @@ function showDate(d){
 </script>"""
 
     (web_dir / "replay.html").write_text(_html_page("Replay", "replay", body), encoding="utf-8")
+
+
+def generate_all(web_dir: Path = WEB_DIR) -> None:
+    for fn, kwargs in [
+        (generate_status_page, {"web_dir": web_dir}),
+        (generate_history_page, {"web_dir": web_dir}),
+        (generate_replay_page, {"web_dir": web_dir}),
+    ]:
+        try:
+            fn(**kwargs)
+        except Exception as e:
+            print(f"[WARN] web_report_generator: {fn.__name__} failed: {e}")
