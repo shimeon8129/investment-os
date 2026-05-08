@@ -194,6 +194,99 @@ def _extract_data_warnings(output: str) -> list[str]:
 
 
 # ─────────────────────────────────────────────────────────────────────────────
+# Observation JSON builder
+# ─────────────────────────────────────────────────────────────────────────────
+
+def _build_p1_index(p1_snap: dict) -> dict:
+    """Return dict keyed by ticker for O(1) lookup of P1 audit fields."""
+    index: dict = {}
+    for entry in p1_snap.get("audit_entries", []):
+        ticker = entry.get("ticker")
+        if not ticker:
+            continue
+        el = entry.get("entry_lock", {})
+        locks = el.get("locks", {})
+        blocked_by = el.get("blocked_by", [])
+        block_reason = None
+        if blocked_by:
+            block_key = blocked_by[0]
+            block_reason = locks.get(block_key, {}).get("reason")
+        l0 = locks.get("L0_market", {})
+        index[ticker] = {
+            "p1_result": entry.get("p1_audit_action"),
+            "L0": l0.get("status"),
+            "L1": locks.get("L1_selection", {}).get("status"),
+            "L2": locks.get("L2_setup", {}).get("status"),
+            "L3": locks.get("L3_validation", {}).get("status"),
+            "L4": locks.get("L4_risk", {}).get("status"),
+            "block_reason": block_reason,
+            "warn_reason": l0.get("reason") if l0.get("status") == "WARN" else None,
+        }
+    return index
+
+
+def _build_observation_json(
+    slot: str,
+    git_before: dict,
+    runtime_status: str,
+    signal_snap: dict,
+    mainline_snap: dict,
+    p1_snap: dict,
+) -> dict:
+    """Build normalized observation dict for a single slot run."""
+    mc = signal_snap.get("market_context", {})
+    markets = mc.get("markets", {})
+    tw = markets.get("TW", {})
+    tw_status = tw.get("status") if isinstance(tw, dict) else str(tw)
+
+    market = {
+        "market_status": tw_status,
+        "market_state": signal_snap.get("market_state"),
+        "market_score": signal_snap.get("market_score"),
+        "vix": signal_snap.get("vix_value"),
+        "report_label": signal_snap.get("report_label"),
+        "data_as_of_date": signal_snap.get("data_as_of_date"),
+        "latest_full_trading_day": signal_snap.get("latest_full_trading_day"),
+    }
+    market = {k: ("N/A" if v is None else v) for k, v in market.items()}
+
+    p1_index = _build_p1_index(p1_snap)
+    ranked = mainline_snap.get("ranked", [])
+
+    candidates = []
+    for rank, row in enumerate(ranked, 1):
+        ticker = row.get("ticker", "")
+        p1 = p1_index.get(ticker, {})
+        candidates.append({
+            "ticker": ticker,
+            "name": row.get("name"),
+            "rank": rank,
+            "score": row.get("score"),
+            "signal": row.get("signal"),
+            "p1_result": p1.get("p1_result"),
+            "L0": p1.get("L0"),
+            "L1": p1.get("L1"),
+            "L2": p1.get("L2"),
+            "L3": p1.get("L3"),
+            "L4": p1.get("L4"),
+            "block_reason": p1.get("block_reason"),
+            "warn_reason": p1.get("warn_reason"),
+            "already_in_position": None,
+            "manual_review_flag": None,
+        })
+
+    return {
+        "date": TODAY,
+        "slot": slot,
+        "run_time": NOW,
+        "git_commit": git_before.get("latest_commit"),
+        "runtime_status": runtime_status,
+        "market": market,
+        "candidates": candidates,
+    }
+
+
+# ─────────────────────────────────────────────────────────────────────────────
 # Report builder
 # ─────────────────────────────────────────────────────────────────────────────
 
@@ -396,6 +489,25 @@ def main() -> int:
 
     # 7. Parse and build report
     runtime_status = _compute_runtime_status(returncode, output)
+
+    # 7a. Write normalized observation JSON
+    obs_dir = ROOT / "data" / "observations" / "intraday" / TODAY
+    obs_dir.mkdir(parents=True, exist_ok=True)
+    obs_path = obs_dir / f"{HHMM}_{slot}_observation.json"
+    try:
+        obs_data = _build_observation_json(
+            slot=slot,
+            git_before=git_before,
+            runtime_status=runtime_status,
+            signal_snap=signal_snap,
+            mainline_snap=mainline_snap,
+            p1_snap=p1_snap,
+        )
+        obs_path.write_text(json.dumps(obs_data, ensure_ascii=False, indent=2), encoding="utf-8")
+        print(f"[{NOW}] [WRITE] {obs_path}")
+    except Exception as e:
+        print(f"[{NOW}] [WARN] Could not write observation JSON: {e}")
+
     snap_fields = _read_snapshot_fields(signal_snap)
     freshness_block = _extract_freshness_block(report_text) if report_text else "(daily report not found)"
     candidates = _read_mainline_candidates(mainline_snap)
