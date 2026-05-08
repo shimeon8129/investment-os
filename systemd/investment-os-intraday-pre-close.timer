@@ -1,8 +1,8 @@
 [Unit]
-Description=Investment OS Intraday Observation Timer — pre_close 13:10 Asia/Taipei
+Description=Investment OS Intraday Observation Timer — pre_close 13:20 Asia/Taipei
 
 [Timer]
-OnCalendar=Mon..Fri 13:10:00
+OnCalendar=Mon..Fri 13:20:00
 TimeZone=Asia/Taipei
 Persistent=false
 Unit=investment-os-intraday-observation@pre_close.service
