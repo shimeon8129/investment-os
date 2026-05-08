@@ -22,6 +22,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
+from utils.market_calendar import is_market_open
+
 TODAY = datetime.now().strftime("%Y-%m-%d")
 NOW = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
@@ -313,6 +315,13 @@ def _build_summary(
 def main() -> int:
     print(f"[{NOW}] === Investment OS Observation v0.1 start ===")
 
+    # Calendar guard: skip holidays (weekends already filtered by Mon..Fri timer)
+    from datetime import date
+    tw_status = is_market_open("TW", date.today())
+    if tw_status not in ("OPEN", "OPEN_EARLY_CLOSE"):
+        print(f"[{NOW}] [SKIP] TW market {tw_status} — skipping observation")
+        return 0
+
     # 1. Git checks
     print(f"[{NOW}] [GIT] Checking branch and remote sync...")
     git = _git_status()
@@ -349,6 +358,14 @@ def main() -> int:
 
     stable_str = "YES" if stable["stable"] else "NO"
     print(f"[{NOW}] === Observation complete: {final_status} | stable={stable_str} | type={stable['type']} ===")
+
+    try:
+        from reporting.web_report_generator import generate_all
+        generate_all()
+        print(f"[{NOW}] [WEB] HTML dashboard updated")
+    except Exception as e:
+        print(f"[{NOW}] [WARN] web dashboard update failed: {e}")
+
     return 0 if stable["stable"] else 1
 
 
