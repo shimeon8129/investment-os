@@ -126,3 +126,74 @@ def test_generate_status_page_contains_checks(tmp_path):
     html = (tmp_path / "status.html").read_text()
     assert "daily_decision_dashboard" in html
     assert "pipeline_main_v1" in html
+
+
+from reporting.web_report_generator import generate_history_page
+
+_OBS_SUMMARY_MD = """\
+# Investment OS Observation Summary - 2026-05-08
+
+## Final Status
+
+PASS
+
+## Market Gate
+
+- TW market status: OPEN
+
+## Stable Observation Record
+
+- Counts as stable observation record: YES
+- Type: OPEN-day PASS
+- Reason: All subprocesses PASS
+
+*Generated at: 2026-05-08 16:00:11*
+"""
+
+_DAILY_REPORT_MD = """\
+# Investment OS Daily Report - 2026-05-08
+
+## Human Summary
+
+- Market state: **RANGE** | Score: 0.0070 | VIX: 17.20
+
+**Top 3 candidates:**
+
+1. 2464.TW 盟立 — Score: 151.40 | Signal: BUY
+"""
+
+
+def test_generate_history_page_creates_file(tmp_path):
+    obs_dir = tmp_path / "observation"
+    daily_dir = tmp_path / "daily"
+    obs_dir.mkdir(); daily_dir.mkdir()
+    (obs_dir / "2026-05-08_observation_summary.md").write_text(_OBS_SUMMARY_MD)
+    (daily_dir / "2026-05-08_daily_report.md").write_text(_DAILY_REPORT_MD)
+
+    generate_history_page(web_dir=tmp_path, obs_dir=obs_dir, daily_dir=daily_dir)
+    assert (tmp_path / "history.html").exists()
+
+
+def test_generate_history_page_shows_row(tmp_path):
+    obs_dir = tmp_path / "observation"
+    daily_dir = tmp_path / "daily"
+    obs_dir.mkdir(); daily_dir.mkdir()
+    (obs_dir / "2026-05-08_observation_summary.md").write_text(_OBS_SUMMARY_MD)
+    (daily_dir / "2026-05-08_daily_report.md").write_text(_DAILY_REPORT_MD)
+
+    generate_history_page(web_dir=tmp_path, obs_dir=obs_dir, daily_dir=daily_dir)
+    html = (tmp_path / "history.html").read_text()
+    assert "2026-05-08" in html
+    assert "PASS" in html
+    assert "RANGE" in html
+    assert "17.20" in html
+    assert "2464.TW" in html
+
+
+def test_generate_history_page_empty_dir(tmp_path):
+    obs_dir = tmp_path / "observation"
+    obs_dir.mkdir()
+    generate_history_page(web_dir=tmp_path, obs_dir=obs_dir, daily_dir=tmp_path / "daily")
+    html = (tmp_path / "history.html").read_text()
+    assert "歷史記錄" in html
+    assert "尚無資料" in html

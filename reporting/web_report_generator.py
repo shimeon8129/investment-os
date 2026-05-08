@@ -152,3 +152,80 @@ def generate_status_page(
     body += "</table>"
 
     (web_dir / "status.html").write_text(_html_page("今日狀態", "status", body), encoding="utf-8")
+
+
+def _parse_obs_summary(path: Path) -> dict:
+    text = path.read_text(encoding="utf-8")
+    date = re.search(r"Observation Summary - (\d{4}-\d{2}-\d{2})", text)
+    status = re.search(r"## Final Status\s+(\w+)", text)
+    stable_type = re.search(r"- Type: (.+)", text)
+    generated = re.search(r"\*Generated at: (.+)\*", text)
+    subproc_lines = re.findall(r"- (\w[\w_]+): (PASS|FAIL|UNKNOWN|SKIPPED[^)]*)", text)
+    return {
+        "date": date.group(1) if date else path.stem[:10],
+        "status": status.group(1) if status else "UNKNOWN",
+        "stable_type": stable_type.group(1).strip() if stable_type else "N/A",
+        "generated_at": generated.group(1).strip() if generated else "N/A",
+        "subproc": subproc_lines,
+    }
+
+
+def _parse_daily_report(path: Path) -> dict:
+    if not path.exists():
+        return {}
+    text = path.read_text(encoding="utf-8")
+    market = re.search(r"Market state: \*\*(\w+)\*\*", text)
+    score = re.search(r"Score: ([\d.]+)", text)
+    vix = re.search(r"VIX: ([\d.]+)", text)
+    top1 = re.search(r"1\. (\S+) (.+?) —", text)
+    return {
+        "market_state": market.group(1) if market else "N/A",
+        "score": score.group(1) if score else "N/A",
+        "vix": vix.group(1) if vix else "N/A",
+        "top1": f"{top1.group(1)} {top1.group(2)}" if top1 else "N/A",
+    }
+
+
+def generate_history_page(
+    web_dir: Path = WEB_DIR,
+    obs_dir: Path = OBSERVATION_DIR,
+    daily_dir: Path = DAILY_REPORT_DIR,
+) -> None:
+    web_dir.mkdir(parents=True, exist_ok=True)
+
+    obs_files = sorted(obs_dir.glob("*_observation_summary.md"), reverse=True)
+
+    body = "<h1>歷史觀測記錄</h1>"
+
+    if not obs_files:
+        body += '<div class="banner">尚無資料</div>'
+        (web_dir / "history.html").write_text(_html_page("歷史記錄", "history", body), encoding="utf-8")
+        return
+
+    body += ("<table><tr><th>日期</th><th>狀態</th><th>市場狀態</th>"
+             "<th>Score</th><th>VIX</th><th>Top 1 候選</th><th>觀測類型</th></tr>")
+
+    for obs_path in obs_files:
+        obs = _parse_obs_summary(obs_path)
+        date = obs["date"]
+        daily_path = daily_dir / f"{date}_daily_report.md"
+        daily = _parse_daily_report(daily_path)
+
+        detail = ""
+        if obs["subproc"]:
+            rows = "".join(
+                f"<tr><td>{lbl}</td><td>{_badge(st)}</td></tr>"
+                for lbl, st in obs["subproc"]
+            )
+            detail = (f"<details><summary>子程序詳情</summary>"
+                      f"<table>{rows}</table></details>")
+
+        body += (f"<tr><td>{date}</td><td>{_badge(obs['status'])}</td>"
+                 f"<td>{daily.get('market_state','N/A')}</td>"
+                 f"<td>{daily.get('score','N/A')}</td>"
+                 f"<td>{daily.get('vix','N/A')}</td>"
+                 f"<td>{daily.get('top1','N/A')}</td>"
+                 f"<td>{obs['stable_type']}{detail}</td></tr>")
+    body += "</table>"
+
+    (web_dir / "history.html").write_text(_html_page("歷史記錄", "history", body), encoding="utf-8")
