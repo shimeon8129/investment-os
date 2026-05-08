@@ -197,3 +197,70 @@ def test_generate_history_page_empty_dir(tmp_path):
     html = (tmp_path / "history.html").read_text()
     assert "歷史記錄" in html
     assert "尚無資料" in html
+
+
+from reporting.web_report_generator import generate_replay_page
+
+_DAILY_OBS_JSON = {
+    "date": "2026-05-08",
+    "total_slots": 3,
+    "status_counts": {"PASS": 3},
+    "top_persistence": [{"ticker": "2356.TW", "appearances": 3}],
+    "warn_l1_l4_pass": [{"ticker": "2356.TW", "name": "英業達",
+                          "warn_reason": "RANGE market", "score": 145.5}],
+    "next_day_watchlist": [{"ticker": "2356.TW", "name": "英業達",
+                             "appearances": 3, "last_rank": 2,
+                             "last_score": 145.5, "last_p1": "ENTRY_REDUCED"}],
+}
+
+_SLOT_JSON = {
+    "date": "2026-05-08",
+    "slot": "market_open",
+    "run_time": "09:15:00",
+    "runtime_status": "PASS",
+    "market": {"market_state": "RANGE"},
+    "candidates": [
+        {"ticker": "2356.TW", "name": "英業達", "rank": 1,
+         "score": 145.5, "signal": "BUY", "p1_result": "ENTRY_REDUCED",
+         "L0": "WARN", "L1": "PASS", "L2": "PASS", "L3": "PASS", "L4": "PASS",
+         "block_reason": None, "warn_reason": "RANGE market"},
+    ],
+}
+
+
+def test_generate_replay_page_creates_file(tmp_path):
+    daily_dir = tmp_path / "daily"
+    slot_dir = tmp_path / "intraday" / "2026-05-08"
+    daily_dir.mkdir(parents=True); slot_dir.mkdir(parents=True)
+    (daily_dir / "2026-05-08_observation_summary.json").write_text(
+        json.dumps(_DAILY_OBS_JSON), encoding="utf-8")
+    (slot_dir / "0915_market_open_observation.json").write_text(
+        json.dumps(_SLOT_JSON), encoding="utf-8")
+
+    generate_replay_page(web_dir=tmp_path, daily_obs_dir=daily_dir, slot_dir=tmp_path / "intraday")
+    assert (tmp_path / "replay.html").exists()
+
+
+def test_generate_replay_page_shows_watchlist(tmp_path):
+    daily_dir = tmp_path / "daily"
+    slot_dir = tmp_path / "intraday" / "2026-05-08"
+    daily_dir.mkdir(parents=True); slot_dir.mkdir(parents=True)
+    (daily_dir / "2026-05-08_observation_summary.json").write_text(
+        json.dumps(_DAILY_OBS_JSON), encoding="utf-8")
+    (slot_dir / "0915_market_open_observation.json").write_text(
+        json.dumps(_SLOT_JSON), encoding="utf-8")
+
+    generate_replay_page(web_dir=tmp_path, daily_obs_dir=daily_dir, slot_dir=tmp_path / "intraday")
+    html = (tmp_path / "replay.html").read_text()
+    assert "2356.TW" in html
+    assert "英業達" in html
+    assert "ENTRY_REDUCED" in html
+
+
+def test_generate_replay_page_no_data(tmp_path):
+    generate_replay_page(web_dir=tmp_path,
+                         daily_obs_dir=tmp_path / "daily",
+                         slot_dir=tmp_path / "intraday")
+    html = (tmp_path / "replay.html").read_text()
+    assert "Replay" in html
+    assert "尚無資料" in html

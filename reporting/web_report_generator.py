@@ -229,3 +229,96 @@ def generate_history_page(
     body += "</table>"
 
     (web_dir / "history.html").write_text(_html_page("歷史記錄", "history", body), encoding="utf-8")
+
+
+def generate_replay_page(
+    web_dir: Path = WEB_DIR,
+    daily_obs_dir: Path = INTRADAY_DAILY_DIR,
+    slot_dir: Path = INTRADAY_SLOT_DIR,
+) -> None:
+    web_dir.mkdir(parents=True, exist_ok=True)
+
+    daily_files = sorted(daily_obs_dir.glob("*_observation_summary.json"), reverse=True)
+
+    body = "<h1>Intraday Replay</h1>"
+
+    if not daily_files:
+        body += '<div class="banner">尚無資料</div>'
+        (web_dir / "replay.html").write_text(_html_page("Replay", "replay", body), encoding="utf-8")
+        return
+
+    dates = [f.stem.replace("_observation_summary", "") for f in daily_files]
+    latest = dates[0]
+    options = "".join(
+        f'<option value="{d}"{" selected" if d == latest else ""}>{d}</option>'
+        for d in dates
+    )
+    body += (f'<h2>日期選擇</h2><select id="datesel" onchange="showDate(this.value)">'
+             f'{options}</select>')
+
+    for date in dates:
+        daily_path = daily_obs_dir / f"{date}_observation_summary.json"
+        summary = _load_json(daily_path)
+        slot_date_dir = slot_dir / date
+        slot_files = sorted(slot_date_dir.glob("*.json")) if slot_date_dir.exists() else []
+
+        display = "block" if date == latest else "none"
+        section = f'<div id="date-{date}" style="display:{display}">'
+
+        sc = summary.get("status_counts", {})
+        total = summary.get("total_slots", 0)
+        section += (f"<h2>{date} — {total} slots "
+                    f"(PASS:{sc.get('PASS',0)} FAIL:{sc.get('FAIL',0)})</h2>")
+
+        if slot_files:
+            section += ("<table><tr><th>Slot</th><th>時間</th><th>Top 1</th>"
+                        "<th>Score</th><th>P1 結果</th><th>市場</th></tr>")
+            for sf in slot_files:
+                sd = _load_json(sf)
+                cands = sd.get("candidates", [])
+                top = cands[0] if cands else {}
+                mkt = (sd.get("market") or {}).get("market_state", "N/A")
+                section += (f"<tr><td>{sd.get('slot','')}</td>"
+                             f"<td>{sd.get('run_time','')}</td>"
+                             f"<td>{top.get('ticker','')} {top.get('name','')}</td>"
+                             f"<td>{top.get('score','')}</td>"
+                             f"<td>{top.get('p1_result','')}</td>"
+                             f"<td>{mkt}</td></tr>")
+            section += "</table>"
+
+        persist = summary.get("top_persistence", [])
+        if persist:
+            section += "<h2>Persistence Ranking</h2>"
+            section += "<table><tr><th>Ticker</th><th>出現次數</th><th>warn_l1_l4_pass</th></tr>"
+            warn_tickers = {w["ticker"] for w in summary.get("warn_l1_l4_pass", [])}
+            for p in persist[:10]:
+                warn = "✓" if p["ticker"] in warn_tickers else ""
+                section += (f"<tr><td>{p['ticker']}</td>"
+                             f"<td>{p['appearances']}/{total}</td>"
+                             f"<td>{warn}</td></tr>")
+            section += "</table>"
+
+        wl = summary.get("next_day_watchlist", [])
+        if wl:
+            section += "<h2>明日 Watchlist</h2>"
+            section += ("<table><tr><th>Ticker</th><th>Name</th><th>出現</th>"
+                        "<th>最後排名</th><th>最後 P1</th></tr>")
+            for w in wl:
+                section += (f"<tr><td>{w.get('ticker','')}</td><td>{w.get('name','')}</td>"
+                             f"<td>{w.get('appearances','')}/{total}</td>"
+                             f"<td>{w.get('last_rank','')}</td>"
+                             f"<td>{w.get('last_p1','')}</td></tr>")
+            section += "</table>"
+
+        section += "</div>"
+        body += section
+
+    body += """<script>
+function showDate(d){
+  document.querySelectorAll('[id^="date-"]').forEach(el=>el.style.display='none');
+  var el=document.getElementById('date-'+d);
+  if(el) el.style.display='block';
+}
+</script>"""
+
+    (web_dir / "replay.html").write_text(_html_page("Replay", "replay", body), encoding="utf-8")
