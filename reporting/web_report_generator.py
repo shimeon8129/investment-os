@@ -82,3 +82,73 @@ def _html_page(title: str, active: str, body: str) -> str:
 <main>{body}</main>
 </body>
 </html>"""
+
+
+def generate_status_page(
+    web_dir: Path = WEB_DIR,
+    signal: dict | None = None,
+    mainline: dict | None = None,
+) -> None:
+    web_dir.mkdir(parents=True, exist_ok=True)
+    if signal is None:
+        signal = _load_json(SIGNAL_SNAPSHOT)
+    if mainline is None:
+        mainline = _load_json(MAINLINE_SNAPSHOT)
+
+    status = signal.get("status", "UNKNOWN")
+    generated_at = signal.get("generated_at", "N/A")
+    data_mode = signal.get("data_mode", "N/A")
+    market_status = signal.get("market_status", "UNKNOWN")
+    market_closed = market_status in ("CLOSED_WEEKEND", "CLOSED_HOLIDAY", "MARKET_CLOSED")
+
+    markets = (signal.get("market_context") or {}).get("markets", {})
+    tw_s = (markets.get("TW") or {}).get("status", "N/A")
+    us_s = (markets.get("US") or {}).get("status", "N/A")
+
+    m_state = mainline.get("market_state", "N/A")
+    m_score = mainline.get("market_score", "N/A")
+    vix = mainline.get("vix_value", "N/A")
+    if isinstance(vix, float):
+        vix = f"{vix:.2f}"
+
+    ranked = mainline.get("ranked", [])
+    decisions = mainline.get("decisions", {})
+    checks = signal.get("checks", [])
+
+    body = f"<h1>今日狀態 {_badge(status)}</h1>"
+    body += f"<p>執行時間: {generated_at} &nbsp;|&nbsp; 模式: {data_mode}</p>"
+
+    if market_closed:
+        body += f'<div class="banner">市場休市 ({tw_s})</div>'
+    else:
+        body += "<h2>市場概況</h2>"
+        body += ("<table><tr><th>市場狀態</th><th>Score</th><th>VIX</th>"
+                 "<th>TW</th><th>US</th></tr>"
+                 f"<tr><td>{m_state}</td><td>{m_score}</td><td>{vix}</td>"
+                 f"<td>{tw_s}</td><td>{us_s}</td></tr></table>")
+
+        body += "<h2>Top 候選</h2>"
+        body += ("<table><tr><th>Rank</th><th>Ticker</th><th>Name</th>"
+                 "<th>Score</th><th>Signal</th></tr>")
+        for i, r in enumerate(ranked[:10], 1):
+            body += (f"<tr><td>{i}</td><td>{r.get('ticker','')}</td>"
+                     f"<td>{r.get('name','')}</td><td>{r.get('score','')}</td>"
+                     f"<td>{r.get('signal','')}</td></tr>")
+        body += "</table>"
+
+        if decisions:
+            body += "<h2>Decisions</h2>"
+            body += "<table><tr><th>Ticker</th><th>Action</th><th>Position</th><th>Reason</th></tr>"
+            for ticker, d in decisions.items():
+                pct = f"{d.get('position_size', 0)*100:.0f}%" if d.get('position_size') else "N/A"
+                body += (f"<tr><td>{ticker}</td><td>{d.get('action','')}</td>"
+                         f"<td>{pct}</td><td>{d.get('reason','')}</td></tr>")
+            body += "</table>"
+
+    body += "<h2>Pipeline 子程序</h2>"
+    body += "<table><tr><th>子程序</th><th>狀態</th></tr>"
+    for c in checks:
+        body += f"<tr><td>{c.get('label','')}</td><td>{_badge(c.get('status','UNKNOWN'))}</td></tr>"
+    body += "</table>"
+
+    (web_dir / "status.html").write_text(_html_page("今日狀態", "status", body), encoding="utf-8")
