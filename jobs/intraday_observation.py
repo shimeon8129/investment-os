@@ -24,6 +24,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
+from utils.market_calendar import is_market_open
+
 VALID_SLOTS = (
     "pre_market",
     "market_open",
@@ -417,6 +419,13 @@ def main() -> int:
     slot = sys.argv[1]
     print(f"[{NOW}] === Intraday observation: {slot} ===")
 
+    # Calendar guard: skip holidays (weekends already filtered by Mon..Fri timer)
+    from datetime import date
+    tw_status = is_market_open("TW", date.today())
+    if tw_status not in ("OPEN", "OPEN_EARLY_CLOSE"):
+        print(f"[{NOW}] [SKIP] TW market {tw_status} — skipping intraday observation ({slot})")
+        return 0
+
     # Slot-specific output dirs
     intraday_report_dir = ROOT / "reports" / "intraday" / TODAY
     intraday_log_dir = ROOT / "logs" / "intraday" / TODAY
@@ -537,6 +546,14 @@ def main() -> int:
     print(f"[{NOW}] [WRITE] {slot_report_path}")
 
     print(f"[{NOW}] === Intraday observation {slot}: {runtime_status} ===")
+
+    try:
+        from reporting.web_report_generator import generate_all
+        generate_all()
+        print(f"[{NOW}] [WEB] HTML dashboard updated")
+    except Exception as e:
+        print(f"[{NOW}] [WARN] web dashboard update failed: {e}")
+
     return 0 if runtime_status in ("PASS", "PARTIAL") else 1
 
 
