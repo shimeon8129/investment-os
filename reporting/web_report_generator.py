@@ -277,23 +277,37 @@ def generate_replay_page(
                 sd = _load_json(sf)
                 cands = sd.get("candidates", [])
                 top = cands[0] if cands else {}
-                mkt = (sd.get("market") or {}).get("market_state", "N/A")
+                mkt = (sd.get("market") or {}).get("market_state", "N/A") or "—"
+                raw_score = top.get("score")
+                score_str = f"{float(raw_score):.2f}" if isinstance(raw_score, (int, float)) else "—"
+                p1 = top.get("p1_result") or "—"
                 section += (f"<tr><td>{sd.get('slot','')}</td>"
                              f"<td>{sd.get('run_time','')}</td>"
-                             f"<td>{top.get('ticker','')} {top.get('name','')}</td>"
-                             f"<td>{top.get('score','')}</td>"
-                             f"<td>{top.get('p1_result','')}</td>"
+                             f"<td>{top.get('ticker','')} {top.get('name','') or ''}</td>"
+                             f"<td>{score_str}</td>"
+                             f"<td>{p1}</td>"
                              f"<td>{mkt}</td></tr>")
             section += "</table>"
 
         persist = summary.get("top_persistence", [])
         if persist:
-            section += "<h2>Persistence Ranking</h2>"
-            section += "<table><tr><th>Ticker</th><th>出現次數</th><th>warn_l1_l4_pass</th></tr>"
+            # Build name lookup from watchlist + warn entries
+            name_map: dict[str, str] = {}
+            for w in summary.get("next_day_watchlist", []):
+                if w.get("name"):
+                    name_map[w["ticker"]] = w["name"]
+            for w in summary.get("warn_l1_l4_pass", []):
+                if w.get("name"):
+                    name_map.setdefault(w["ticker"], w["name"])
+
+            section += (f"<h2>Persistence Ranking "
+                        f"<small style='color:#666;font-size:.8em'>（出現/共{total}個slot）</small></h2>")
+            section += "<table><tr><th>Ticker</th><th>名稱</th><th>出現次數</th><th>L0 WARN → L1-L4 PASS</th></tr>"
             warn_tickers = {w["ticker"] for w in summary.get("warn_l1_l4_pass", [])}
             for p in persist[:10]:
+                name = name_map.get(p["ticker"], "—")
                 warn = "✓" if p["ticker"] in warn_tickers else ""
-                section += (f"<tr><td>{p['ticker']}</td>"
+                section += (f"<tr><td>{p['ticker']}</td><td>{name}</td>"
                              f"<td>{p['appearances']}/{total}</td>"
                              f"<td>{warn}</td></tr>")
             section += "</table>"
@@ -301,13 +315,19 @@ def generate_replay_page(
         wl = summary.get("next_day_watchlist", [])
         if wl:
             section += "<h2>明日 Watchlist</h2>"
-            section += ("<table><tr><th>Ticker</th><th>Name</th><th>出現</th>"
-                        "<th>最後排名</th><th>最後 P1</th></tr>")
+            section += ("<table><tr><th>Ticker</th><th>Name</th><th>出現次數</th>"
+                        "<th>最後排名</th><th>最後 P1</th><th>備註</th></tr>")
             for w in wl:
-                section += (f"<tr><td>{w.get('ticker','')}</td><td>{w.get('name','')}</td>"
+                name = w.get("name") or "—"
+                rank = w.get("last_rank")
+                p1 = w.get("last_p1")
+                score = w.get("last_score")
+                note = "backfill only — no mainline data" if rank is None else ""
+                section += (f"<tr><td>{w.get('ticker','')}</td><td>{name}</td>"
                              f"<td>{w.get('appearances','')}/{total}</td>"
-                             f"<td>{w.get('last_rank','')}</td>"
-                             f"<td>{w.get('last_p1','')}</td></tr>")
+                             f"<td>{rank if rank is not None else '—'}</td>"
+                             f"<td>{p1 if p1 is not None else '—'}</td>"
+                             f"<td style='color:#666;font-size:.85em'>{note}</td></tr>")
             section += "</table>"
 
         section += "</div>"
