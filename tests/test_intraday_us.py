@@ -57,3 +57,19 @@ def test_run_daily_tw_calls_daily_run(monkeypatch):
     _run_daily("tw")
     assert "jobs.daily_run" in " ".join(captured["cmd"])
     assert "daily_run_us" not in " ".join(captured["cmd"])
+
+
+def test_daily_run_us_exits_zero_without_candidates(tmp_path, monkeypatch):
+    """daily_run_us returns 0 when candidates_us.json does not exist."""
+    import jobs.daily_run_us as dru
+    monkeypatch.setattr(dru, "CANDIDATES_US", tmp_path / "candidates_us.json")
+    assert dru.main() == 0
+
+
+def test_daily_run_us_exits_zero_with_empty_candidates(tmp_path, monkeypatch):
+    """daily_run_us returns 0 when candidates_us.json is an empty list."""
+    import jobs.daily_run_us as dru
+    f = tmp_path / "candidates_us.json"
+    f.write_text("[]", encoding="utf-8")
+    monkeypatch.setattr(dru, "CANDIDATES_US", f)
+    assert dru.main() == 0
