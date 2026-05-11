@@ -274,6 +274,7 @@ def _build_observation_json(
     mainline_snap: dict,
     p1_snap: dict,
     role_index: dict,
+    session_date_str: str,
 ) -> dict:
     """Build normalized observation dict for a single slot run."""
     mc = signal_snap.get("market_context", {})
@@ -319,7 +320,7 @@ def _build_observation_json(
         })
 
     return {
-        "date": TODAY,
+        "date": session_date_str,
         "slot": slot,
         "run_time": NOW,
         "git_commit": git_before.get("latest_commit"),
@@ -349,6 +350,8 @@ def _build_slot_report(
     slot_log_path: Path,
     signal_snap_dest: Path | None,
     mainline_snap_dest: Path | None,
+    daily_module: str,
+    daily_report_src: Path,
 ) -> str:
     lines = [
         f"# Investment OS Intraday Observation — {slot}",
@@ -370,12 +373,12 @@ def _build_slot_report(
         "",
         "## Runtime",
         "",
-        "- Command: `python3 -m jobs.daily_run`",
+        f"- Command: `python3 -m {daily_module}`",
         f"- Runtime final status: **{runtime_status}**",
         "",
         "## Output Paths",
         "",
-        f"- Daily report: `{DAILY_REPORT_SRC}` ({'EXISTS' if DAILY_REPORT_SRC.exists() else 'MISSING'})",
+        f"- Daily report: `{daily_report_src}` ({'EXISTS' if daily_report_src.exists() else 'MISSING'})",
         f"- Signal snapshot: `{SIGNAL_SNAPSHOT_SRC}` ({'EXISTS' if SIGNAL_SNAPSHOT_SRC.exists() else 'MISSING'})",
         f"- Mainline snapshot: `{MAINLINE_SNAPSHOT_SRC}` ({'EXISTS' if MAINLINE_SNAPSHOT_SRC.exists() else 'MISSING'})",
         f"- Slot report: `{slot_report_path}`",
@@ -580,6 +583,7 @@ def main() -> int:
             mainline_snap=mainline_snap,
             p1_snap=p1_snap,
             role_index=role_index,
+            session_date_str=session_date_str,
         )
         obs_path.write_text(json.dumps(obs_data, ensure_ascii=False, indent=2), encoding="utf-8")
         print(f"[{NOW}] [WRITE] {obs_path}")
@@ -609,6 +613,8 @@ def main() -> int:
         slot_log_path=slot_log_path,
         signal_snap_dest=signal_snap_dest,
         mainline_snap_dest=mainline_snap_dest,
+        daily_module=daily_module,
+        daily_report_src=daily_report_src,
     )
 
     slot_report_path.write_text(slot_report, encoding="utf-8")
