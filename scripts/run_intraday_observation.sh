@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # Manual trigger for Investment OS intraday observation runner v0.1.
 # Usage: scripts/run_intraday_observation.sh <slot>
-# Slots: pre_market | market_open | mid_morning | noon_review | pre_close | post_close_review
+# TW slots: pre_market | market_open | mid_morning | noon_review | pre_close | post_close_review
+# US slots:  us_market_open | us_midday | us_post_close_review
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
@@ -13,4 +14,10 @@ fi
 
 export PYTHONPATH="$PWD"
 
-python3 jobs/intraday_observation.py "$1"
+SLOT="$1"
+MARKET_FLAG=""
+if [[ "$SLOT" == us_* ]]; then
+    MARKET_FLAG="--market us"
+fi
+
+python3 jobs/intraday_observation.py "$SLOT" $MARKET_FLAG
