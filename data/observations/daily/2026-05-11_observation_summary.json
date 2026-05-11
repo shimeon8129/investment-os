@@ -1,0 +1,1122 @@
+{
+  "date": "2026-05-11",
+  "generated_at": "2026-05-11 15:21:37",
+  "total_slots": 7,
+  "status_counts": {
+    "PASS": 6,
+    "PARTIAL": 1,
+    "FAIL": 0,
+    "UNKNOWN": 0
+  },
+  "top_persistence": [
+    {
+      "ticker": "6147.TWO",
+      "appearances": 7
+    },
+    {
+      "ticker": "2464.TW",
+      "appearances": 6
+    },
+    {
+      "ticker": "2449.TW",
+      "appearances": 6
+    },
+    {
+      "ticker": "3706.TW",
+      "appearances": 6
+    },
+    {
+      "ticker": "2356.TW",
+      "appearances": 4
+    },
+    {
+      "ticker": "3583.TW",
+      "appearances": 4
+    },
+    {
+      "ticker": "2467.TW",
+      "appearances": 4
+    },
+    {
+      "ticker": "3231.TW",
+      "appearances": 3
+    },
+    {
+      "ticker": "3680.TWO",
+      "appearances": 3
+    },
+    {
+      "ticker": "6257.TW",
+      "appearances": 3
+    }
+  ],
+  "rank_trend": {
+    "2464.TW": [
+      {
+        "slot": "market_open",
+        "rank": 1
+      },
+      {
+        "slot": "pre_market",
+        "rank": 1
+      },
+      {
+        "slot": "market_open",
+        "rank": 1
+      },
+      {
+        "slot": "mid_morning",
+        "rank": 5
+      },
+      {
+        "slot": "pre_close",
+        "rank": 1
+      },
+      {
+        "slot": "post_close_review",
+        "rank": 1
+      }
+    ],
+    "2356.TW": [
+      {
+        "slot": "market_open",
+        "rank": 2
+      },
+      {
+        "slot": "pre_market",
+        "rank": 2
+      },
+      {
+        "slot": "market_open",
+        "rank": 2
+      },
+      {
+        "slot": "post_close_review",
+        "rank": 2
+      }
+    ],
+    "2449.TW": [
+      {
+        "slot": "market_open",
+        "rank": 3
+      },
+      {
+        "slot": "pre_market",
+        "rank": 3
+      },
+      {
+        "slot": "market_open",
+        "rank": 3
+      },
+      {
+        "slot": "noon_review",
+        "rank": 1
+      },
+      {
+        "slot": "pre_close",
+        "rank": 2
+      },
+      {
+        "slot": "post_close_review",
+        "rank": 3
+      }
+    ],
+    "3231.TW": [
+      {
+        "slot": "market_open",
+        "rank": 4
+      },
+      {
+        "slot": "pre_market",
+        "rank": 4
+      },
+      {
+        "slot": "market_open",
+        "rank": 4
+      }
+    ],
+    "3680.TWO": [
+      {
+        "slot": "market_open",
+        "rank": 5
+      },
+      {
+        "slot": "pre_market",
+        "rank": 5
+      },
+      {
+        "slot": "market_open",
+        "rank": 5
+      }
+    ],
+    "6147.TWO": [
+      {
+        "slot": "market_open",
+        "rank": 6
+      },
+      {
+        "slot": "pre_market",
+        "rank": 6
+      },
+      {
+        "slot": "market_open",
+        "rank": 6
+      },
+      {
+        "slot": "mid_morning",
+        "rank": 3
+      },
+      {
+        "slot": "noon_review",
+        "rank": 5
+      },
+      {
+        "slot": "pre_close",
+        "rank": 7
+      },
+      {
+        "slot": "post_close_review",
+        "rank": 8
+      }
+    ],
+    "6257.TW": [
+      {
+        "slot": "market_open",
+        "rank": 7
+      },
+      {
+        "slot": "pre_market",
+        "rank": 7
+      },
+      {
+        "slot": "market_open",
+        "rank": 7
+      }
+    ],
+    "2317.TW": [
+      {
+        "slot": "market_open",
+        "rank": 8
+      },
+      {
+        "slot": "pre_market",
+        "rank": 8
+      },
+      {
+        "slot": "market_open",
+        "rank": 8
+      }
+    ],
+    "6669.TW": [
+      {
+        "slot": "market_open",
+        "rank": 9
+      },
+      {
+        "slot": "pre_market",
+        "rank": 9
+      },
+      {
+        "slot": "market_open",
+        "rank": 9
+      }
+    ],
+    "3706.TW": [
+      {
+        "slot": "market_open",
+        "rank": 10
+      },
+      {
+        "slot": "pre_market",
+        "rank": 10
+      },
+      {
+        "slot": "market_open",
+        "rank": 10
+      },
+      {
+        "slot": "noon_review",
+        "rank": 6
+      },
+      {
+        "slot": "pre_close",
+        "rank": 8
+      },
+      {
+        "slot": "post_close_review",
+        "rank": 9
+      }
+    ],
+    "3583.TW": [
+      {
+        "slot": "mid_morning",
+        "rank": 1
+      },
+      {
+        "slot": "noon_review",
+        "rank": 3
+      },
+      {
+        "slot": "pre_close",
+        "rank": 5
+      },
+      {
+        "slot": "post_close_review",
+        "rank": 6
+      }
+    ],
+    "3711.TW": [
+      {
+        "slot": "mid_morning",
+        "rank": 2
+      }
+    ],
+    "2345.TW": [
+      {
+        "slot": "mid_morning",
+        "rank": 4
+      },
+      {
+        "slot": "noon_review",
+        "rank": 9
+      }
+    ],
+    "2467.TW": [
+      {
+        "slot": "mid_morning",
+        "rank": 6
+      },
+      {
+        "slot": "noon_review",
+        "rank": 4
+      },
+      {
+        "slot": "pre_close",
+        "rank": 6
+      },
+      {
+        "slot": "post_close_review",
+        "rank": 7
+      }
+    ],
+    "2376.TW": [
+      {
+        "slot": "noon_review",
+        "rank": 2
+      },
+      {
+        "slot": "pre_close",
+        "rank": 3
+      },
+      {
+        "slot": "post_close_review",
+        "rank": 4
+      }
+    ],
+    "3037.TW": [
+      {
+        "slot": "noon_review",
+        "rank": 7
+      },
+      {
+        "slot": "pre_close",
+        "rank": 9
+      },
+      {
+        "slot": "post_close_review",
+        "rank": 10
+      }
+    ],
+    "3443.TW": [
+      {
+        "slot": "noon_review",
+        "rank": 8
+      },
+      {
+        "slot": "pre_close",
+        "rank": 10
+      }
+    ],
+    "2377.TW": [
+      {
+        "slot": "pre_close",
+        "rank": 4
+      },
+      {
+        "slot": "post_close_review",
+        "rank": 5
+      }
+    ]
+  },
+  "score_trend": {
+    "2464.TW": [
+      {
+        "slot": "market_open",
+        "score": 151.4
+      },
+      {
+        "slot": "pre_market",
+        "score": 151.4
+      },
+      {
+        "slot": "market_open",
+        "score": 151.4
+      },
+      {
+        "slot": "mid_morning",
+        "score": 87.30000000000001
+      },
+      {
+        "slot": "pre_close",
+        "score": 151.4
+      },
+      {
+        "slot": "post_close_review",
+        "score": 151.4
+      }
+    ],
+    "2356.TW": [
+      {
+        "slot": "market_open",
+        "score": 145.534
+      },
+      {
+        "slot": "pre_market",
+        "score": 145.534
+      },
+      {
+        "slot": "market_open",
+        "score": 145.534
+      },
+      {
+        "slot": "post_close_review",
+        "score": 145.534
+      }
+    ],
+    "2449.TW": [
+      {
+        "slot": "market_open",
+        "score": 145.2
+      },
+      {
+        "slot": "pre_market",
+        "score": 145.2
+      },
+      {
+        "slot": "market_open",
+        "score": 145.2
+      },
+      {
+        "slot": "noon_review",
+        "score": 145.2
+      },
+      {
+        "slot": "pre_close",
+        "score": 145.2
+      },
+      {
+        "slot": "post_close_review",
+        "score": 145.2
+      }
+    ],
+    "3231.TW": [
+      {
+        "slot": "market_open",
+        "score": 144.534
+      },
+      {
+        "slot": "pre_market",
+        "score": 144.534
+      },
+      {
+        "slot": "market_open",
+        "score": 144.534
+      }
+    ],
+    "3680.TWO": [
+      {
+        "slot": "market_open",
+        "score": 124.0
+      },
+      {
+        "slot": "pre_market",
+        "score": 124.0
+      },
+      {
+        "slot": "market_open",
+        "score": 124.0
+      }
+    ],
+    "6147.TWO": [
+      {
+        "slot": "market_open",
+        "score": 108.2
+      },
+      {
+        "slot": "pre_market",
+        "score": 108.2
+      },
+      {
+        "slot": "market_open",
+        "score": 108.2
+      },
+      {
+        "slot": "mid_morning",
+        "score": 108.2
+      },
+      {
+        "slot": "noon_review",
+        "score": 108.2
+      },
+      {
+        "slot": "pre_close",
+        "score": 108.2
+      },
+      {
+        "slot": "post_close_review",
+        "score": 108.2
+      }
+    ],
+    "6257.TW": [
+      {
+        "slot": "market_open",
+        "score": 108.2
+      },
+      {
+        "slot": "pre_market",
+        "score": 108.2
+      },
+      {
+        "slot": "market_open",
+        "score": 108.2
+      }
+    ],
+    "2317.TW": [
+      {
+        "slot": "market_open",
+        "score": 108.2
+      },
+      {
+        "slot": "pre_market",
+        "score": 108.2
+      },
+      {
+        "slot": "market_open",
+        "score": 108.2
+      }
+    ],
+    "6669.TW": [
+      {
+        "slot": "market_open",
+        "score": 108.2
+      },
+      {
+        "slot": "pre_market",
+        "score": 108.2
+      },
+      {
+        "slot": "market_open",
+        "score": 108.2
+      }
+    ],
+    "3706.TW": [
+      {
+        "slot": "market_open",
+        "score": 108.2
+      },
+      {
+        "slot": "pre_market",
+        "score": 108.2
+      },
+      {
+        "slot": "market_open",
+        "score": 108.2
+      },
+      {
+        "slot": "noon_review",
+        "score": 108.2
+      },
+      {
+        "slot": "pre_close",
+        "score": 108.2
+      },
+      {
+        "slot": "post_close_review",
+        "score": 108.2
+      }
+    ],
+    "3583.TW": [
+      {
+        "slot": "mid_morning",
+        "score": 123.0
+      },
+      {
+        "slot": "noon_review",
+        "score": 123.0
+      },
+      {
+        "slot": "pre_close",
+        "score": 123.0
+      },
+      {
+        "slot": "post_close_review",
+        "score": 123.0
+      }
+    ],
+    "3711.TW": [
+      {
+        "slot": "mid_morning",
+        "score": 109.36599999999999
+      }
+    ],
+    "2345.TW": [
+      {
+        "slot": "mid_morning",
+        "score": 108.2
+      },
+      {
+        "slot": "noon_review",
+        "score": 108.2
+      }
+    ],
+    "2467.TW": [
+      {
+        "slot": "mid_morning",
+        "score": 54.1
+      },
+      {
+        "slot": "noon_review",
+        "score": 118.2
+      },
+      {
+        "slot": "pre_close",
+        "score": 118.2
+      },
+      {
+        "slot": "post_close_review",
+        "score": 118.2
+      }
+    ],
+    "2376.TW": [
+      {
+        "slot": "noon_review",
+        "score": 145.2
+      },
+      {
+        "slot": "pre_close",
+        "score": 145.2
+      },
+      {
+        "slot": "post_close_review",
+        "score": 145.2
+      }
+    ],
+    "3037.TW": [
+      {
+        "slot": "noon_review",
+        "score": 108.2
+      },
+      {
+        "slot": "pre_close",
+        "score": 108.2
+      },
+      {
+        "slot": "post_close_review",
+        "score": 108.2
+      }
+    ],
+    "3443.TW": [
+      {
+        "slot": "noon_review",
+        "score": 108.2
+      },
+      {
+        "slot": "pre_close",
+        "score": 108.2
+      }
+    ],
+    "2377.TW": [
+      {
+        "slot": "pre_close",
+        "score": 144.2
+      },
+      {
+        "slot": "post_close_review",
+        "score": 144.2
+      }
+    ]
+  },
+  "p1_transitions": {
+    "2464.TW": [
+      {
+        "slot": "market_open",
+        "p1_result": "DATA_UNAVAILABLE"
+      },
+      {
+        "slot": "pre_market",
+        "p1_result": "WAIT"
+      },
+      {
+        "slot": "market_open",
+        "p1_result": "WAIT"
+      },
+      {
+        "slot": "mid_morning",
+        "p1_result": "WAIT"
+      },
+      {
+        "slot": "pre_close",
+        "p1_result": "WAIT"
+      },
+      {
+        "slot": "post_close_review",
+        "p1_result": "WAIT"
+      }
+    ],
+    "2356.TW": [
+      {
+        "slot": "market_open",
+        "p1_result": "DATA_UNAVAILABLE"
+      },
+      {
+        "slot": "pre_market",
+        "p1_result": "ENTRY"
+      },
+      {
+        "slot": "market_open",
+        "p1_result": "ENTRY"
+      },
+      {
+        "slot": "post_close_review",
+        "p1_result": "ENTRY"
+      }
+    ],
+    "2449.TW": [
+      {
+        "slot": "market_open",
+        "p1_result": "DATA_UNAVAILABLE"
+      },
+      {
+        "slot": "pre_market",
+        "p1_result": "WAIT"
+      },
+      {
+        "slot": "market_open",
+        "p1_result": "WAIT"
+      },
+      {
+        "slot": "noon_review",
+        "p1_result": "WAIT"
+      },
+      {
+        "slot": "pre_close",
+        "p1_result": "WAIT"
+      },
+      {
+        "slot": "post_close_review",
+        "p1_result": "WAIT"
+      }
+    ],
+    "3231.TW": [
+      {
+        "slot": "market_open",
+        "p1_result": "DATA_UNAVAILABLE"
+      },
+      {
+        "slot": "pre_market",
+        "p1_result": "ENTRY"
+      },
+      {
+        "slot": "market_open",
+        "p1_result": "ENTRY"
+      }
+    ],
+    "3680.TWO": [
+      {
+        "slot": "market_open",
+        "p1_result": "DATA_UNAVAILABLE"
+      },
+      {
+        "slot": "pre_market",
+        "p1_result": "WAIT"
+      },
+      {
+        "slot": "market_open",
+        "p1_result": "WAIT"
+      }
+    ],
+    "6147.TWO": [
+      {
+        "slot": "market_open",
+        "p1_result": "DATA_UNAVAILABLE"
+      },
+      {
+        "slot": "pre_market",
+        "p1_result": "WAIT"
+      },
+      {
+        "slot": "market_open",
+        "p1_result": "WAIT"
+      },
+      {
+        "slot": "mid_morning",
+        "p1_result": "WAIT"
+      },
+      {
+        "slot": "noon_review",
+        "p1_result": "WAIT"
+      },
+      {
+        "slot": "pre_close",
+        "p1_result": "WAIT"
+      },
+      {
+        "slot": "post_close_review",
+        "p1_result": "WAIT"
+      }
+    ],
+    "6257.TW": [
+      {
+        "slot": "market_open",
+        "p1_result": "DATA_UNAVAILABLE"
+      },
+      {
+        "slot": "pre_market",
+        "p1_result": "WAIT"
+      },
+      {
+        "slot": "market_open",
+        "p1_result": "WAIT"
+      }
+    ],
+    "2317.TW": [
+      {
+        "slot": "market_open",
+        "p1_result": "DATA_UNAVAILABLE"
+      },
+      {
+        "slot": "pre_market",
+        "p1_result": "WAIT"
+      },
+      {
+        "slot": "market_open",
+        "p1_result": "WAIT"
+      }
+    ],
+    "6669.TW": [
+      {
+        "slot": "market_open",
+        "p1_result": "DATA_UNAVAILABLE"
+      },
+      {
+        "slot": "pre_market",
+        "p1_result": "WAIT"
+      },
+      {
+        "slot": "market_open",
+        "p1_result": "WAIT"
+      }
+    ],
+    "3706.TW": [
+      {
+        "slot": "market_open",
+        "p1_result": "DATA_UNAVAILABLE"
+      },
+      {
+        "slot": "pre_market",
+        "p1_result": "ENTRY"
+      },
+      {
+        "slot": "market_open",
+        "p1_result": "ENTRY"
+      },
+      {
+        "slot": "noon_review",
+        "p1_result": "WAIT"
+      },
+      {
+        "slot": "pre_close",
+        "p1_result": "ENTRY"
+      },
+      {
+        "slot": "post_close_review",
+        "p1_result": "ENTRY"
+      }
+    ],
+    "3583.TW": [
+      {
+        "slot": "mid_morning",
+        "p1_result": "WAIT"
+      },
+      {
+        "slot": "noon_review",
+        "p1_result": "WAIT"
+      },
+      {
+        "slot": "pre_close",
+        "p1_result": "WAIT"
+      },
+      {
+        "slot": "post_close_review",
+        "p1_result": "WAIT"
+      }
+    ],
+    "3711.TW": [
+      {
+        "slot": "mid_morning",
+        "p1_result": "WAIT"
+      }
+    ],
+    "2345.TW": [
+      {
+        "slot": "mid_morning",
+        "p1_result": "WAIT"
+      },
+      {
+        "slot": "noon_review",
+        "p1_result": "WAIT"
+      }
+    ],
+    "2467.TW": [
+      {
+        "slot": "mid_morning",
+        "p1_result": "WAIT"
+      },
+      {
+        "slot": "noon_review",
+        "p1_result": "WAIT"
+      },
+      {
+        "slot": "pre_close",
+        "p1_result": "WAIT"
+      },
+      {
+        "slot": "post_close_review",
+        "p1_result": "WAIT"
+      }
+    ],
+    "2376.TW": [
+      {
+        "slot": "noon_review",
+        "p1_result": "WAIT"
+      },
+      {
+        "slot": "pre_close",
+        "p1_result": "WAIT"
+      },
+      {
+        "slot": "post_close_review",
+        "p1_result": "WAIT"
+      }
+    ],
+    "3037.TW": [
+      {
+        "slot": "noon_review",
+        "p1_result": "WAIT"
+      },
+      {
+        "slot": "pre_close",
+        "p1_result": "WAIT"
+      },
+      {
+        "slot": "post_close_review",
+        "p1_result": "WAIT"
+      }
+    ],
+    "3443.TW": [
+      {
+        "slot": "noon_review",
+        "p1_result": "WAIT"
+      },
+      {
+        "slot": "pre_close",
+        "p1_result": "WAIT"
+      }
+    ],
+    "2377.TW": [
+      {
+        "slot": "pre_close",
+        "p1_result": "WAIT"
+      },
+      {
+        "slot": "post_close_review",
+        "p1_result": "WAIT"
+      }
+    ]
+  },
+  "repeated_l2_block": [
+    {
+      "ticker": "6147.TWO",
+      "block_count": 6,
+      "block_reason": "price too far above MA5"
+    },
+    {
+      "ticker": "2464.TW",
+      "block_count": 4,
+      "block_reason": "price too far above MA5"
+    },
+    {
+      "ticker": "3583.TW",
+      "block_count": 4,
+      "block_reason": "price too far above MA5"
+    },
+    {
+      "ticker": "2467.TW",
+      "block_count": 4,
+      "block_reason": "price too far above MA5"
+    },
+    {
+      "ticker": "2376.TW",
+      "block_count": 3,
+      "block_reason": "price too far above MA5"
+    },
+    {
+      "ticker": "6257.TW",
+      "block_count": 2,
+      "block_reason": "price too far above MA5"
+    },
+    {
+      "ticker": "6669.TW",
+      "block_count": 2,
+      "block_reason": "price too far above MA5"
+    },
+    {
+      "ticker": "2345.TW",
+      "block_count": 2,
+      "block_reason": "price too far above MA5"
+    },
+    {
+      "ticker": "3443.TW",
+      "block_count": 2,
+      "block_reason": "price too far above MA5"
+    },
+    {
+      "ticker": "2377.TW",
+      "block_count": 2,
+      "block_reason": "price too far above MA5"
+    }
+  ],
+  "repeated_l3_block": [
+    {
+      "ticker": "2449.TW",
+      "block_count": 5,
+      "block_reason": "price below MA5"
+    },
+    {
+      "ticker": "2464.TW",
+      "block_count": 3,
+      "block_reason": "price too far above MA5"
+    },
+    {
+      "ticker": "3037.TW",
+      "block_count": 3,
+      "block_reason": "volume not confirmed"
+    },
+    {
+      "ticker": "3680.TWO",
+      "block_count": 2,
+      "block_reason": "price below MA5"
+    },
+    {
+      "ticker": "2317.TW",
+      "block_count": 2,
+      "block_reason": "volume not confirmed"
+    },
+    {
+      "ticker": "2467.TW",
+      "block_count": 2,
+      "block_reason": "price too far above MA5"
+    }
+  ],
+  "warn_l1_l4_pass": [],
+  "next_day_watchlist": [
+    {
+      "ticker": "6147.TWO",
+      "name": "頎邦",
+      "appearances": 7,
+      "last_rank": 8,
+      "last_score": 108.2,
+      "last_p1": "WAIT"
+    },
+    {
+      "ticker": "3706.TW",
+      "name": "神達",
+      "appearances": 6,
+      "last_rank": 9,
+      "last_score": 108.2,
+      "last_p1": "ENTRY"
+    },
+    {
+      "ticker": "2356.TW",
+      "name": "英業達",
+      "appearances": 4,
+      "last_rank": 2,
+      "last_score": 145.534,
+      "last_p1": "ENTRY"
+    },
+    {
+      "ticker": "3583.TW",
+      "name": "辛耘",
+      "appearances": 4,
+      "last_rank": 6,
+      "last_score": 123.0,
+      "last_p1": "WAIT"
+    },
+    {
+      "ticker": "2467.TW",
+      "name": "志聖",
+      "appearances": 4,
+      "last_rank": 7,
+      "last_score": 118.2,
+      "last_p1": "WAIT"
+    },
+    {
+      "ticker": "3231.TW",
+      "name": null,
+      "appearances": 3,
+      "last_rank": null,
+      "last_score": null,
+      "last_p1": null
+    },
+    {
+      "ticker": "3680.TWO",
+      "name": null,
+      "appearances": 3,
+      "last_rank": null,
+      "last_score": null,
+      "last_p1": null
+    },
+    {
+      "ticker": "6257.TW",
+      "name": null,
+      "appearances": 3,
+      "last_rank": null,
+      "last_score": null,
+      "last_p1": null
+    },
+    {
+      "ticker": "2317.TW",
+      "name": null,
+      "appearances": 3,
+      "last_rank": null,
+      "last_score": null,
+      "last_p1": null
+    },
+    {
+      "ticker": "6669.TW",
+      "name": null,
+      "appearances": 3,
+      "last_rank": null,
+      "last_score": null,
+      "last_p1": null
+    },
+    {
+      "ticker": "2376.TW",
+      "name": "技嘉",
+      "appearances": 3,
+      "last_rank": 4,
+      "last_score": 145.2,
+      "last_p1": "WAIT"
+    }
+  ]
+}
