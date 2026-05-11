@@ -1,0 +1,11 @@
+[Unit]
+Description=Investment OS Intraday Observation Timer — us_midday 01:00 Asia/Taipei
+
+[Timer]
+OnCalendar=Tue..Sat 01:00:00
+TimeZone=Asia/Taipei
+Persistent=false
+Unit=investment-os-intraday-observation@us_midday.service
+
+[Install]
+WantedBy=timers.target

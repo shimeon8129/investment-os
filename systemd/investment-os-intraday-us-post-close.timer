@@ -1,0 +1,11 @@
+[Unit]
+Description=Investment OS Intraday Observation Timer — us_post_close_review 04:30 Asia/Taipei
+
+[Timer]
+OnCalendar=Tue..Sat 04:30:00
+TimeZone=Asia/Taipei
+Persistent=false
+Unit=investment-os-intraday-observation@us_post_close_review.service
+
+[Install]
+WantedBy=timers.target
