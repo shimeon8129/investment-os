@@ -1,13 +1,16 @@
 #!/usr/bin/env python3
 """
-Investment OS — Manual Intraday Observation Runner v0.1
+Investment OS — Manual Intraday Observation Runner v0.2
 
 Usage:
-    python3 jobs/intraday_observation.py <slot>
+    python3 jobs/intraday_observation.py <slot> [--market tw|us]
 
-Slots: pre_market | market_open | mid_morning | noon_review | pre_close | post_close_review
+TW Slots: pre_market | market_open | mid_morning | noon_review | pre_close | post_close_review
+US Slots: us_market_open | us_midday | us_post_close_review
 
-Runs jobs.daily_run, captures output, writes slot-specific report, log, and snapshots.
+Runs jobs.daily_run (TW) or jobs.daily_run_us (US), captures output, writes slot-specific
+report, log, and snapshots. Computes session_date in market-local timezone for correct
+cross-midnight handling. Auto-updates the daily replay summary via build_summary().
 Does NOT modify trading logic, signal logic, or existing 16:00 observation automation.
 """
 from __future__ import annotations
@@ -35,6 +38,12 @@ VALID_SLOTS = (
     "post_close_review",
 )
 
+US_VALID_SLOTS = (
+    "us_market_open",
+    "us_midday",
+    "us_post_close_review",
+)
+
 TODAY = datetime.now().strftime("%Y-%m-%d")
 NOW_DT = datetime.now()
 NOW = NOW_DT.strftime("%Y-%m-%d %H:%M:%S")
@@ -43,6 +52,7 @@ HHMM = NOW_DT.strftime("%H%M")
 DAILY_REPORT_SRC = ROOT / "reports" / "daily" / f"{TODAY}_daily_report.md"
 SIGNAL_SNAPSHOT_SRC = ROOT / "data" / "processed" / "signal_snapshot.json"
 MAINLINE_SNAPSHOT_SRC = ROOT / "data" / "processed" / "mainline_snapshot.json"
+ROLE_MAP_FILE = ROOT / "data" / "portfolio" / "role_map.json"
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -81,12 +91,13 @@ def _get_git_info() -> dict:
 # Runner
 # ─────────────────────────────────────────────────────────────────────────────
 
-def _run_daily() -> tuple[str, int]:
+def _run_daily(market: str = "tw") -> tuple[str, int]:
+    module = "jobs.daily_run_us" if market == "us" else "jobs.daily_run"
     env = os.environ.copy()
     env["PYTHONPATH"] = str(ROOT)
     try:
         p = subprocess.run(
-            [sys.executable, "-m", "jobs.daily_run"],
+            [sys.executable, "-m", module],
             cwd=str(ROOT),
             env=env,
             capture_output=True,
@@ -98,7 +109,7 @@ def _run_daily() -> tuple[str, int]:
             combined += "\n--- STDERR ---\n" + p.stderr
         return combined, p.returncode
     except subprocess.TimeoutExpired:
-        return "ERROR: jobs.daily_run timed out after 300s\n", 1
+        return f"ERROR: {module} timed out after 300s\n", 1
     except Exception as e:
         return f"ERROR: {e}\n", 1
 
@@ -151,17 +162,21 @@ def _read_snapshot_fields(snapshot: dict) -> dict:
     }
 
 
-def _read_mainline_candidates(mainline: dict) -> list[str]:
+def _read_mainline_candidates(mainline: dict, role_index: dict) -> list[str]:
     rows = mainline.get("ranked", [])[:5]
     if not rows:
         return ["(no ranked candidates in mainline snapshot)"]
     lines = []
     for i, row in enumerate(rows, 1):
+        ticker = row.get("ticker", "")
         score = row.get("score", "N/A")
         score_str = f"{float(score):.2f}" if isinstance(score, (int, float)) else str(score)
+        rc = _role_context(ticker, role_index)
+        intent = rc["intent"] or "—"
+        role_str = f"{rc['base_role']}/{rc['active_role']} [{rc['role_confidence']}] intent={intent}"
         lines.append(
-            f"{i}. {row.get('ticker', '')} {row.get('name', '')} "
-            f"— Score: {score_str} | Signal: {row.get('signal', '')}"
+            f"{i}. {ticker} {row.get('name', '')} "
+            f"— Score: {score_str} | Signal: {row.get('signal', '')} | Role: {role_str}"
         )
     return lines
 
@@ -193,6 +208,30 @@ def _extract_data_warnings(output: str) -> list[str]:
     warnings = re.findall(r"\[WARN\][^\n]+", output)
     warnings += re.findall(r"data_warning[^\n]+", output, re.IGNORECASE)
     return list(dict.fromkeys(warnings)) or ["(none detected)"]
+
+
+def _load_role_index() -> dict:
+    if not ROLE_MAP_FILE.exists():
+        print(f"[{NOW}] [WARN] role_map.json not found — role fields will show as UNKNOWN")
+        return {}
+    try:
+        data = json.loads(ROLE_MAP_FILE.read_text(encoding="utf-8"))
+        return {e["ticker"]: e for e in data.get("entries", []) if e.get("ticker")}
+    except Exception as e:
+        print(f"[{NOW}] [WARN] Failed to load role_map.json: {e} — role fields will show as UNKNOWN")
+        return {}
+
+
+def _role_context(ticker: str, role_index: dict) -> dict:
+    e = role_index.get(ticker, {})
+    return {
+        "base_role": e.get("base_role", "UNKNOWN"),
+        "active_role": e.get("active_role", "UNKNOWN"),
+        "role_confidence": e.get("role_confidence", "UNKNOWN"),
+        "intent": e.get("intent"),
+        "upgrade_path": e.get("upgrade_path"),
+        "role_reason": e.get("role_reason", []),
+    }
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -234,6 +273,7 @@ def _build_observation_json(
     signal_snap: dict,
     mainline_snap: dict,
     p1_snap: dict,
+    role_index: dict,
 ) -> dict:
     """Build normalized observation dict for a single slot run."""
     mc = signal_snap.get("market_context", {})
@@ -275,6 +315,7 @@ def _build_observation_json(
             "warn_reason": p1.get("warn_reason"),
             "already_in_position": None,
             "manual_review_flag": None,
+            "role_context": _role_context(ticker, role_index),
         })
 
     return {
@@ -411,42 +452,70 @@ def _build_slot_report(
 # ─────────────────────────────────────────────────────────────────────────────
 
 def main() -> int:
-    if len(sys.argv) != 2 or sys.argv[1] not in VALID_SLOTS:
-        print(f"Usage: python3 jobs/intraday_observation.py <slot>")
-        print(f"Valid slots: {' | '.join(VALID_SLOTS)}")
+    import argparse
+    from zoneinfo import ZoneInfo
+
+    parser = argparse.ArgumentParser(
+        description="Investment OS Intraday Observation Runner"
+    )
+    parser.add_argument("slot", help="Observation slot name")
+    parser.add_argument("--market", choices=["tw", "us"], default="tw",
+                        help="Market session (default: tw)")
+    args = parser.parse_args()
+    slot = args.slot
+    market = args.market
+
+    if market == "tw" and slot not in VALID_SLOTS:
+        print(f"Usage: python3 jobs/intraday_observation.py <slot> [--market tw|us]")
+        print(f"Valid TW slots: {' | '.join(VALID_SLOTS)}")
+        return 1
+    if market == "us" and slot not in US_VALID_SLOTS:
+        print(f"Usage: python3 jobs/intraday_observation.py <slot> [--market tw|us]")
+        print(f"Valid US slots: {' | '.join(US_VALID_SLOTS)}")
         return 1
 
-    slot = sys.argv[1]
-    print(f"[{NOW}] === Intraday observation: {slot} ===")
+    print(f"[{NOW}] === Intraday observation: {slot} (market={market}) ===")
 
-    # Calendar guard: skip holidays (weekends already filtered by Mon..Fri timer)
-    from datetime import date
-    tw_status = is_market_open("TW", date.today())
-    if tw_status not in ("OPEN", "OPEN_EARLY_CLOSE"):
-        print(f"[{NOW}] [SKIP] TW market {tw_status} — skipping intraday observation ({slot})")
+    # Compute session date in market's local timezone to handle cross-midnight US slots
+    if market == "us":
+        session_date = datetime.now(ZoneInfo("America/New_York")).date()
+    else:
+        session_date = datetime.now(ZoneInfo("Asia/Taipei")).date()
+    session_date_str = session_date.isoformat()
+
+    # Calendar guard: skip holidays (weekends already filtered by Mon..Fri timers)
+    market_key = "US" if market == "us" else "TW"
+    mkt_status = is_market_open(market_key, session_date)
+    if mkt_status not in ("OPEN", "OPEN_EARLY_CLOSE"):
+        print(f"[{NOW}] [SKIP] {market_key} market {mkt_status} — skipping ({slot})")
         return 0
 
-    # Slot-specific output dirs
-    intraday_report_dir = ROOT / "reports" / "intraday" / TODAY
-    intraday_log_dir = ROOT / "logs" / "intraday" / TODAY
-    intraday_data_dir = ROOT / "data" / "processed" / "intraday" / TODAY
+    # Slot-specific output dirs — use session_date_str for correct date folder
+    intraday_report_dir = ROOT / "reports" / "intraday" / session_date_str
+    intraday_log_dir = ROOT / "logs" / "intraday" / session_date_str
+    intraday_data_dir = ROOT / "data" / "processed" / "intraday" / session_date_str
     for d in (intraday_report_dir, intraday_log_dir, intraday_data_dir):
         d.mkdir(parents=True, exist_ok=True)
 
     slot_report_path = intraday_report_dir / f"{HHMM}_{slot}.md"
     slot_log_path = intraday_log_dir / f"{HHMM}_{slot}.log"
+    daily_report_src = ROOT / "reports" / "daily" / f"{session_date_str}_daily_report.md"
 
-    # 1. Git status before
+    # 1. Load role map
+    role_index = _load_role_index()
+    print(f"[{NOW}] [ROLE] role_index loaded: {len(role_index)} tickers")
+
+    # 2. Git status before
     print(f"[{NOW}] [GIT] Capturing status before run...")
     git_before = _get_git_info()
     print(f"[{NOW}] [GIT] branch={git_before['branch']} commit={git_before['latest_commit']} tree={git_before['working_tree']}")
 
-    # 2. Run daily_run
-    print(f"[{NOW}] [RUN] python3 -m jobs.daily_run")
-    output, returncode = _run_daily()
+    # 3. Run market-specific daily job
+    daily_module = "jobs.daily_run_us" if market == "us" else "jobs.daily_run"
+    print(f"[{NOW}] [RUN] python3 -m {daily_module}")
+    output, returncode = _run_daily(market)
     print(f"[{NOW}] [RUN] returncode={returncode}")
 
-    # 3. Write slot log
     slot_log_path.write_text(output, encoding="utf-8")
     print(f"[{NOW}] [WRITE] {slot_log_path}")
 
@@ -474,9 +543,9 @@ def main() -> int:
             print(f"[{NOW}] [WARN] Could not read p1_audit_report.json: {e}")
 
     report_text = ""
-    if DAILY_REPORT_SRC.exists():
+    if daily_report_src.exists():
         try:
-            report_text = DAILY_REPORT_SRC.read_text(encoding="utf-8")
+            report_text = daily_report_src.read_text(encoding="utf-8")
         except Exception as e:
             print(f"[{NOW}] [WARN] Could not read daily report: {e}")
 
@@ -496,11 +565,10 @@ def main() -> int:
     # 6. Git status after
     git_after = _get_git_info()
 
-    # 7. Parse and build report
+    # 7. Build and write slot report
     runtime_status = _compute_runtime_status(returncode, output)
 
-    # 7a. Write normalized observation JSON
-    obs_dir = ROOT / "data" / "observations" / "intraday" / TODAY
+    obs_dir = ROOT / "data" / "observations" / "intraday" / session_date_str
     obs_dir.mkdir(parents=True, exist_ok=True)
     obs_path = obs_dir / f"{HHMM}_{slot}_observation.json"
     try:
@@ -511,6 +579,7 @@ def main() -> int:
             signal_snap=signal_snap,
             mainline_snap=mainline_snap,
             p1_snap=p1_snap,
+            role_index=role_index,
         )
         obs_path.write_text(json.dumps(obs_data, ensure_ascii=False, indent=2), encoding="utf-8")
         print(f"[{NOW}] [WRITE] {obs_path}")
@@ -519,7 +588,7 @@ def main() -> int:
 
     snap_fields = _read_snapshot_fields(signal_snap)
     freshness_block = _extract_freshness_block(report_text) if report_text else "(daily report not found)"
-    candidates = _read_mainline_candidates(mainline_snap)
+    candidates = _read_mainline_candidates(mainline_snap, role_index)
     p1_summary = _read_p1_audit_summary(p1_snap)
     manual_flags = _extract_manual_review_flags(report_text) if report_text else ["(daily report not found)"]
     data_warnings = _extract_data_warnings(output)
@@ -546,6 +615,14 @@ def main() -> int:
     print(f"[{NOW}] [WRITE] {slot_report_path}")
 
     print(f"[{NOW}] === Intraday observation {slot}: {runtime_status} ===")
+
+    # 7b. Auto-update daily replay summary
+    try:
+        from jobs.observation_replay_builder import build_summary
+        build_summary(session_date_str)
+        print(f"[{NOW}] [REPLAY] daily summary updated for {session_date_str}")
+    except Exception as e:
+        print(f"[{NOW}] [WARN] build_summary failed: {e}")
 
     try:
         from reporting.web_report_generator import generate_all
