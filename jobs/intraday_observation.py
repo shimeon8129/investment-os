@@ -28,6 +28,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 from utils.market_calendar import is_market_open
+from utils.telegram_notify import send_notification
 
 VALID_SLOTS = (
     "pre_market",
@@ -586,6 +587,13 @@ def main() -> int:
             session_date_str=session_date_str,
         )
         obs_path.write_text(json.dumps(obs_data, ensure_ascii=False, indent=2), encoding="utf-8")
+        slot_cands = obs_data.get("candidates", [])[:3]
+        cand_lines = [
+            f"  {c.get('rank','?')}. {c.get('ticker','')} {c.get('name','')} signal={c.get('signal','?')}"
+            for c in slot_cands
+        ]
+        cand_text = "\n".join(cand_lines) if cand_lines else "（無候選）"
+        send_notification(f"*盤中觀察完成* ({slot})\n\n*Top 3:*\n{cand_text}")
         print(f"[{NOW}] [WRITE] {obs_path}")
     except Exception as e:
         print(f"[{NOW}] [WARN] Could not write observation JSON: {e}")
