@@ -11,9 +11,11 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from utils.market_calendar import get_market_context, get_latest_full_trading_day
+from utils.telegram_notify import send_notification
 LOG_DIR = ROOT / "logs"
 REPORT_DIR = ROOT / "reports" / "daily"
 PROCESSED_DIR = ROOT / "data" / "processed"
+ROLE_MAP_FILE = ROOT / "data" / "portfolio" / "role_map.json"
 
 LOG_DIR.mkdir(parents=True, exist_ok=True)
 REPORT_DIR.mkdir(parents=True, exist_ok=True)
@@ -40,6 +42,36 @@ def read_json(path: Path, fallback):
     except Exception as e:
         log(f"[WARN] Failed to read {path}: {e}")
         return fallback
+
+def _load_role_index() -> dict:
+    if not ROLE_MAP_FILE.exists():
+        log("[WARN] role_map.json not found — role fields will show as UNKNOWN")
+        return {}
+    try:
+        data = json.loads(ROLE_MAP_FILE.read_text(encoding="utf-8"))
+        return {e["ticker"]: e for e in data.get("entries", []) if e.get("ticker")}
+    except Exception as e:
+        log(f"[WARN] Failed to load role_map.json: {e} — role fields will show as UNKNOWN")
+        return {}
+
+
+def _role_context(ticker: str, role_index: dict) -> dict:
+    e = role_index.get(ticker, {})
+    return {
+        "base_role": e.get("base_role", "UNKNOWN"),
+        "active_role": e.get("active_role", "UNKNOWN"),
+        "role_confidence": e.get("role_confidence", "UNKNOWN"),
+        "intent": e.get("intent"),
+        "upgrade_path": e.get("upgrade_path"),
+        "role_reason": e.get("role_reason", []),
+    }
+
+
+def _role_inline(ticker: str, role_index: dict) -> str:
+    rc = _role_context(ticker, role_index)
+    intent = rc["intent"] or "—"
+    return f"{rc['base_role']}/{rc['active_role']} [{rc['role_confidence']}] intent={intent}"
+
 
 def run_module_or_script(label: str, command: list[str]) -> dict:
     log(f"[RUN] {label}: {' '.join(command)}")
@@ -187,6 +219,7 @@ def main() -> int:
 
     watchlist = read_json(ROOT / "data" / "watchlist.json", fallback={})
     holdings = read_json(ROOT / "data" / "portfolio" / "current_holdings.json", fallback={})
+    role_index = _load_role_index()
 
     checks = []
 
@@ -251,6 +284,11 @@ def main() -> int:
             "auto_trade": False,
             "advisory_only": True,
         },
+        "role_summary": {
+            "loaded": bool(role_index),
+            "ticker_count": len(role_index),
+            "warning": None if role_index else "role_map.json not found or failed to load",
+        },
         **_FRESHNESS_META,
     }
 
@@ -301,9 +339,11 @@ def main() -> int:
         for i, row in enumerate(mainline_snap.get("ranked", [])[:3], 1):
             score = row.get("score", 0)
             score_str = f"{float(score):.2f}" if score is not None else "N/A"
+            ticker = row.get("ticker", "")
+            role_str = _role_inline(ticker, role_index)
             report_lines.append(
-                f"{i}. {row.get('ticker', '')} {row.get('name', '')} "
-                f"— Score: {score_str} | Signal: {row.get('signal', '')}"
+                f"{i}. {ticker} {row.get('name', '')} "
+                f"— Score: {score_str} | Signal: {row.get('signal', '')} | Role: {role_str}"
             )
         report_lines.append("")
         action_counts: dict[str, int] = {}
@@ -337,13 +377,16 @@ def main() -> int:
             "",
             "### Top Ranked",
             "",
-            "| Rank | Ticker | Name | Sector | Signal | Score |",
-            "| --- | --- | --- | --- | --- | --- |",
+            "| Rank | Ticker | Name | Sector | Signal | Score | base_role | active_role | role_confidence | intent |",
+            "| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |",
         ]
         for i, row in enumerate(mainline_snap.get("ranked", [])[:5], 1):
+            ticker = row.get("ticker", "")
+            rc = _role_context(ticker, role_index)
             report_lines.append(
-                f"| {i} | {row.get('ticker', '')} | {row.get('name', '')} "
-                f"| {row.get('sector', '')} | {row.get('signal', '')} | {row.get('score', '')} |"
+                f"| {i} | {ticker} | {row.get('name', '')} "
+                f"| {row.get('sector', '')} | {row.get('signal', '')} | {row.get('score', '')} "
+                f"| {rc['base_role']} | {rc['active_role']} | {rc['role_confidence']} | {rc['intent'] or '—'} |"
             )
         report_lines += [
             "",
@@ -395,6 +438,28 @@ def main() -> int:
             "",
         ]
 
+    report_lines += ["## Role-Aware Candidate Summary", ""]
+    if mainline_snap and mainline_snap.get("ranked"):
+        if role_index:
+            report_lines += [
+                "| Ticker | Name | Score | Signal | base_role | active_role | role_confidence | intent |",
+                "| --- | --- | --- | --- | --- | --- | --- | --- |",
+            ]
+            for row in mainline_snap.get("ranked", [])[:10]:
+                ticker = row.get("ticker", "")
+                rc = _role_context(ticker, role_index)
+                score = row.get("score", "N/A")
+                score_str = f"{float(score):.2f}" if isinstance(score, (int, float)) else str(score)
+                report_lines.append(
+                    f"| {ticker} | {row.get('name', '')} | {score_str} | {row.get('signal', '')} "
+                    f"| {rc['base_role']} | {rc['active_role']} | {rc['role_confidence']} | {rc['intent'] or '—'} |"
+                )
+            report_lines.append("")
+        else:
+            report_lines += ["- role_map.json not available — role fields UNKNOWN", ""]
+    else:
+        report_lines += ["- No ranked candidates available.", ""]
+
     report_lines += [
         "## Checks",
         "",
@@ -432,6 +497,15 @@ def main() -> int:
     log(f"[WRITE] {snapshot_file}")
     log(f"[WRITE] {report_file}")
     log("=== Investment OS daily_run done ===")
+
+    top3_lines = []
+    for entry in mainline_snap.get("ranked", [])[:3]:
+        top3_lines.append(
+            f"{entry.get('rank','?')}. {entry.get('ticker','')} {entry.get('name','')} "
+            f"score={entry.get('score','?')} signal={entry.get('signal','?')}"
+        )
+    top3_text = "\n".join(top3_lines) if top3_lines else "（無候選）"
+    send_notification(f"*Daily Run 完成* ({today})\n\n*Top 3:*\n{top3_text}")
 
     return 0
 
