@@ -11,6 +11,7 @@ ROOT = Path(__file__).resolve().parents[1]
 WEB_DIR = ROOT / "reports" / "web"
 SIGNAL_SNAPSHOT = ROOT / "data" / "processed" / "signal_snapshot.json"
 MAINLINE_SNAPSHOT = ROOT / "data" / "processed" / "mainline_snapshot.json"
+ROLE_MAP_FILE = ROOT / "data" / "portfolio" / "role_map.json"
 OBSERVATION_DIR = ROOT / "reports" / "observation"
 DAILY_REPORT_DIR = ROOT / "reports" / "daily"
 INTRADAY_DAILY_DIR = ROOT / "data" / "observations" / "daily"
@@ -40,6 +41,22 @@ details[open]{background:#222;padding:8px;margin-bottom:8px}
 .banner{background:#2a2a2a;color:#888;padding:20px;text-align:center;margin:20px 0;border:1px solid #333}
 select{background:#2a2a2a;color:#d4d4d4;border:1px solid #444;padding:4px 8px}
 """
+
+
+def _load_role_index() -> dict:
+    data = _load_json(ROLE_MAP_FILE)
+    if not data:
+        return {}
+    return {e["ticker"]: e for e in data.get("entries", []) if e.get("ticker")}
+
+
+def _role_badge(role: str) -> str:
+    color = {
+        "CORE": "green", "CORE_ETF": "green",
+        "SATELLITE": "orange", "WAVE_SWING": "orange",
+        "UNKNOWN": "grey",
+    }.get((role or "").upper(), "grey")
+    return f'<span class="badge {color}">{role or "—"}</span>'
 
 
 def _load_json(path: Path) -> dict:
@@ -114,9 +131,21 @@ def generate_status_page(
     ranked = mainline.get("ranked", [])
     decisions = mainline.get("decisions", {})
     checks = signal.get("checks", [])
+    role_summary = signal.get("role_summary", {})
+    role_index = _load_role_index()
 
     body = f"<h1>今日狀態 {_badge(status)}</h1>"
     body += f"<p>執行時間: {generated_at} &nbsp;|&nbsp; 模式: {data_mode}</p>"
+
+    # Role Map Status block
+    rs_loaded = role_summary.get("loaded", False)
+    rs_count = role_summary.get("ticker_count", 0)
+    rs_warn = role_summary.get("warning") or ""
+    rs_badge = _badge("PASS") if rs_loaded else _badge("WARN")
+    body += "<h2>Role Map 狀態</h2>"
+    body += (f"<table><tr><th>role_map 載入</th><th>Ticker 數</th><th>警告</th></tr>"
+             f"<tr><td>{rs_badge}</td><td>{rs_count}</td>"
+             f"<td style='color:#fa5'>{rs_warn if rs_warn else '—'}</td></tr></table>")
 
     if market_closed:
         body += f'<div class="banner">市場休市 ({tw_s})</div>'
@@ -129,19 +158,30 @@ def generate_status_page(
 
         body += "<h2>Top 候選</h2>"
         body += ("<table><tr><th>Rank</th><th>Ticker</th><th>Name</th>"
-                 "<th>Score</th><th>Signal</th></tr>")
+                 "<th>Score</th><th>Signal</th>"
+                 "<th>base_role</th><th>active_role</th><th>role_conf</th><th>intent</th></tr>")
         for i, r in enumerate(ranked[:10], 1):
-            body += (f"<tr><td>{i}</td><td>{r.get('ticker','')}</td>"
+            ticker = r.get("ticker", "")
+            re_entry = role_index.get(ticker, {})
+            base_role = re_entry.get("base_role", "UNKNOWN")
+            active_role = re_entry.get("active_role", "UNKNOWN")
+            role_conf = re_entry.get("role_confidence", "UNKNOWN")
+            intent = re_entry.get("intent") or "—"
+            body += (f"<tr><td>{i}</td><td>{ticker}</td>"
                      f"<td>{r.get('name','')}</td><td>{r.get('score','')}</td>"
-                     f"<td>{r.get('signal','')}</td></tr>")
+                     f"<td>{r.get('signal','')}</td>"
+                     f"<td>{_role_badge(base_role)}</td><td>{_role_badge(active_role)}</td>"
+                     f"<td>{role_conf}</td><td>{intent}</td></tr>")
         body += "</table>"
 
         if decisions:
+            ranked_name_map = {r.get("ticker", ""): r.get("name", "") for r in ranked}
             body += "<h2>Decisions</h2>"
-            body += "<table><tr><th>Ticker</th><th>Action</th><th>Position</th><th>Reason</th></tr>"
+            body += "<table><tr><th>Ticker</th><th>Name</th><th>Action</th><th>Position</th><th>Reason</th></tr>"
             for ticker, d in decisions.items():
                 pct = f"{d.get('position_size', 0)*100:.0f}%" if d.get('position_size') else "N/A"
-                body += (f"<tr><td>{ticker}</td><td>{d.get('action','')}</td>"
+                name = ranked_name_map.get(ticker) or role_index.get(ticker, {}).get("name", "—")
+                body += (f"<tr><td>{ticker}</td><td>{name}</td><td>{d.get('action','')}</td>"
                          f"<td>{pct}</td><td>{d.get('reason','')}</td></tr>")
             body += "</table>"
 
@@ -203,13 +243,18 @@ def generate_history_page(
         return
 
     body += ("<table><tr><th>日期</th><th>狀態</th><th>市場狀態</th>"
-             "<th>Score</th><th>VIX</th><th>Top 1 候選</th><th>觀測類型</th></tr>")
+             "<th>Score</th><th>VIX</th><th>Top 1 候選</th><th>觀測類型</th><th>Role-Aware</th></tr>")
 
     for obs_path in obs_files:
         obs = _parse_obs_summary(obs_path)
         date = obs["date"]
         daily_path = daily_dir / f"{date}_daily_report.md"
         daily = _parse_daily_report(daily_path)
+
+        role_aware = "—"
+        if daily_path.exists():
+            text = daily_path.read_text(encoding="utf-8")
+            role_aware = _badge("PASS") if "Role-Aware Candidate Summary" in text else _badge("WARN")
 
         detail = ""
         if obs["subproc"]:
@@ -225,7 +270,8 @@ def generate_history_page(
                  f"<td>{daily.get('score','N/A')}</td>"
                  f"<td>{daily.get('vix','N/A')}</td>"
                  f"<td>{daily.get('top1','N/A')}</td>"
-                 f"<td>{obs['stable_type']}{detail}</td></tr>")
+                 f"<td>{obs['stable_type']}{detail}</td>"
+                 f"<td>{role_aware}</td></tr>")
     body += "</table>"
 
     (web_dir / "history.html").write_text(_html_page("歷史記錄", "history", body), encoding="utf-8")
@@ -242,12 +288,19 @@ def generate_replay_page(
 
     body = "<h1>Intraday Replay</h1>"
 
+    # Fall back to scanning slot_dir date folders when no daily summaries exist
     if not daily_files:
-        body += '<div class="banner">尚無資料</div>'
-        (web_dir / "replay.html").write_text(_html_page("Replay", "replay", body), encoding="utf-8")
-        return
-
-    dates = [f.stem.replace("_observation_summary", "") for f in daily_files]
+        slot_date_dirs = sorted(
+            [d for d in slot_dir.iterdir() if d.is_dir()], reverse=True
+        ) if slot_dir.exists() else []
+        if not slot_date_dirs:
+            body += '<div class="banner">尚無資料</div>'
+            (web_dir / "replay.html").write_text(_html_page("Replay", "replay", body), encoding="utf-8")
+            return
+        dates = [d.name for d in slot_date_dirs]
+        daily_files = []
+    else:
+        dates = [f.stem.replace("_observation_summary", "") for f in daily_files]
     latest = dates[0]
     options = "".join(
         f'<option value="{d}"{" selected" if d == latest else ""}>{d}</option>'
@@ -258,7 +311,7 @@ def generate_replay_page(
 
     for date in dates:
         daily_path = daily_obs_dir / f"{date}_observation_summary.json"
-        summary = _load_json(daily_path)
+        summary = _load_json(daily_path) if daily_path.exists() else {}
         slot_date_dir = slot_dir / date
         slot_files = sorted(slot_date_dir.glob("*.json")) if slot_date_dir.exists() else []
 
@@ -271,8 +324,19 @@ def generate_replay_page(
                     f"(PASS:{sc.get('PASS',0)} FAIL:{sc.get('FAIL',0)})</h2>")
 
         if slot_files:
+            role_aware_slots = sum(
+                1 for sf in slot_files
+                if (_load_json(sf).get("candidates") or [{}])[0].get("role_context")
+            )
+            pit_badge = _badge("PASS") if role_aware_slots == len(slot_files) else (
+                _badge("WARN") if role_aware_slots > 0 else _badge("FAIL")
+            )
+            section += (f"<p>PIT Role-Aware 狀態: {pit_badge} "
+                        f"({role_aware_slots}/{len(slot_files)} slots 含 role_context)</p>")
+
             section += ("<table><tr><th>Slot</th><th>時間</th><th>Top 1</th>"
-                        "<th>Score</th><th>P1 結果</th><th>市場</th></tr>")
+                        "<th>Score</th><th>P1 結果</th><th>市場</th>"
+                        "<th>active_role</th><th>role_conf</th><th>intent</th></tr>")
             for sf in slot_files:
                 sd = _load_json(sf)
                 cands = sd.get("candidates", [])
@@ -281,17 +345,24 @@ def generate_replay_page(
                 raw_score = top.get("score")
                 score_str = f"{float(raw_score):.2f}" if isinstance(raw_score, (int, float)) else "—"
                 p1 = top.get("p1_result") or "—"
+                rc = top.get("role_context") or {}
+                active_role = rc.get("active_role", "—") or "—"
+                role_conf = rc.get("role_confidence", "—") or "—"
+                intent = rc.get("intent") or "—"
                 section += (f"<tr><td>{sd.get('slot','')}</td>"
                              f"<td>{sd.get('run_time','')}</td>"
                              f"<td>{top.get('ticker','')} {top.get('name','') or ''}</td>"
                              f"<td>{score_str}</td>"
                              f"<td>{p1}</td>"
-                             f"<td>{mkt}</td></tr>")
+                             f"<td>{mkt}</td>"
+                             f"<td>{_role_badge(active_role)}</td>"
+                             f"<td>{role_conf}</td>"
+                             f"<td>{intent}</td></tr>")
             section += "</table>"
 
         persist = summary.get("top_persistence", [])
         if persist:
-            # Build name lookup from watchlist + warn entries
+            # Build name lookup: summary entries first, then scan slot files for backfill gaps
             name_map: dict[str, str] = {}
             for w in summary.get("next_day_watchlist", []):
                 if w.get("name"):
@@ -299,6 +370,12 @@ def generate_replay_page(
             for w in summary.get("warn_l1_l4_pass", []):
                 if w.get("name"):
                     name_map.setdefault(w["ticker"], w["name"])
+            for sf in slot_files:
+                sd = _load_json(sf)
+                for c in sd.get("candidates", []):
+                    t = c.get("ticker", "")
+                    if t and c.get("name") and t not in name_map:
+                        name_map[t] = c["name"]
 
             section += (f"<h2>Persistence Ranking "
                         f"<small style='color:#666;font-size:.8em'>（出現/共{total}個slot）</small></h2>")
@@ -314,16 +391,30 @@ def generate_replay_page(
 
         wl = summary.get("next_day_watchlist", [])
         if wl:
+            # Build last-seen rank/p1 from slot files for backfill entries
+            slot_last: dict[str, dict] = {}
+            for sf in sorted(slot_files):
+                sd = _load_json(sf)
+                for c in sd.get("candidates", []):
+                    t = c.get("ticker", "")
+                    if t:
+                        slot_last[t] = {"rank": c.get("rank"), "p1": c.get("p1_result")}
+
             section += "<h2>明日 Watchlist</h2>"
             section += ("<table><tr><th>Ticker</th><th>Name</th><th>出現次數</th>"
                         "<th>最後排名</th><th>最後 P1</th><th>備註</th></tr>")
             for w in wl:
-                name = w.get("name") or "—"
+                ticker = w.get("ticker", "")
+                name = w.get("name") or name_map.get(ticker, "—")
                 rank = w.get("last_rank")
                 p1 = w.get("last_p1")
-                score = w.get("last_score")
-                note = "backfill only — no mainline data" if rank is None else ""
-                section += (f"<tr><td>{w.get('ticker','')}</td><td>{name}</td>"
+                # Fill from slot data if summary is missing
+                if rank is None and ticker in slot_last:
+                    rank = slot_last[ticker].get("rank")
+                if p1 is None and ticker in slot_last:
+                    p1 = slot_last[ticker].get("p1")
+                note = "backfill only — no mainline data" if w.get("last_rank") is None else ""
+                section += (f"<tr><td>{ticker}</td><td>{name}</td>"
                              f"<td>{w.get('appearances','')}/{total}</td>"
                              f"<td>{rank if rank is not None else '—'}</td>"
                              f"<td>{p1 if p1 is not None else '—'}</td>"

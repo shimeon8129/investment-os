@@ -1,4 +1,4 @@
-# Daily Decision Dashboard v0 — 2026-05-07
+# Daily Decision Dashboard v0 — 2026-05-12
 
 ## Source
 
@@ -18,23 +18,23 @@ It summarizes current candidate output only.
 
 ### Candidate Signal Counts
 
-- EARLY: 30
-- READY: 4
+- EARLY: 21
+- READY: 17
 
 ## 2. Top Candidates
 
 | rank | ticker | name | asset_type | close | scanner_score | signal | raw_score | raw_level | raw_price |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 1 | 6830 | 汎銓 | stock | 881.0 | 2 | READY | 2 | READY | 881.0 |
-| 2 | 2356 | 2356.TW | - | 49.9 | 2 | READY | 2 | READY | 49.9 |
-| 3 | 3706 | 3706.TW | - | 87.2 | 2 | READY | 2 | READY | 87.2 |
-| 4 | 2376 | 2376.TW | - | 312.0 | 2 | READY | 2 | READY | 312.0 |
-| 5 | 2467 | 2467.TW | - | 560.0 | 1 | EARLY | 1 | EARLY | 560.0 |
-| 6 | 3583 | 3583.TW | - | 808.0 | 1 | EARLY | 1 | EARLY | 808.0 |
-| 7 | 5443 | 均豪 | stock | 126.0 | 1 | EARLY | 1 | EARLY | 126.0 |
-| 8 | 6139 | 6139.TW | - | 715.0 | 1 | EARLY | 1 | EARLY | 715.0 |
-| 9 | 3680 | 家登 | stock | 588.0 | 1 | EARLY | 1 | EARLY | 588.0 |
-| 10 | 2464 | 2464.TW | - | 108.5 | 1 | EARLY | 1 | EARLY | 108.5 |
+| 1 | 2467 | 2467.TW | - | 649.0 | 2 | READY | 2 | READY | 649.0 |
+| 2 | 3583 | 3583.TW | - | 952.0 | 2 | READY | 2 | READY | 952.0 |
+| 3 | 3711 | 日月光投控 | stock | 555.0 | 2 | READY | 2 | READY | 555.0 |
+| 4 | 2449 | 2449.TW | - | 301.0 | 2 | READY | 2 | READY | 301.0 |
+| 5 | 3231 | 3231.TW | - | 141.5 | 2 | READY | 2 | READY | 141.5 |
+| 6 | 6669 | 6669.TW | - | 5790.0 | 2 | READY | 2 | READY | 5790.0 |
+| 7 | 2376 | 2376.TW | - | 321.0 | 2 | READY | 2 | READY | 321.0 |
+| 8 | 2377 | 2377.TW | - | 105.0 | 2 | READY | 2 | READY | 105.0 |
+| 9 | 2313 | 2313.TW | - | 260.0 | 2 | READY | 2 | READY | 260.0 |
+| 10 | 3037 | 3037.TW | - | 875.0 | 2 | READY | 2 | READY | 875.0 |
 
 ## 3. Current Holdings
 
@@ -48,55 +48,55 @@ It summarizes current candidate output only.
 | 2330 | 台積電 | 50 | stock | TW |
 | 2345 | 智邦 | 55 | stock | TW |
 | 2408 | 南亞科 | 120 | stock | TW |
-| 3711 | 日月光 | 50 | stock | TW |
+| 3711 | 日月光投控 | 50 | stock | TW |
 | 6830 | 汎銓 | 50 | stock | TW |
 
 ## 4. Portfolio vs Candidate Buckets
 
 ### 4.1 Held and Candidate
 
-- 2330 台積電 — shares: 50, score: 1, signal: EARLY
-- 3711 日月光 — shares: 50, score: 1, signal: EARLY
-- 6830 汎銓 — shares: 50, score: 2, signal: READY
+- 2330 台積電 — shares: 50, score: 2, signal: READY
+- 2345 智邦 — shares: 55, score: 2, signal: READY
+- 3711 日月光投控 — shares: 50, score: 2, signal: READY
+- 6830 汎銓 — shares: 50, score: 1, signal: EARLY
 
 ### 4.2 Held but Not Candidate
 
 - 009816 富邦台灣TOP50 — shares: 5000; manual review required.
 - 00992A 主動群益台灣科技創新 — shares: 2000; manual review required.
-- 2345 智邦 — shares: 55; manual review required.
 - 2408 南亞科 — shares: 120; manual review required.
 
 ### 4.3 Candidate but Not Held
 
-- 2313 2313.TW — score: 0, signal: EARLY
-- 2356 2356.TW — score: 2, signal: READY
+- 2303 2303.TW — score: 2, signal: READY
+- 2308 2308.TW — score: 2, signal: READY
+- 2313 2313.TW — score: 2, signal: READY
+- 2317 2317.TW — score: 1, signal: EARLY
+- 2356 2356.TW — score: 1, signal: EARLY
 - 2368 2368.TW — score: 1, signal: EARLY
 - 2376 2376.TW — score: 2, signal: READY
-- 2377 2377.TW — score: 1, signal: EARLY
+- 2377 2377.TW — score: 2, signal: READY
 - 2382 2382.TW — score: 1, signal: EARLY
-- 2449 2449.TW — score: 1, signal: EARLY
+- 2449 2449.TW — score: 2, signal: READY
 - 2454 2454.TW — score: 1, signal: EARLY
 - 2464 2464.TW — score: 1, signal: EARLY
-- 2467 2467.TW — score: 1, signal: EARLY
-- 3037 3037.TW — score: 1, signal: EARLY
-- 3044 3044.TW — score: 1, signal: EARLY
-- 3131 3131.TWO — score: 0, signal: EARLY
+- 2467 2467.TW — score: 2, signal: READY
+- 3037 3037.TW — score: 2, signal: READY
+- 3044 3044.TW — score: 2, signal: READY
+- 3131 3131.TWO — score: 1, signal: EARLY
 - 3189 3189.TW — score: 1, signal: EARLY
-- 3231 3231.TW — score: 1, signal: EARLY
-- 3413 3413.TW — score: 1, signal: EARLY
-- 3443 3443.TW — score: 1, signal: EARLY
-- 3583 3583.TW — score: 1, signal: EARLY
-- 3661 3661.TW — score: 1, signal: EARLY
-- 3680 家登 — score: 1, signal: EARLY
-- ... 11 more
+- 3231 3231.TW — score: 2, signal: READY
+- 3413 3413.TW — score: 0, signal: EARLY
+- 3443 3443.TW — score: 2, signal: READY
+- ... 14 more
 
 ## 5. Risk Notes
 
 This section is informational only.
 No automatic buy/sell decision is made.
 
-- Held but not candidate count: 4
-- Candidate but not held count: 31
+- Held but not candidate count: 3
+- Candidate but not held count: 34
 
 Manual interpretation:
 
