@@ -1,0 +1,17 @@
+[Unit]
+Description=Investment OS Telegram Bot
+After=network.target
+
+[Service]
+Type=simple
+User=shimeon
+WorkingDirectory=/home/shimeon/investment_os
+EnvironmentFile=/home/shimeon/investment_os/.env
+ExecStart=/home/shimeon/investment_os/venv/bin/python -m telegram_bot.bot
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
