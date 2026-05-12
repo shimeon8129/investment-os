@@ -63,15 +63,20 @@ async def cmd_watchlist(update: Update, ctx: ContextTypes.DEFAULT_TYPE) -> None:
 
 async def _run_job(update: Update, script_name: str, timeout: int) -> None:
     script = ROOT / "jobs" / script_name
-    result = subprocess.run(
-        [sys.executable, str(script)],
-        capture_output=True, text=True, timeout=timeout,
-    )
-    status = "✅ 完成" if result.returncode == 0 else f"❌ 失敗（exit {result.returncode}）"
-    tail = (result.stdout or result.stderr or "")[-500:]
-    await update.message.reply_text(
-        f"{script_name} {status}\n\n```\n{tail}\n```", parse_mode="Markdown"
-    )
+    try:
+        result = subprocess.run(
+            [sys.executable, str(script)],
+            capture_output=True, text=True, timeout=timeout,
+        )
+        status = "✅ 完成" if result.returncode == 0 else f"❌ 失敗（exit {result.returncode}）"
+        tail = (result.stdout or result.stderr or "")[-500:]
+        await update.message.reply_text(
+            f"{script_name} {status}\n\n```\n{tail}\n```", parse_mode="Markdown"
+        )
+    except subprocess.TimeoutExpired:
+        await update.message.reply_text(
+            f"❌ {script_name} 超時（>{timeout}s），已中止", parse_mode="Markdown"
+        )
 
 
 async def cmd_daily(update: Update, ctx: ContextTypes.DEFAULT_TYPE) -> None:
