@@ -68,3 +68,28 @@ async def test_cmd_daily_runs_subprocess_and_reports_result():
         await cmd_daily(update, ctx)
     calls = [c[0][0] for c in update.message.reply_text.call_args_list]
     assert any("完成" in c or "daily" in c.lower() for c in calls)
+
+
+@pytest.mark.asyncio
+async def test_cmd_ask_replies_with_claude_response():
+    """cmd_ask() forwards question to Claude and sends the reply."""
+    from telegram_bot.handlers.ask import cmd_ask
+    with patch("telegram_bot.handlers.ask.ask_claude", return_value="廣達訊號強"):
+        update = _make_update()
+        ctx = MagicMock()
+        ctx.args = ["今天", "2382", "值得進嗎"]
+        await cmd_ask(update, ctx)
+    replies = [c[0][0] for c in update.message.reply_text.call_args_list]
+    assert any("廣達" in r for r in replies)
+
+
+@pytest.mark.asyncio
+async def test_cmd_ask_shows_usage_when_no_args():
+    """cmd_ask() shows usage hint when called with no arguments."""
+    from telegram_bot.handlers.ask import cmd_ask
+    update = _make_update()
+    ctx = MagicMock()
+    ctx.args = []
+    await cmd_ask(update, ctx)
+    reply = update.message.reply_text.call_args[0][0]
+    assert "用法" in reply
