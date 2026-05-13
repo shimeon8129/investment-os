@@ -8,10 +8,13 @@ def enrich_ranked_with_action(
     market_state: str,
     exit_decisions: dict,
     chip_map: dict = None,
+    news_heat_map: dict = None,
+    narrative_map: dict = None,
 ) -> list:
     """
     Enrich each ranked candidate with action_mode, chase_risk, chip_status,
-    suggested_action, technical_reasons, invalid_if fields.
+    chip_freshness, news_freshness, narrative_status, suggested_action,
+    technical_reasons, invalid_if fields.
 
     Args:
         ranked: list of ranked candidate dicts from rank_stocks()
@@ -19,7 +22,9 @@ def enrich_ranked_with_action(
         features: features dict from compute_features()
         market_state: BULL / RANGE / BEAR
         exit_decisions: dict of {ticker: {action, reason}} from exit check
-        chip_map: optional dict of {ticker: chip_info} for chip_status
+        chip_map: optional dict of {code: chip_info} from chips_fetcher
+        news_heat_map: optional dict of {ticker: news_item} from news_heat_fetcher
+        narrative_map: optional dict of {ticker: narrative_info} from narrative_loader
 
     Returns:
         enriched ranked list (in-place mutation + return)
@@ -28,10 +33,12 @@ def enrich_ranked_with_action(
 
     for item in ranked:
         ticker = item["ticker"]
+        code = ticker.split(".")[0]
 
         chase_result = compute_chase_risk(close, features, ticker)
 
-        chip_info = (chip_map or {}).get(ticker)
+        # Chips: try code first (chips_fetcher indexes by code), then ticker
+        chip_info = (chip_map or {}).get(code) or (chip_map or {}).get(ticker)
         chip_status = _resolve_chip_status(chip_info)
 
         exit_entry = exit_decisions.get(ticker, {})
@@ -50,6 +57,16 @@ def enrich_ranked_with_action(
             exit_signal=exit_signal,
         )
 
+        # News heat context
+        news_item = (news_heat_map or {}).get(ticker) or (news_heat_map or {}).get(code)
+        news_freshness = news_item.get("freshness", "MISSING") if news_item else "MISSING"
+        news_keywords = news_item.get("keywords", []) if news_item else []
+
+        # Narrative context
+        narrative_info = (narrative_map or {}).get(ticker) or (narrative_map or {}).get(code)
+        has_narrative = bool(narrative_info and narrative_info.get("consensus_score", 0) > 0)
+        narrative_status = "PRESENT" if (has_narrative or item.get("narrative_score", 0) > 0) else "MISSING"
+
         item.update({
             "action_mode": action_result["action_mode"],
             "action_label": action_result["action_label"],
@@ -59,8 +76,9 @@ def enrich_ranked_with_action(
             "chase_risk_reasons": chase_result["chase_risk_reasons"],
             "chip_status": chip_status,
             "chip_freshness": _resolve_chip_freshness(chip_info),
-            "news_freshness": "MISSING",
-            "narrative_status": "PRESENT" if item.get("narrative_score", 0) > 0 else "MISSING",
+            "news_freshness": news_freshness,
+            "news_keywords": news_keywords,
+            "narrative_status": narrative_status,
             "technical_reasons": action_result["technical_reasons"],
             "invalid_if": action_result["invalid_if"],
         })

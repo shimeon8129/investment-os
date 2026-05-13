@@ -341,6 +341,8 @@ def run_pipeline(capital=100000):
         market_state,
         exit_decisions,
         chip_map=chips_map,
+        news_heat_map=news_heat_map,
+        narrative_map=narrative_map,
     )
     holding_alerts = enrich_holdings_with_action(portfolio, exit_decisions, market_state)
     technical_action_summary = build_technical_action_summary(ranked)
