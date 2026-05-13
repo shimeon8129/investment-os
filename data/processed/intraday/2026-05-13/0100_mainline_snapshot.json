@@ -1,0 +1,486 @@
+{
+  "generated_at": "2026-05-13T20:35:18.408083",
+  "market_state": "RANGE",
+  "market_score": -0.0056,
+  "vix_value": 17.889999389648438,
+  "candidates": [
+    {
+      "ticker": "2467.TW",
+      "name": "2467.TW",
+      "score": 2,
+      "level": "READY",
+      "price": 626.0
+    },
+    {
+      "ticker": "3583.TW",
+      "name": "3583.TW",
+      "score": 2,
+      "level": "READY",
+      "price": 966.0
+    },
+    {
+      "ticker": "6187.TWO",
+      "name": "6187.TWO",
+      "score": 2,
+      "level": "READY",
+      "price": 1225.0
+    },
+    {
+      "ticker": "6669.TW",
+      "name": "6669.TW",
+      "score": 2,
+      "level": "READY",
+      "price": 5580.0
+    },
+    {
+      "ticker": "2356.TW",
+      "name": "2356.TW",
+      "score": 2,
+      "level": "READY",
+      "price": 52.79999923706055
+    },
+    {
+      "ticker": "2376.TW",
+      "name": "2376.TW",
+      "score": 2,
+      "level": "READY",
+      "price": 313.5
+    },
+    {
+      "ticker": "2377.TW",
+      "name": "2377.TW",
+      "score": 2,
+      "level": "READY",
+      "price": 115.5
+    },
+    {
+      "ticker": "3037.TW",
+      "name": "3037.TW",
+      "score": 2,
+      "level": "READY",
+      "price": 892.0
+    },
+    {
+      "ticker": "2368.TW",
+      "name": "2368.TW",
+      "score": 2,
+      "level": "READY",
+      "price": 1350.0
+    },
+    {
+      "ticker": "3044.TW",
+      "name": "3044.TW",
+      "score": 2,
+      "level": "READY",
+      "price": 529.0
+    }
+  ],
+  "signals": [
+    {
+      "ticker": "2467.TW",
+      "signal": "BUY",
+      "level": "READY"
+    },
+    {
+      "ticker": "3583.TW",
+      "signal": "BUY",
+      "level": "READY"
+    },
+    {
+      "ticker": "6187.TWO",
+      "signal": "BUY",
+      "level": "READY"
+    },
+    {
+      "ticker": "6669.TW",
+      "signal": "BUY",
+      "level": "READY"
+    },
+    {
+      "ticker": "2356.TW",
+      "signal": "BUY",
+      "level": "READY"
+    },
+    {
+      "ticker": "2376.TW",
+      "signal": "BUY",
+      "level": "READY"
+    },
+    {
+      "ticker": "2377.TW",
+      "signal": "BUY",
+      "level": "READY"
+    },
+    {
+      "ticker": "3037.TW",
+      "signal": "BUY",
+      "level": "READY"
+    },
+    {
+      "ticker": "2368.TW",
+      "signal": "BUY",
+      "level": "READY"
+    },
+    {
+      "ticker": "3044.TW",
+      "signal": "BUY",
+      "level": "READY"
+    }
+  ],
+  "ranked": [
+    {
+      "ticker": "2356.TW",
+      "name": "英業達",
+      "sector": "Server",
+      "signal": "BUY",
+      "level": "READY",
+      "scanner_score": 2,
+      "minervini_score": 0,
+      "passed_minervini_core": false,
+      "narrative_score": 86.67,
+      "narrative_strength": "STRONG",
+      "narrative_count": 3,
+      "narrative_bonus": 37.334,
+      "news_heat_score": 0,
+      "news_count": 0,
+      "source_count": 0,
+      "news_heat_bonus": 0,
+      "chip_score": 0,
+      "institutional_bias": "NONE",
+      "foreign_net_buy": 0,
+      "trust_net_buy": 0,
+      "dealer_net_buy": 0,
+      "institutional_net_buy": 0,
+      "chip_bonus": 0,
+      "vol_ratio": 2.51,
+      "vol_bonus": 10,
+      "score": 155.534
+    },
+    {
+      "ticker": "2377.TW",
+      "name": "微星",
+      "sector": "Server",
+      "signal": "BUY",
+      "level": "READY",
+      "scanner_score": 2,
+      "minervini_score": 0,
+      "passed_minervini_core": false,
+      "narrative_score": 80.0,
+      "narrative_strength": "STRONG",
+      "narrative_count": 3,
+      "narrative_bonus": 36.0,
+      "news_heat_score": 0,
+      "news_count": 0,
+      "source_count": 0,
+      "news_heat_bonus": 0,
+      "chip_score": 0,
+      "institutional_bias": "SELL",
+      "foreign_net_buy": -363037,
+      "trust_net_buy": -27934,
+      "dealer_net_buy": 47105,
+      "institutional_net_buy": -343866,
+      "chip_bonus": 0.0,
+      "vol_ratio": 2.18,
+      "vol_bonus": 10,
+      "score": 154.2
+    },
+    {
+      "ticker": "2376.TW",
+      "name": "技嘉",
+      "sector": "Server",
+      "signal": "BUY",
+      "level": "READY",
+      "scanner_score": 2,
+      "minervini_score": 0,
+      "passed_minervini_core": false,
+      "narrative_score": 85.0,
+      "narrative_strength": "STRONG",
+      "narrative_count": 3,
+      "narrative_bonus": 37.0,
+      "news_heat_score": 0,
+      "news_count": 0,
+      "source_count": 0,
+      "news_heat_bonus": 0,
+      "chip_score": 0,
+      "institutional_bias": "NONE",
+      "foreign_net_buy": 0,
+      "trust_net_buy": 0,
+      "dealer_net_buy": 0,
+      "institutional_net_buy": 0,
+      "chip_bonus": 0,
+      "vol_ratio": 0.72,
+      "vol_bonus": 0,
+      "score": 145.2
+    },
+    {
+      "ticker": "3583.TW",
+      "name": "辛耘",
+      "sector": "Equipment",
+      "signal": "BUY",
+      "level": "READY",
+      "scanner_score": 2,
+      "minervini_score": 0,
+      "passed_minervini_core": false,
+      "narrative_score": 0,
+      "narrative_strength": "NONE",
+      "narrative_count": 0,
+      "narrative_bonus": 0,
+      "news_heat_score": 24,
+      "news_count": 1,
+      "source_count": 1,
+      "news_heat_bonus": 4.800000000000001,
+      "chip_score": 0,
+      "institutional_bias": "SELL",
+      "foreign_net_buy": -88704,
+      "trust_net_buy": -188000,
+      "dealer_net_buy": -7021,
+      "institutional_net_buy": -283725,
+      "chip_bonus": 0.0,
+      "vol_ratio": 1.7,
+      "vol_bonus": 5,
+      "score": 128.0
+    },
+    {
+      "ticker": "2467.TW",
+      "name": "志聖",
+      "sector": "Equipment",
+      "signal": "BUY",
+      "level": "READY",
+      "scanner_score": 2,
+      "minervini_score": 0,
+      "passed_minervini_core": false,
+      "narrative_score": 0,
+      "narrative_strength": "NONE",
+      "narrative_count": 0,
+      "narrative_bonus": 0,
+      "news_heat_score": 0,
+      "news_count": 0,
+      "source_count": 0,
+      "news_heat_bonus": 0,
+      "chip_score": 0,
+      "institutional_bias": "NONE",
+      "foreign_net_buy": 0,
+      "trust_net_buy": 0,
+      "dealer_net_buy": 0,
+      "institutional_net_buy": 0,
+      "chip_bonus": 0,
+      "vol_ratio": 1.1,
+      "vol_bonus": 0,
+      "score": 118.2
+    },
+    {
+      "ticker": "6187.TWO",
+      "name": "萬潤",
+      "sector": "Equipment",
+      "signal": "BUY",
+      "level": "READY",
+      "scanner_score": 2,
+      "minervini_score": 0,
+      "passed_minervini_core": false,
+      "narrative_score": 0,
+      "narrative_strength": "NONE",
+      "narrative_count": 0,
+      "narrative_bonus": 0,
+      "news_heat_score": 0,
+      "news_count": 0,
+      "source_count": 0,
+      "news_heat_bonus": 0.0,
+      "chip_score": 0,
+      "institutional_bias": "NONE",
+      "foreign_net_buy": 0,
+      "trust_net_buy": 0,
+      "dealer_net_buy": 0,
+      "institutional_net_buy": 0,
+      "chip_bonus": 0,
+      "vol_ratio": 1.36,
+      "vol_bonus": 0,
+      "score": 118.2
+    },
+    {
+      "ticker": "3044.TW",
+      "name": "健鼎",
+      "sector": "PCB",
+      "signal": "BUY",
+      "level": "READY",
+      "scanner_score": 2,
+      "minervini_score": 0,
+      "passed_minervini_core": false,
+      "narrative_score": 0,
+      "narrative_strength": "NONE",
+      "narrative_count": 0,
+      "narrative_bonus": 0,
+      "news_heat_score": 0,
+      "news_count": 0,
+      "source_count": 0,
+      "news_heat_bonus": 0,
+      "chip_score": 5,
+      "institutional_bias": "SELL",
+      "foreign_net_buy": 92702,
+      "trust_net_buy": -200136,
+      "dealer_net_buy": -187189,
+      "institutional_net_buy": -294623,
+      "chip_bonus": 1.0,
+      "vol_ratio": 1.86,
+      "vol_bonus": 5,
+      "score": 114.2
+    },
+    {
+      "ticker": "2368.TW",
+      "name": "金像電",
+      "sector": "PCB",
+      "signal": "BUY",
+      "level": "READY",
+      "scanner_score": 2,
+      "minervini_score": 0,
+      "passed_minervini_core": false,
+      "narrative_score": 0,
+      "narrative_strength": "NONE",
+      "narrative_count": 0,
+      "narrative_bonus": 0,
+      "news_heat_score": 0,
+      "news_count": 0,
+      "source_count": 0,
+      "news_heat_bonus": 0,
+      "chip_score": 0,
+      "institutional_bias": "NONE",
+      "foreign_net_buy": 0,
+      "trust_net_buy": 0,
+      "dealer_net_buy": 0,
+      "institutional_net_buy": 0,
+      "chip_bonus": 0,
+      "vol_ratio": 1.57,
+      "vol_bonus": 5,
+      "score": 113.2
+    },
+    {
+      "ticker": "6669.TW",
+      "name": "緯穎",
+      "sector": "Server",
+      "signal": "BUY",
+      "level": "READY",
+      "scanner_score": 2,
+      "minervini_score": 0,
+      "passed_minervini_core": false,
+      "narrative_score": 0,
+      "narrative_strength": "NONE",
+      "narrative_count": 0,
+      "narrative_bonus": 0,
+      "news_heat_score": 0,
+      "news_count": 0,
+      "source_count": 0,
+      "news_heat_bonus": 0,
+      "chip_score": 0,
+      "institutional_bias": "SELL",
+      "foreign_net_buy": -397921,
+      "trust_net_buy": 271594,
+      "dealer_net_buy": -8699,
+      "institutional_net_buy": -135026,
+      "chip_bonus": 0.0,
+      "vol_ratio": 1.0,
+      "vol_bonus": 0,
+      "score": 108.2
+    },
+    {
+      "ticker": "3037.TW",
+      "name": "欣興",
+      "sector": "PCB",
+      "signal": "BUY",
+      "level": "READY",
+      "scanner_score": 2,
+      "minervini_score": 0,
+      "passed_minervini_core": false,
+      "narrative_score": 0,
+      "narrative_strength": "NONE",
+      "narrative_count": 0,
+      "narrative_bonus": 0,
+      "news_heat_score": 0,
+      "news_count": 0,
+      "source_count": 0,
+      "news_heat_bonus": 0,
+      "chip_score": 0,
+      "institutional_bias": "SELL",
+      "foreign_net_buy": -4724899,
+      "trust_net_buy": -197681,
+      "dealer_net_buy": -1539237,
+      "institutional_net_buy": -6461817,
+      "chip_bonus": 0.0,
+      "vol_ratio": 0.96,
+      "vol_bonus": 0,
+      "score": 108.2
+    }
+  ],
+  "decisions": {
+    "2356.TW": {
+      "action": "BUY",
+      "position_size": 0.1,
+      "stop_loss": 0.05,
+      "signal": "BUY",
+      "reason": "REDUCED_BY_MARKET",
+      "reason_detail": "RANGE market - VIX 17.9",
+      "risk_check": "PASS_ADJUSTED",
+      "risk_reason": "SINGLE_POSITION_EXCEED",
+      "market_coeff": 0.72
+    },
+    "2377.TW": {
+      "action": "BUY",
+      "position_size": 0.1,
+      "stop_loss": 0.05,
+      "signal": "BUY",
+      "reason": "REDUCED_BY_MARKET",
+      "reason_detail": "RANGE market - VIX 17.9",
+      "risk_check": "PASS_ADJUSTED",
+      "risk_reason": "SINGLE_POSITION_EXCEED",
+      "market_coeff": 0.72
+    },
+    "2376.TW": {
+      "action": "BUY",
+      "position_size": 0.1,
+      "stop_loss": 0.05,
+      "signal": "BUY",
+      "reason": "REDUCED_BY_MARKET",
+      "reason_detail": "RANGE market - VIX 17.9",
+      "risk_check": "PASS_ADJUSTED",
+      "risk_reason": "SINGLE_POSITION_EXCEED",
+      "market_coeff": 0.72
+    },
+    "2308.TW": {
+      "action": "REDUCE",
+      "reason": "REDUCE"
+    },
+    "2330.TW": {
+      "action": "REDUCE",
+      "reason": "REDUCE"
+    },
+    "2345.TW": {
+      "action": "REDUCE",
+      "reason": "REDUCE"
+    },
+    "6830.TW": {
+      "action": "SELL",
+      "reason": "EXIT_ALL"
+    }
+  },
+  "exit_signals": {
+    "2308.TW": {
+      "action": "REDUCE",
+      "reason": "REDUCE"
+    },
+    "2330.TW": {
+      "action": "REDUCE",
+      "reason": "REDUCE"
+    },
+    "2345.TW": {
+      "action": "REDUCE",
+      "reason": "REDUCE"
+    },
+    "6830.TW": {
+      "action": "SELL",
+      "reason": "EXIT_ALL"
+    }
+  },
+  "safety": {
+    "advisory_only": true,
+    "auto_trade": false,
+    "broker_login": false
+  }
+}
