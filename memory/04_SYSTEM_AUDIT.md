@@ -2,6 +2,66 @@
 
 ---
 
+## Audit Update: 2026-05-13 System State Snapshot Push
+
+### Metadata
+
+| Field | Value |
+|-------|-------|
+| Audit date | 2026-05-13 |
+| Audited by | ChatGPT (external) + Claude Code sync |
+| Branch | main |
+| Commit | 3e58b1b |
+| Files changed | 227 files, +53,496 lines |
+| Patch scope | Large system state snapshot — runtime artifacts, reports, pipeline enhancements, holdings update |
+
+### Status: PARTIAL PASS
+
+**Confirmed in GitHub main:**
+- `data/portfolio/current_holdings.json` updated to `as_of: 2026-05-13`
+- 00992A removed; 2308 台達電 added
+- `tests/smoke_portfolio_holdings.py` aligned with 2026-05-13 holdings
+- `data/processed/mainline_snapshot.json` updated to 2026-05-13
+- `reports/daily/2026-05-13_daily_report.md` exists; runtime status: PASS
+- `exit_signals` now includes REDUCE for 2308/2330/2345 and SELL/EXIT_ALL for 6830
+- `vol_ratio` and `vol_bonus` visible in ranked output
+
+**Remaining issues:**
+- Memory layer was stale (latest snapshot still showing 2026-05-08) — remediated by this session
+- `data_as_of_date` still UNKNOWN in daily report — R-002/R-003 remain PARTIAL
+
+### Risk Register Delta
+
+| Risk | Old Status | New Status | Notes |
+|------|-----------|-----------|-------|
+| R-002 data_as_of_date missing | ⚠️ PARTIAL | ⚠️ PARTIAL | Still UNKNOWN — full v0.2 deferred |
+| R-003 report lacks data vintage | ⚠️ PARTIAL | ⚠️ PARTIAL | report_label present but data_as_of_date unresolved |
+| R-001 closed-day pipeline skip | ⚠️ Open | ⚠️ Open | No change — full v0.2 still deferred |
+
+### Risk Notes
+
+- **R-002 / R-003**: Remain PARTIAL. `data_as_of_date` still UNKNOWN in daily report. Full derived-date automation still gated on v0.2 approval.
+- **P1 Entry Audit divergence**: 10/10 signals BLOCK/WAIT in P1 audit while mainline shows BUY candidates. Expected behavior — the two systems use different criteria. Not treated as resolved. Observe only.
+- **Minervini**: 0/10 candidates pass across all top results. Cause unknown (data frequency or logic condition). Not resolved.
+- **NewsHeat**: 1/10 coverage (辛耘 3583 only). Not resolved.
+- **Chips**: 6/10 coverage; 4 tickers completely missing data (2356/2376/2467/2368); 6187.TWO (OTC) not covered by data source; 5 of 6 with data show institutional selling but no negative penalty mechanism exists. Not resolved.
+- **Commit size risk**: 3e58b1b is a very large mixed commit (runtime artifacts + logic changes). Future preference: small scoped commits per change.
+
+### No New Features Approved
+
+This audit does not approve:
+- Minervini debug implementation
+- Chips negative penalty mechanism
+- NewsHeat API integration
+- Ticker format normalization
+- Market Context Gate v0.2
+- Fundamentals integration
+- Any automated trading behavior
+
+Investment OS remains advisory-only: `advisory_only: true`, `auto_trade: false`, `broker_login: false`
+
+---
+
 ## Audit Entry: 2026-05-08
 
 ### Metadata

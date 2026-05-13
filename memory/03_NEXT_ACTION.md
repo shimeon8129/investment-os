@@ -4,9 +4,10 @@
 
 ✅ MVP 100% complete. Merged to main 2026-05-07.
 ✅ MVP-Auto-Intraday-Observation v0.1 Phase A + B complete. 2026-05-08.
+✅ Memory-only sync complete. 2026-05-13.
 
 Merge commit: d7cb447 — "Merge Investment OS MVP — Architecture v0.1 + v1.6 P0/P1/P2-A"
-Latest commit: 1b44a4a — "feat(observation): add intraday observation systemd timers v0.1"
+Latest commit: chore(memory) — memory sync after 2026-05-13 snapshot
 Active baseline: main branch.
 
 Active components on main:
@@ -35,7 +36,23 @@ Audit: memory/04_SYSTEM_AUDIT.md (updated 2026-05-08) — 13 risks assessed (R-0
 Position source fix: commit b4a9e07. Active positions now from current_holdings.json.
 v0.2-lite patch: commit 1e5e6cf (2026-05-08). Data Freshness section in daily report + snapshot.
 
-## Next Engineering Tasks
+## Immediate Next (After Memory Sync)
+
+1. ✅ COMPLETE — Memory-only sync commit (this session).
+2. No new feature work until memory/audit state confirmed aligned.
+3. If a review of the large 2026-05-13 snapshot commit is needed, perform it as a
+   separate session with explicit scope.
+
+## Deferred Work (Do Not Start Until Explicitly Approved)
+
+- Minervini score debug — all 10 candidates score 0, cause unknown
+- Chips coverage expansion — 4/10 no data, no negative penalty mechanism
+- NewsHeat automation — API integration needed, 1/10 coverage
+- Ticker format normalization — .TW/.TWO suffix mismatch with holdings
+- Market Context Gate v0.2 / data_as_of_date resolution
+- Fundamentals (EPS, ROE, growth filters) — completely absent
+
+## Previous Engineering Tasks
 
 Priority order:
 

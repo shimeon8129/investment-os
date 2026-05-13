@@ -9,7 +9,7 @@ Current working branch:
 main
 
 Latest snapshot pushed:
-2026-05-08
+2026-05-13
 
 ## Current Reality
 
@@ -154,7 +154,7 @@ Next phase: observation. No feature expansion until explicitly approved.
   - Status: stashed for owner review. Needs explicit decision: commit or drop.
   - Do not implement or commit without owner approval.
 
-## Session Status — 2026-05-08 Observation Phase
+## Session Status — 2026-05-13 System Snapshot
 
 Feature branch `add-daily-decision-dashboard-v0-20260426_2057` fully absorbed by main.
 Active baseline is now main. Intraday observation automation active.
@@ -163,9 +163,35 @@ Active baseline is now main. Intraday observation automation active.
 - v0.2-lite Report Truthfulness Patch: ✅ applied 2026-05-08, commit 1e5e6cf.
 - MVP-Auto-Intraday-Observation Phase A: ✅ commit a10e0f2 (2026-05-08).
 - MVP-Auto-Intraday-Observation Phase B: ✅ commit 1b44a4a (2026-05-08).
-  6 systemd user timers enabled. First auto-run: 2026-05-08 08:30 CST.
+  6 systemd user timers enabled.
+- 2026-05-13 system state snapshot: ✅ commit 3e58b1b, pushed to origin/main.
+  Large snapshot commit (227 files, +53,496 lines) — not the preferred workflow.
+  Future changes should return to small scoped commits.
 - Runtime outputs (candidates.json, processed/*.json, daily reports,
-  intraday reports/logs): NOT committed (expected).
+  intraday reports/logs): NOW COMMITTED as of 2026-05-13 snapshot.
 - Market Context Gate v0.2 full implementation: still DEFERRED (R-001/R-011), approval required.
 - R-002 and R-003: PARTIAL — surfaced via v0.2-lite patch. Full automation deferred.
+
+### 2026-05-13 Holdings (as_of: 2026-05-13)
+
+- 00992A: REMOVED
+- 2308 台達電: ADDED (20 shares @ 2253.20)
+- 2330 台積電: 30 shares @ 1767.50
+- 2345 智邦: 65 shares @ 1914.22
+- 2408 南亞科: 120 shares @ 236.33
+- 3711 日月光投控: 50 shares @ 412.58
+- 6830 汎銓: 70 shares @ 735.99
+- 009816 凱基台灣TOP50: 5000 shares @ 11.42
+
+### 2026-05-13 Pipeline Output
+
+- Exit signals: 6830 EXIT_ALL (SELL), 2308/2330/2345 REDUCE — now visible in mainline_snapshot.json
+- vol_ratio / vol_bonus now reflected in ranked output
+- Daily report 2026-05-13: runtime status PASS
+
+### Observation Phase Continues
+
+- No new feature expansion approved by this snapshot.
+- Do not implement Minervini debug, Chips negative penalty, NewsHeat automation,
+  ticker normalization, or Market Context Gate v0.2 until explicitly approved.
 - Do not implement new features. Do not modify runtime logic. Do not start full v0.2.

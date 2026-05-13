@@ -1,5 +1,48 @@
 # Investment OS｜Session Log
 
+## 2026-05-13 — System State Snapshot Push + Memory Sync
+
+Session summary:
+- Claude Code pushed a large system state snapshot to GitHub main (commit 3e58b1b).
+- Scope included: holdings update, pipeline output (mainline/signal snapshots),
+  daily/intraday reports 2026-05-08 through 2026-05-13, vol_ratio bonus output,
+  exit signal visibility, Telegram bot enhancements, and archived observation data.
+- ChatGPT audit result: PARTIAL PASS.
+  Main issue found: memory layer not synchronized after the large snapshot push.
+- This memory-only sync commit is the remediation for the stale memory state.
+
+Pipeline enhancements committed in snapshot:
+- pipeline/ranking_engine.py: vol_ratio bonus tiers (+5/+10/+15)
+- pipeline/main_v1.py: vol_ratio_map passed to rank_stocks(), exit signal bug fixed
+  (EXIT_ALL/REDUCE previously matched against "SELL" — now correct)
+- jobs/daily_run.py: Telegram notification enhanced with holdings vs candidates
+  comparison warning, exit signals section, Top 3 with vol_ratio/🔥 tags
+
+Holdings update committed:
+- 00992A removed
+- 2308 台達電 added (20 shares @ 2253.20)
+- 2330/2345/2408/3711/6830 shares updated to match broker screenshot (2026-05-13)
+- tests/smoke_portfolio_holdings.py assertions aligned to new holdings
+
+Telegram bot enhancements committed:
+- /marketstatus command (renamed from /status)
+- mainline snapshot loader added to adapters/investment_os.py
+- commands.py updated to show stock names alongside tickers in all commands
+
+Observation data archived (2026-05-08 through 2026-05-13):
+- data/observations/intraday/ — 40+ slot observation JSON files
+- data/processed/intraday/ — corresponding mainline/signal snapshots
+- reports/intraday/ — slot markdown reports
+
+Risks identified after snapshot:
+- Commit too large (227 files, +53,496 lines) — mixed runtime artifacts + logic changes
+- Memory layer was stale before this task (memory-only sync is this session's output)
+- R-002/R-003 remain PARTIAL (data_as_of_date still UNKNOWN in daily report)
+- P1 Entry Audit: 10/10 signals BLOCK/WAIT in audit vs BUY in mainline — expected divergence, not resolved
+- Minervini: 0/10 candidates pass — not resolved
+- NewsHeat: 1/10 coverage — not resolved
+- Chips: 6/10 coverage, 5 of 6 with data show institutional selling — no negative penalty mechanism yet
+
 ## 2026-05-08 — MVP-Auto-Intraday-Observation Phase A + B
 
 Session summary:
