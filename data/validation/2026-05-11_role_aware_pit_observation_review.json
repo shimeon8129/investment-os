@@ -1,0 +1,82 @@
+{
+  "generated_at": "2026-05-11T01:12:00",
+  "review_date": "2026-05-11",
+  "overall_result": "WARN",
+  "summary": "PIT role-aware observation collection has started but sample size is insufficient.",
+  "checks": {
+    "daily_report_role_aware": {
+      "status": "PASS",
+      "file": "reports/daily/2026-05-11_daily_report.md",
+      "role_aware_section_present": true,
+      "fields_present": [
+        "base_role",
+        "active_role",
+        "role_confidence",
+        "intent"
+      ]
+    },
+    "intraday_report_role_aware": {
+      "status": "PASS",
+      "file": "reports/intraday/2026-05-11/0058_market_open.md",
+      "role_inline_present": true
+    },
+    "signal_snapshot_role_summary": {
+      "status": "PASS",
+      "role_summary": {
+        "loaded": true,
+        "ticker_count": 36,
+        "warning": null
+      }
+    },
+    "observation_json_role_context": {
+      "status": "PASS",
+      "file": "data/observations/intraday/2026-05-11/0058_market_open_observation.json",
+      "fields_present": [
+        "base_role",
+        "active_role",
+        "role_confidence",
+        "intent",
+        "upgrade_path",
+        "role_reason"
+      ]
+    },
+    "fallback_safety": {
+      "status": "PASS",
+      "missing_role_map_causes_crash": false,
+      "missing_role_map_shows_unknown": true
+    },
+    "web_dashboard": {
+      "status": "PASS",
+      "files_updated": [
+        "reports/web/status.html",
+        "reports/web/replay.html",
+        "reports/web/history.html"
+      ],
+      "role_labels_verified": true
+    }
+  },
+  "pit_observation_count": {
+    "2026-05-08": {
+      "total_slots": 13,
+      "role_aware_slots": 0,
+      "note": "pre-integration"
+    },
+    "2026-05-11": {
+      "total_slots": 1,
+      "role_aware_slots": 1,
+      "note": "post-integration"
+    }
+  },
+  "valid_pit_role_aware_days": 1,
+  "required_pit_days": 3,
+  "known_issues": [
+    {
+      "issue": "pipeline_main_v1 FAIL",
+      "cause": "ModuleNotFoundError: No module named pandas",
+      "role_map_related": false,
+      "pre_existing": true
+    }
+  ],
+  "system_ready_to_accumulate": true,
+  "recommended_next_task": "Accumulate 5 PIT Role-Aware Observation Days"
+}

@@ -1,0 +1,324 @@
+{
+  "run_date": "2026-05-10",
+  "generated_at": "2026-05-10T16:46:32.516183",
+  "holdings_as_of": "2026-05-07",
+  "derivation_results": [
+    {
+      "ticker": "009816",
+      "name": "凱基台灣TOP50",
+      "quantity": 5000,
+      "cost_basis": 57000,
+      "entry_price": 11.4,
+      "proposed_entry_date": "2026-04-13",
+      "source_used": "yfinance price match ±2% before 2026-04-30 (best: 2026-04-13 @ 11.38)",
+      "confidence": "LOW",
+      "reason": "No repo evidence of exact entry date. Most recent date (before 2026-04-30) with close ≈ entry_price 11.4: 2026-04-13 (close=11.38, diff=-0.2%). Price match is not conclusive — 8 candidate date(s) found.",
+      "notes": "",
+      "price_candidates": [
+        {
+          "date": "2026-04-13",
+          "close": 11.38,
+          "pct_diff": -0.18
+        },
+        {
+          "date": "2026-04-10",
+          "close": 11.4,
+          "pct_diff": -0.0
+        },
+        {
+          "date": "2026-04-09",
+          "close": 11.19,
+          "pct_diff": -1.84
+        },
+        {
+          "date": "2026-04-08",
+          "close": 11.23,
+          "pct_diff": -1.49
+        },
+        {
+          "date": "2026-03-02",
+          "close": 11.32,
+          "pct_diff": -0.7
+        },
+        {
+          "date": "2026-02-26",
+          "close": 11.48,
+          "pct_diff": 0.7
+        },
+        {
+          "date": "2026-02-25",
+          "close": 11.45,
+          "pct_diff": 0.44
+        },
+        {
+          "date": "2026-02-24",
+          "close": 11.18,
+          "pct_diff": -1.93
+        }
+      ]
+    },
+    {
+      "ticker": "00992A",
+      "name": "主動群益科技創新",
+      "quantity": 2000,
+      "cost_basis": 33700,
+      "entry_price": 16.85,
+      "proposed_entry_date": "2026-04-29",
+      "source_used": "yfinance price match ±2% before 2026-04-30 (best: 2026-04-29 @ 17.08)",
+      "confidence": "LOW",
+      "reason": "No repo evidence of exact entry date. Most recent date (before 2026-04-30) with close ≈ entry_price 16.85: 2026-04-29 (close=17.08, diff=+1.4%). Price match is not conclusive — 8 candidate date(s) found.",
+      "notes": "",
+      "price_candidates": [
+        {
+          "date": "2026-04-29",
+          "close": 17.08,
+          "pct_diff": 1.36
+        },
+        {
+          "date": "2026-04-28",
+          "close": 17.04,
+          "pct_diff": 1.13
+        },
+        {
+          "date": "2026-04-27",
+          "close": 16.83,
+          "pct_diff": -0.12
+        },
+        {
+          "date": "2026-04-24",
+          "close": 16.93,
+          "pct_diff": 0.47
+        },
+        {
+          "date": "2026-04-23",
+          "close": 16.66,
+          "pct_diff": -1.13
+        },
+        {
+          "date": "2026-04-22",
+          "close": 17.06,
+          "pct_diff": 1.25
+        },
+        {
+          "date": "2026-04-21",
+          "close": 16.87,
+          "pct_diff": 0.12
+        },
+        {
+          "date": "2026-04-20",
+          "close": 16.79,
+          "pct_diff": -0.36
+        }
+      ]
+    },
+    {
+      "ticker": "2330",
+      "name": "台積電",
+      "quantity": 50,
+      "cost_basis": 88250,
+      "entry_price": 1765.0,
+      "proposed_entry_date": "2026-03-31",
+      "source_used": "yfinance price match ±2% before 2026-04-30 (best: 2026-03-31 @ 1760.0)",
+      "confidence": "LOW",
+      "reason": "No repo evidence of exact entry date. Most recent date (before 2026-04-30) with close ≈ entry_price 1765.0: 2026-03-31 (close=1760.0, diff=-0.3%). Price match is not conclusive — 17 candidate date(s) found.",
+      "notes": "",
+      "price_candidates": [
+        {
+          "date": "2026-03-31",
+          "close": 1760.0,
+          "pct_diff": -0.28
+        },
+        {
+          "date": "2026-03-30",
+          "close": 1780.0,
+          "pct_diff": 0.85
+        },
+        {
+          "date": "2026-02-06",
+          "close": 1774.21,
+          "pct_diff": 0.52
+        },
+        {
+          "date": "2026-02-05",
+          "close": 1759.26,
+          "pct_diff": -0.33
+        },
+        {
+          "date": "2026-02-04",
+          "close": 1779.2,
+          "pct_diff": 0.8
+        },
+        {
+          "date": "2026-02-03",
+          "close": 1794.15,
+          "pct_diff": 1.65
+        },
+        {
+          "date": "2026-02-02",
+          "close": 1759.26,
+          "pct_diff": -0.33
+        },
+        {
+          "date": "2026-01-30",
+          "close": 1769.23,
+          "pct_diff": 0.24
+        },
+        {
+          "date": "2026-01-29",
+          "close": 1799.13,
+          "pct_diff": 1.93
+        },
+        {
+          "date": "2026-01-27",
+          "close": 1774.21,
+          "pct_diff": 0.52
+        }
+      ]
+    },
+    {
+      "ticker": "2345",
+      "name": "智邦",
+      "quantity": 55,
+      "cost_basis": 100550,
+      "entry_price": 1828.18,
+      "proposed_entry_date": "2026-04-13",
+      "source_used": "yfinance price match ±2% before 2026-04-30 (best: 2026-04-13 @ 1820.0)",
+      "confidence": "LOW",
+      "reason": "No repo evidence of exact entry date. Most recent date (before 2026-04-30) with close ≈ entry_price 1828.18: 2026-04-13 (close=1820.0, diff=-0.5%). Price match is not conclusive — 2 candidate date(s) found.",
+      "notes": "",
+      "price_candidates": [
+        {
+          "date": "2026-04-13",
+          "close": 1820.0,
+          "pct_diff": -0.45
+        },
+        {
+          "date": "2026-04-10",
+          "close": 1835.0,
+          "pct_diff": 0.37
+        }
+      ]
+    },
+    {
+      "ticker": "2408",
+      "name": "南亞科",
+      "quantity": 120,
+      "cost_basis": 28320,
+      "entry_price": 236,
+      "proposed_entry_date": "2026-04-29",
+      "source_used": "yfinance price match ±2% before 2026-04-30 (best: 2026-04-29 @ 235.0)",
+      "confidence": "LOW",
+      "reason": "No repo evidence of exact entry date. Most recent date (before 2026-04-30) with close ≈ entry_price 236: 2026-04-29 (close=235.0, diff=-0.4%). Price match is not conclusive — 10 candidate date(s) found.",
+      "notes": "",
+      "price_candidates": [
+        {
+          "date": "2026-04-29",
+          "close": 235.0,
+          "pct_diff": -0.42
+        },
+        {
+          "date": "2026-04-28",
+          "close": 237.5,
+          "pct_diff": 0.64
+        },
+        {
+          "date": "2026-03-20",
+          "close": 234.0,
+          "pct_diff": -0.85
+        },
+        {
+          "date": "2026-03-13",
+          "close": 238.0,
+          "pct_diff": 0.85
+        },
+        {
+          "date": "2026-03-12",
+          "close": 239.5,
+          "pct_diff": 1.48
+        },
+        {
+          "date": "2026-03-06",
+          "close": 233.0,
+          "pct_diff": -1.27
+        },
+        {
+          "date": "2026-03-04",
+          "close": 234.5,
+          "pct_diff": -0.64
+        },
+        {
+          "date": "2026-01-15",
+          "close": 237.5,
+          "pct_diff": 0.64
+        },
+        {
+          "date": "2026-01-14",
+          "close": 236.5,
+          "pct_diff": 0.21
+        },
+        {
+          "date": "2026-01-12",
+          "close": 239.0,
+          "pct_diff": 1.27
+        }
+      ]
+    },
+    {
+      "ticker": "3711",
+      "name": "日月光投控",
+      "quantity": 50,
+      "cost_basis": 20600,
+      "entry_price": 412.0,
+      "proposed_entry_date": "2026-04-13",
+      "source_used": "yfinance price match ±2% before 2026-04-30 (best: 2026-04-13 @ 417.5)",
+      "confidence": "LOW",
+      "reason": "No repo evidence of exact entry date. Most recent date (before 2026-04-30) with close ≈ entry_price 412.0: 2026-04-13 (close=417.5, diff=+1.3%). Price match is not conclusive — 1 candidate date(s) found.",
+      "notes": "ALREADY_IN_POSITION in pipeline since 2026-05-01 (pipeline position lock uses trade_log, not current_holdings)",
+      "price_candidates": [
+        {
+          "date": "2026-04-13",
+          "close": 417.5,
+          "pct_diff": 1.33
+        }
+      ]
+    },
+    {
+      "ticker": "6830",
+      "name": "汎銓",
+      "quantity": 50,
+      "cost_basis": 35640,
+      "entry_price": 712.8,
+      "proposed_entry_date": "2026-04-28",
+      "source_used": "yfinance price match ±2% before 2026-04-30 (best: 2026-04-28 @ 716.0)",
+      "confidence": "LOW",
+      "reason": "No repo evidence of exact entry date. Most recent date (before 2026-04-30) with close ≈ entry_price 712.8: 2026-04-28 (close=716.0, diff=+0.5%). Price match is not conclusive — 3 candidate date(s) found.",
+      "notes": "",
+      "price_candidates": [
+        {
+          "date": "2026-04-28",
+          "close": 716.0,
+          "pct_diff": 0.45
+        },
+        {
+          "date": "2026-04-24",
+          "close": 723.0,
+          "pct_diff": 1.43
+        },
+        {
+          "date": "2026-04-10",
+          "close": 700.0,
+          "pct_diff": -1.8
+        }
+      ]
+    }
+  ],
+  "summary": {
+    "total": 7,
+    "safe_to_apply": 0,
+    "needs_owner_review": 7,
+    "unknown": 0,
+    "confidence_distribution": {
+      "LOW": 7
+    }
+  }
+}

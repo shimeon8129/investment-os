@@ -1,0 +1,810 @@
+{
+  "generated_at": "2026-05-13T20:35:21.182866",
+  "snapshot_generated_at": "2026-05-13T20:35:18.408083",
+  "snapshot_path": "data/processed/mainline_snapshot.json",
+  "capital": 100000,
+  "market_state": "RANGE",
+  "vix_value": 17.889999389648438,
+  "audit_summary": {
+    "total_signals": 10,
+    "entry_lock_PASS": 0,
+    "entry_lock_WARN": 0,
+    "entry_lock_BLOCK": 10,
+    "entry_lock_SKIP": 0,
+    "setup_VALID": 10,
+    "setup_INVALID": 0,
+    "setup_INSUFFICIENT_DATA": 0,
+    "sizing_feasible": 10,
+    "p1_audit_ENTRY": 0,
+    "p1_audit_ENTRY_REDUCED": 0,
+    "p1_audit_WAIT": 10,
+    "p1_audit_SKIP": 0,
+    "p1_audit_DATA_UNAVAILABLE": 0,
+    "p1_audit_SETUP_REJECTED": 0,
+    "p1_audit_SIZING_INFEASIBLE": 0,
+    "divergence_count": 10,
+    "data_source": "RELOADED"
+  },
+  "audit_entries": [
+    {
+      "ticker": "2467.TW",
+      "name": "志聖",
+      "sector": "Equipment",
+      "signal": "BUY",
+      "level": "READY",
+      "source_action": "BUY",
+      "entry_lock": {
+        "ticker": "2467.TW",
+        "entry_lock_status": "BLOCK",
+        "final_action_suggestion": "WAIT",
+        "blocked_by": [
+          "L2_setup",
+          "L3_validation"
+        ],
+        "locks": {
+          "L0_market": {
+            "status": "WARN",
+            "severity": "WARNING",
+            "reason": "RANGE market - VIX 17.9 - position reduced to 80%",
+            "source_module": "decision.lock"
+          },
+          "L1_selection": {
+            "status": "PASS",
+            "severity": "INFO",
+            "reason": "READY level",
+            "source_module": "scanner"
+          },
+          "L2_setup": {
+            "status": "BLOCK",
+            "severity": "HARD_BLOCK",
+            "reason": "price too far above MA5",
+            "source_module": "decision.entry_lock"
+          },
+          "L3_validation": {
+            "status": "BLOCK",
+            "severity": "HARD_BLOCK",
+            "reason": "volume not confirmed",
+            "source_module": "decision.entry_lock"
+          },
+          "L4_risk": {
+            "status": "PASS",
+            "severity": "INFO",
+            "reason": "above MA10",
+            "source_module": "decision.entry_lock"
+          }
+        }
+      },
+      "trade_setup": {
+        "ticker": "2467.TW",
+        "setup_type": "VCP_BREAKOUT",
+        "entry_zone": 649.0,
+        "invalidation_price": 537.0,
+        "stop_loss_price": 616.55,
+        "target_1": 713.9,
+        "target_2": 778.8,
+        "risk_reward": 2.0,
+        "setup_status": "VALID"
+      },
+      "position_sizing": {
+        "shares": 30,
+        "position_value": 19470.0,
+        "position_pct": 0.1947,
+        "max_loss_value": 1000.0,
+        "risk_per_share": 32.45,
+        "feasible": true
+      },
+      "pipeline_decision": null,
+      "p1_audit_action": "WAIT",
+      "p1_audit_reason": "EntryLock BLOCK",
+      "divergence_flags": [
+        "NO_PIPELINE_DECISION"
+      ],
+      "runtime_changed": false
+    },
+    {
+      "ticker": "3583.TW",
+      "name": "辛耘",
+      "sector": "Equipment",
+      "signal": "BUY",
+      "level": "READY",
+      "source_action": "BUY",
+      "entry_lock": {
+        "ticker": "3583.TW",
+        "entry_lock_status": "BLOCK",
+        "final_action_suggestion": "WAIT",
+        "blocked_by": [
+          "L2_setup"
+        ],
+        "locks": {
+          "L0_market": {
+            "status": "WARN",
+            "severity": "WARNING",
+            "reason": "RANGE market - VIX 17.9 - position reduced to 80%",
+            "source_module": "decision.lock"
+          },
+          "L1_selection": {
+            "status": "PASS",
+            "severity": "INFO",
+            "reason": "READY level",
+            "source_module": "scanner"
+          },
+          "L2_setup": {
+            "status": "BLOCK",
+            "severity": "HARD_BLOCK",
+            "reason": "price too far above MA5",
+            "source_module": "decision.entry_lock"
+          },
+          "L3_validation": {
+            "status": "PASS",
+            "severity": "INFO",
+            "reason": "volume confirmed and price above MA5",
+            "source_module": "decision.entry_lock"
+          },
+          "L4_risk": {
+            "status": "PASS",
+            "severity": "INFO",
+            "reason": "above MA10",
+            "source_module": "decision.entry_lock"
+          }
+        }
+      },
+      "trade_setup": {
+        "ticker": "3583.TW",
+        "setup_type": "VCP_BREAKOUT",
+        "entry_zone": 952.0,
+        "invalidation_price": 772.0,
+        "stop_loss_price": 904.4,
+        "target_1": 1047.2,
+        "target_2": 1142.4,
+        "risk_reward": 2.0,
+        "setup_status": "VALID"
+      },
+      "position_sizing": {
+        "shares": 21,
+        "position_value": 19992.0,
+        "position_pct": 0.19992,
+        "max_loss_value": 1000.0,
+        "risk_per_share": 47.6,
+        "feasible": true
+      },
+      "pipeline_decision": null,
+      "p1_audit_action": "WAIT",
+      "p1_audit_reason": "EntryLock BLOCK",
+      "divergence_flags": [
+        "NO_PIPELINE_DECISION"
+      ],
+      "runtime_changed": false
+    },
+    {
+      "ticker": "6187.TWO",
+      "name": "萬潤",
+      "sector": "Equipment",
+      "signal": "BUY",
+      "level": "READY",
+      "source_action": "BUY",
+      "entry_lock": {
+        "ticker": "6187.TWO",
+        "entry_lock_status": "BLOCK",
+        "final_action_suggestion": "WAIT",
+        "blocked_by": [
+          "L2_setup"
+        ],
+        "locks": {
+          "L0_market": {
+            "status": "WARN",
+            "severity": "WARNING",
+            "reason": "RANGE market - VIX 17.9 - position reduced to 80%",
+            "source_module": "decision.lock"
+          },
+          "L1_selection": {
+            "status": "PASS",
+            "severity": "INFO",
+            "reason": "READY level",
+            "source_module": "scanner"
+          },
+          "L2_setup": {
+            "status": "BLOCK",
+            "severity": "HARD_BLOCK",
+            "reason": "price too far above MA5",
+            "source_module": "decision.entry_lock"
+          },
+          "L3_validation": {
+            "status": "PASS",
+            "severity": "INFO",
+            "reason": "volume confirmed and price above MA5",
+            "source_module": "decision.entry_lock"
+          },
+          "L4_risk": {
+            "status": "PASS",
+            "severity": "INFO",
+            "reason": "above MA10",
+            "source_module": "decision.entry_lock"
+          }
+        }
+      },
+      "trade_setup": {
+        "ticker": "6187.TWO",
+        "setup_type": "VCP_BREAKOUT",
+        "entry_zone": 1345.0,
+        "invalidation_price": 1070.0,
+        "stop_loss_price": 1277.75,
+        "target_1": 1479.5,
+        "target_2": 1614.0,
+        "risk_reward": 2.0,
+        "setup_status": "VALID"
+      },
+      "position_sizing": {
+        "shares": 14,
+        "position_value": 18830.0,
+        "position_pct": 0.1883,
+        "max_loss_value": 1000.0,
+        "risk_per_share": 67.25,
+        "feasible": true
+      },
+      "pipeline_decision": null,
+      "p1_audit_action": "WAIT",
+      "p1_audit_reason": "EntryLock BLOCK",
+      "divergence_flags": [
+        "NO_PIPELINE_DECISION"
+      ],
+      "runtime_changed": false
+    },
+    {
+      "ticker": "6669.TW",
+      "name": "緯穎",
+      "sector": "Server",
+      "signal": "BUY",
+      "level": "READY",
+      "source_action": "BUY",
+      "entry_lock": {
+        "ticker": "6669.TW",
+        "entry_lock_status": "BLOCK",
+        "final_action_suggestion": "WAIT",
+        "blocked_by": [
+          "L2_setup"
+        ],
+        "locks": {
+          "L0_market": {
+            "status": "WARN",
+            "severity": "WARNING",
+            "reason": "RANGE market - VIX 17.9 - position reduced to 80%",
+            "source_module": "decision.lock"
+          },
+          "L1_selection": {
+            "status": "PASS",
+            "severity": "INFO",
+            "reason": "READY level",
+            "source_module": "scanner"
+          },
+          "L2_setup": {
+            "status": "BLOCK",
+            "severity": "HARD_BLOCK",
+            "reason": "price too far above MA5",
+            "source_module": "decision.entry_lock"
+          },
+          "L3_validation": {
+            "status": "PASS",
+            "severity": "INFO",
+            "reason": "volume confirmed and price above MA5",
+            "source_module": "decision.entry_lock"
+          },
+          "L4_risk": {
+            "status": "PASS",
+            "severity": "INFO",
+            "reason": "above MA10",
+            "source_module": "decision.entry_lock"
+          }
+        }
+      },
+      "trade_setup": {
+        "ticker": "6669.TW",
+        "setup_type": "VCP_BREAKOUT",
+        "entry_zone": 5790.0,
+        "invalidation_price": 4675.0,
+        "stop_loss_price": 5500.5,
+        "target_1": 6369.0,
+        "target_2": 6948.0,
+        "risk_reward": 2.0,
+        "setup_status": "VALID"
+      },
+      "position_sizing": {
+        "shares": 3,
+        "position_value": 17370.0,
+        "position_pct": 0.1737,
+        "max_loss_value": 1000.0,
+        "risk_per_share": 289.5,
+        "feasible": true
+      },
+      "pipeline_decision": null,
+      "p1_audit_action": "WAIT",
+      "p1_audit_reason": "EntryLock BLOCK",
+      "divergence_flags": [
+        "NO_PIPELINE_DECISION"
+      ],
+      "runtime_changed": false
+    },
+    {
+      "ticker": "2356.TW",
+      "name": "英業達",
+      "sector": "Server",
+      "signal": "BUY",
+      "level": "READY",
+      "source_action": "BUY",
+      "entry_lock": {
+        "ticker": "2356.TW",
+        "entry_lock_status": "BLOCK",
+        "final_action_suggestion": "WAIT",
+        "blocked_by": [
+          "L2_setup"
+        ],
+        "locks": {
+          "L0_market": {
+            "status": "WARN",
+            "severity": "WARNING",
+            "reason": "RANGE market - VIX 17.9 - position reduced to 80%",
+            "source_module": "decision.lock"
+          },
+          "L1_selection": {
+            "status": "PASS",
+            "severity": "INFO",
+            "reason": "READY level",
+            "source_module": "scanner"
+          },
+          "L2_setup": {
+            "status": "BLOCK",
+            "severity": "HARD_BLOCK",
+            "reason": "price too far above MA5",
+            "source_module": "decision.entry_lock"
+          },
+          "L3_validation": {
+            "status": "PASS",
+            "severity": "INFO",
+            "reason": "volume confirmed and price above MA5",
+            "source_module": "decision.entry_lock"
+          },
+          "L4_risk": {
+            "status": "PASS",
+            "severity": "INFO",
+            "reason": "above MA10",
+            "source_module": "decision.entry_lock"
+          }
+        }
+      },
+      "trade_setup": {
+        "ticker": "2356.TW",
+        "setup_type": "VCP_BREAKOUT",
+        "entry_zone": 50.2,
+        "invalidation_price": 45.9,
+        "stop_loss_price": 47.69,
+        "target_1": 55.22,
+        "target_2": 60.24,
+        "risk_reward": 2.0,
+        "setup_status": "VALID"
+      },
+      "position_sizing": {
+        "shares": 398,
+        "position_value": 19979.6,
+        "position_pct": 0.199796,
+        "max_loss_value": 1000.0,
+        "risk_per_share": 2.51,
+        "feasible": true
+      },
+      "pipeline_decision": {
+        "action": "BUY",
+        "position_size": 0.1,
+        "stop_loss": 0.05,
+        "signal": "BUY",
+        "reason": "REDUCED_BY_MARKET",
+        "reason_detail": "RANGE market - VIX 17.9",
+        "risk_check": "PASS_ADJUSTED",
+        "risk_reason": "SINGLE_POSITION_EXCEED",
+        "market_coeff": 0.72
+      },
+      "p1_audit_action": "WAIT",
+      "p1_audit_reason": "EntryLock BLOCK",
+      "divergence_flags": [
+        "P0_BLOCK_vs_PIPELINE_BUY"
+      ],
+      "runtime_changed": false
+    },
+    {
+      "ticker": "2376.TW",
+      "name": "技嘉",
+      "sector": "Server",
+      "signal": "BUY",
+      "level": "READY",
+      "source_action": "BUY",
+      "entry_lock": {
+        "ticker": "2376.TW",
+        "entry_lock_status": "BLOCK",
+        "final_action_suggestion": "WAIT",
+        "blocked_by": [
+          "L3_validation"
+        ],
+        "locks": {
+          "L0_market": {
+            "status": "WARN",
+            "severity": "WARNING",
+            "reason": "RANGE market - VIX 17.9 - position reduced to 80%",
+            "source_module": "decision.lock"
+          },
+          "L1_selection": {
+            "status": "PASS",
+            "severity": "INFO",
+            "reason": "READY level",
+            "source_module": "scanner"
+          },
+          "L2_setup": {
+            "status": "PASS",
+            "severity": "INFO",
+            "reason": "near MA5 and not too extended",
+            "source_module": "decision.entry_lock"
+          },
+          "L3_validation": {
+            "status": "BLOCK",
+            "severity": "HARD_BLOCK",
+            "reason": "volume not confirmed",
+            "source_module": "decision.entry_lock"
+          },
+          "L4_risk": {
+            "status": "PASS",
+            "severity": "INFO",
+            "reason": "above MA10",
+            "source_module": "decision.entry_lock"
+          }
+        }
+      },
+      "trade_setup": {
+        "ticker": "2376.TW",
+        "setup_type": "VCP_BREAKOUT",
+        "entry_zone": 324.5,
+        "invalidation_price": 272.5,
+        "stop_loss_price": 308.275,
+        "target_1": 356.95,
+        "target_2": 389.4,
+        "risk_reward": 2.0,
+        "setup_status": "VALID"
+      },
+      "position_sizing": {
+        "shares": 61,
+        "position_value": 19794.5,
+        "position_pct": 0.197945,
+        "max_loss_value": 1000.0,
+        "risk_per_share": 16.225,
+        "feasible": true
+      },
+      "pipeline_decision": {
+        "action": "BUY",
+        "position_size": 0.1,
+        "stop_loss": 0.05,
+        "signal": "BUY",
+        "reason": "REDUCED_BY_MARKET",
+        "reason_detail": "RANGE market - VIX 17.9",
+        "risk_check": "PASS_ADJUSTED",
+        "risk_reason": "SINGLE_POSITION_EXCEED",
+        "market_coeff": 0.72
+      },
+      "p1_audit_action": "WAIT",
+      "p1_audit_reason": "EntryLock BLOCK",
+      "divergence_flags": [
+        "P0_BLOCK_vs_PIPELINE_BUY"
+      ],
+      "runtime_changed": false
+    },
+    {
+      "ticker": "2377.TW",
+      "name": "微星",
+      "sector": "Server",
+      "signal": "BUY",
+      "level": "READY",
+      "source_action": "BUY",
+      "entry_lock": {
+        "ticker": "2377.TW",
+        "entry_lock_status": "BLOCK",
+        "final_action_suggestion": "WAIT",
+        "blocked_by": [
+          "L2_setup"
+        ],
+        "locks": {
+          "L0_market": {
+            "status": "WARN",
+            "severity": "WARNING",
+            "reason": "RANGE market - VIX 17.9 - position reduced to 80%",
+            "source_module": "decision.lock"
+          },
+          "L1_selection": {
+            "status": "PASS",
+            "severity": "INFO",
+            "reason": "READY level",
+            "source_module": "scanner"
+          },
+          "L2_setup": {
+            "status": "BLOCK",
+            "severity": "HARD_BLOCK",
+            "reason": "price too far above MA5",
+            "source_module": "decision.entry_lock"
+          },
+          "L3_validation": {
+            "status": "PASS",
+            "severity": "INFO",
+            "reason": "volume confirmed and price above MA5",
+            "source_module": "decision.entry_lock"
+          },
+          "L4_risk": {
+            "status": "PASS",
+            "severity": "INFO",
+            "reason": "above MA10",
+            "source_module": "decision.entry_lock"
+          }
+        }
+      },
+      "trade_setup": {
+        "ticker": "2377.TW",
+        "setup_type": "VCP_BREAKOUT",
+        "entry_zone": 107.5,
+        "invalidation_price": 95.1,
+        "stop_loss_price": 102.125,
+        "target_1": 118.25,
+        "target_2": 129.0,
+        "risk_reward": 2.0,
+        "setup_status": "VALID"
+      },
+      "position_sizing": {
+        "shares": 186,
+        "position_value": 19995.0,
+        "position_pct": 0.19995,
+        "max_loss_value": 1000.0,
+        "risk_per_share": 5.375,
+        "feasible": true
+      },
+      "pipeline_decision": {
+        "action": "BUY",
+        "position_size": 0.1,
+        "stop_loss": 0.05,
+        "signal": "BUY",
+        "reason": "REDUCED_BY_MARKET",
+        "reason_detail": "RANGE market - VIX 17.9",
+        "risk_check": "PASS_ADJUSTED",
+        "risk_reason": "SINGLE_POSITION_EXCEED",
+        "market_coeff": 0.72
+      },
+      "p1_audit_action": "WAIT",
+      "p1_audit_reason": "EntryLock BLOCK",
+      "divergence_flags": [
+        "P0_BLOCK_vs_PIPELINE_BUY"
+      ],
+      "runtime_changed": false
+    },
+    {
+      "ticker": "3037.TW",
+      "name": "欣興",
+      "sector": "PCB",
+      "signal": "BUY",
+      "level": "READY",
+      "source_action": "BUY",
+      "entry_lock": {
+        "ticker": "3037.TW",
+        "entry_lock_status": "BLOCK",
+        "final_action_suggestion": "WAIT",
+        "blocked_by": [
+          "L3_validation"
+        ],
+        "locks": {
+          "L0_market": {
+            "status": "WARN",
+            "severity": "WARNING",
+            "reason": "RANGE market - VIX 17.9 - position reduced to 80%",
+            "source_module": "decision.lock"
+          },
+          "L1_selection": {
+            "status": "PASS",
+            "severity": "INFO",
+            "reason": "READY level",
+            "source_module": "scanner"
+          },
+          "L2_setup": {
+            "status": "PASS",
+            "severity": "INFO",
+            "reason": "near MA5 and not too extended",
+            "source_module": "decision.entry_lock"
+          },
+          "L3_validation": {
+            "status": "BLOCK",
+            "severity": "HARD_BLOCK",
+            "reason": "volume not confirmed",
+            "source_module": "decision.entry_lock"
+          },
+          "L4_risk": {
+            "status": "PASS",
+            "severity": "INFO",
+            "reason": "above MA10",
+            "source_module": "decision.entry_lock"
+          }
+        }
+      },
+      "trade_setup": {
+        "ticker": "3037.TW",
+        "setup_type": "VCP_BREAKOUT",
+        "entry_zone": 911.0,
+        "invalidation_price": 803.0,
+        "stop_loss_price": 865.45,
+        "target_1": 1002.1,
+        "target_2": 1093.2,
+        "risk_reward": 2.0,
+        "setup_status": "VALID"
+      },
+      "position_sizing": {
+        "shares": 21,
+        "position_value": 19131.0,
+        "position_pct": 0.19131,
+        "max_loss_value": 1000.0,
+        "risk_per_share": 45.55,
+        "feasible": true
+      },
+      "pipeline_decision": null,
+      "p1_audit_action": "WAIT",
+      "p1_audit_reason": "EntryLock BLOCK",
+      "divergence_flags": [
+        "NO_PIPELINE_DECISION"
+      ],
+      "runtime_changed": false
+    },
+    {
+      "ticker": "2368.TW",
+      "name": "金像電",
+      "sector": "PCB",
+      "signal": "BUY",
+      "level": "READY",
+      "source_action": "BUY",
+      "entry_lock": {
+        "ticker": "2368.TW",
+        "entry_lock_status": "BLOCK",
+        "final_action_suggestion": "WAIT",
+        "blocked_by": [
+          "L3_validation",
+          "L4_risk"
+        ],
+        "locks": {
+          "L0_market": {
+            "status": "WARN",
+            "severity": "WARNING",
+            "reason": "RANGE market - VIX 17.9 - position reduced to 80%",
+            "source_module": "decision.lock"
+          },
+          "L1_selection": {
+            "status": "PASS",
+            "severity": "INFO",
+            "reason": "READY level",
+            "source_module": "scanner"
+          },
+          "L2_setup": {
+            "status": "PASS",
+            "severity": "INFO",
+            "reason": "near MA5 and not too extended",
+            "source_module": "decision.entry_lock"
+          },
+          "L3_validation": {
+            "status": "BLOCK",
+            "severity": "HARD_BLOCK",
+            "reason": "price below MA5",
+            "source_module": "decision.entry_lock"
+          },
+          "L4_risk": {
+            "status": "BLOCK",
+            "severity": "HARD_BLOCK",
+            "reason": "price below MA10",
+            "source_module": "decision.entry_lock"
+          }
+        }
+      },
+      "trade_setup": {
+        "ticker": "2368.TW",
+        "setup_type": "VCP_BREAKOUT",
+        "entry_zone": 1480.0,
+        "invalidation_price": 1330.0,
+        "stop_loss_price": 1406.0,
+        "target_1": 1628.0,
+        "target_2": 1776.0,
+        "risk_reward": 2.0,
+        "setup_status": "VALID"
+      },
+      "position_sizing": {
+        "shares": 13,
+        "position_value": 19240.0,
+        "position_pct": 0.1924,
+        "max_loss_value": 1000.0,
+        "risk_per_share": 74.0,
+        "feasible": true
+      },
+      "pipeline_decision": null,
+      "p1_audit_action": "WAIT",
+      "p1_audit_reason": "EntryLock BLOCK",
+      "divergence_flags": [
+        "NO_PIPELINE_DECISION"
+      ],
+      "runtime_changed": false
+    },
+    {
+      "ticker": "3044.TW",
+      "name": "健鼎",
+      "sector": "PCB",
+      "signal": "BUY",
+      "level": "READY",
+      "source_action": "BUY",
+      "entry_lock": {
+        "ticker": "3044.TW",
+        "entry_lock_status": "BLOCK",
+        "final_action_suggestion": "WAIT",
+        "blocked_by": [
+          "L2_setup"
+        ],
+        "locks": {
+          "L0_market": {
+            "status": "WARN",
+            "severity": "WARNING",
+            "reason": "RANGE market - VIX 17.9 - position reduced to 80%",
+            "source_module": "decision.lock"
+          },
+          "L1_selection": {
+            "status": "PASS",
+            "severity": "INFO",
+            "reason": "READY level",
+            "source_module": "scanner"
+          },
+          "L2_setup": {
+            "status": "BLOCK",
+            "severity": "HARD_BLOCK",
+            "reason": "price too far above MA5",
+            "source_module": "decision.entry_lock"
+          },
+          "L3_validation": {
+            "status": "PASS",
+            "severity": "INFO",
+            "reason": "volume confirmed and price above MA5",
+            "source_module": "decision.entry_lock"
+          },
+          "L4_risk": {
+            "status": "PASS",
+            "severity": "INFO",
+            "reason": "above MA10",
+            "source_module": "decision.entry_lock"
+          }
+        }
+      },
+      "trade_setup": {
+        "ticker": "3044.TW",
+        "setup_type": "VCP_BREAKOUT",
+        "entry_zone": 500.0,
+        "invalidation_price": 448.5,
+        "stop_loss_price": 475.0,
+        "target_1": 550.0,
+        "target_2": 600.0,
+        "risk_reward": 2.0,
+        "setup_status": "VALID"
+      },
+      "position_sizing": {
+        "shares": 40,
+        "position_value": 20000.0,
+        "position_pct": 0.2,
+        "max_loss_value": 1000.0,
+        "risk_per_share": 25.0,
+        "feasible": true
+      },
+      "pipeline_decision": null,
+      "p1_audit_action": "WAIT",
+      "p1_audit_reason": "EntryLock BLOCK",
+      "divergence_flags": [
+        "NO_PIPELINE_DECISION"
+      ],
+      "runtime_changed": false
+    }
+  ],
+  "safety": {
+    "advisory_only": true,
+    "runtime_modified": false,
+    "snapshot_modified": false,
+    "broker_login": false,
+    "auto_trade": false,
+    "execution_risk_py_unchanged": true
+  }
+}

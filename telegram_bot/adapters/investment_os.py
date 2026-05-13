@@ -4,7 +4,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any
 
-from telegram_bot.config import SNAPSHOT_FILE, DAILY_REPORT_DIR, INTRADAY_DIR
+from telegram_bot.config import SNAPSHOT_FILE, MAINLINE_SNAPSHOT_FILE, DAILY_REPORT_DIR, INTRADAY_DIR
 
 MAX_REPORT_CHARS = 8000
 _KEY_SECTIONS = ["## Role-Aware Candidate Summary", "## P1 Entry Audit", "## Human Summary"]
@@ -25,6 +25,10 @@ def _today() -> str:
 
 def load_snapshot() -> dict[str, Any]:
     return _load_json(SNAPSHOT_FILE)
+
+
+def load_mainline_snapshot() -> dict[str, Any]:
+    return _load_json(MAINLINE_SNAPSHOT_FILE)
 
 
 def load_daily_report(date: str | None = None) -> str:

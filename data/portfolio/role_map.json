@@ -1,0 +1,622 @@
+{
+  "generated_at": "2026-05-11T01:07:11.738340",
+  "run_date": "2026-05-11",
+  "data_sources": {
+    "holdings_as_of": "2026-05-07",
+    "snapshot_as_of": "2026-05-08T16:16:51.477019",
+    "p1_audit_as_of": "2026-05-11T01:07:11.695988"
+  },
+  "seed_map_version": "v0.1",
+  "entries": [
+    {
+      "ticker": "009816",
+      "name": "凱基台灣TOP50",
+      "base_role": "CORE_ETF",
+      "active_role": "CORE_ETF",
+      "role_confidence": "HIGH",
+      "entry_date": "UNKNOWN",
+      "entry_date_confidence": "UNKNOWN",
+      "intent": null,
+      "upgrade_path": null,
+      "role_reason": [
+        "owner_seed_mapping",
+        "current_holding",
+        "entry_date_missing"
+      ],
+      "is_held": true,
+      "last_updated": "2026-05-11"
+    },
+    {
+      "ticker": "00992A",
+      "name": "主動群益科技創新",
+      "base_role": "CORE_ETF",
+      "active_role": "CORE_ETF",
+      "role_confidence": "HIGH",
+      "entry_date": "UNKNOWN",
+      "entry_date_confidence": "UNKNOWN",
+      "intent": null,
+      "upgrade_path": null,
+      "role_reason": [
+        "owner_seed_mapping",
+        "current_holding",
+        "entry_date_missing"
+      ],
+      "is_held": true,
+      "last_updated": "2026-05-11"
+    },
+    {
+      "ticker": "2059.TW",
+      "name": "川湖",
+      "base_role": "SATELLITE",
+      "active_role": "SATELLITE",
+      "role_confidence": "MEDIUM",
+      "entry_date": "UNKNOWN",
+      "entry_date_confidence": "UNKNOWN",
+      "intent": null,
+      "upgrade_path": null,
+      "role_reason": [
+        "watchlist_layer_prior"
+      ],
+      "is_held": false,
+      "last_updated": "2026-05-11"
+    },
+    {
+      "ticker": "2308.TW",
+      "name": "台達電",
+      "base_role": "SATELLITE",
+      "active_role": "SATELLITE",
+      "role_confidence": "MEDIUM",
+      "entry_date": "UNKNOWN",
+      "entry_date_confidence": "UNKNOWN",
+      "intent": null,
+      "upgrade_path": null,
+      "role_reason": [
+        "watchlist_layer_prior"
+      ],
+      "is_held": false,
+      "last_updated": "2026-05-11"
+    },
+    {
+      "ticker": "2317.TW",
+      "name": "鴻海",
+      "base_role": "WAVE_SWING",
+      "active_role": "WAVE_SWING",
+      "role_confidence": "MEDIUM",
+      "entry_date": "UNKNOWN",
+      "entry_date_confidence": "UNKNOWN",
+      "intent": null,
+      "upgrade_path": null,
+      "role_reason": [
+        "watchlist_layer_prior",
+        "snapshot_score_108.2",
+        "p1_audit_DATA_UNAVAILABLE"
+      ],
+      "is_held": false,
+      "last_updated": "2026-05-11"
+    },
+    {
+      "ticker": "2330.TW",
+      "name": "台積電",
+      "base_role": "CORE",
+      "active_role": "CORE",
+      "role_confidence": "HIGH",
+      "entry_date": "UNKNOWN",
+      "entry_date_confidence": "UNKNOWN",
+      "intent": null,
+      "upgrade_path": null,
+      "role_reason": [
+        "owner_seed_mapping",
+        "current_holding",
+        "entry_date_missing"
+      ],
+      "is_held": true,
+      "last_updated": "2026-05-11"
+    },
+    {
+      "ticker": "2337.TW",
+      "name": "旺宏",
+      "base_role": "WAVE_SWING",
+      "active_role": "WAVE_SWING",
+      "role_confidence": "MEDIUM",
+      "entry_date": "UNKNOWN",
+      "entry_date_confidence": "UNKNOWN",
+      "intent": null,
+      "upgrade_path": null,
+      "role_reason": [
+        "watchlist_layer_prior"
+      ],
+      "is_held": false,
+      "last_updated": "2026-05-11"
+    },
+    {
+      "ticker": "2345.TW",
+      "name": "智邦",
+      "base_role": "CORE",
+      "active_role": "SATELLITE",
+      "role_confidence": "HIGH",
+      "entry_date": "UNKNOWN",
+      "entry_date_confidence": "UNKNOWN",
+      "intent": "HOLD_OR_ADD_ON_PULLBACK",
+      "upgrade_path": "WAVE_SWING",
+      "role_reason": [
+        "owner_seed_mapping",
+        "current_holding",
+        "entry_date_missing"
+      ],
+      "is_held": true,
+      "last_updated": "2026-05-11"
+    },
+    {
+      "ticker": "2356.TW",
+      "name": "英業達",
+      "base_role": "WAVE_SWING",
+      "active_role": "WAVE_SWING",
+      "role_confidence": "LOW",
+      "entry_date": "UNKNOWN",
+      "entry_date_confidence": "UNKNOWN",
+      "intent": null,
+      "upgrade_path": null,
+      "role_reason": [
+        "snapshot_candidate_only",
+        "score_145.534",
+        "p1_audit_DATA_UNAVAILABLE"
+      ],
+      "is_held": false,
+      "last_updated": "2026-05-11"
+    },
+    {
+      "ticker": "2376.TW",
+      "name": "技嘉",
+      "base_role": "WAVE_SWING",
+      "active_role": "WAVE_SWING",
+      "role_confidence": "MEDIUM",
+      "entry_date": "UNKNOWN",
+      "entry_date_confidence": "UNKNOWN",
+      "intent": null,
+      "upgrade_path": null,
+      "role_reason": [
+        "watchlist_layer_prior"
+      ],
+      "is_held": false,
+      "last_updated": "2026-05-11"
+    },
+    {
+      "ticker": "2382.TW",
+      "name": "廣達",
+      "base_role": "WAVE_SWING",
+      "active_role": "WAVE_SWING",
+      "role_confidence": "MEDIUM",
+      "entry_date": "UNKNOWN",
+      "entry_date_confidence": "UNKNOWN",
+      "intent": null,
+      "upgrade_path": null,
+      "role_reason": [
+        "watchlist_layer_prior"
+      ],
+      "is_held": false,
+      "last_updated": "2026-05-11"
+    },
+    {
+      "ticker": "2408.TW",
+      "name": "南亞科",
+      "base_role": "SATELLITE",
+      "active_role": "SATELLITE",
+      "role_confidence": "HIGH",
+      "entry_date": "UNKNOWN",
+      "entry_date_confidence": "UNKNOWN",
+      "intent": null,
+      "upgrade_path": null,
+      "role_reason": [
+        "owner_seed_mapping",
+        "current_holding",
+        "entry_date_missing"
+      ],
+      "is_held": true,
+      "last_updated": "2026-05-11"
+    },
+    {
+      "ticker": "2449.TW",
+      "name": "京元電子",
+      "base_role": "WAVE_SWING",
+      "active_role": "WAVE_SWING",
+      "role_confidence": "MEDIUM",
+      "entry_date": "UNKNOWN",
+      "entry_date_confidence": "UNKNOWN",
+      "intent": null,
+      "upgrade_path": null,
+      "role_reason": [
+        "watchlist_layer_prior",
+        "snapshot_score_145.2",
+        "p1_audit_DATA_UNAVAILABLE"
+      ],
+      "is_held": false,
+      "last_updated": "2026-05-11"
+    },
+    {
+      "ticker": "2454.TW",
+      "name": "聯發科",
+      "base_role": "CORE",
+      "active_role": "CORE",
+      "role_confidence": "MEDIUM",
+      "entry_date": "UNKNOWN",
+      "entry_date_confidence": "UNKNOWN",
+      "intent": null,
+      "upgrade_path": null,
+      "role_reason": [
+        "watchlist_layer_prior"
+      ],
+      "is_held": false,
+      "last_updated": "2026-05-11"
+    },
+    {
+      "ticker": "2464.TW",
+      "name": "盟立",
+      "base_role": "WAVE_SWING",
+      "active_role": "WAVE_SWING",
+      "role_confidence": "LOW",
+      "entry_date": "UNKNOWN",
+      "entry_date_confidence": "UNKNOWN",
+      "intent": null,
+      "upgrade_path": null,
+      "role_reason": [
+        "snapshot_candidate_only",
+        "score_151.4",
+        "p1_audit_DATA_UNAVAILABLE"
+      ],
+      "is_held": false,
+      "last_updated": "2026-05-11"
+    },
+    {
+      "ticker": "3017.TW",
+      "name": "奇鋐",
+      "base_role": "SATELLITE",
+      "active_role": "SATELLITE",
+      "role_confidence": "MEDIUM",
+      "entry_date": "UNKNOWN",
+      "entry_date_confidence": "UNKNOWN",
+      "intent": null,
+      "upgrade_path": null,
+      "role_reason": [
+        "watchlist_layer_prior"
+      ],
+      "is_held": false,
+      "last_updated": "2026-05-11"
+    },
+    {
+      "ticker": "3081.TWO",
+      "name": "聯亞",
+      "base_role": "SATELLITE",
+      "active_role": "SATELLITE",
+      "role_confidence": "MEDIUM",
+      "entry_date": "UNKNOWN",
+      "entry_date_confidence": "UNKNOWN",
+      "intent": null,
+      "upgrade_path": null,
+      "role_reason": [
+        "watchlist_layer_prior"
+      ],
+      "is_held": false,
+      "last_updated": "2026-05-11"
+    },
+    {
+      "ticker": "3105.TWO",
+      "name": "穩懋",
+      "base_role": "SATELLITE",
+      "active_role": "SATELLITE",
+      "role_confidence": "MEDIUM",
+      "entry_date": "UNKNOWN",
+      "entry_date_confidence": "UNKNOWN",
+      "intent": null,
+      "upgrade_path": null,
+      "role_reason": [
+        "watchlist_layer_prior"
+      ],
+      "is_held": false,
+      "last_updated": "2026-05-11"
+    },
+    {
+      "ticker": "3231.TW",
+      "name": "緯創",
+      "base_role": "WAVE_SWING",
+      "active_role": "WAVE_SWING",
+      "role_confidence": "MEDIUM",
+      "entry_date": "UNKNOWN",
+      "entry_date_confidence": "UNKNOWN",
+      "intent": null,
+      "upgrade_path": null,
+      "role_reason": [
+        "watchlist_layer_prior",
+        "snapshot_score_144.534",
+        "p1_audit_DATA_UNAVAILABLE"
+      ],
+      "is_held": false,
+      "last_updated": "2026-05-11"
+    },
+    {
+      "ticker": "3260.TW",
+      "name": "威剛",
+      "base_role": "WAVE_SWING",
+      "active_role": "WAVE_SWING",
+      "role_confidence": "MEDIUM",
+      "entry_date": "UNKNOWN",
+      "entry_date_confidence": "UNKNOWN",
+      "intent": null,
+      "upgrade_path": null,
+      "role_reason": [
+        "watchlist_layer_prior"
+      ],
+      "is_held": false,
+      "last_updated": "2026-05-11"
+    },
+    {
+      "ticker": "3324.TW",
+      "name": "雙鴻",
+      "base_role": "SATELLITE",
+      "active_role": "SATELLITE",
+      "role_confidence": "MEDIUM",
+      "entry_date": "UNKNOWN",
+      "entry_date_confidence": "UNKNOWN",
+      "intent": null,
+      "upgrade_path": null,
+      "role_reason": [
+        "watchlist_layer_prior"
+      ],
+      "is_held": false,
+      "last_updated": "2026-05-11"
+    },
+    {
+      "ticker": "3363.TWO",
+      "name": "上詮",
+      "base_role": "SATELLITE",
+      "active_role": "SATELLITE",
+      "role_confidence": "MEDIUM",
+      "entry_date": "UNKNOWN",
+      "entry_date_confidence": "UNKNOWN",
+      "intent": null,
+      "upgrade_path": null,
+      "role_reason": [
+        "watchlist_layer_prior"
+      ],
+      "is_held": false,
+      "last_updated": "2026-05-11"
+    },
+    {
+      "ticker": "3661.TWO",
+      "name": "世芯-KY",
+      "base_role": "CORE",
+      "active_role": "CORE",
+      "role_confidence": "MEDIUM",
+      "entry_date": "UNKNOWN",
+      "entry_date_confidence": "UNKNOWN",
+      "intent": null,
+      "upgrade_path": null,
+      "role_reason": [
+        "watchlist_layer_prior"
+      ],
+      "is_held": false,
+      "last_updated": "2026-05-11"
+    },
+    {
+      "ticker": "3680.TWO",
+      "name": "家登",
+      "base_role": "WAVE_SWING",
+      "active_role": "WAVE_SWING",
+      "role_confidence": "LOW",
+      "entry_date": "UNKNOWN",
+      "entry_date_confidence": "UNKNOWN",
+      "intent": null,
+      "upgrade_path": null,
+      "role_reason": [
+        "snapshot_candidate_only",
+        "score_124.0",
+        "p1_audit_DATA_UNAVAILABLE"
+      ],
+      "is_held": false,
+      "last_updated": "2026-05-11"
+    },
+    {
+      "ticker": "3706.TW",
+      "name": "神達",
+      "base_role": "WAVE_SWING",
+      "active_role": "WAVE_SWING",
+      "role_confidence": "LOW",
+      "entry_date": "UNKNOWN",
+      "entry_date_confidence": "UNKNOWN",
+      "intent": null,
+      "upgrade_path": null,
+      "role_reason": [
+        "snapshot_candidate_only",
+        "score_108.2",
+        "p1_audit_DATA_UNAVAILABLE"
+      ],
+      "is_held": false,
+      "last_updated": "2026-05-11"
+    },
+    {
+      "ticker": "3711.TW",
+      "name": "日月光投控",
+      "base_role": "CORE",
+      "active_role": "CORE",
+      "role_confidence": "HIGH",
+      "entry_date": "UNKNOWN",
+      "entry_date_confidence": "UNKNOWN",
+      "intent": null,
+      "upgrade_path": null,
+      "role_reason": [
+        "owner_seed_mapping",
+        "current_holding",
+        "entry_date_missing"
+      ],
+      "is_held": true,
+      "last_updated": "2026-05-11"
+    },
+    {
+      "ticker": "4979.TWO",
+      "name": "華星光",
+      "base_role": "SATELLITE",
+      "active_role": "SATELLITE",
+      "role_confidence": "MEDIUM",
+      "entry_date": "UNKNOWN",
+      "entry_date_confidence": "UNKNOWN",
+      "intent": null,
+      "upgrade_path": null,
+      "role_reason": [
+        "watchlist_layer_prior"
+      ],
+      "is_held": false,
+      "last_updated": "2026-05-11"
+    },
+    {
+      "ticker": "6147.TWO",
+      "name": "頎邦",
+      "base_role": "WAVE_SWING",
+      "active_role": "WAVE_SWING",
+      "role_confidence": "LOW",
+      "entry_date": "UNKNOWN",
+      "entry_date_confidence": "UNKNOWN",
+      "intent": null,
+      "upgrade_path": null,
+      "role_reason": [
+        "snapshot_candidate_only",
+        "score_108.2",
+        "p1_audit_DATA_UNAVAILABLE"
+      ],
+      "is_held": false,
+      "last_updated": "2026-05-11"
+    },
+    {
+      "ticker": "6187.TWO",
+      "name": "萬潤",
+      "base_role": "CORE",
+      "active_role": "CORE",
+      "role_confidence": "MEDIUM",
+      "entry_date": "UNKNOWN",
+      "entry_date_confidence": "UNKNOWN",
+      "intent": null,
+      "upgrade_path": null,
+      "role_reason": [
+        "watchlist_layer_prior"
+      ],
+      "is_held": false,
+      "last_updated": "2026-05-11"
+    },
+    {
+      "ticker": "6257.TW",
+      "name": "矽格",
+      "base_role": "WAVE_SWING",
+      "active_role": "WAVE_SWING",
+      "role_confidence": "LOW",
+      "entry_date": "UNKNOWN",
+      "entry_date_confidence": "UNKNOWN",
+      "intent": null,
+      "upgrade_path": null,
+      "role_reason": [
+        "snapshot_candidate_only",
+        "score_108.2",
+        "p1_audit_DATA_UNAVAILABLE"
+      ],
+      "is_held": false,
+      "last_updated": "2026-05-11"
+    },
+    {
+      "ticker": "6515.TWO",
+      "name": "穎崴",
+      "base_role": "WAVE_SWING",
+      "active_role": "WAVE_SWING",
+      "role_confidence": "MEDIUM",
+      "entry_date": "UNKNOWN",
+      "entry_date_confidence": "UNKNOWN",
+      "intent": null,
+      "upgrade_path": null,
+      "role_reason": [
+        "watchlist_layer_prior"
+      ],
+      "is_held": false,
+      "last_updated": "2026-05-11"
+    },
+    {
+      "ticker": "6669.TWO",
+      "name": "緯穎",
+      "base_role": "WAVE_SWING",
+      "active_role": "WAVE_SWING",
+      "role_confidence": "MEDIUM",
+      "entry_date": "UNKNOWN",
+      "entry_date_confidence": "UNKNOWN",
+      "intent": null,
+      "upgrade_path": null,
+      "role_reason": [
+        "watchlist_layer_prior",
+        "snapshot_score_108.2",
+        "p1_audit_DATA_UNAVAILABLE"
+      ],
+      "is_held": false,
+      "last_updated": "2026-05-11"
+    },
+    {
+      "ticker": "6781.TW",
+      "name": "AES-KY",
+      "base_role": "SATELLITE",
+      "active_role": "SATELLITE",
+      "role_confidence": "MEDIUM",
+      "entry_date": "UNKNOWN",
+      "entry_date_confidence": "UNKNOWN",
+      "intent": null,
+      "upgrade_path": null,
+      "role_reason": [
+        "watchlist_layer_prior"
+      ],
+      "is_held": false,
+      "last_updated": "2026-05-11"
+    },
+    {
+      "ticker": "6830.TW",
+      "name": "汎銓",
+      "base_role": "SATELLITE",
+      "active_role": "WAVE_SWING",
+      "role_confidence": "HIGH",
+      "entry_date": "UNKNOWN",
+      "entry_date_confidence": "UNKNOWN",
+      "intent": null,
+      "upgrade_path": null,
+      "role_reason": [
+        "owner_seed_mapping",
+        "current_holding",
+        "entry_date_missing"
+      ],
+      "is_held": true,
+      "last_updated": "2026-05-11"
+    },
+    {
+      "ticker": "7769.TWO",
+      "name": "鴻勁",
+      "base_role": "CORE",
+      "active_role": "CORE",
+      "role_confidence": "MEDIUM",
+      "entry_date": "UNKNOWN",
+      "entry_date_confidence": "UNKNOWN",
+      "intent": null,
+      "upgrade_path": null,
+      "role_reason": [
+        "watchlist_layer_prior"
+      ],
+      "is_held": false,
+      "last_updated": "2026-05-11"
+    },
+    {
+      "ticker": "8299.TWO",
+      "name": "群聯",
+      "base_role": "WAVE_SWING",
+      "active_role": "WAVE_SWING",
+      "role_confidence": "MEDIUM",
+      "entry_date": "UNKNOWN",
+      "entry_date_confidence": "UNKNOWN",
+      "intent": null,
+      "upgrade_path": null,
+      "role_reason": [
+        "watchlist_layer_prior"
+      ],
+      "is_held": false,
+      "last_updated": "2026-05-11"
+    }
+  ]
+}

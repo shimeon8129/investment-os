@@ -11,7 +11,7 @@ from telegram_bot.handlers.commands import (
     cmd_help,
     cmd_intraday,
     cmd_start,
-    cmd_status,
+    cmd_marketstatus,
     cmd_watchlist,
 )
 
@@ -40,7 +40,7 @@ def main() -> None:
     for name, handler in [
         ("start", cmd_start),
         ("help", cmd_help),
-        ("status", cmd_status),
+        ("marketstatus", cmd_marketstatus),
         ("watchlist", cmd_watchlist),
         ("daily", cmd_daily),
         ("intraday", cmd_intraday),

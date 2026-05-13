@@ -1,0 +1,90 @@
+{
+  "date": "2026-05-12",
+  "generated_at": "2026-05-12 14:40:11",
+  "runtime": "Investment OS v0.2 bootstrap",
+  "market_context": {
+    "date": "2026-05-12",
+    "weekend": false,
+    "markets": {
+      "TW": {
+        "status": "OPEN",
+        "is_open": true
+      },
+      "US": {
+        "status": "OPEN",
+        "is_open": true
+      }
+    }
+  },
+  "watchlist_loaded": true,
+  "watchlist_count": 27,
+  "holdings_loaded": true,
+  "holdings_count": 7,
+  "checks": [
+    {
+      "label": "daily_decision_dashboard",
+      "command": [
+        "/home/shimeon/investment_os/venv/bin/python3",
+        "-m",
+        "reporting.daily_decision_dashboard"
+      ],
+      "returncode": 0,
+      "stdout": "Candidate source: /home/shimeon/investment_os/data/candidates.json\nDaily decision dashboard written to: /home/shimeon/investment_os/docs/DAILY_DECISION_DASHBOARD_20260512.md\n",
+      "stderr": "",
+      "status": "PASS"
+    },
+    {
+      "label": "smoke_daily_decision_dashboard",
+      "command": [
+        "/home/shimeon/investment_os/venv/bin/python3",
+        "tests/smoke_daily_decision_dashboard.py"
+      ],
+      "returncode": 0,
+      "stdout": "Smoke dashboard generated: /home/shimeon/investment_os/docs/DAILY_DECISION_DASHBOARD_SMOKE_TEST.md\nDaily decision dashboard smoke test passed.\n",
+      "stderr": "",
+      "status": "PASS"
+    },
+    {
+      "label": "smoke_portfolio_holdings",
+      "command": [
+        "/home/shimeon/investment_os/venv/bin/python3",
+        "tests/smoke_portfolio_holdings.py"
+      ],
+      "returncode": 0,
+      "stdout": "As of: 2026-05-07\nCurrency: TWD\nMarket: TW\nPosition count: 7\n009816 凱基台灣TOP50 5000 ETF\n00992A 主動群益科技創新 2000 ETF\n2330 台積電 50 stock\n2345 智邦 55 stock\n2408 南亞科 120 stock\n3711 日月光投控 50 stock\n6830 汎銓 50 stock\nPortfolio holdings smoke test passed.\n",
+      "stderr": "",
+      "status": "PASS"
+    },
+    {
+      "label": "pipeline_main_v1",
+      "command": [
+        "/home/shimeon/investment_os/venv/bin/python3",
+        "-m",
+        "pipeline.main_v1"
+      ],
+      "returncode": 0,
+      "stdout": "\n==============================\n🚀 Investment OS Running\n==============================\n✔ NVDA loaded\n✔ SMH loaded\n✔ TSM loaded\n✔ ^IXIC loaded\n✔ ^VIX loaded\n\n📊 Loaded tickers (5): ['NVDA', 'SMH', 'TSM', '^IXIC', '^VIX']\n\n=== MARKET ===\nState: BULL | Score: 0.018\nVIX: 18.38\n✔ 2467.TW loaded\n✔ 3131.TWO loaded\n✔ 3583.TW loaded\n✔ 6640.TWO loaded\n✔ 6830.TW loaded\n✔ 6187.TWO loaded\n✔ 5443.TWO loaded\n✔ 6139.TW loaded\n✔ 3680.TWO loaded\n✔ 2464.TW loaded\n✔ 3413.TW loaded\n✔ 3711.TW loaded\n✔ 2449.TW loaded\n✔ 6239.TW loaded\n✔ 6147.TWO loaded\n✔ 6257.TW loaded\n✔ 2382.TW loaded\n✔ 2317.TW loaded\n✔ 3231.TW loaded\n✔ 6669.TW loaded\n✔ 2356.TW loaded\n✔ 3706.TW loaded\n✔ 2376.TW loaded\n✔ 2377.TW loaded\n✔ 2313.TW loaded\n✔ 3037.TW loaded\n✔ 8046.TW loaded\n✔ 3189.TW loaded\n✔ 2368.TW loaded\n✔ 3044.TW loaded\n✔ 8155.TWO loaded\n✔ 2330.TW loaded\n✔ 2454.TW loaded\n✔ 3661.TW loaded\n✔ 3443.TW loaded\n✔ 2303.TW loaded\n✔ 2308.TW loaded\n✔ 2345.TW loaded\n\n📊 Loaded tickers (38): ['2467.TW', '3131.TWO', '3583.TW', '6640.TWO', '6830.TW', '6187.TWO', '5443.TWO', '6139.TW', '3680.TWO', '2464.TW', '3413.TW', '3711.TW', '2449.TW', '6239.TW', '6147.TWO', '6257.TW', '2382.TW', '2317.TW', '3231.TW', '6669.TW', '2356.TW', '3706.TW', '2376.TW', '2377.TW', '2313.TW', '3037.TW', '8046.TW', '3189.TW', '2368.TW', '3044.TW', '8155.TWO', '2330.TW', '2454.TW', '3661.TW', '3443.TW', '2303.TW', '2308.TW', '2345.TW']\n\n=== SCANNER ===\n\n✅ Candidates: 38\n2467.TW 志聖 → Score: 2 | Minervini: 0 | READY ⚡️READY | Price: 649.0\n3583.TW 辛耘 → Score: 2 | Minervini: 0 | READY ⚡️READY | Price: 952.0\n3711.TW 日月光投控 → Score: 2 | Minervini: 0 | READY ⚡️READY | Price: 555.0\n2449.TW 京元電子 → Score: 2 | Minervini: 0 | READY ⚡️READY | Price: 301.0\n3231.TW 緯創 → Score: 2 | Minervini: 0 | READY ⚡️READY | Price: 141.5\n6669.TW 緯穎 → Score: 2 | Minervini: 0 | READY ⚡️READY | Price: 5790.0\n2376.TW 技嘉 → Score: 2 | Minervini: 0 | READY ⚡️READY | Price: 321.0\n2377.TW 微星 → Score: 2 | Minervini: 0 | READY ⚡️READY | Price: 105.0\n2313.TW 華通 → Score: 2 | Minervini: 0 | READY ⚡️READY | Price: 260.0\n3037.TW 欣興 → Score: 2 | Minervini: 0 | READY ⚡️READY | Price: 875.0\n\n=== SIGNAL ===\n2467.TW 志聖 → BUY\n3583.TW 辛耘 → BUY\n3711.TW 日月光投控 → BUY\n2449.TW 京元電子 → BUY\n3231.TW 緯創 → BUY\n6669.TW 緯穎 → BUY\n2376.TW 技嘉 → BUY\n2377.TW 微星 → BUY\n2313.TW 華通 → BUY\n3037.TW 欣興 → BUY\n\n=== TOP PICKS ===\n\n#1 3711.TW 日月光投控 (Packaging)\n   Score: 173.5 | Signal: BUY | Level: READY\n   Minervini: 0 | Narrative: STRONG 93.33 (count=3) | NewsHeat: 48 (news=2, sources=2) | Chips: 85 BUY (total=2,324,129)\n\n#2 2449.TW 京元電子 (Packaging)\n   Score: 145.2 | Signal: BUY | Level: READY\n   Minervini: 0 | Narrative: STRONG 85.0 (count=3) | NewsHeat: 0 (news=0, sources=0) | Chips: 0 NONE (total=0)\n\n#3 2376.TW 技嘉 (Server)\n   Score: 145.2 | Signal: BUY | Level: READY\n   Minervini: 0 | Narrative: STRONG 85.0 (count=3) | NewsHeat: 0 (news=0, sources=0) | Chips: 0 NONE (total=0)\n\n\n=== DECISION ===\n3711.TW 日月光投控 → HOLD (ALREADY_IN_POSITION)\n2449.TW 京元電子 → BUY | 倉位: 10.0% | 停損: 5.0% (NORMAL) [Risk: PASS_ADJUSTED]\n2376.TW 技嘉 → BUY | 倉位: 10.0% | 停損: 5.0% (NORMAL) [Risk: PASS_ADJUSTED]\n\n=== EXIT CHECK ===\n2330.TW → REDUCE\n2345.TW → HOLD\n3711.TW → HOLD\n6830.TW → EXIT_ALL\n\n📸 Snapshot written: data/processed/mainline_snapshot.json\n\n==============================\n✅ Pipeline Done\n==============================\n",
+      "stderr": "",
+      "status": "PASS"
+    }
+  ],
+  "status": "PASS",
+  "safety": {
+    "broker_login": false,
+    "auto_trade": false,
+    "advisory_only": true
+  },
+  "role_summary": {
+    "loaded": true,
+    "ticker_count": 36,
+    "warning": null
+  },
+  "run_date": "2026-05-12",
+  "market_date": "2026-05-12",
+  "market_status": "OPEN",
+  "latest_full_trading_day": "2026-05-11",
+  "data_as_of_date": "UNKNOWN",
+  "data_mode": "OBSERVATION",
+  "report_label": "TODAY_MARKET_OPEN",
+  "data_freshness_warning": "Data vintage not explicitly available in current MVP pipeline."
+}

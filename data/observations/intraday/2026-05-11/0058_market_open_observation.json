@@ -1,0 +1,304 @@
+{
+  "date": "2026-05-11",
+  "slot": "market_open",
+  "run_time": "2026-05-11 00:58:46",
+  "git_commit": "0094006",
+  "runtime_status": "PARTIAL",
+  "market": {
+    "market_status": "OPEN",
+    "market_state": "N/A",
+    "market_score": "N/A",
+    "vix": "N/A",
+    "report_label": "TODAY_MARKET_OPEN",
+    "data_as_of_date": "UNKNOWN",
+    "latest_full_trading_day": "2026-05-08"
+  },
+  "candidates": [
+    {
+      "ticker": "2464.TW",
+      "name": "盟立",
+      "rank": 1,
+      "score": 151.4,
+      "signal": "BUY",
+      "p1_result": "DATA_UNAVAILABLE",
+      "L0": "SKIP",
+      "L1": "SKIP",
+      "L2": "SKIP",
+      "L3": "SKIP",
+      "L4": "SKIP",
+      "block_reason": null,
+      "warn_reason": null,
+      "already_in_position": null,
+      "manual_review_flag": null,
+      "role_context": {
+        "base_role": "WAVE_SWING",
+        "active_role": "WAVE_SWING",
+        "role_confidence": "LOW",
+        "intent": null,
+        "upgrade_path": null,
+        "role_reason": [
+          "snapshot_candidate_only",
+          "score_151.4",
+          "p1_audit_WAIT"
+        ]
+      }
+    },
+    {
+      "ticker": "2356.TW",
+      "name": "英業達",
+      "rank": 2,
+      "score": 145.534,
+      "signal": "BUY",
+      "p1_result": "DATA_UNAVAILABLE",
+      "L0": "SKIP",
+      "L1": "SKIP",
+      "L2": "SKIP",
+      "L3": "SKIP",
+      "L4": "SKIP",
+      "block_reason": null,
+      "warn_reason": null,
+      "already_in_position": null,
+      "manual_review_flag": null,
+      "role_context": {
+        "base_role": "WAVE_SWING",
+        "active_role": "WAVE_SWING",
+        "role_confidence": "LOW",
+        "intent": null,
+        "upgrade_path": null,
+        "role_reason": [
+          "snapshot_candidate_only",
+          "score_145.534",
+          "p1_audit_ENTRY_REDUCED"
+        ]
+      }
+    },
+    {
+      "ticker": "2449.TW",
+      "name": "京元電子",
+      "rank": 3,
+      "score": 145.2,
+      "signal": "BUY",
+      "p1_result": "DATA_UNAVAILABLE",
+      "L0": "SKIP",
+      "L1": "SKIP",
+      "L2": "SKIP",
+      "L3": "SKIP",
+      "L4": "SKIP",
+      "block_reason": null,
+      "warn_reason": null,
+      "already_in_position": null,
+      "manual_review_flag": null,
+      "role_context": {
+        "base_role": "WAVE_SWING",
+        "active_role": "WAVE_SWING",
+        "role_confidence": "MEDIUM",
+        "intent": null,
+        "upgrade_path": null,
+        "role_reason": [
+          "watchlist_layer_prior",
+          "snapshot_score_145.2",
+          "p1_audit_WAIT"
+        ]
+      }
+    },
+    {
+      "ticker": "3231.TW",
+      "name": "緯創",
+      "rank": 4,
+      "score": 144.534,
+      "signal": "BUY",
+      "p1_result": "DATA_UNAVAILABLE",
+      "L0": "SKIP",
+      "L1": "SKIP",
+      "L2": "SKIP",
+      "L3": "SKIP",
+      "L4": "SKIP",
+      "block_reason": null,
+      "warn_reason": null,
+      "already_in_position": null,
+      "manual_review_flag": null,
+      "role_context": {
+        "base_role": "WAVE_SWING",
+        "active_role": "WAVE_SWING",
+        "role_confidence": "MEDIUM",
+        "intent": null,
+        "upgrade_path": null,
+        "role_reason": [
+          "watchlist_layer_prior",
+          "snapshot_score_144.534",
+          "p1_audit_ENTRY_REDUCED"
+        ]
+      }
+    },
+    {
+      "ticker": "3680.TWO",
+      "name": "家登",
+      "rank": 5,
+      "score": 124.0,
+      "signal": "BUY",
+      "p1_result": "DATA_UNAVAILABLE",
+      "L0": "SKIP",
+      "L1": "SKIP",
+      "L2": "SKIP",
+      "L3": "SKIP",
+      "L4": "SKIP",
+      "block_reason": null,
+      "warn_reason": null,
+      "already_in_position": null,
+      "manual_review_flag": null,
+      "role_context": {
+        "base_role": "WAVE_SWING",
+        "active_role": "WAVE_SWING",
+        "role_confidence": "LOW",
+        "intent": null,
+        "upgrade_path": null,
+        "role_reason": [
+          "snapshot_candidate_only",
+          "score_124.0",
+          "p1_audit_WAIT"
+        ]
+      }
+    },
+    {
+      "ticker": "6147.TWO",
+      "name": "頎邦",
+      "rank": 6,
+      "score": 108.2,
+      "signal": "BUY",
+      "p1_result": "DATA_UNAVAILABLE",
+      "L0": "SKIP",
+      "L1": "SKIP",
+      "L2": "SKIP",
+      "L3": "SKIP",
+      "L4": "SKIP",
+      "block_reason": null,
+      "warn_reason": null,
+      "already_in_position": null,
+      "manual_review_flag": null,
+      "role_context": {
+        "base_role": "WAVE_SWING",
+        "active_role": "WAVE_SWING",
+        "role_confidence": "LOW",
+        "intent": null,
+        "upgrade_path": null,
+        "role_reason": [
+          "snapshot_candidate_only",
+          "score_108.2",
+          "p1_audit_WAIT"
+        ]
+      }
+    },
+    {
+      "ticker": "6257.TW",
+      "name": "矽格",
+      "rank": 7,
+      "score": 108.2,
+      "signal": "BUY",
+      "p1_result": "DATA_UNAVAILABLE",
+      "L0": "SKIP",
+      "L1": "SKIP",
+      "L2": "SKIP",
+      "L3": "SKIP",
+      "L4": "SKIP",
+      "block_reason": null,
+      "warn_reason": null,
+      "already_in_position": null,
+      "manual_review_flag": null,
+      "role_context": {
+        "base_role": "WAVE_SWING",
+        "active_role": "WAVE_SWING",
+        "role_confidence": "LOW",
+        "intent": null,
+        "upgrade_path": null,
+        "role_reason": [
+          "snapshot_candidate_only",
+          "score_108.2",
+          "p1_audit_WAIT"
+        ]
+      }
+    },
+    {
+      "ticker": "2317.TW",
+      "name": "鴻海",
+      "rank": 8,
+      "score": 108.2,
+      "signal": "BUY",
+      "p1_result": "DATA_UNAVAILABLE",
+      "L0": "SKIP",
+      "L1": "SKIP",
+      "L2": "SKIP",
+      "L3": "SKIP",
+      "L4": "SKIP",
+      "block_reason": null,
+      "warn_reason": null,
+      "already_in_position": null,
+      "manual_review_flag": null,
+      "role_context": {
+        "base_role": "WAVE_SWING",
+        "active_role": "WAVE_SWING",
+        "role_confidence": "MEDIUM",
+        "intent": null,
+        "upgrade_path": null,
+        "role_reason": [
+          "watchlist_layer_prior",
+          "snapshot_score_108.2",
+          "p1_audit_WAIT"
+        ]
+      }
+    },
+    {
+      "ticker": "6669.TW",
+      "name": "緯穎",
+      "rank": 9,
+      "score": 108.2,
+      "signal": "BUY",
+      "p1_result": "DATA_UNAVAILABLE",
+      "L0": "SKIP",
+      "L1": "SKIP",
+      "L2": "SKIP",
+      "L3": "SKIP",
+      "L4": "SKIP",
+      "block_reason": null,
+      "warn_reason": null,
+      "already_in_position": null,
+      "manual_review_flag": null,
+      "role_context": {
+        "base_role": "UNKNOWN",
+        "active_role": "UNKNOWN",
+        "role_confidence": "UNKNOWN",
+        "intent": null,
+        "upgrade_path": null,
+        "role_reason": []
+      }
+    },
+    {
+      "ticker": "3706.TW",
+      "name": "神達",
+      "rank": 10,
+      "score": 108.2,
+      "signal": "BUY",
+      "p1_result": "DATA_UNAVAILABLE",
+      "L0": "SKIP",
+      "L1": "SKIP",
+      "L2": "SKIP",
+      "L3": "SKIP",
+      "L4": "SKIP",
+      "block_reason": null,
+      "warn_reason": null,
+      "already_in_position": null,
+      "manual_review_flag": null,
+      "role_context": {
+        "base_role": "WAVE_SWING",
+        "active_role": "WAVE_SWING",
+        "role_confidence": "LOW",
+        "intent": null,
+        "upgrade_path": null,
+        "role_reason": [
+          "snapshot_candidate_only",
+          "score_108.2",
+          "p1_audit_ENTRY_REDUCED"
+        ]
+      }
+    }
+  ]
+}

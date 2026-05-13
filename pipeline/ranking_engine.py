@@ -78,6 +78,19 @@ def get_chip_bonus(chip_info: dict | None) -> float:
     return min(score * 0.2, 20)
 
 
+def get_volume_bonus(vol_ratio: float | None) -> float:
+    """當日量 / 5日均量。放量確認動能，最高 15 分。"""
+    if not vol_ratio or vol_ratio <= 0:
+        return 0
+    if vol_ratio >= 3.0:
+        return 15
+    if vol_ratio >= 2.0:
+        return 10
+    if vol_ratio >= 1.5:
+        return 5
+    return 0
+
+
 def calculate_total_score(
     signal: str,
     scanner_score: float,
@@ -86,6 +99,7 @@ def calculate_total_score(
     narrative_info: dict | None = None,
     news_heat_info: dict | None = None,
     chip_info: dict | None = None,
+    vol_ratio: float | None = None,
 ) -> float:
     base = (
         get_signal_score(signal)
@@ -95,6 +109,7 @@ def calculate_total_score(
         + get_narrative_bonus(narrative_info)
         + get_news_heat_bonus(news_heat_info)
         + get_chip_bonus(chip_info)
+        + get_volume_bonus(vol_ratio)
     )
 
     # 微分（避免同分）
@@ -110,6 +125,7 @@ def rank_stocks(
     narrative_results: dict | None = None,
     news_heat_results: dict | None = None,
     chip_results: dict | None = None,
+    vol_ratio_map: dict | None = None,
 ):
 
     ranked_list = []
@@ -126,6 +142,7 @@ def rank_stocks(
         narrative_info = (narrative_results or {}).get(ticker)
         news_heat_info = (news_heat_results or {}).get(ticker)
         chip_info = (chip_results or {}).get(ticker)
+        vol_ratio = (vol_ratio_map or {}).get(ticker)
 
         total_score = (
             calculate_total_score(
@@ -136,6 +153,7 @@ def rank_stocks(
                 narrative_info,
                 news_heat_info,
                 chip_info,
+                vol_ratio,
             )
             + get_level_score(level)   # 🔥 關鍵
         )
@@ -164,6 +182,8 @@ def rank_stocks(
             "dealer_net_buy": (chip_info or {}).get("dealer_net_buy", 0),
             "institutional_net_buy": (chip_info or {}).get("institutional_net_buy", 0),
             "chip_bonus": get_chip_bonus(chip_info),
+            "vol_ratio": round(vol_ratio, 2) if vol_ratio else 0,
+            "vol_bonus": get_volume_bonus(vol_ratio),
             "score": total_score
         })
 

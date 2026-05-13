@@ -192,6 +192,16 @@ def run_pipeline(capital=100000):
     news_heat_map = load_news_heat_map()
     chips_map = load_chips_map()
 
+    # 取最新一日的 vol_ratio（當日量 / 5日均量）
+    vol_ratio_map = {}
+    if "vol_ratio" in features:
+        vr = features["vol_ratio"]
+        for ticker in candidate_tickers:
+            if ticker in vr.columns:
+                latest = vr[ticker].dropna()
+                if not latest.empty:
+                    vol_ratio_map[ticker] = float(latest.iloc[-1])
+
     ranked = rank_stocks(
         signal_results,
         scanner_results,
@@ -200,7 +210,8 @@ def run_pipeline(capital=100000):
         minervini_map,
         narrative_map,
         news_heat_map,
-        chips_map
+        chips_map,
+        vol_ratio_map,
     )
 
     print_top_picks(ranked, top_n=3)
@@ -304,10 +315,10 @@ def run_pipeline(capital=100000):
 
         print(f"{ticker} → {exit_signal}")
 
-        if exit_signal == "SELL":
-            exit_decisions[ticker] = {
-                "action": "SELL"
-            }
+        if exit_signal == "EXIT_ALL":
+            exit_decisions[ticker] = {"action": "SELL", "reason": exit_signal}
+        elif exit_signal == "REDUCE":
+            exit_decisions[ticker] = {"action": "REDUCE", "reason": exit_signal}
 
     decisions.update(exit_decisions)
 

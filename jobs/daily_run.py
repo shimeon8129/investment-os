@@ -498,14 +498,62 @@ def main() -> int:
     log(f"[WRITE] {report_file}")
     log("=== Investment OS daily_run done ===")
 
+    ranked = mainline_snap.get("ranked", [])
+    decisions = mainline_snap.get("decisions", {})
+    exit_signals = mainline_snap.get("exit_signals", {})
+    name_map_snap = {r.get("ticker", ""): r.get("name", "") for r in ranked}
+    ranked_tickers = {r.get("ticker", "") for r in ranked}
+
+    holding_list = holdings.get("holdings", []) if isinstance(holdings, dict) else []
+    holding_tickers = {h["ticker"] if "." in h.get("ticker","") else h["ticker"]+".TW"
+                       for h in holding_list}
+
+    # Top 3 候選
     top3_lines = []
-    for entry in mainline_snap.get("ranked", [])[:3]:
-        top3_lines.append(
-            f"{entry.get('rank','?')}. {entry.get('ticker','')} {entry.get('name','')} "
-            f"score={entry.get('score','?')} signal={entry.get('signal','?')}"
-        )
+    for i, entry in enumerate(ranked[:3], 1):
+        ticker = entry.get("ticker", "")
+        score = entry.get("score", 0)
+        vol_r = entry.get("vol_ratio", 0)
+        vol_tag = f" 🔥量{vol_r:.1f}x" if vol_r >= 1.5 else ""
+        top3_lines.append(f"{i}. {ticker} {entry.get('name','')} {score:.1f}{vol_tag}")
     top3_text = "\n".join(top3_lines) if top3_lines else "（無候選）"
-    send_notification(f"*Daily Run 完成* ({today})\n\n*Top 3:*\n{top3_text}")
+
+    # 決策
+    decision_lines = []
+    for ticker, d in decisions.items():
+        name = name_map_snap.get(ticker, "")
+        action = d.get("action", "")
+        reason = d.get("reason", "")
+        size = d.get("position_size", 0)
+        decision_lines.append(f"• {ticker} {name} → {action}（{reason}，{size*100:.0f}%）")
+    decision_text = "\n".join(decision_lines) if decision_lines else "（無決策）"
+
+    # 持倉掉出候選名單警示
+    dropped_lines = []
+    for h in holding_list:
+        raw = h.get("ticker", "")
+        tw = raw if "." in raw else raw + ".TW"
+        if tw not in ranked_tickers:
+            dropped_lines.append(f"⚠️ {raw} {h.get('name','')} 已掉出候選名單")
+    dropped_text = "\n".join(dropped_lines) if dropped_lines else "✅ 所有持倉仍在候選名單內"
+
+    # 停損觸發
+    exit_text = ""
+    if exit_signals:
+        exit_lines = [f"🔴 {t} {name_map_snap.get(t,'')} → {d.get('action','')}" for t, d in exit_signals.items()]
+        exit_text = "\n\n*停損觸發：*\n" + "\n".join(exit_lines)
+
+    ms = mainline_snap.get("market_state", "N/A")
+    vix = mainline_snap.get("vix_value", 0)
+    msg = (
+        f"*Daily Run 完成* ({today})\n"
+        f"市場：{ms} | VIX: {vix:.2f}\n\n"
+        f"*Top 3:*\n{top3_text}\n\n"
+        f"*決策:*\n{decision_text}\n\n"
+        f"*持倉監控:*\n{dropped_text}"
+        f"{exit_text}"
+    )
+    send_notification(msg)
 
     return 0
 

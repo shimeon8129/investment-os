@@ -1,52 +1,108 @@
 [
   {
-    "ticker": "6830.TW",
-    "name": "6830.TW",
+    "ticker": "2467.TW",
+    "name": "2467.TW",
     "score": 2,
     "level": "READY",
-    "price": 884.0
+    "price": 626.0
+  },
+  {
+    "ticker": "3583.TW",
+    "name": "3583.TW",
+    "score": 2,
+    "level": "READY",
+    "price": 966.0
+  },
+  {
+    "ticker": "6187.TWO",
+    "name": "6187.TWO",
+    "score": 2,
+    "level": "READY",
+    "price": 1225.0
+  },
+  {
+    "ticker": "6669.TW",
+    "name": "6669.TW",
+    "score": 2,
+    "level": "READY",
+    "price": 5580.0
   },
   {
     "ticker": "2356.TW",
     "name": "2356.TW",
     "score": 2,
     "level": "READY",
-    "price": 50.0
-  },
-  {
-    "ticker": "3706.TW",
-    "name": "3706.TW",
-    "score": 2,
-    "level": "READY",
-    "price": 87.19999694824219
+    "price": 52.79999923706055
   },
   {
     "ticker": "2376.TW",
     "name": "2376.TW",
     "score": 2,
     "level": "READY",
-    "price": 311.0
+    "price": 313.5
   },
   {
     "ticker": "2377.TW",
     "name": "2377.TW",
     "score": 2,
     "level": "READY",
-    "price": 101.5
+    "price": 115.5
   },
   {
-    "ticker": "2467.TW",
-    "name": "2467.TW",
-    "score": 1,
-    "level": "EARLY",
-    "price": 560.0
+    "ticker": "3037.TW",
+    "name": "3037.TW",
+    "score": 2,
+    "level": "READY",
+    "price": 892.0
   },
   {
-    "ticker": "3583.TW",
-    "name": "3583.TW",
+    "ticker": "2368.TW",
+    "name": "2368.TW",
+    "score": 2,
+    "level": "READY",
+    "price": 1350.0
+  },
+  {
+    "ticker": "3044.TW",
+    "name": "3044.TW",
+    "score": 2,
+    "level": "READY",
+    "price": 529.0
+  },
+  {
+    "ticker": "2330.TW",
+    "name": "2330.TW",
+    "score": 2,
+    "level": "READY",
+    "price": 2220.0
+  },
+  {
+    "ticker": "3661.TW",
+    "name": "3661.TW",
+    "score": 2,
+    "level": "READY",
+    "price": 4780.0
+  },
+  {
+    "ticker": "3443.TW",
+    "name": "3443.TW",
+    "score": 2,
+    "level": "READY",
+    "price": 5330.0
+  },
+  {
+    "ticker": "2303.TW",
+    "name": "2303.TW",
+    "score": 2,
+    "level": "READY",
+    "price": 98.4000015258789
+  },
+  {
+    "ticker": "6830.TW",
+    "name": "6830.TW",
     "score": 1,
     "level": "EARLY",
-    "price": 804.0
+    "price": 746.0
   },
   {
     "ticker": "5443.TWO",
@@ -60,98 +116,91 @@
     "name": "6139.TW",
     "score": 1,
     "level": "EARLY",
-    "price": 716.0
+    "price": 686.0
   },
   {
     "ticker": "3680.TWO",
     "name": "3680.TWO",
     "score": 1,
     "level": "EARLY",
-    "price": 592.0
+    "price": 588.0
   },
   {
     "ticker": "2464.TW",
     "name": "2464.TW",
     "score": 1,
     "level": "EARLY",
-    "price": 108.5
-  },
-  {
-    "ticker": "3413.TW",
-    "name": "3413.TW",
-    "score": 1,
-    "level": "EARLY",
-    "price": 307.5
+    "price": 112.5
   },
   {
     "ticker": "3711.TW",
     "name": "3711.TW",
     "score": 1,
     "level": "EARLY",
-    "price": 540.0
+    "price": 548.0
   },
   {
     "ticker": "2449.TW",
     "name": "2449.TW",
     "score": 1,
     "level": "EARLY",
-    "price": 333.5
+    "price": 305.0
   },
   {
     "ticker": "6239.TW",
     "name": "6239.TW",
     "score": 1,
     "level": "EARLY",
-    "price": 230.0
+    "price": 232.0
   },
   {
     "ticker": "6147.TWO",
     "name": "6147.TWO",
     "score": 1,
     "level": "EARLY",
-    "price": 192.5
+    "price": 192.0
   },
   {
     "ticker": "6257.TW",
     "name": "6257.TW",
     "score": 1,
     "level": "EARLY",
-    "price": 202.5
+    "price": 212.0
   },
   {
     "ticker": "2382.TW",
     "name": "2382.TW",
     "score": 1,
     "level": "EARLY",
-    "price": 342.5
+    "price": 340.5
   },
   {
-    "ticker": "3231.TW",
-    "name": "3231.TW",
+    "ticker": "2317.TW",
+    "name": "2317.TW",
     "score": 1,
     "level": "EARLY",
-    "price": 146.0
+    "price": 251.0
   },
   {
-    "ticker": "6669.TW",
-    "name": "6669.TW",
+    "ticker": "3706.TW",
+    "name": "3706.TW",
     "score": 1,
     "level": "EARLY",
-    "price": 5030.0
+    "price": 82.0999984741211
   },
   {
-    "ticker": "3037.TW",
-    "name": "3037.TW",
+    "ticker": "2313.TW",
+    "name": "2313.TW",
     "score": 1,
     "level": "EARLY",
-    "price": 885.0
+    "price": 237.0
   },
   {
     "ticker": "8046.TW",
     "name": "8046.TW",
     "score": 1,
     "level": "EARLY",
-    "price": 952.0
+    "price": 880.0
   },
   {
     "ticker": "3189.TW",
@@ -161,80 +210,59 @@
     "price": 497.5
   },
   {
-    "ticker": "2368.TW",
-    "name": "2368.TW",
-    "score": 1,
-    "level": "EARLY",
-    "price": 1450.0
-  },
-  {
-    "ticker": "3044.TW",
-    "name": "3044.TW",
-    "score": 1,
-    "level": "EARLY",
-    "price": 509.0
-  },
-  {
     "ticker": "8155.TWO",
     "name": "8155.TWO",
     "score": 1,
     "level": "EARLY",
-    "price": 446.0
-  },
-  {
-    "ticker": "2330.TW",
-    "name": "2330.TW",
-    "score": 1,
-    "level": "EARLY",
-    "price": 2320.0
+    "price": 424.0
   },
   {
     "ticker": "2454.TW",
     "name": "2454.TW",
     "score": 1,
     "level": "EARLY",
-    "price": 3325.0
+    "price": 3495.0
   },
   {
-    "ticker": "3661.TW",
-    "name": "3661.TW",
+    "ticker": "2308.TW",
+    "name": "2308.TW",
     "score": 1,
     "level": "EARLY",
-    "price": 4800.0
+    "price": 2165.0
   },
   {
-    "ticker": "3443.TW",
-    "name": "3443.TW",
+    "ticker": "2345.TW",
+    "name": "2345.TW",
     "score": 1,
     "level": "EARLY",
-    "price": 5450.0
+    "price": 2435.0
   },
   {
     "ticker": "3131.TWO",
     "name": "3131.TWO",
     "score": 0,
     "level": "EARLY",
-    "price": 3115.0
+    "price": 3025.0
   },
   {
     "ticker": "6640.TWO",
     "name": "6640.TWO",
     "score": 0,
     "level": "EARLY",
-    "price": 1390.0
+    "price": 1425.0
   },
   {
-    "ticker": "6187.TWO",
-    "name": "6187.TWO",
+    "ticker": "3413.TW",
+    "name": "3413.TW",
     "score": 0,
     "level": "EARLY",
-    "price": 1140.0
+    "price": 311.0
   },
   {
-    "ticker": "2313.TW",
-    "name": "2313.TW",
+    "ticker": "3231.TW",
+    "name": "3231.TW",
     "score": 0,
     "level": "EARLY",
-    "price": 246.0
+    "price": 140.5
   }
 ]

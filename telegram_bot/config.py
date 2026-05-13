@@ -12,5 +12,6 @@ def get_allowed_chat_ids() -> frozenset[int]:
     return frozenset(int(x) for x in raw.split(",") if x.strip())
 
 SNAPSHOT_FILE = ROOT / "data" / "processed" / "signal_snapshot.json"
+MAINLINE_SNAPSHOT_FILE = ROOT / "data" / "processed" / "mainline_snapshot.json"
 DAILY_REPORT_DIR = ROOT / "reports" / "daily"
 INTRADAY_DIR = ROOT / "data" / "observations" / "intraday"

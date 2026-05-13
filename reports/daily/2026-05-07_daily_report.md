@@ -1,6 +1,6 @@
 # Investment OS Daily Report - 2026-05-07
 
-Generated at: 2026-05-07 11:44:27
+Generated at: 2026-05-07 16:00:14
 
 ## Market Calendar
 
@@ -17,47 +17,47 @@ Generated at: 2026-05-07 11:44:27
 
 ## Human Summary
 
-- Market state: **BULL** | Score: 0.0388 | VIX: 17.39
+- Market state: **RANGE** | Score: 0.0069 | VIX: 17.51
 
 **Top 3 candidates:**
 
-1. 2356.TW 英業達 — Score: 145.53 | Signal: BUY
-2. 2376.TW 技嘉 — Score: 145.20 | Signal: BUY
-3. 2377.TW 微星 — Score: 144.20 | Signal: BUY
+1. 3711.TW 日月光投控 — Score: 173.47 | Signal: BUY
+2. 2356.TW 英業達 — Score: 145.53 | Signal: BUY
+3. 2376.TW 技嘉 — Score: 145.20 | Signal: BUY
 
-- Decisions: BUY: 3
+- Decisions: BUY: 2 | HOLD: 1
 - Advisory only: all outputs are for human review; no trades are placed automatically.
 
 ## Mainline Snapshot
 
-- Market state: BULL
-- Market score: 0.0388
-- VIX: 17.389999389648438
+- Market state: RANGE
+- Market score: 0.0069
+- VIX: 17.510000228881836
 
 ### Top Ranked
 
 | Rank | Ticker | Name | Sector | Signal | Score |
 | --- | --- | --- | --- | --- | --- |
-| 1 | 2356.TW | 英業達 | Server | BUY | 145.534 |
-| 2 | 2376.TW | 技嘉 | Server | BUY | 145.2 |
-| 3 | 2377.TW | 微星 | Server | BUY | 144.2 |
-| 4 | 6830.TW | 汎銓 | Equipment | BUY | 118.2 |
-| 5 | 3706.TW | 神達 | Server | BUY | 108.2 |
+| 1 | 3711.TW | 日月光投控 | Packaging | BUY | 173.46599999999998 |
+| 2 | 2356.TW | 英業達 | Server | BUY | 145.534 |
+| 3 | 2376.TW | 技嘉 | Server | BUY | 145.2 |
+| 4 | 3231.TW | 緯創 | Server | BUY | 144.534 |
+| 5 | 6830.TW | 汎銓 | Equipment | BUY | 118.2 |
 
 ### Decisions
 
 | Ticker | Action | Reason |
 | --- | --- | --- |
-| 2356.TW | BUY | NORMAL |
-| 2376.TW | BUY | NORMAL |
-| 2377.TW | BUY | NORMAL |
+| 3711.TW | HOLD | ALREADY_IN_POSITION |
+| 2356.TW | BUY | REDUCED_BY_MARKET |
+| 2376.TW | BUY | REDUCED_BY_MARKET |
 
 ## P1 Entry Audit
 
-- Total signals audited: 7
-- EntryLock: PASS=1 WARN=0 BLOCK=6 SKIP=0
-- P1 Action: ENTRY=1 ENTRY_REDUCED=0 WAIT=6 SKIP=0 UNAVAIL=0
-- Divergences: 7
+- Total signals audited: 10
+- EntryLock: PASS=0 WARN=1 BLOCK=9 SKIP=0
+- P1 Action: ENTRY=0 ENTRY_REDUCED=1 WAIT=9 SKIP=0 UNAVAIL=0
+- Divergences: 9
 - Advisory only. No runtime decisions changed.
 - Report: docs/P1_ENTRY_AUDIT_20260507.md
 
