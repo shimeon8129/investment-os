@@ -48,6 +48,13 @@ from decision.position_lock import apply_position_lock
 # === RISK ===
 from execution.risk import apply_risk_filters
 
+# === TECHNICAL ACTION ===
+from reporting.technical_action_report import (
+    enrich_ranked_with_action,
+    enrich_holdings_with_action,
+    build_technical_action_summary,
+)
+
 
 # =========================================
 # 🧠 MAIN PIPELINE
@@ -323,6 +330,22 @@ def run_pipeline(capital=100000):
     decisions.update(exit_decisions)
 
     # =========================================
+    # 🎯 TECHNICAL ACTION ENRICHMENT
+    # =========================================
+
+    chips_map = load_chips_map()
+    ranked = enrich_ranked_with_action(
+        ranked,
+        close,
+        features,
+        market_state,
+        exit_decisions,
+        chip_map=chips_map,
+    )
+    holding_alerts = enrich_holdings_with_action(portfolio, exit_decisions, market_state)
+    technical_action_summary = build_technical_action_summary(ranked)
+
+    # =========================================
     # 📸 SNAPSHOT
     # =========================================
 
@@ -332,6 +355,7 @@ def run_pipeline(capital=100000):
 
     snapshot = {
         "generated_at": datetime.now().isoformat(),
+        "system_mode": "TECHNICAL_DOMINANT_WITH_DATA_CONTEXT",
         "market_state": market_state,
         "market_score": round(float(global_score), 4),
         "vix_value": float(vix_value) if vix_value is not None else None,
@@ -340,6 +364,8 @@ def run_pipeline(capital=100000):
         "ranked": ranked,
         "decisions": decisions,
         "exit_signals": exit_decisions,
+        "holding_alerts": holding_alerts,
+        "technical_action_summary": technical_action_summary,
         "safety": {
             "advisory_only": True,
             "auto_trade": False,

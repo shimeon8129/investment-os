@@ -400,6 +400,62 @@ def main() -> int:
                 f"| {ticker} | {d.get('action', '')} | {d.get('reason', '')} |"
             )
         report_lines.append("")
+
+        # Technical Action Summary
+        report_lines += [
+            "### Technical Action Summary",
+            "",
+            f"System Mode: {mainline_snap.get('system_mode', 'TECHNICAL_DOMINANT_WITH_DATA_CONTEXT')}",
+            "",
+            "| Rank | Ticker | Name | Action Mode | Chase Risk | Chip Status | Suggested Action |",
+            "| --- | --- | --- | --- | --- | --- | --- |",
+        ]
+        for i, row in enumerate(mainline_snap.get("ranked", [])[:5], 1):
+            report_lines.append(
+                f"| {i} | {row.get('ticker', '')} | {row.get('name', '')} "
+                f"| {row.get('action_mode', 'N/A')} "
+                f"| {row.get('chase_risk', 'N/A')} "
+                f"| {row.get('chip_status', 'N/A')} "
+                f"| {row.get('suggested_action', '')} |"
+            )
+        report_lines.append("")
+
+        # Holding Action Alerts
+        alerts = mainline_snap.get("holding_alerts", [])
+        report_lines += ["### Holding Action Alerts", ""]
+        if alerts:
+            report_lines += [
+                "| Ticker | Name | Shares | Action Mode | Exit Signal | Suggested Action |",
+                "| --- | --- | --- | --- | --- | --- |",
+            ]
+            for a in alerts:
+                report_lines.append(
+                    f"| {a.get('ticker', '')} | {a.get('name', '')} | {a.get('shares', '')} "
+                    f"| {a.get('action_mode', '')} | {a.get('exit_signal', '')} "
+                    f"| {a.get('suggested_action', '')} |"
+                )
+        else:
+            report_lines.append("- No active exit/reduce signals.")
+        report_lines.append("")
+
+        # Data Coverage
+        ranked_snap = mainline_snap.get("ranked", [])
+        total = len(ranked_snap)
+        chips_count = sum(1 for r in ranked_snap if r.get("chip_status") not in ("MISSING", "UNKNOWN", None))
+        fresh_chips = sum(1 for r in ranked_snap if r.get("chip_freshness") == "FRESH")
+        news_count = sum(1 for r in ranked_snap if r.get("news_freshness") not in ("MISSING", "STALE", None))
+        narrative_count = sum(1 for r in ranked_snap if r.get("narrative_status") == "PRESENT")
+        report_lines += [
+            "### Data Coverage",
+            "",
+            f"- Technical: {total}/{total} ✅",
+            f"- Chips: {chips_count}/{total}",
+            f"- Fresh chips: {fresh_chips}/{total}",
+            f"- NewsHeat: {news_count}/{total}",
+            f"- Narrative: {narrative_count}/{total}",
+            "> Missing data is visible but does not cancel a technical action.",
+            "",
+        ]
     else:
         report_lines += [
             "- Mainline snapshot: missing",
