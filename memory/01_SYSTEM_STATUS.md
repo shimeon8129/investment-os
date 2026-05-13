@@ -9,7 +9,7 @@ Current working branch:
 main
 
 Latest snapshot pushed:
-2026-05-13
+2026-05-14
 
 ## Current Reality
 
@@ -188,6 +188,54 @@ Active baseline is now main. Intraday observation automation active.
 - Exit signals: 6830 EXIT_ALL (SELL), 2308/2330/2345 REDUCE — now visible in mainline_snapshot.json
 - vol_ratio / vol_bonus now reflected in ranked output
 - Daily report 2026-05-13: runtime status PASS
+
+## Build Plan v0.1 Status — Technical Action Engine (2026-05-14)
+
+Completed: 6 commits (a0e2cc0 → cfdf659) pushed to origin/main.
+
+1. a0e2cc0 — feat(analysis): technical action mode + chase risk v0.1
+   - analysis/technical_action_mode.py: classify_action_mode() → 8 action modes
+   - analysis/chase_risk.py: compute_chase_risk() → LOW/MEDIUM/HIGH/EXTREME
+   - tests/smoke_technical_action_mode.py: 11 tests PASS
+
+2. f348a80 — feat(reporting): technical action summary in daily report
+   - jobs/daily_run.py: Technical Action Summary table + Holding Alerts + Data Coverage section
+
+3. 12de5bd — feat(data): chips refresh pipeline v0.1
+   - data_node/chips_fetcher.py: wraps steps/fetch_chips.py, writes latest_chips.json
+   - data/chips/latest_chips.json: 1316 tickers, TWSE 2026-05-13 / TPEX 2026-05-14 (FRESH)
+   - tests/smoke_chips_fetcher.py: 10 tests PASS
+
+4. 1e91089 — feat(data): news heat refresh pipeline v0.1
+   - data_node/news_heat_fetcher.py: freshness FRESH(≤3d)/RECENT(≤7d)/STALE/MISSING
+   - tests/smoke_news_heat_fetcher.py: 6 tests PASS
+
+5. 69f18e2 — feat(data): narrative refresh candidate builder v0.1
+   - data_node/narrative_refresh_builder.py: CANDIDATE_ONLY, never overwrites final_narrative.json
+   - tests/smoke_narrative_refresh.py: 7 tests PASS
+
+6. af695ec — feat(reporting): integrate chips/news/narrative into action report
+   - reporting/technical_action_report.py: enrich_ranked_with_action() adds chip_status,
+     chip_freshness, news_freshness, narrative_status, suggested_action, invalid_if
+   - pipeline/main_v1.py: enrichment wired after exit check
+
+Hotfix: cfdf659 — fix(chips): chips_loader dual-path + dual-index
+   - pipeline/chips_loader.py: tries latest_chips.json first, falls back to latest.json
+   - Indexes by both ticker (2356.TW) and code (2356)
+   - Root cause: chips_fetcher writes to latest_chips.json, old loader read latest.json only
+
+### 2026-05-14 Pipeline Output (Technical Action Engine first run)
+
+- System mode: TECHNICAL_DOMINANT_WITH_DATA_CONTEXT
+- Market state: BULL
+- Top 3 ranked:
+  - 2356.TW 英業達: TECH_ATTACK | chip_status=STRONG_POSITIVE | chip_freshness=FRESH
+  - 2377.TW 微星:   TECH_ATTACK | chip_status=STRONG_POSITIVE | chip_freshness=FRESH
+  - 2376.TW 技嘉:   TECH_BUY    | chip_status=STRONG_POSITIVE | chip_freshness=FRESH
+- Summary: tech_attack=2, tech_buy=2, tech_buy_caution=6, tech_watch=0, tech_reduce=0
+- Snapshot: data/processed/mainline_snapshot.json (generated 2026-05-14T01:37:36)
+- Chips: 1316 tickers fetched (data_node/chips_fetcher.py)
+- All 48 smoke tests: PASS (eeb6efe baseline)
 
 ### Observation Phase Continues
 

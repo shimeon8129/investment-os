@@ -1,5 +1,45 @@
 # Investment OS｜Session Log
 
+## 2026-05-14 — Build Plan v0.1 Execution + Chips Loader Fix
+
+Session summary:
+- Executed Build Plan v0.1 per Notion spec: 6 commits adding Technical Action Engine,
+  Chase Risk Engine, Chips/NewsHeat/Narrative refresh pipelines, and report integration.
+- Discovered and fixed chips_loader/chips_fetcher path mismatch (cfdf659).
+- Ran chips_fetcher.py: 1316 tickers fetched, TWSE 2026-05-13 / TPEX 2026-05-14 (FRESH).
+- Pipeline re-run confirmed chip_status now populated (STRONG_POSITIVE for top 3).
+- All 48 smoke tests PASS throughout.
+
+Build Plan v0.1 commits:
+- a0e2cc0: analysis/technical_action_mode.py + analysis/chase_risk.py
+  (classify_action_mode 8 modes, compute_chase_risk LOW/MEDIUM/HIGH/EXTREME)
+  smoke_technical_action_mode: 11/11 PASS
+- f348a80: jobs/daily_run.py — Technical Action Summary table, Holding Alerts,
+  Data Coverage section added to daily report
+- 12de5bd: data_node/chips_fetcher.py — wraps steps/fetch_chips.py,
+  writes data/chips/YYYY-MM-DD_chips.json + latest_chips.json
+  smoke_chips_fetcher: 10/10 PASS
+- 1e91089: data_node/news_heat_fetcher.py — compute_freshness(), fetch_ticker_news()
+  smoke_news_heat_fetcher: 6/6 PASS
+- 69f18e2: data_node/narrative_refresh_builder.py — detect_themes(), build_candidate(),
+  build_narrative_candidates(); CANDIDATE_ONLY, never overwrites final_narrative.json
+  smoke_narrative_refresh: 7/7 PASS
+- af695ec: reporting/technical_action_report.py fully wired; pipeline/main_v1.py updated
+
+Bug found and fixed:
+- chips_loader.py hardcoded to read data/chips/latest.json (old format, ticker-only index)
+  but chips_fetcher.py writes to data/chips/latest_chips.json (code-indexed).
+  Fix: dual-path lookup (latest_chips.json first, fallback to latest.json) +
+  dual-index (both ticker "2356.TW" and code "2356"). Commit cfdf659.
+
+2026-05-14 pipeline result (first run with Technical Action Engine):
+- Market: BULL
+- 英業達 TECH_ATTACK STRONG_POSITIVE FRESH | 微星 TECH_ATTACK STRONG_POSITIVE FRESH
+- 技嘉 TECH_BUY STRONG_POSITIVE FRESH
+- technical_action_summary: tech_attack=2, tech_buy=2, tech_buy_caution=6
+
+Push: cfdf659 pushed to origin/main.
+
 ## 2026-05-13 — System State Snapshot Push + Memory Sync
 
 Session summary:
