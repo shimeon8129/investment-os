@@ -11,12 +11,12 @@
     {
       "id": "asic_custom_ai_chip",
       "display_name": "ASIC / Custom AI Chip Design Service",
-      "tickers": ["3443.TW", "3661.TW", "3035.TW", "3529.TW"]
+      "tickers": ["3443.TW", "3661.TW", "3035.TW", "3529.TWO"]
     },
     {
       "id": "advanced_packaging_testing",
       "display_name": "Advanced Packaging / Testing / Probe Card",
-      "tickers": ["2330.TW", "3711.TW", "3264.TW", "8150.TW", "6223.TW", "6510.TW", "6691.TW"]
+      "tickers": ["2330.TW", "3711.TW", "3264.TWO", "8150.TW", "6223.TWO", "6510.TWO", "6691.TW"]
     },
     {
       "id": "ai_server_rack_odm",
@@ -26,12 +26,12 @@
     {
       "id": "liquid_cooling_thermal",
       "display_name": "Liquid Cooling / Thermal / Power Density",
-      "tickers": ["3017.TW", "3324.TW", "3653.TW", "8996.TW", "6805.TW"]
+      "tickers": ["3017.TW", "3324.TWO", "3653.TW", "8996.TW", "6805.TW"]
     },
     {
       "id": "high_speed_networking_cpo",
       "display_name": "High-Speed Networking / CPO / Optical Communication",
-      "tickers": ["2345.TW", "3081.TW", "3363.TW", "4979.TW", "4908.TW", "6442.TW"]
+      "tickers": ["2345.TW", "3081.TW", "3363.TWO", "4979.TWO", "4908.TWO", "6442.TW"]
     },
     {
       "id": "pcb_substrate_materials",
@@ -47,15 +47,15 @@
   "priority_tiers": {
     "tier_1": {
       "label": "Highest relevance to AI inference thesis",
-      "tickers": ["6223.TW", "6510.TW", "3443.TW", "3661.TW", "3035.TW", "3017.TW", "3324.TW", "3653.TW"]
+      "tickers": ["6223.TWO", "6510.TWO", "3443.TW", "3661.TW", "3035.TW", "3017.TW", "3324.TWO", "3653.TW"]
     },
     "tier_2": {
       "label": "Core AI rack / networking infrastructure",
-      "tickers": ["6669.TW", "2382.TW", "3231.TW", "2356.TW", "3706.TW", "2345.TW", "3081.TW", "3363.TW", "4979.TW"]
+      "tickers": ["6669.TW", "2382.TW", "3231.TW", "2356.TW", "3706.TW", "2345.TW", "3081.TW", "3363.TWO", "4979.TWO"]
     },
     "tier_3": {
       "label": "Base infrastructure and supply-chain support",
-      "tickers": ["2368.TW", "2383.TW", "3037.TW", "6274.TW", "2330.TW", "3711.TW", "2308.TW", "3529.TW", "3264.TW", "8150.TW", "6691.TW", "8996.TW", "6805.TW", "4908.TW", "6442.TW", "4958.TW", "1519.TW", "6806.TW", "8210.TW", "3013.TW"]
+      "tickers": ["2368.TW", "2383.TW", "3037.TW", "6274.TW", "2330.TW", "3711.TW", "2308.TW", "3529.TWO", "3264.TWO", "8150.TW", "6691.TW", "8996.TW", "6805.TW", "4908.TWO", "6442.TW", "4958.TW", "1519.TW", "6806.TW", "8210.TW", "3013.TW"]
     }
   },
   "tickers": [
@@ -84,7 +84,7 @@
       "universe_status": "new"
     },
     {
-      "ticker": "3529.TW",
+      "ticker": "3529.TWO",
       "name": "力旺",
       "sub_group": "asic_custom_ai_chip",
       "priority_tier": 3,
@@ -108,7 +108,7 @@
       "universe_status": "existing"
     },
     {
-      "ticker": "3264.TW",
+      "ticker": "3264.TWO",
       "name": "欣銓",
       "sub_group": "advanced_packaging_testing",
       "priority_tier": 3,
@@ -124,7 +124,7 @@
       "universe_status": "new"
     },
     {
-      "ticker": "6223.TW",
+      "ticker": "6223.TWO",
       "name": "旺矽",
       "sub_group": "advanced_packaging_testing",
       "priority_tier": 1,
@@ -132,7 +132,7 @@
       "universe_status": "new"
     },
     {
-      "ticker": "6510.TW",
+      "ticker": "6510.TWO",
       "name": "精測",
       "sub_group": "advanced_packaging_testing",
       "priority_tier": 1,
@@ -212,7 +212,7 @@
       "universe_status": "new"
     },
     {
-      "ticker": "3324.TW",
+      "ticker": "3324.TWO",
       "name": "雙鴻",
       "sub_group": "liquid_cooling_thermal",
       "priority_tier": 1,
@@ -260,7 +260,7 @@
       "universe_status": "new"
     },
     {
-      "ticker": "3363.TW",
+      "ticker": "3363.TWO",
       "name": "上詮",
       "sub_group": "high_speed_networking_cpo",
       "priority_tier": 2,
@@ -268,7 +268,7 @@
       "universe_status": "new"
     },
     {
-      "ticker": "4979.TW",
+      "ticker": "4979.TWO",
       "name": "華星光",
       "sub_group": "high_speed_networking_cpo",
       "priority_tier": 2,
@@ -276,7 +276,7 @@
       "universe_status": "new"
     },
     {
-      "ticker": "4908.TW",
+      "ticker": "4908.TWO",
       "name": "前鼎",
       "sub_group": "high_speed_networking_cpo",
       "priority_tier": 3,
