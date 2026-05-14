@@ -1,109 +1,109 @@
 {
-  "generated_at": "2026-05-14T01:37:36.517174",
+  "generated_at": "2026-05-14T21:42:10.803437",
   "system_mode": "TECHNICAL_DOMINANT_WITH_DATA_CONTEXT",
   "market_state": "BULL",
-  "market_score": 0.0156,
-  "vix_value": 18.0,
+  "market_score": 0.0122,
+  "vix_value": 17.889999389648438,
   "candidates": [
-    {
-      "ticker": "2467.TW",
-      "name": "2467.TW",
-      "score": 2,
-      "level": "READY",
-      "price": 649.0
-    },
     {
       "ticker": "3583.TW",
       "name": "3583.TW",
       "score": 2,
       "level": "READY",
-      "price": 952.0
+      "price": 929.0
     },
     {
-      "ticker": "6187.TWO",
-      "name": "6187.TWO",
+      "ticker": "6139.TW",
+      "name": "6139.TW",
       "score": 2,
       "level": "READY",
-      "price": 1220.0
+      "price": 720.0
     },
     {
-      "ticker": "6669.TW",
-      "name": "6669.TW",
+      "ticker": "3413.TW",
+      "name": "3413.TW",
       "score": 2,
       "level": "READY",
-      "price": 5790.0
+      "price": 321.0
+    },
+    {
+      "ticker": "6239.TW",
+      "name": "6239.TW",
+      "score": 2,
+      "level": "READY",
+      "price": 229.0
+    },
+    {
+      "ticker": "2382.TW",
+      "name": "2382.TW",
+      "score": 2,
+      "level": "READY",
+      "price": 334.5
     },
     {
       "ticker": "2356.TW",
       "name": "2356.TW",
       "score": 2,
       "level": "READY",
-      "price": 48.70000076293945
-    },
-    {
-      "ticker": "3706.TW",
-      "name": "3706.TW",
-      "score": 2,
-      "level": "READY",
-      "price": 85.9000015258789
+      "price": 53.20000076293945
     },
     {
       "ticker": "2376.TW",
       "name": "2376.TW",
       "score": 2,
       "level": "READY",
-      "price": 321.0
+      "price": 327.0
     },
     {
       "ticker": "2377.TW",
       "name": "2377.TW",
       "score": 2,
       "level": "READY",
-      "price": 105.0
-    },
-    {
-      "ticker": "2313.TW",
-      "name": "2313.TW",
-      "score": 2,
-      "level": "READY",
-      "price": 260.0
+      "price": 117.0
     },
     {
       "ticker": "3037.TW",
       "name": "3037.TW",
       "score": 2,
       "level": "READY",
-      "price": 875.0
+      "price": 881.0
+    },
+    {
+      "ticker": "3189.TW",
+      "name": "3189.TW",
+      "score": 2,
+      "level": "READY",
+      "price": 522.0
     }
   ],
   "signals": [
-    {
-      "ticker": "2467.TW",
-      "signal": "BUY",
-      "level": "READY"
-    },
     {
       "ticker": "3583.TW",
       "signal": "BUY",
       "level": "READY"
     },
     {
-      "ticker": "6187.TWO",
+      "ticker": "6139.TW",
       "signal": "BUY",
       "level": "READY"
     },
     {
-      "ticker": "6669.TW",
+      "ticker": "3413.TW",
+      "signal": "BUY",
+      "level": "READY"
+    },
+    {
+      "ticker": "6239.TW",
+      "signal": "BUY",
+      "level": "READY"
+    },
+    {
+      "ticker": "2382.TW",
       "signal": "BUY",
       "level": "READY"
     },
     {
       "ticker": "2356.TW",
-      "signal": "BUY",
-      "level": "READY"
-    },
-    {
-      "ticker": "3706.TW",
       "signal": "BUY",
       "level": "READY"
     },
@@ -118,21 +118,21 @@
       "level": "READY"
     },
     {
-      "ticker": "2313.TW",
+      "ticker": "3037.TW",
       "signal": "BUY",
       "level": "READY"
     },
     {
-      "ticker": "3037.TW",
+      "ticker": "3189.TW",
       "signal": "BUY",
       "level": "READY"
     }
   ],
   "ranked": [
     {
-      "ticker": "2356.TW",
-      "name": "英業達",
-      "sector": "Server",
+      "ticker": "3413.TW",
+      "name": "京鼎",
+      "sector": "Equipment",
       "signal": "BUY",
       "level": "READY",
       "scanner_score": 2,
@@ -146,25 +146,25 @@
       "news_count": 0,
       "source_count": 0,
       "news_heat_bonus": 0,
-      "chip_score": 80,
+      "chip_score": 55,
       "institutional_bias": "BUY",
-      "foreign_net_buy": 60647329,
-      "trust_net_buy": -56000,
-      "dealer_net_buy": 1134582,
-      "institutional_net_buy": 61725911,
-      "chip_bonus": 16.0,
-      "vol_ratio": 2.51,
-      "vol_bonus": 10,
-      "score": 171.534,
-      "action_mode": "TECH_ATTACK",
-      "action_label": "技術強攻，可進場",
-      "suggested_action": "可依技術訊號試單，量縮不破 MA5 續持",
+      "foreign_net_buy": 265262,
+      "trust_net_buy": -13000,
+      "dealer_net_buy": -9611,
+      "institutional_net_buy": 242651,
+      "chip_bonus": 11.0,
+      "vol_ratio": 1.42,
+      "vol_bonus": 0,
+      "score": 166.534,
+      "action_mode": "TECH_BUY",
+      "action_label": "技術買進",
+      "suggested_action": "可試單，設停損 MA5 以下",
       "chase_risk": "LOW",
       "chase_risk_score": 10,
       "chase_risk_reasons": [
-        "vol_ratio >= 2.0 (2.51x)"
+        "close/MA5-1 >= 2.5% (2.6%)"
       ],
-      "chip_status": "STRONG_POSITIVE",
+      "chip_status": "POSITIVE",
       "chip_freshness": "FRESH",
       "news_freshness": "MISSING",
       "news_keywords": [],
@@ -172,15 +172,15 @@
       "technical_reasons": [
         "signal=BUY",
         "level=READY",
-        "vol_ratio=2.51x",
+        "vol_ratio=1.42x",
         "market_state=BULL",
         "chase_risk=LOW",
-        "chip_status=STRONG_POSITIVE"
+        "chip_status=POSITIVE"
       ],
       "invalid_if": [
         "跌破 MA5",
-        "量縮轉弱",
-        "level 喪失"
+        "成交量持續萎縮",
+        "market_state 轉 BEAR"
       ]
     },
     {
@@ -207,16 +207,17 @@
       "dealer_net_buy": 485259,
       "institutional_net_buy": 9066941,
       "chip_bonus": 16.0,
-      "vol_ratio": 2.18,
-      "vol_bonus": 10,
-      "score": 170.2,
-      "action_mode": "TECH_ATTACK",
-      "action_label": "技術強攻，可進場",
-      "suggested_action": "可依技術訊號試單，量縮不破 MA5 續持",
-      "chase_risk": "LOW",
-      "chase_risk_score": 10,
+      "vol_ratio": 1.56,
+      "vol_bonus": 5,
+      "score": 165.2,
+      "action_mode": "TECH_BUY_CAUTION",
+      "action_label": "技術買進，注意分歧",
+      "suggested_action": "可小部位，不追價，注意籌碼或數據分歧",
+      "chase_risk": "MEDIUM",
+      "chase_risk_score": 25,
       "chase_risk_reasons": [
-        "vol_ratio >= 2.0 (2.18x)"
+        "close > Bollinger upper, close/MA5-1 >= 6% (7.3%)",
+        "vol_ratio >= 1.5 (1.56x)"
       ],
       "chip_status": "STRONG_POSITIVE",
       "chip_freshness": "FRESH",
@@ -226,15 +227,70 @@
       "technical_reasons": [
         "signal=BUY",
         "level=READY",
-        "vol_ratio=2.18x",
+        "vol_ratio=1.56x",
         "market_state=BULL",
-        "chase_risk=LOW",
+        "chase_risk=MEDIUM",
+        "chip_status=STRONG_POSITIVE"
+      ],
+      "invalid_if": [
+        "籌碼持續賣超",
+        "跌破 MA5",
+        "訊號消失"
+      ]
+    },
+    {
+      "ticker": "2356.TW",
+      "name": "英業達",
+      "sector": "Server",
+      "signal": "BUY",
+      "level": "READY",
+      "scanner_score": 2,
+      "minervini_score": 0,
+      "passed_minervini_core": false,
+      "narrative_score": 86.67,
+      "narrative_strength": "STRONG",
+      "narrative_count": 3,
+      "narrative_bonus": 37.334,
+      "news_heat_score": 0,
+      "news_count": 0,
+      "source_count": 0,
+      "news_heat_bonus": 0,
+      "chip_score": 80,
+      "institutional_bias": "BUY",
+      "foreign_net_buy": 60647329,
+      "trust_net_buy": -56000,
+      "dealer_net_buy": 1134582,
+      "institutional_net_buy": 61725911,
+      "chip_bonus": 16.0,
+      "vol_ratio": 1.27,
+      "vol_bonus": 0,
+      "score": 161.534,
+      "action_mode": "TECH_BUY",
+      "action_label": "技術買進",
+      "suggested_action": "可試單，設停損 MA5 以下",
+      "chase_risk": "HIGH",
+      "chase_risk_score": 30,
+      "chase_risk_reasons": [
+        "close > Bollinger upper",
+        "close/MA5-1 >= 4% (4.5%)"
+      ],
+      "chip_status": "STRONG_POSITIVE",
+      "chip_freshness": "FRESH",
+      "news_freshness": "MISSING",
+      "news_keywords": [],
+      "narrative_status": "PRESENT",
+      "technical_reasons": [
+        "signal=BUY",
+        "level=READY",
+        "vol_ratio=1.27x",
+        "market_state=BULL",
+        "chase_risk=HIGH",
         "chip_status=STRONG_POSITIVE"
       ],
       "invalid_if": [
         "跌破 MA5",
-        "量縮轉弱",
-        "level 喪失"
+        "成交量持續萎縮",
+        "market_state 轉 BEAR"
       ]
     },
     {
@@ -261,9 +317,118 @@
       "dealer_net_buy": -81283,
       "institutional_net_buy": 2517594,
       "chip_bonus": 13.0,
-      "vol_ratio": 0.72,
+      "vol_ratio": 1.02,
       "vol_bonus": 0,
       "score": 158.2,
+      "action_mode": "TECH_BUY",
+      "action_label": "技術買進",
+      "suggested_action": "可試單，設停損 MA5 以下",
+      "chase_risk": "LOW",
+      "chase_risk_score": 10,
+      "chase_risk_reasons": [
+        "daily_return >= 4% (4.3%)"
+      ],
+      "chip_status": "STRONG_POSITIVE",
+      "chip_freshness": "FRESH",
+      "news_freshness": "MISSING",
+      "news_keywords": [],
+      "narrative_status": "PRESENT",
+      "technical_reasons": [
+        "signal=BUY",
+        "level=READY",
+        "vol_ratio=1.02x",
+        "market_state=BULL",
+        "chase_risk=LOW",
+        "chip_status=STRONG_POSITIVE"
+      ],
+      "invalid_if": [
+        "跌破 MA5",
+        "成交量持續萎縮",
+        "market_state 轉 BEAR"
+      ]
+    },
+    {
+      "ticker": "6139.TW",
+      "name": "亞翔",
+      "sector": "Equipment",
+      "signal": "BUY",
+      "level": "READY",
+      "scanner_score": 2,
+      "minervini_score": 0,
+      "passed_minervini_core": false,
+      "narrative_score": 0,
+      "narrative_strength": "NONE",
+      "narrative_count": 0,
+      "narrative_bonus": 0,
+      "news_heat_score": 0,
+      "news_count": 0,
+      "source_count": 0,
+      "news_heat_bonus": 0,
+      "chip_score": 90,
+      "institutional_bias": "BUY",
+      "foreign_net_buy": 618399,
+      "trust_net_buy": 26155,
+      "dealer_net_buy": 71278,
+      "institutional_net_buy": 715832,
+      "chip_bonus": 18.0,
+      "vol_ratio": 1.26,
+      "vol_bonus": 0,
+      "score": 136.2,
+      "action_mode": "TECH_BUY_CAUTION",
+      "action_label": "技術買進，注意分歧",
+      "suggested_action": "可小部位，不追價，注意籌碼或數據分歧",
+      "chase_risk": "MEDIUM",
+      "chase_risk_score": 20,
+      "chase_risk_reasons": [
+        "daily_return >= 4% (5.0%)",
+        "close/MA5-1 >= 2.5% (3.5%)"
+      ],
+      "chip_status": "POSITIVE",
+      "chip_freshness": "FRESH",
+      "news_freshness": "MISSING",
+      "news_keywords": [],
+      "narrative_status": "MISSING",
+      "technical_reasons": [
+        "signal=BUY",
+        "level=READY",
+        "vol_ratio=1.26x",
+        "market_state=BULL",
+        "chase_risk=MEDIUM",
+        "chip_status=POSITIVE"
+      ],
+      "invalid_if": [
+        "籌碼持續賣超",
+        "跌破 MA5",
+        "訊號消失"
+      ]
+    },
+    {
+      "ticker": "3037.TW",
+      "name": "欣興",
+      "sector": "PCB",
+      "signal": "BUY",
+      "level": "READY",
+      "scanner_score": 2,
+      "minervini_score": 0,
+      "passed_minervini_core": false,
+      "narrative_score": 0,
+      "narrative_strength": "NONE",
+      "narrative_count": 0,
+      "narrative_bonus": 0,
+      "news_heat_score": 0,
+      "news_count": 0,
+      "source_count": 0,
+      "news_heat_bonus": 0,
+      "chip_score": 85,
+      "institutional_bias": "BUY",
+      "foreign_net_buy": 1354727,
+      "trust_net_buy": 1233081,
+      "dealer_net_buy": -300497,
+      "institutional_net_buy": 2287311,
+      "chip_bonus": 17.0,
+      "vol_ratio": 1.04,
+      "vol_bonus": 0,
+      "score": 125.2,
       "action_mode": "TECH_BUY",
       "action_label": "技術買進",
       "suggested_action": "可試單，設停損 MA5 以下",
@@ -274,11 +439,11 @@
       "chip_freshness": "FRESH",
       "news_freshness": "MISSING",
       "news_keywords": [],
-      "narrative_status": "PRESENT",
+      "narrative_status": "MISSING",
       "technical_reasons": [
         "signal=BUY",
         "level=READY",
-        "vol_ratio=0.72x",
+        "vol_ratio=1.04x",
         "market_state=BULL",
         "chase_risk=LOW",
         "chip_status=STRONG_POSITIVE"
@@ -313,345 +478,18 @@
       "dealer_net_buy": -121758,
       "institutional_net_buy": -137182,
       "chip_bonus": 0.0,
-      "vol_ratio": 1.7,
-      "vol_bonus": 5,
-      "score": 128.0,
-      "action_mode": "TECH_BUY_CAUTION",
-      "action_label": "技術買進，注意分歧",
-      "suggested_action": "可小部位，不追價，注意籌碼或數據分歧",
-      "chase_risk": "EXTREME",
-      "chase_risk_score": 70,
-      "chase_risk_reasons": [
-        "daily_return >= 9% (9.9%)",
-        "close > Bollinger upper, close/MA5-1 >= 6% (13.2%)",
-        "3d_return >= 10% (19.4%)",
-        "vol_ratio >= 1.5 (1.70x)"
-      ],
-      "chip_status": "DIVERGENCE",
-      "chip_freshness": "FRESH",
-      "news_freshness": "MISSING",
-      "news_keywords": [],
-      "narrative_status": "MISSING",
-      "technical_reasons": [
-        "signal=BUY",
-        "level=READY",
-        "vol_ratio=1.7x",
-        "market_state=BULL",
-        "chase_risk=EXTREME",
-        "chip_status=DIVERGENCE"
-      ],
-      "invalid_if": [
-        "籌碼持續賣超",
-        "跌破 MA5",
-        "訊號消失"
-      ]
-    },
-    {
-      "ticker": "3037.TW",
-      "name": "欣興",
-      "sector": "PCB",
-      "signal": "BUY",
-      "level": "READY",
-      "scanner_score": 2,
-      "minervini_score": 0,
-      "passed_minervini_core": false,
-      "narrative_score": 0,
-      "narrative_strength": "NONE",
-      "narrative_count": 0,
-      "narrative_bonus": 0,
-      "news_heat_score": 0,
-      "news_count": 0,
-      "source_count": 0,
-      "news_heat_bonus": 0,
-      "chip_score": 85,
-      "institutional_bias": "BUY",
-      "foreign_net_buy": 1354727,
-      "trust_net_buy": 1233081,
-      "dealer_net_buy": -300497,
-      "institutional_net_buy": 2287311,
-      "chip_bonus": 17.0,
-      "vol_ratio": 0.96,
-      "vol_bonus": 0,
-      "score": 125.2,
-      "action_mode": "TECH_BUY",
-      "action_label": "技術買進",
-      "suggested_action": "可試單，設停損 MA5 以下",
-      "chase_risk": "LOW",
-      "chase_risk_score": 0,
-      "chase_risk_reasons": [],
-      "chip_status": "STRONG_POSITIVE",
-      "chip_freshness": "FRESH",
-      "news_freshness": "MISSING",
-      "news_keywords": [],
-      "narrative_status": "MISSING",
-      "technical_reasons": [
-        "signal=BUY",
-        "level=READY",
-        "vol_ratio=0.96x",
-        "market_state=BULL",
-        "chase_risk=LOW",
-        "chip_status=STRONG_POSITIVE"
-      ],
-      "invalid_if": [
-        "跌破 MA5",
-        "成交量持續萎縮",
-        "market_state 轉 BEAR"
-      ]
-    },
-    {
-      "ticker": "2467.TW",
-      "name": "志聖",
-      "sector": "Equipment",
-      "signal": "BUY",
-      "level": "READY",
-      "scanner_score": 2,
-      "minervini_score": 0,
-      "passed_minervini_core": false,
-      "narrative_score": 0,
-      "narrative_strength": "NONE",
-      "narrative_count": 0,
-      "narrative_bonus": 0,
-      "news_heat_score": 0,
-      "news_count": 0,
-      "source_count": 0,
-      "news_heat_bonus": 0,
-      "chip_score": 25,
-      "institutional_bias": "SELL",
-      "foreign_net_buy": 9839,
-      "trust_net_buy": 11377,
-      "dealer_net_buy": -109088,
-      "institutional_net_buy": -87872,
-      "chip_bonus": 5.0,
-      "vol_ratio": 1.1,
-      "vol_bonus": 0,
-      "score": 123.2,
-      "action_mode": "TECH_BUY_CAUTION",
-      "action_label": "技術買進，注意分歧",
-      "suggested_action": "可小部位，不追價，注意籌碼或數據分歧",
-      "chase_risk": "EXTREME",
-      "chase_risk_score": 65,
-      "chase_risk_reasons": [
-        "daily_return >= 9% (10.0%)",
-        "close > Bollinger upper, close/MA5-1 >= 6% (12.0%)",
-        "3d_return >= 10% (17.1%)"
-      ],
-      "chip_status": "DIVERGENCE",
-      "chip_freshness": "FRESH",
-      "news_freshness": "MISSING",
-      "news_keywords": [],
-      "narrative_status": "MISSING",
-      "technical_reasons": [
-        "signal=BUY",
-        "level=READY",
-        "vol_ratio=1.1x",
-        "market_state=BULL",
-        "chase_risk=EXTREME",
-        "chip_status=DIVERGENCE"
-      ],
-      "invalid_if": [
-        "籌碼持續賣超",
-        "跌破 MA5",
-        "訊號消失"
-      ]
-    },
-    {
-      "ticker": "6187.TWO",
-      "name": "萬潤",
-      "sector": "Equipment",
-      "signal": "BUY",
-      "level": "READY",
-      "scanner_score": 2,
-      "minervini_score": 0,
-      "passed_minervini_core": false,
-      "narrative_score": 0,
-      "narrative_strength": "NONE",
-      "narrative_count": 0,
-      "narrative_bonus": 0,
-      "news_heat_score": 0,
-      "news_count": 0,
-      "source_count": 0,
-      "news_heat_bonus": 0.0,
-      "chip_score": 0,
-      "institutional_bias": "NONE",
-      "foreign_net_buy": 0,
-      "trust_net_buy": 0,
-      "dealer_net_buy": 0,
-      "institutional_net_buy": 0,
-      "chip_bonus": 0,
-      "vol_ratio": 1.36,
-      "vol_bonus": 0,
-      "score": 118.2,
-      "action_mode": "TECH_BUY_CAUTION",
-      "action_label": "技術買進，注意分歧",
-      "suggested_action": "可小部位，不追價，注意籌碼或數據分歧",
-      "chase_risk": "MEDIUM",
-      "chase_risk_score": 30,
-      "chase_risk_reasons": [
-        "daily_return >= 9% (9.9%)"
-      ],
-      "chip_status": "MISSING",
-      "chip_freshness": "MISSING",
-      "news_freshness": "MISSING",
-      "news_keywords": [],
-      "narrative_status": "MISSING",
-      "technical_reasons": [
-        "signal=BUY",
-        "level=READY",
-        "vol_ratio=1.36x",
-        "market_state=BULL",
-        "chase_risk=MEDIUM"
-      ],
-      "invalid_if": [
-        "籌碼持續賣超",
-        "跌破 MA5",
-        "訊號消失"
-      ]
-    },
-    {
-      "ticker": "6669.TW",
-      "name": "緯穎",
-      "sector": "Server",
-      "signal": "BUY",
-      "level": "READY",
-      "scanner_score": 2,
-      "minervini_score": 0,
-      "passed_minervini_core": false,
-      "narrative_score": 0,
-      "narrative_strength": "NONE",
-      "narrative_count": 0,
-      "narrative_bonus": 0,
-      "news_heat_score": 0,
-      "news_count": 0,
-      "source_count": 0,
-      "news_heat_bonus": 0,
-      "chip_score": 0,
-      "institutional_bias": "SELL",
-      "foreign_net_buy": -671160,
-      "trust_net_buy": 450213,
-      "dealer_net_buy": -51649,
-      "institutional_net_buy": -272596,
-      "chip_bonus": 0.0,
-      "vol_ratio": 1.0,
-      "vol_bonus": 0,
-      "score": 108.2,
-      "action_mode": "TECH_BUY_CAUTION",
-      "action_label": "技術買進，注意分歧",
-      "suggested_action": "可小部位，不追價，注意籌碼或數據分歧",
-      "chase_risk": "HIGH",
-      "chase_risk_score": 55,
-      "chase_risk_reasons": [
-        "close > Bollinger upper, close/MA5-1 >= 6% (10.6%)",
-        "daily_return >= 7% (8.4%)",
-        "3d_return >= 10% (18.6%)"
-      ],
-      "chip_status": "DIVERGENCE",
-      "chip_freshness": "FRESH",
-      "news_freshness": "MISSING",
-      "news_keywords": [],
-      "narrative_status": "MISSING",
-      "technical_reasons": [
-        "signal=BUY",
-        "level=READY",
-        "vol_ratio=1.0x",
-        "market_state=BULL",
-        "chase_risk=HIGH",
-        "chip_status=DIVERGENCE"
-      ],
-      "invalid_if": [
-        "籌碼持續賣超",
-        "跌破 MA5",
-        "訊號消失"
-      ]
-    },
-    {
-      "ticker": "3706.TW",
-      "name": "神達",
-      "sector": "Server",
-      "signal": "BUY",
-      "level": "READY",
-      "scanner_score": 2,
-      "minervini_score": 0,
-      "passed_minervini_core": false,
-      "narrative_score": 0,
-      "narrative_strength": "NONE",
-      "narrative_count": 0,
-      "narrative_bonus": 0,
-      "news_heat_score": 0,
-      "news_count": 0,
-      "source_count": 0,
-      "news_heat_bonus": 0,
-      "chip_score": 0,
-      "institutional_bias": "SELL",
-      "foreign_net_buy": -14959687,
-      "trust_net_buy": 2000,
-      "dealer_net_buy": -486488,
-      "institutional_net_buy": -15444175,
-      "chip_bonus": 0.0,
-      "vol_ratio": 1.38,
-      "vol_bonus": 0,
-      "score": 108.2,
-      "action_mode": "TECH_BUY_CAUTION",
-      "action_label": "技術買進，注意分歧",
-      "suggested_action": "可小部位，不追價，注意籌碼或數據分歧",
-      "chase_risk": "LOW",
-      "chase_risk_score": 0,
-      "chase_risk_reasons": [],
-      "chip_status": "DIVERGENCE",
-      "chip_freshness": "FRESH",
-      "news_freshness": "MISSING",
-      "news_keywords": [],
-      "narrative_status": "MISSING",
-      "technical_reasons": [
-        "signal=BUY",
-        "level=READY",
-        "vol_ratio=1.38x",
-        "market_state=BULL",
-        "chase_risk=LOW",
-        "chip_status=DIVERGENCE"
-      ],
-      "invalid_if": [
-        "籌碼持續賣超",
-        "跌破 MA5",
-        "訊號消失"
-      ]
-    },
-    {
-      "ticker": "2313.TW",
-      "name": "華通",
-      "sector": "PCB",
-      "signal": "BUY",
-      "level": "READY",
-      "scanner_score": 2,
-      "minervini_score": 0,
-      "passed_minervini_core": false,
-      "narrative_score": 0,
-      "narrative_strength": "NONE",
-      "narrative_count": 0,
-      "narrative_bonus": 0,
-      "news_heat_score": 0,
-      "news_count": 0,
-      "source_count": 0,
-      "news_heat_bonus": 0,
-      "chip_score": 0,
-      "institutional_bias": "SELL",
-      "foreign_net_buy": -40695929,
-      "trust_net_buy": -1355000,
-      "dealer_net_buy": -2544649,
-      "institutional_net_buy": -44595578,
-      "chip_bonus": 0.0,
       "vol_ratio": 1.14,
       "vol_bonus": 0,
-      "score": 108.2,
+      "score": 123.0,
       "action_mode": "TECH_BUY_CAUTION",
       "action_label": "技術買進，注意分歧",
       "suggested_action": "可小部位，不追價，注意籌碼或數據分歧",
-      "chase_risk": "MEDIUM",
-      "chase_risk_score": 30,
+      "chase_risk": "LOW",
+      "chase_risk_score": 10,
       "chase_risk_reasons": [
-        "daily_return >= 7% (7.4%)",
-        "close/MA5-1 >= 2.5% (3.6%)"
+        "close/MA5-1 >= 2.5% (3.2%)"
       ],
-      "chip_status": "STRONG_DIVERGENCE",
+      "chip_status": "DIVERGENCE",
       "chip_freshness": "FRESH",
       "news_freshness": "MISSING",
       "news_keywords": [],
@@ -661,8 +499,168 @@
         "level=READY",
         "vol_ratio=1.14x",
         "market_state=BULL",
+        "chase_risk=LOW",
+        "chip_status=DIVERGENCE"
+      ],
+      "invalid_if": [
+        "籌碼持續賣超",
+        "跌破 MA5",
+        "訊號消失"
+      ]
+    },
+    {
+      "ticker": "2382.TW",
+      "name": "廣達",
+      "sector": "Server",
+      "signal": "BUY",
+      "level": "READY",
+      "scanner_score": 2,
+      "minervini_score": 0,
+      "passed_minervini_core": false,
+      "narrative_score": 0,
+      "narrative_strength": "NONE",
+      "narrative_count": 0,
+      "narrative_bonus": 0,
+      "news_heat_score": 0,
+      "news_count": 0,
+      "source_count": 0,
+      "news_heat_bonus": 0,
+      "chip_score": 70,
+      "institutional_bias": "BUY",
+      "foreign_net_buy": 781138,
+      "trust_net_buy": -165000,
+      "dealer_net_buy": 72713,
+      "institutional_net_buy": 688851,
+      "chip_bonus": 14.0,
+      "vol_ratio": 1.39,
+      "vol_bonus": 0,
+      "score": 122.2,
+      "action_mode": "TECH_BUY",
+      "action_label": "技術買進",
+      "suggested_action": "可試單，設停損 MA5 以下",
+      "chase_risk": "LOW",
+      "chase_risk_score": 0,
+      "chase_risk_reasons": [],
+      "chip_status": "POSITIVE",
+      "chip_freshness": "FRESH",
+      "news_freshness": "MISSING",
+      "news_keywords": [],
+      "narrative_status": "MISSING",
+      "technical_reasons": [
+        "signal=BUY",
+        "level=READY",
+        "vol_ratio=1.39x",
+        "market_state=BULL",
+        "chase_risk=LOW",
+        "chip_status=POSITIVE"
+      ],
+      "invalid_if": [
+        "跌破 MA5",
+        "成交量持續萎縮",
+        "market_state 轉 BEAR"
+      ]
+    },
+    {
+      "ticker": "3189.TW",
+      "name": "景碩",
+      "sector": "PCB",
+      "signal": "BUY",
+      "level": "READY",
+      "scanner_score": 2,
+      "minervini_score": 0,
+      "passed_minervini_core": false,
+      "narrative_score": 0,
+      "narrative_strength": "NONE",
+      "narrative_count": 0,
+      "narrative_bonus": 0,
+      "news_heat_score": 0,
+      "news_count": 0,
+      "source_count": 0,
+      "news_heat_bonus": 0,
+      "chip_score": 15,
+      "institutional_bias": "SELL",
+      "foreign_net_buy": 754019,
+      "trust_net_buy": -1102380,
+      "dealer_net_buy": 28903,
+      "institutional_net_buy": -319458,
+      "chip_bonus": 3.0,
+      "vol_ratio": 1.5,
+      "vol_bonus": 5,
+      "score": 116.2,
+      "action_mode": "TECH_BUY_CAUTION",
+      "action_label": "技術買進，注意分歧",
+      "suggested_action": "可小部位，不追價，注意籌碼或數據分歧",
+      "chase_risk": "MEDIUM",
+      "chase_risk_score": 30,
+      "chase_risk_reasons": [
+        "close/MA5-1 >= 4% (5.5%)",
+        "daily_return >= 4% (4.9%)",
+        "vol_ratio >= 1.5 (1.50x)"
+      ],
+      "chip_status": "DIVERGENCE",
+      "chip_freshness": "FRESH",
+      "news_freshness": "MISSING",
+      "news_keywords": [],
+      "narrative_status": "MISSING",
+      "technical_reasons": [
+        "signal=BUY",
+        "level=READY",
+        "vol_ratio=1.5x",
+        "market_state=BULL",
         "chase_risk=MEDIUM",
-        "chip_status=STRONG_DIVERGENCE"
+        "chip_status=DIVERGENCE"
+      ],
+      "invalid_if": [
+        "籌碼持續賣超",
+        "跌破 MA5",
+        "訊號消失"
+      ]
+    },
+    {
+      "ticker": "6239.TW",
+      "name": "力成",
+      "sector": "Packaging",
+      "signal": "BUY",
+      "level": "READY",
+      "scanner_score": 2,
+      "minervini_score": 0,
+      "passed_minervini_core": false,
+      "narrative_score": 0,
+      "narrative_strength": "NONE",
+      "narrative_count": 0,
+      "narrative_bonus": 0,
+      "news_heat_score": 0,
+      "news_count": 0,
+      "source_count": 0,
+      "news_heat_bonus": 0,
+      "chip_score": 0,
+      "institutional_bias": "SELL",
+      "foreign_net_buy": -80537,
+      "trust_net_buy": -167184,
+      "dealer_net_buy": 91277,
+      "institutional_net_buy": -156444,
+      "chip_bonus": 0.0,
+      "vol_ratio": 1.26,
+      "vol_bonus": 0,
+      "score": 108.2,
+      "action_mode": "TECH_BUY_CAUTION",
+      "action_label": "技術買進，注意分歧",
+      "suggested_action": "可小部位，不追價，注意籌碼或數據分歧",
+      "chase_risk": "LOW",
+      "chase_risk_score": 0,
+      "chase_risk_reasons": [],
+      "chip_status": "DIVERGENCE",
+      "chip_freshness": "FRESH",
+      "news_freshness": "MISSING",
+      "news_keywords": [],
+      "narrative_status": "MISSING",
+      "technical_reasons": [
+        "signal=BUY",
+        "level=READY",
+        "vol_ratio=1.26x",
+        "market_state=BULL",
+        "chase_risk=LOW",
+        "chip_status=DIVERGENCE"
       ],
       "invalid_if": [
         "籌碼持續賣超",
@@ -672,7 +670,7 @@
     }
   ],
   "decisions": {
-    "2356.TW": {
+    "3413.TW": {
       "action": "BUY",
       "position_size": 0.1,
       "stop_loss": 0.05,
@@ -692,7 +690,7 @@
       "risk_reason": "SINGLE_POSITION_EXCEED",
       "market_coeff": 0.85
     },
-    "2376.TW": {
+    "2356.TW": {
       "action": "BUY",
       "position_size": 0.1,
       "stop_loss": 0.05,
@@ -701,16 +699,52 @@
       "risk_check": "PASS_ADJUSTED",
       "risk_reason": "SINGLE_POSITION_EXCEED",
       "market_coeff": 0.85
+    },
+    "2308.TW": {
+      "action": "REDUCE",
+      "reason": "REDUCE"
+    },
+    "6830.TW": {
+      "action": "SELL",
+      "reason": "EXIT_ALL"
     }
   },
-  "exit_signals": {},
-  "holding_alerts": [],
+  "exit_signals": {
+    "2308.TW": {
+      "action": "REDUCE",
+      "reason": "REDUCE"
+    },
+    "6830.TW": {
+      "action": "SELL",
+      "reason": "EXIT_ALL"
+    }
+  },
+  "holding_alerts": [
+    {
+      "ticker": "2308.TW",
+      "name": "2308.TW",
+      "shares": 0,
+      "action_mode": "TECH_REDUCE",
+      "exit_signal": "REDUCE",
+      "reason": "REDUCE",
+      "suggested_action": "考慮減碼，確認是否跌破關鍵支撐"
+    },
+    {
+      "ticker": "6830.TW",
+      "name": "6830.TW",
+      "shares": 0,
+      "action_mode": "TECH_EXIT",
+      "exit_signal": "EXIT_ALL",
+      "reason": "EXIT_ALL",
+      "suggested_action": "優先人工檢查是否出場，確認停損觸發"
+    }
+  ],
   "technical_action_summary": {
     "mode": "TECHNICAL_DOMINANT_WITH_DATA_CONTEXT",
-    "tech_attack": 2,
+    "tech_attack": 0,
     "tech_attack_caution": 0,
-    "tech_buy": 2,
-    "tech_buy_caution": 6,
+    "tech_buy": 5,
+    "tech_buy_caution": 5,
     "tech_watch": 0,
     "tech_wait": 0,
     "tech_reduce": 0,
