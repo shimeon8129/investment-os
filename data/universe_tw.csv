@@ -62,14 +62,14 @@ ticker,name,sector,role
 8996.TW,高力,Cooling,LAG
 6805.TW,富世達,Cooling,LAG
 
-3081.TW,聯亞,Network,DYNAMIC
+3081.TWO,聯亞,Network,DYNAMIC
 3363.TWO,上詮,Network,DYNAMIC
 4979.TWO,華星光,Network,DYNAMIC
 4908.TWO,前鼎,Network,LAG
 6442.TW,光聖,Network,LAG
 
 2383.TW,台光電,PCB,LAG
-6274.TW,台燿,PCB,LAG
+6274.TWO,台燿,PCB,LAG
 4958.TW,臻鼎-KY,PCB,LAG
 
 1519.TW,華城,Power,DYNAMIC

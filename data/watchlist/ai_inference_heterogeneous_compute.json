@@ -31,12 +31,12 @@
     {
       "id": "high_speed_networking_cpo",
       "display_name": "High-Speed Networking / CPO / Optical Communication",
-      "tickers": ["2345.TW", "3081.TW", "3363.TWO", "4979.TWO", "4908.TWO", "6442.TW"]
+      "tickers": ["2345.TW", "3081.TWO", "3363.TWO", "4979.TWO", "4908.TWO", "6442.TW"]
     },
     {
       "id": "pcb_substrate_materials",
       "display_name": "PCB / CCL / Substrate / High-Speed Interconnect Materials",
-      "tickers": ["2368.TW", "2383.TW", "3037.TW", "6274.TW", "4958.TW"]
+      "tickers": ["2368.TW", "2383.TW", "3037.TW", "6274.TWO", "4958.TW"]
     },
     {
       "id": "power_datacenter_energy",
@@ -51,11 +51,11 @@
     },
     "tier_2": {
       "label": "Core AI rack / networking infrastructure",
-      "tickers": ["6669.TW", "2382.TW", "3231.TW", "2356.TW", "3706.TW", "2345.TW", "3081.TW", "3363.TWO", "4979.TWO"]
+      "tickers": ["6669.TW", "2382.TW", "3231.TW", "2356.TW", "3706.TW", "2345.TW", "3081.TWO", "3363.TWO", "4979.TWO"]
     },
     "tier_3": {
       "label": "Base infrastructure and supply-chain support",
-      "tickers": ["2368.TW", "2383.TW", "3037.TW", "6274.TW", "2330.TW", "3711.TW", "2308.TW", "3529.TWO", "3264.TWO", "8150.TW", "6691.TW", "8996.TW", "6805.TW", "4908.TWO", "6442.TW", "4958.TW", "1519.TW", "6806.TW", "8210.TW", "3013.TW"]
+      "tickers": ["2368.TW", "2383.TW", "3037.TW", "6274.TWO", "2330.TW", "3711.TW", "2308.TW", "3529.TWO", "3264.TWO", "8150.TW", "6691.TW", "8996.TW", "6805.TW", "4908.TWO", "6442.TW", "4958.TW", "1519.TW", "6806.TW", "8210.TW", "3013.TW"]
     }
   },
   "tickers": [
@@ -252,7 +252,7 @@
       "universe_status": "existing"
     },
     {
-      "ticker": "3081.TW",
+      "ticker": "3081.TWO",
       "name": "聯亞",
       "sub_group": "high_speed_networking_cpo",
       "priority_tier": 2,
@@ -316,7 +316,7 @@
       "universe_status": "existing"
     },
     {
-      "ticker": "6274.TW",
+      "ticker": "6274.TWO",
       "name": "台燿",
       "sub_group": "pcb_substrate_materials",
       "priority_tier": 3,
