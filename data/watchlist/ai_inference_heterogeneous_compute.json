@@ -1,0 +1,359 @@
+{
+  "version": "0.1",
+  "theme": "AI_INFERENCE_HETEROGENEOUS_COMPUTE",
+  "display_name": "AI 推論 / 異質運算 / AI Rack",
+  "source_context": "2026-05-14 AI inference / Groq LPU / NVIDIA Rubin discussion",
+  "thesis_note": "AI infrastructure shifting from GPU-only training toward inference-heavy heterogeneous compute: GPU + LPU/ASIC + memory-centric architecture + liquid-cooled AI racks. Not a generic GPU-only theme.",
+  "created_at": "2026-05-14",
+  "runtime_active": true,
+  "runtime_note": "All tickers added to data/universe_tw.csv. Theme metadata stored here (sub_group, priority_tier, thesis_note) as schema extension — not yet wired to ranking engine.",
+  "sub_groups": [
+    {
+      "id": "asic_custom_ai_chip",
+      "display_name": "ASIC / Custom AI Chip Design Service",
+      "tickers": ["3443.TW", "3661.TW", "3035.TW", "3529.TW"]
+    },
+    {
+      "id": "advanced_packaging_testing",
+      "display_name": "Advanced Packaging / Testing / Probe Card",
+      "tickers": ["2330.TW", "3711.TW", "3264.TW", "8150.TW", "6223.TW", "6510.TW", "6691.TW"]
+    },
+    {
+      "id": "ai_server_rack_odm",
+      "display_name": "AI Server / Rack ODM / Mechanical Integration",
+      "tickers": ["6669.TW", "2382.TW", "3231.TW", "2356.TW", "3706.TW", "8210.TW", "3013.TW"]
+    },
+    {
+      "id": "liquid_cooling_thermal",
+      "display_name": "Liquid Cooling / Thermal / Power Density",
+      "tickers": ["3017.TW", "3324.TW", "3653.TW", "8996.TW", "6805.TW"]
+    },
+    {
+      "id": "high_speed_networking_cpo",
+      "display_name": "High-Speed Networking / CPO / Optical Communication",
+      "tickers": ["2345.TW", "3081.TW", "3363.TW", "4979.TW", "4908.TW", "6442.TW"]
+    },
+    {
+      "id": "pcb_substrate_materials",
+      "display_name": "PCB / CCL / Substrate / High-Speed Interconnect Materials",
+      "tickers": ["2368.TW", "2383.TW", "3037.TW", "6274.TW", "4958.TW"]
+    },
+    {
+      "id": "power_datacenter_energy",
+      "display_name": "Power / Data Center Energy Infrastructure",
+      "tickers": ["2308.TW", "1519.TW", "6806.TW"]
+    }
+  ],
+  "priority_tiers": {
+    "tier_1": {
+      "label": "Highest relevance to AI inference thesis",
+      "tickers": ["6223.TW", "6510.TW", "3443.TW", "3661.TW", "3035.TW", "3017.TW", "3324.TW", "3653.TW"]
+    },
+    "tier_2": {
+      "label": "Core AI rack / networking infrastructure",
+      "tickers": ["6669.TW", "2382.TW", "3231.TW", "2356.TW", "3706.TW", "2345.TW", "3081.TW", "3363.TW", "4979.TW"]
+    },
+    "tier_3": {
+      "label": "Base infrastructure and supply-chain support",
+      "tickers": ["2368.TW", "2383.TW", "3037.TW", "6274.TW", "2330.TW", "3711.TW", "2308.TW", "3529.TW", "3264.TW", "8150.TW", "6691.TW", "8996.TW", "6805.TW", "4908.TW", "6442.TW", "4958.TW", "1519.TW", "6806.TW", "8210.TW", "3013.TW"]
+    }
+  },
+  "tickers": [
+    {
+      "ticker": "3443.TW",
+      "name": "創意",
+      "sub_group": "asic_custom_ai_chip",
+      "priority_tier": 1,
+      "thesis_note": "ASIC / Custom AI Chip design service, CSP自研晶片供應鏈。",
+      "universe_status": "existing"
+    },
+    {
+      "ticker": "3661.TW",
+      "name": "世芯-KY",
+      "sub_group": "asic_custom_ai_chip",
+      "priority_tier": 1,
+      "thesis_note": "高階 AI ASIC 設計龍頭，美系雲端廠主要夥伴。",
+      "universe_status": "existing"
+    },
+    {
+      "ticker": "3035.TW",
+      "name": "智原",
+      "sub_group": "asic_custom_ai_chip",
+      "priority_tier": 1,
+      "thesis_note": "ASIC design service，推論晶片設計切入。",
+      "universe_status": "new"
+    },
+    {
+      "ticker": "3529.TW",
+      "name": "力旺",
+      "sub_group": "asic_custom_ai_chip",
+      "priority_tier": 3,
+      "thesis_note": "Embedded NVM IP，邊緣推論 MCU 關鍵 IP。",
+      "universe_status": "new"
+    },
+    {
+      "ticker": "2330.TW",
+      "name": "台積電",
+      "sub_group": "advanced_packaging_testing",
+      "priority_tier": 3,
+      "thesis_note": "CoWoS / SoIC 異質整合封裝物理核心。",
+      "universe_status": "existing"
+    },
+    {
+      "ticker": "3711.TW",
+      "name": "日月光投控",
+      "sub_group": "advanced_packaging_testing",
+      "priority_tier": 3,
+      "thesis_note": "全球封測龍頭，與台積電合作異質整合。",
+      "universe_status": "existing"
+    },
+    {
+      "ticker": "3264.TW",
+      "name": "欣銓",
+      "sub_group": "advanced_packaging_testing",
+      "priority_tier": 3,
+      "thesis_note": "晶圓測試，CoWoS 封裝前後段測試受惠。",
+      "universe_status": "new"
+    },
+    {
+      "ticker": "8150.TW",
+      "name": "南茂",
+      "sub_group": "advanced_packaging_testing",
+      "priority_tier": 3,
+      "thesis_note": "Bump / 覆晶封裝，異質整合封裝供應鏈。",
+      "universe_status": "new"
+    },
+    {
+      "ticker": "6223.TW",
+      "name": "旺矽",
+      "sub_group": "advanced_packaging_testing",
+      "priority_tier": 1,
+      "thesis_note": "Probe Card 龍頭，AI 晶片高階測試探針卡核心供應商。",
+      "universe_status": "new"
+    },
+    {
+      "ticker": "6510.TW",
+      "name": "精測",
+      "sub_group": "advanced_packaging_testing",
+      "priority_tier": 1,
+      "thesis_note": "高階 IC 測試座，AI 晶片極限溫控測試關鍵。",
+      "universe_status": "new"
+    },
+    {
+      "ticker": "6691.TW",
+      "name": "洋基工程",
+      "sub_group": "advanced_packaging_testing",
+      "priority_tier": 3,
+      "thesis_note": "探針卡相關供應鏈，封裝測試間接受惠。",
+      "universe_status": "new"
+    },
+    {
+      "ticker": "6669.TW",
+      "name": "緯穎",
+      "sub_group": "ai_server_rack_odm",
+      "priority_tier": 2,
+      "thesis_note": "100% 純 AI 伺服器供應商，Meta/MSFT 主要供應商。",
+      "universe_status": "existing"
+    },
+    {
+      "ticker": "2382.TW",
+      "name": "廣達",
+      "sub_group": "ai_server_rack_odm",
+      "priority_tier": 2,
+      "thesis_note": "與雲端三巨頭深度合作，AI 伺服器研發能力最強 ODM。",
+      "universe_status": "existing"
+    },
+    {
+      "ticker": "3231.TW",
+      "name": "緯創",
+      "sub_group": "ai_server_rack_odm",
+      "priority_tier": 2,
+      "thesis_note": "GPU 加速卡與 Baseboard 代工，獲利結構改善。",
+      "universe_status": "existing"
+    },
+    {
+      "ticker": "2356.TW",
+      "name": "英業達",
+      "sub_group": "ai_server_rack_odm",
+      "priority_tier": 2,
+      "thesis_note": "AI 伺服器 ODM，近期籌碼 STRONG_POSITIVE。",
+      "universe_status": "existing"
+    },
+    {
+      "ticker": "3706.TW",
+      "name": "神達",
+      "sub_group": "ai_server_rack_odm",
+      "priority_tier": 2,
+      "thesis_note": "AI 邊緣伺服器與機架整合，動態追蹤標的。",
+      "universe_status": "existing"
+    },
+    {
+      "ticker": "8210.TW",
+      "name": "勤誠",
+      "sub_group": "ai_server_rack_odm",
+      "priority_tier": 3,
+      "thesis_note": "機械整合 / 機箱解決方案，AI Rack 重型化受惠。",
+      "universe_status": "new"
+    },
+    {
+      "ticker": "3013.TW",
+      "name": "晟銘電",
+      "sub_group": "ai_server_rack_odm",
+      "priority_tier": 3,
+      "thesis_note": "機架整合 / 散熱結構，AI 伺服器基礎建設供應鏈。",
+      "universe_status": "new"
+    },
+    {
+      "ticker": "3017.TW",
+      "name": "奇鋐",
+      "sub_group": "liquid_cooling_thermal",
+      "priority_tier": 1,
+      "thesis_note": "液冷 Cold Plate 領頭羊，CDU 完整方案供應商。",
+      "universe_status": "new"
+    },
+    {
+      "ticker": "3324.TW",
+      "name": "雙鴻",
+      "sub_group": "liquid_cooling_thermal",
+      "priority_tier": 1,
+      "thesis_note": "水冷系統整合，GB200 關鍵散熱供應商。",
+      "universe_status": "new"
+    },
+    {
+      "ticker": "3653.TW",
+      "name": "健策",
+      "sub_group": "liquid_cooling_thermal",
+      "priority_tier": 1,
+      "thesis_note": "Vapor Chamber / 均熱板，AI 晶片高功耗散熱核心。",
+      "universe_status": "new"
+    },
+    {
+      "ticker": "8996.TW",
+      "name": "高力",
+      "sub_group": "liquid_cooling_thermal",
+      "priority_tier": 3,
+      "thesis_note": "熱交換器，資料中心冷卻系統間接受惠。",
+      "universe_status": "new"
+    },
+    {
+      "ticker": "6805.TW",
+      "name": "富世達",
+      "sub_group": "liquid_cooling_thermal",
+      "priority_tier": 3,
+      "thesis_note": "散熱解決方案，AI Rack 功率密度提升受惠。",
+      "universe_status": "new"
+    },
+    {
+      "ticker": "2345.TW",
+      "name": "智邦",
+      "sub_group": "high_speed_networking_cpo",
+      "priority_tier": 2,
+      "thesis_note": "800G/1.6T 高速交換器，AI 集群網路交通核心。",
+      "universe_status": "existing"
+    },
+    {
+      "ticker": "3081.TW",
+      "name": "聯亞",
+      "sub_group": "high_speed_networking_cpo",
+      "priority_tier": 2,
+      "thesis_note": "矽光子磊晶關鍵 LD 供應，CPO 物理層核心。",
+      "universe_status": "new"
+    },
+    {
+      "ticker": "3363.TW",
+      "name": "上詮",
+      "sub_group": "high_speed_networking_cpo",
+      "priority_tier": 2,
+      "thesis_note": "矽光子 / CPO 封裝體系，資料傳輸能耗瓶頸解決方案。",
+      "universe_status": "new"
+    },
+    {
+      "ticker": "4979.TW",
+      "name": "華星光",
+      "sub_group": "high_speed_networking_cpo",
+      "priority_tier": 2,
+      "thesis_note": "800G 高速光模組，美系網通廠強連動性。",
+      "universe_status": "new"
+    },
+    {
+      "ticker": "4908.TW",
+      "name": "前鼎",
+      "sub_group": "high_speed_networking_cpo",
+      "priority_tier": 3,
+      "thesis_note": "光通訊元件，高速光網路間接受惠。",
+      "universe_status": "new"
+    },
+    {
+      "ticker": "6442.TW",
+      "name": "光聖",
+      "sub_group": "high_speed_networking_cpo",
+      "priority_tier": 3,
+      "thesis_note": "光通訊相關，高速傳輸基礎建設供應鏈。",
+      "universe_status": "new"
+    },
+    {
+      "ticker": "2368.TW",
+      "name": "金像電",
+      "sub_group": "pcb_substrate_materials",
+      "priority_tier": 3,
+      "thesis_note": "高階 PCB，AI 伺服器 HDI 基板供應商。",
+      "universe_status": "existing"
+    },
+    {
+      "ticker": "2383.TW",
+      "name": "台光電",
+      "sub_group": "pcb_substrate_materials",
+      "priority_tier": 3,
+      "thesis_note": "高頻高速 CCL，AI 伺服器高速互連材料。",
+      "universe_status": "new"
+    },
+    {
+      "ticker": "3037.TW",
+      "name": "欣興",
+      "sub_group": "pcb_substrate_materials",
+      "priority_tier": 3,
+      "thesis_note": "ABF 載板龍頭，AI 晶片封裝基板核心供應商。",
+      "universe_status": "existing"
+    },
+    {
+      "ticker": "6274.TW",
+      "name": "台燿",
+      "sub_group": "pcb_substrate_materials",
+      "priority_tier": 3,
+      "thesis_note": "高頻板材 / CCL，高速互連材料受惠。",
+      "universe_status": "new"
+    },
+    {
+      "ticker": "4958.TW",
+      "name": "臻鼎-KY",
+      "sub_group": "pcb_substrate_materials",
+      "priority_tier": 3,
+      "thesis_note": "PCB / FPC 大廠，AI 伺服器軟硬板供應鏈。",
+      "universe_status": "new"
+    },
+    {
+      "ticker": "2308.TW",
+      "name": "台達電",
+      "sub_group": "power_datacenter_energy",
+      "priority_tier": 3,
+      "thesis_note": "伺服器高效率供電方案，全球資料中心標準配備。",
+      "universe_status": "existing"
+    },
+    {
+      "ticker": "1519.TW",
+      "name": "華城",
+      "sub_group": "power_datacenter_energy",
+      "priority_tier": 3,
+      "thesis_note": "電力設備 / 變壓器，資料中心能源基礎建設。",
+      "universe_status": "new"
+    },
+    {
+      "ticker": "6806.TW",
+      "name": "森崴能源",
+      "sub_group": "power_datacenter_energy",
+      "priority_tier": 3,
+      "thesis_note": "再生能源 / 電力解決方案，資料中心綠電需求受惠。",
+      "universe_status": "new"
+    }
+  ]
+}
