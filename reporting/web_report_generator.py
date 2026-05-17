@@ -33,14 +33,50 @@ th{text-align:left;color:#888;border-bottom:1px solid #333;padding:4px 8px}
 td{padding:4px 8px;border-bottom:1px solid #222}
 .badge{padding:2px 8px;border-radius:3px;font-size:.85em}
 .green{background:#1a3d1a;color:#5f5}
+.blue{background:#1a2a3d;color:#5af}
 .red{background:#3d1a1a;color:#f55}
 .orange{background:#3d2a00;color:#fa5}
+.yellow{background:#2e2a00;color:#dd5}
 .grey{background:#2a2a2a;color:#888}
+.guidance-box{background:#222;border-left:3px solid #5af;padding:10px 14px;margin:8px 0 16px;line-height:1.7}
 details>summary{cursor:pointer;color:#aaa;padding:4px 8px}
 details[open]{background:#222;padding:8px;margin-bottom:8px}
 .banner{background:#2a2a2a;color:#888;padding:20px;text-align:center;margin:20px 0;border:1px solid #333}
 select{background:#2a2a2a;color:#d4d4d4;border:1px solid #444;padding:4px 8px}
 """
+
+CANDIDATES_FILE = ROOT / "data" / "candidates.json"
+UNIVERSE_FILE   = ROOT / "data" / "universe_tw.csv"
+
+
+def _load_universe_map() -> dict:
+    if not UNIVERSE_FILE.exists():
+        return {}
+    import csv
+    result = {}
+    try:
+        with UNIVERSE_FILE.open(encoding="utf-8") as f:
+            for row in csv.DictReader(f):
+                if row.get("ticker"):
+                    result[row["ticker"]] = {"name": row.get("name", ""), "sector": row.get("sector", "")}
+    except Exception:
+        pass
+    return result
+
+
+def _rec_badge(rec: str) -> str:
+    color = {
+        "HOLD_CORE": "blue", "HOLD_ETF": "blue",
+        "HOLD_SATELLITE": "yellow", "HOLD": "yellow",
+        "REVIEW_EXIT": "orange", "TRIM_OVEREXTENDED": "orange", "WATCH_TREND_DAMAGE": "orange",
+        "EXIT": "red", "REDUCE": "orange",
+    }.get(rec, "grey")
+    return f'<span class="badge {color}">{rec}</span>'
+
+
+def _vix_badge(alert: str) -> str:
+    color = {"NORMAL": "green", "ELEVATED": "yellow", "HIGH": "orange", "EXTREME": "red"}.get(alert, "grey")
+    return f'<span class="badge {color}">VIX {alert}</span>'
 
 
 def _load_role_index() -> dict:
@@ -148,42 +184,102 @@ def generate_status_page(
              f"<td style='color:#fa5'>{rs_warn if rs_warn else '—'}</td></tr></table>")
 
     if market_closed:
-        body += f'<div class="banner">市場休市 ({tw_s})</div>'
-    else:
-        body += "<h2>市場概況</h2>"
-        body += ("<table><tr><th>市場狀態</th><th>Score</th><th>VIX</th>"
-                 "<th>TW</th><th>US</th></tr>"
-                 f"<tr><td>{m_state}</td><td>{m_score}</td><td>{vix}</td>"
-                 f"<td>{tw_s}</td><td>{us_s}</td></tr></table>")
+        body += f'<div class="banner">市場休市 ({tw_s})｜以下為上次 Pipeline 分析結果</div>'
 
-        body += "<h2>Top 候選</h2>"
-        body += ("<table><tr><th>Rank</th><th>Ticker</th><th>Name</th>"
-                 "<th>Score</th><th>Signal</th>"
-                 "<th>base_role</th><th>active_role</th><th>role_conf</th><th>intent</th></tr>")
-        for i, r in enumerate(ranked[:10], 1):
-            ticker = r.get("ticker", "")
-            re_entry = role_index.get(ticker, {})
-            base_role = re_entry.get("base_role", "UNKNOWN")
-            active_role = re_entry.get("active_role", "UNKNOWN")
-            role_conf = re_entry.get("role_confidence", "UNKNOWN")
-            intent = re_entry.get("intent") or "—"
-            body += (f"<tr><td>{i}</td><td>{ticker}</td>"
-                     f"<td>{r.get('name','')}</td><td>{r.get('score','')}</td>"
-                     f"<td>{r.get('signal','')}</td>"
-                     f"<td>{_role_badge(base_role)}</td><td>{_role_badge(active_role)}</td>"
-                     f"<td>{role_conf}</td><td>{intent}</td></tr>")
+    # ── 市場環境 ──────────────────────────────────────────
+    vix_alert  = mainline.get("vix_alert", "UNKNOWN")
+    guidance   = mainline.get("market_guidance", {})
+    new_entry  = guidance.get("new_entry_ok", True)
+    role_filter = guidance.get("role_filter", [])
+    entry_str  = ("✅ 允許 " + ", ".join(role_filter)) if new_entry else "🚫 暫緩"
+
+    body += "<h2>市場環境</h2>"
+    body += ("<table><tr><th>狀態</th><th>Score</th><th>VIX</th><th>VIX Alert</th>"
+             "<th>TW</th><th>新進場</th></tr>"
+             f"<tr><td><b>{m_state}</b></td><td>{m_score}</td><td>{vix}</td>"
+             f"<td>{_vix_badge(vix_alert)}</td>"
+             f"<td>{tw_s}</td><td>{entry_str}</td></tr></table>")
+    if guidance.get("summary"):
+        body += f'<div class="guidance-box">'
+        body += f'<b>操作方向：</b>{guidance["summary"]}<br>'
+        body += f'<b>持倉指引：</b>{guidance.get("holding_action","—")}'
+        body += '</div>'
+
+    # ── 現有持倉建議 ────────────────────────────────────────
+    body += "<h2>現有持倉建議</h2>"
+    h_guidance = mainline.get("holdings_guidance", [])
+    if h_guidance:
+        body += ("<table><tr><th>Ticker</th><th>Name</th><th>Role</th>"
+                 "<th>建議</th><th>說明</th></tr>")
+        for h in h_guidance:
+            body += (f"<tr><td>{h['ticker']}</td><td>{h['name']}</td>"
+                     f"<td>{_role_badge(h['role'])}</td>"
+                     f"<td>{_rec_badge(h['recommendation'])}</td>"
+                     f"<td>{h['note']}</td></tr>")
+        body += "</table>"
+    else:
+        body += "<p>— 無持倉記錄 —</p>"
+
+    # ── WAVE_SWING 進場候選 ─────────────────────────────────
+    body += "<h2>進場候選 — WAVE_SWING（1-2 週）</h2>"
+    if not new_entry:
+        body += f'<div class="banner">市場 {m_state} / VIX {vix_alert}：暫緩新進場，以下僅供觀察</div>'
+    ws_all = mainline.get("wave_swing_candidates", [])
+    ws_buy = [r for r in ws_all if r.get("action_mode") in ("TECH_BUY", "TECH_ATTACK", "TECH_BUY_CAUTION")]
+    if ws_buy:
+        body += ("<table><tr><th>#</th><th>Ticker</th><th>Name</th><th>Action</th>"
+                 "<th>Chase</th><th>Chips</th><th>Vol</th><th>建議</th></tr>")
+        for i, r in enumerate(ws_buy[:8], 1):
+            chase_color = {"LOW": "green", "MEDIUM": "yellow", "HIGH": "orange", "EXTREME": "red"}.get(r.get("chase_risk",""), "grey")
+            chip_color  = {"STRONG_POSITIVE": "green", "POSITIVE": "green", "DIVERGENCE": "orange", "STRONG_DIVERGENCE": "red"}.get(r.get("chip_status",""), "grey")
+            caution     = " ⚠️" if r.get("action_mode") == "TECH_BUY_CAUTION" else ""
+            vol_str     = f"{r.get('vol_ratio',0):.2f}x" if r.get('vol_ratio') else "—"
+            body += (f"<tr><td>{i}</td><td>{r['ticker']}</td><td>{r.get('name','')}</td>"
+                     f"<td>{r.get('action_mode','')}{caution}</td>"
+                     f"<td><span class='badge {chase_color}'>{r.get('chase_risk','')}</span></td>"
+                     f"<td><span class='badge {chip_color}'>{r.get('chip_status','')}</span></td>"
+                     f"<td>{vol_str}</td>"
+                     f"<td style='color:#888;font-size:.9em'>{r.get('suggested_action','')}</td></tr>")
+        body += "</table>"
+    else:
+        body += "<p>— 目前無 WAVE_SWING BUY 信號 —</p>"
+
+    # ── SATELLITE 觀察清單 ──────────────────────────────────
+    sat = mainline.get("satellite_watch", [])
+    if sat:
+        body += "<h2>觀察清單 — SATELLITE（2-8 週）</h2>"
+        body += ("<table><tr><th>Ticker</th><th>Name</th><th>Action</th>"
+                 "<th>Chase</th><th>Chips</th><th>說明</th></tr>")
+        for r in sat[:5]:
+            chase_color = {"LOW": "green", "MEDIUM": "yellow", "HIGH": "orange", "EXTREME": "red"}.get(r.get("chase_risk",""), "grey")
+            body += (f"<tr><td>{r['ticker']}</td><td>{r.get('name','')}</td>"
+                     f"<td>{r.get('action_mode','')}</td>"
+                     f"<td><span class='badge {chase_color}'>{r.get('chase_risk','')}</span></td>"
+                     f"<td>{r.get('chip_status','')}</td>"
+                     f"<td style='color:#888;font-size:.9em'>{r.get('suggested_action','')}</td></tr>")
         body += "</table>"
 
-        if decisions:
-            ranked_name_map = {r.get("ticker", ""): r.get("name", "") for r in ranked}
-            body += "<h2>Decisions</h2>"
-            body += "<table><tr><th>Ticker</th><th>Name</th><th>Action</th><th>Position</th><th>Reason</th></tr>"
-            for ticker, d in decisions.items():
-                pct = f"{d.get('position_size', 0)*100:.0f}%" if d.get('position_size') else "N/A"
-                name = ranked_name_map.get(ticker) or role_index.get(ticker, {}).get("name", "—")
-                body += (f"<tr><td>{ticker}</td><td>{name}</td><td>{d.get('action','')}</td>"
-                         f"<td>{pct}</td><td>{d.get('reason','')}</td></tr>")
-            body += "</table>"
+    # ── EARLY Watchlist ─────────────────────────────────────
+    body += "<h2>EARLY Watchlist（score=1，尚未確認）</h2>"
+    early_raw = []
+    if CANDIDATES_FILE.exists():
+        try:
+            early_raw = [c for c in json.loads(CANDIDATES_FILE.read_text(encoding="utf-8"))
+                         if c.get("score") == 1]
+        except Exception:
+            pass
+    if early_raw:
+        uni_map = _load_universe_map()
+        body += ("<table><tr><th>Ticker</th><th>Name</th><th>Sector</th><th>Price</th></tr>")
+        for c in early_raw[:15]:
+            t    = c.get("ticker", "")
+            info = uni_map.get(t, {})
+            price_str = f"{c['price']:.1f}" if isinstance(c.get("price"), float) else str(c.get("price",""))
+            body += (f"<tr><td>{t}</td><td>{info.get('name','')}</td>"
+                     f"<td>{info.get('sector','')}</td><td>{price_str}</td></tr>")
+        body += f"</table><p style='color:#666;font-size:.85em'>共 {len(early_raw)} 檔 EARLY 候選</p>"
+    else:
+        body += "<p>— 無 EARLY 候選 —</p>"
 
     body += "<h2>Pipeline 子程序</h2>"
     body += "<table><tr><th>子程序</th><th>狀態</th></tr>"
