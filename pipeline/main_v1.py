@@ -362,10 +362,14 @@ def run_pipeline(capital=100000):
         narrative_map=narrative_map,
     )
 
-    # ✅ P0 hotfix: apply safety gate after enrichment (chip_status / chase_risk 已就位)
+    # ✅ P0 / P0.1: apply safety gate after enrichment (chip_status / chase_risk 已就位)
     held_tickers = set(portfolio.keys())
     ranked = [
-        apply_entry_safety_gate({**r, "is_held": r.get("ticker", "") in held_tickers})
+        apply_entry_safety_gate(
+            {**r, "is_held": r.get("ticker", "") in held_tickers},
+            market_state=market_state,
+            market_score=float(global_score),
+        )
         for r in ranked
     ]
 
