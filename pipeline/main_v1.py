@@ -116,6 +116,20 @@ def run_pipeline(capital=100000):
         print("⚠️ Scanner returned None")
         candidates = []
 
+    # Phase 2B: pre-compute chase_risk_score for all candidates, then re-sort
+    # so that within the same score tier, lower chase risk wins the top-10 slot.
+    from analysis.chase_risk import compute_chase_risk as _compute_chase_risk
+    for c in candidates:
+        ticker = c.get("ticker", "")
+        if ticker in close.columns:
+            cr = _compute_chase_risk(close, features, ticker)
+            c["_pre_chase_risk_score"] = cr["chase_risk_score"]
+        else:
+            c["_pre_chase_risk_score"] = 0
+    candidates.sort(
+        key=lambda x: (-x.get("score", 0), x.get("_pre_chase_risk_score", 0))
+    )
+
     top_candidates = candidates[:10]
 
     scanner_results = {}
