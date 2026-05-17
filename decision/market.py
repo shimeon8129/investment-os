@@ -77,6 +77,64 @@ def market_filter(global_score, vix_value=None):
     return "RANGE"
 
 
+def get_vix_alert(vix_value) -> str:
+    """
+    Returns VIX alert level independent of market_state.
+    NORMAL < 20 | ELEVATED 20-25 | HIGH 25-30 | EXTREME >= 30
+    """
+    if vix_value is None:
+        return "UNKNOWN"
+    if vix_value >= 30:
+        return "EXTREME"
+    if vix_value >= 25:
+        return "HIGH"
+    if vix_value >= 20:
+        return "ELEVATED"
+    return "NORMAL"
+
+
+def get_market_guidance(market_state: str, vix_alert: str) -> dict:
+    """
+    Returns actionable guidance based on market_state + vix_alert.
+    Keys: summary, new_entry_ok, role_filter, holding_action
+    """
+    if market_state == "BEAR":
+        return {
+            "summary": "市場確認下跌，優先處理持倉，不建議新進場",
+            "new_entry_ok": False,
+            "role_filter": [],
+            "holding_action": "評估所有持倉出場或停損位置，CORE 確認是否結構損壞",
+        }
+    if vix_alert == "EXTREME":
+        return {
+            "summary": "VIX 極度恐慌，暫緩新進場，專注持倉管理",
+            "new_entry_ok": False,
+            "role_filter": [],
+            "holding_action": "持倉觀察，避免恐慌出場，確認各部位停損位是否守住",
+        }
+    if vix_alert == "HIGH":
+        return {
+            "summary": "VIX 偏高，謹慎操作，僅 WAVE_SWING 短線機會可小量試單",
+            "new_entry_ok": True,
+            "role_filter": ["WAVE_SWING"],
+            "holding_action": "WAVE_SWING 持倉緊守 MA5，SATELLITE/CORE 持續持有",
+        }
+    if market_state == "BULL":
+        return {
+            "summary": "市場強勢，三類角色均可依訊號操作",
+            "new_entry_ok": True,
+            "role_filter": ["WAVE_SWING", "SATELLITE", "CORE"],
+            "holding_action": "持倉續持，趨勢未損不輕易減碼",
+        }
+    # RANGE + NORMAL/ELEVATED
+    return {
+        "summary": "市場盤整，精選進場，優先有量有籌碼的 WAVE_SWING 標的",
+        "new_entry_ok": True,
+        "role_filter": ["WAVE_SWING", "SATELLITE"],
+        "holding_action": "依角色停損邏輯持有，CORE 不因短線波動減碼",
+    }
+
+
 # ═══════════════════════════════════════════════════════
 # 【使用範例】
 # ═══════════════════════════════════════════════════════

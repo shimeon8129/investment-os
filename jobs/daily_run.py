@@ -337,147 +337,112 @@ def main() -> int:
         f"- Holdings loaded: {snapshot['holdings_loaded']}",
         f"- Holdings count: {snapshot['holdings_count']}",
         "",
-        "## Human Summary",
+        "## 市場環境",
         "",
     ]
 
     if mainline_snap:
-        ms = mainline_snap.get("market_state", "N/A")
+        ms  = mainline_snap.get("market_state", "N/A")
         msc = mainline_snap.get("market_score", None)
         vix = mainline_snap.get("vix_value", None)
+        vix_alert   = mainline_snap.get("vix_alert", "UNKNOWN")
+        guidance    = mainline_snap.get("market_guidance", {})
         msc_str = f"{float(msc):.4f}" if msc is not None else "N/A"
-        vix_str = f"{float(vix):.2f}" if vix is not None else "N/A"
+        vix_str = f"{float(vix):.2f}"  if vix is not None else "N/A"
+
         report_lines += [
-            f"- Market state: **{ms}** | Score: {msc_str} | VIX: {vix_str}",
+            f"- 市場狀態: **{ms}** | 分數: {msc_str} | VIX: {vix_str} | VIX Alert: **{vix_alert}**",
             "",
-            "**Top 3 candidates:**",
+            f"> {guidance.get('summary', '—')}",
             "",
-        ]
-        for i, row in enumerate(mainline_snap.get("ranked", [])[:3], 1):
-            score = row.get("score", 0)
-            score_str = f"{float(score):.2f}" if score is not None else "N/A"
-            ticker = row.get("ticker", "")
-            role_str = _role_inline(ticker, role_index)
-            report_lines.append(
-                f"{i}. {ticker} {row.get('name', '')} "
-                f"— Score: {score_str} | Signal: {row.get('signal', '')} | Role: {role_str}"
-            )
-        report_lines.append("")
-        action_counts: dict[str, int] = {}
-        for d in mainline_snap.get("decisions", {}).values():
-            a = d.get("action", "UNKNOWN")
-            action_counts[a] = action_counts.get(a, 0) + 1
-        counts_str = " | ".join(
-            f"{a}: {n}" for a, n in sorted(action_counts.items())
-        ) if action_counts else "none"
-        report_lines += [
-            f"- Decisions: {counts_str}",
-            "- Advisory only: all outputs are for human review; no trades are placed automatically.",
+            f"**持倉操作方向：** {guidance.get('holding_action', '—')}",
             "",
-        ]
-    else:
-        report_lines += [
-            "- Mainline snapshot not available. No advisory summary.",
+            f"**新進場許可：** {'✅ 允許' if guidance.get('new_entry_ok') else '🚫 暫緩'}"
+            + (f"（限 {', '.join(guidance.get('role_filter', []))}）" if guidance.get('role_filter') else ""),
             "",
         ]
 
-    report_lines += [
-        "## Mainline Snapshot",
-        "",
-    ]
-
-    if mainline_snap:
-        report_lines += [
-            f"- Market state: {mainline_snap.get('market_state', 'N/A')}",
-            f"- Market score: {mainline_snap.get('market_score', 'N/A')}",
-            f"- VIX: {mainline_snap.get('vix_value', 'N/A')}",
-            "",
-            "### Top Ranked",
-            "",
-            "| Rank | Ticker | Name | Sector | Signal | Score | base_role | active_role | role_confidence | intent |",
-            "| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |",
-        ]
-        for i, row in enumerate(mainline_snap.get("ranked", [])[:5], 1):
-            ticker = row.get("ticker", "")
-            rc = _role_context(ticker, role_index)
-            report_lines.append(
-                f"| {i} | {ticker} | {row.get('name', '')} "
-                f"| {row.get('sector', '')} | {row.get('signal', '')} | {row.get('score', '')} "
-                f"| {rc['base_role']} | {rc['active_role']} | {rc['role_confidence']} | {rc['intent'] or '—'} |"
-            )
-        report_lines += [
-            "",
-            "### Decisions",
-            "",
-            "| Ticker | Action | Reason |",
-            "| --- | --- | --- |",
-        ]
-        for ticker, d in mainline_snap.get("decisions", {}).items():
-            report_lines.append(
-                f"| {ticker} | {d.get('action', '')} | {d.get('reason', '')} |"
-            )
-        report_lines.append("")
-
-        # Technical Action Summary
-        report_lines += [
-            "### Technical Action Summary",
-            "",
-            f"System Mode: {mainline_snap.get('system_mode', 'TECHNICAL_DOMINANT_WITH_DATA_CONTEXT')}",
-            "",
-            "| Rank | Ticker | Name | Action Mode | Chase Risk | Chip Status | Suggested Action |",
-            "| --- | --- | --- | --- | --- | --- | --- |",
-        ]
-        for i, row in enumerate(mainline_snap.get("ranked", [])[:5], 1):
-            report_lines.append(
-                f"| {i} | {row.get('ticker', '')} | {row.get('name', '')} "
-                f"| {row.get('action_mode', 'N/A')} "
-                f"| {row.get('chase_risk', 'N/A')} "
-                f"| {row.get('chip_status', 'N/A')} "
-                f"| {row.get('suggested_action', '')} |"
-            )
-        report_lines.append("")
-
-        # Holding Action Alerts
-        alerts = mainline_snap.get("holding_alerts", [])
-        report_lines += ["### Holding Action Alerts", ""]
-        if alerts:
+        # 現有持倉建議
+        report_lines += ["## 現有持倉建議", ""]
+        h_guidance = mainline_snap.get("holdings_guidance", [])
+        if h_guidance:
             report_lines += [
-                "| Ticker | Name | Shares | Action Mode | Exit Signal | Suggested Action |",
-                "| --- | --- | --- | --- | --- | --- |",
+                "| Ticker | Name | Role | 建議 | 說明 |",
+                "| --- | --- | --- | --- | --- |",
             ]
-            for a in alerts:
+            for h in h_guidance:
                 report_lines.append(
-                    f"| {a.get('ticker', '')} | {a.get('name', '')} | {a.get('shares', '')} "
-                    f"| {a.get('action_mode', '')} | {a.get('exit_signal', '')} "
-                    f"| {a.get('suggested_action', '')} |"
+                    f"| {h['ticker']} | {h['name']} | {h['role']} "
+                    f"| **{h['recommendation']}** | {h['note']} |"
                 )
         else:
-            report_lines.append("- No active exit/reduce signals.")
+            report_lines.append("- 目前無持倉記錄。")
         report_lines.append("")
 
-        # Data Coverage
-        ranked_snap = mainline_snap.get("ranked", [])
-        total = len(ranked_snap)
-        chips_count = sum(1 for r in ranked_snap if r.get("chip_status") not in ("MISSING", "UNKNOWN", None))
-        fresh_chips = sum(1 for r in ranked_snap if r.get("chip_freshness") == "FRESH")
-        news_count = sum(1 for r in ranked_snap if r.get("news_freshness") not in ("MISSING", "STALE", None))
-        narrative_count = sum(1 for r in ranked_snap if r.get("narrative_status") == "PRESENT")
-        report_lines += [
-            "### Data Coverage",
-            "",
-            f"- Technical: {total}/{total} ✅",
-            f"- Chips: {chips_count}/{total}",
-            f"- Fresh chips: {fresh_chips}/{total}",
-            f"- NewsHeat: {news_count}/{total}",
-            f"- Narrative: {narrative_count}/{total}",
-            "> Missing data is visible but does not cancel a technical action.",
-            "",
-        ]
+        # WAVE_SWING 進場候選（1-2週）
+        report_lines += ["## 進場候選 — WAVE_SWING（1-2 週）", ""]
+        ws = mainline_snap.get("wave_swing_candidates", [])
+        ws_buy = [r for r in ws if r.get("action_mode") in ("TECH_BUY", "TECH_ATTACK", "TECH_BUY_CAUTION")]
+        if not guidance.get("new_entry_ok"):
+            report_lines += [f"> 市場狀態 {ms} / VIX {vix_alert}，暫緩新進場。以下僅供觀察。", ""]
+        if ws_buy:
+            report_lines += [
+                "| # | Ticker | Name | Action | Chase | Chips | Vol | 建議 |",
+                "| --- | --- | --- | --- | --- | --- | --- | --- |",
+            ]
+            for i, r in enumerate(ws_buy[:8], 1):
+                vol_str = f"{r.get('vol_ratio', 0):.2f}x"
+                report_lines.append(
+                    f"| {i} | {r['ticker']} | {r.get('name','')} "
+                    f"| {r.get('action_mode','')} "
+                    f"| {r.get('chase_risk','')} "
+                    f"| {r.get('chip_status','')} "
+                    f"| {vol_str} "
+                    f"| {r.get('suggested_action','')} |"
+                )
+        else:
+            report_lines.append("- 目前無 WAVE_SWING BUY 信號。")
+        report_lines.append("")
+
+        # SATELLITE 觀察清單（2-8週）
+        report_lines += ["## 觀察清單 — SATELLITE（2-8 週）", ""]
+        sat = mainline_snap.get("satellite_watch", [])
+        if sat:
+            report_lines += [
+                "| Ticker | Name | Action | Chase | Chips | 說明 |",
+                "| --- | --- | --- | --- | --- | --- |",
+            ]
+            for r in sat[:5]:
+                report_lines.append(
+                    f"| {r['ticker']} | {r.get('name','')} "
+                    f"| {r.get('action_mode','')} "
+                    f"| {r.get('chase_risk','')} "
+                    f"| {r.get('chip_status','')} "
+                    f"| {r.get('suggested_action','')} |"
+                )
+        else:
+            report_lines.append("- SATELLITE 候選不在本次 top-10 內。")
+        report_lines.append("")
+
+        # CORE 觀察（不主動進場）
+        core_w = mainline_snap.get("core_watch", [])
+        if core_w:
+            report_lines += ["## CORE 持倉狀態（長期，不主動進出）", ""]
+            report_lines += [
+                "| Ticker | Name | Action | Chase | 說明 |",
+                "| --- | --- | --- | --- | --- |",
+            ]
+            for r in core_w:
+                report_lines.append(
+                    f"| {r['ticker']} | {r.get('name','')} "
+                    f"| {r.get('action_mode','')} "
+                    f"| {r.get('chase_risk','')} "
+                    f"| {r.get('suggested_action','')} |"
+                )
+            report_lines.append("")
+
     else:
-        report_lines += [
-            "- Mainline snapshot: missing",
-            "",
-        ]
+        report_lines += ["- Mainline snapshot: missing", ""]
 
     # P1 Entry Audit report section — advisory, non-blocking
     p1_ok = (

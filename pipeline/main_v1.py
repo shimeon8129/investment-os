@@ -39,7 +39,7 @@ from execution.exit import check_exit
 from execution.portfolio import load_portfolio_from_holdings
 
 # === MARKET ===
-from decision.market import market_filter
+from decision.market import market_filter, get_vix_alert, get_market_guidance
 
 # === LOCK ===
 from decision.lock import apply_market_lock
@@ -362,6 +362,87 @@ def run_pipeline(capital=100000):
     technical_action_summary = build_technical_action_summary(ranked)
 
     # =========================================
+    # 🎭 ROLE ROUTING
+    # =========================================
+
+    vix_alert = get_vix_alert(vix_value)
+    market_guidance = get_market_guidance(market_state, vix_alert)
+
+    # Load role_map for routing
+    _role_map_path = Path("data/portfolio/role_map.json")
+    _role_lookup = {}
+    if _role_map_path.exists():
+        try:
+            _rm = json.loads(_role_map_path.read_text(encoding="utf-8"))
+            for entry in _rm.get("entries", []):
+                t = entry.get("ticker", "")
+                if t:
+                    _role_lookup[t] = entry
+        except Exception:
+            pass
+
+    def _active_role(ticker: str) -> str:
+        e = _role_lookup.get(ticker) or _role_lookup.get(ticker.split(".")[0])
+        return e.get("active_role", "WAVE_SWING") if e else "WAVE_SWING"
+
+    # Split ranked candidates by role
+    wave_swing_candidates = []
+    satellite_watch = []
+    core_watch = []
+    for r in ranked:
+        role = _active_role(r["ticker"])
+        if role in ("CORE", "CORE_ETF"):
+            core_watch.append(r)
+        elif role == "SATELLITE":
+            satellite_watch.append(r)
+        else:
+            wave_swing_candidates.append(r)
+
+    # Holdings guidance: role-aware action for each current holding
+    holdings_guidance = []
+    for ticker, position in portfolio.items():
+        role = _active_role(ticker)
+        exit_entry = exit_decisions.get(ticker, {})
+        exit_action = exit_entry.get("action", "")
+        exit_reason = exit_entry.get("reason", "")
+
+        if role in ("CORE", "CORE_ETF"):
+            if exit_action == "SELL":
+                rec = "WATCH_TREND_DAMAGE"
+                note = "出場訊號觸發，確認是否 MA60 結構損壞再決定"
+            elif exit_action == "REDUCE":
+                rec = "TRIM_OVEREXTENDED"
+                note = "技術超買，考慮部分獲利了結"
+            else:
+                rec = "HOLD_CORE"
+                note = "趨勢完整，長期持有，不因短線波動減碼"
+        elif role == "SATELLITE":
+            if exit_action in ("SELL", "REDUCE"):
+                rec = "REVIEW_EXIT"
+                note = f"出場訊號 ({exit_reason})，確認籌碼與 MA20 位置"
+            else:
+                rec = "HOLD_SATELLITE"
+                note = "中期持有，注意籌碼變化"
+        else:
+            if exit_action == "SELL":
+                rec = "EXIT"
+                note = f"出場 ({exit_reason})"
+            elif exit_action == "REDUCE":
+                rec = "REDUCE"
+                note = f"減碼 ({exit_reason})"
+            else:
+                rec = "HOLD"
+                note = "持有，守 MA5 停損"
+
+        holdings_guidance.append({
+            "ticker": ticker,
+            "name": position.get("name", ticker),
+            "role": role,
+            "recommendation": rec,
+            "note": note,
+        })
+
+    # =========================================
     # 📸 SNAPSHOT
     # =========================================
 
@@ -382,6 +463,12 @@ def run_pipeline(capital=100000):
         "exit_signals": exit_decisions,
         "holding_alerts": holding_alerts,
         "technical_action_summary": technical_action_summary,
+        "vix_alert": vix_alert,
+        "market_guidance": market_guidance,
+        "wave_swing_candidates": wave_swing_candidates,
+        "satellite_watch": satellite_watch,
+        "core_watch": core_watch,
+        "holdings_guidance": holdings_guidance,
         "safety": {
             "advisory_only": True,
             "auto_trade": False,
