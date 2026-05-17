@@ -9,7 +9,7 @@ def generate_entry_signal(close, volume, features, candidate_info=None):
     - BUY_LATE
     - TREND_CONTINUE
     - READY_PULLBACK
-    - BUY（🔥 由 READY 觸發）
+    - WATCH_READY（READY 但無強訊號）
     """
 
     ma5 = features["ma5"]
@@ -80,6 +80,10 @@ def generate_entry_signal(close, volume, features, candidate_info=None):
             level = candidate_info[col].get("level")
 
             if level == "READY":
-                signals[col] = "BUY"   # 🔥 覆蓋所有其他 signal
+                current_signal = signals[col]
+                if current_signal in ("BUY_BREAKOUT", "BUY_LATE", "TREND_CONTINUE"):
+                    pass  # 保留 existing signal，不覆蓋
+                else:
+                    signals[col] = "WATCH_READY"
 
     return signals

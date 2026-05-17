@@ -55,6 +55,9 @@ from reporting.technical_action_report import (
     build_technical_action_summary,
 )
 
+# === SAFETY ===
+from decision.entry_safety_gate import apply_entry_safety_gate
+
 
 # =========================================
 # 🧠 MAIN PIPELINE
@@ -358,6 +361,14 @@ def run_pipeline(capital=100000):
         news_heat_map=news_heat_map,
         narrative_map=narrative_map,
     )
+
+    # ✅ P0 hotfix: apply safety gate after enrichment (chip_status / chase_risk 已就位)
+    held_tickers = set(portfolio.keys())
+    ranked = [
+        apply_entry_safety_gate({**r, "is_held": r.get("ticker", "") in held_tickers})
+        for r in ranked
+    ]
+
     holding_alerts = enrich_holdings_with_action(portfolio, exit_decisions, market_state)
     technical_action_summary = build_technical_action_summary(ranked)
 

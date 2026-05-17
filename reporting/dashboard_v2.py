@@ -511,7 +511,23 @@ def _chase_display(cr: str) -> tuple[str, str]:
 
 
 def _signal_cls(sig: str) -> str:
-    return {"BUY": "green", "SELL": "red"}.get(sig, "yellow")
+    if any(k in sig for k in ("BREAKOUT", "BUY_LATE", "BUY")):
+        return "green"
+    if sig in ("SELL", "EXIT"):
+        return "red"
+    return "yellow"
+
+
+def _action_cls(action: str) -> str:
+    """CSS class for card-signal based on action_mode."""
+    if not action:
+        return "yellow"
+    a = action.upper()
+    if "TECH_BUY" in a or "BREAKOUT" in a:
+        return "green"
+    if "NO_FRESH" in a or "POSITION_MANAGE" in a:
+        return "red"
+    return "yellow"
 
 
 def _mkt_cls(state: str) -> str:
@@ -590,6 +606,10 @@ def _cand_card(c: dict, rank: int, price_map: dict, tag: str = "", nar_stale: bo
     bar_pct = min(100, score / 200 * 100)
     sig_cls = _signal_cls(signal)
 
+    # Patch B-lite: 主要顯示 action_label，raw signal 移到診斷區
+    primary_label = action_label if action_label else signal
+    primary_cls = _action_cls(action_mode) if action_mode else sig_cls
+
     cs_label, cs_color = _chip_status_display(chip_status)
     ch_label, ch_color = _chase_display(chase)
     fresh_chip = _chip("籌碼新鮮", "green") if chip_fresh == "FRESH" else _chip("籌碼待更新", "grey")
@@ -620,7 +640,8 @@ def _cand_card(c: dict, rank: int, price_map: dict, tag: str = "", nar_stale: bo
     </div>
     <div class="card-right">
       <span class="card-rank">#{rank}</span>
-      <span class="card-signal {sig_cls}">{signal}</span>
+      <span class="card-signal {primary_cls}">{primary_label}</span>
+      {f'<span style="font-size:10px;color:var(--muted);display:block;text-align:right">{signal}</span>' if signal and signal != primary_label else ""}
     </div>
   </div>
 
@@ -883,6 +904,11 @@ def build_dashboard() -> str:
     satellite = main_data.get("satellite_watch", [])
     holdings = main_data.get("holdings_guidance", [])
     early = _load_early_candidates(uni)
+
+    # Patch B-lite: 從 fresh entry 區塊移除已持倉的 ticker
+    held_tickers = {h.get("ticker", "") for h in holdings}
+    wave = [c for c in wave if c.get("ticker", "") not in held_tickers]
+    satellite = [c for c in satellite if c.get("ticker", "") not in held_tickers]
 
     state = main_data.get("market_state", "UNKNOWN")
     vix = main_data.get("vix_value", 0)
