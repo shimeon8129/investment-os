@@ -107,6 +107,7 @@ def _load_json(path: Path) -> dict:
 def _nav_bar(active: str) -> str:
     now = datetime.now().strftime("%Y-%m-%d %H:%M")
     pages = [("status", "status.html", "今日狀態"),
+             ("dashboard", "dashboard.html", "戰情表板"),
              ("history", "history.html", "歷史記錄"),
              ("replay", "replay.html", "Replay")]
     links = ""
@@ -541,3 +542,8 @@ def generate_all(web_dir: Path = WEB_DIR) -> None:
             fn(**kwargs)
         except Exception as e:
             print(f"[WARN] web_report_generator: {fn.__name__} failed: {e}")
+    try:
+        from reporting.dashboard_v2 import write_dashboard
+        write_dashboard()
+    except Exception as e:
+        print(f"[WARN] web_report_generator: dashboard_v2 failed: {e}")
