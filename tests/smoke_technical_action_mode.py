@@ -29,13 +29,26 @@ def test_tech_attack():
     assert result["action_mode"] == "TECH_ATTACK", f"got {result['action_mode']}"
 
 
-def test_tech_attack_caution():
+def test_chase_gate_high_suppresses_buy():
+    # Phase 1A: HIGH chase risk must suppress BUY → TECH_WATCH regardless of vol_ratio
     result = classify_action_mode(
         signal="BUY", level="READY", vol_ratio=2.5,
         chase_risk="HIGH", chip_status="POSITIVE",
         market_state="RANGE",
     )
-    assert result["action_mode"] == "TECH_ATTACK_CAUTION", f"got {result['action_mode']}"
+    assert result["action_mode"] == "TECH_WATCH", f"got {result['action_mode']}"
+    assert "chase_risk_gate=BUY_SUPPRESSED" in result["technical_reasons"]
+
+
+def test_chase_gate_extreme_suppresses_buy():
+    # Phase 1A: EXTREME chase risk must also suppress BUY
+    result = classify_action_mode(
+        signal="BUY", level="ATTACK", vol_ratio=3.0,
+        chase_risk="EXTREME", chip_status="STRONG_POSITIVE",
+        market_state="BULL",
+    )
+    assert result["action_mode"] == "TECH_WATCH", f"got {result['action_mode']}"
+    assert "chase_risk_gate=BUY_SUPPRESSED" in result["technical_reasons"]
 
 
 def test_tech_buy():
@@ -128,7 +141,8 @@ def test_output_fields():
 
 def main():
     test_tech_attack()
-    test_tech_attack_caution()
+    test_chase_gate_high_suppresses_buy()
+    test_chase_gate_extreme_suppresses_buy()
     test_tech_buy()
     test_tech_buy_caution_divergence()
     test_tech_buy_caution_medium_chase()

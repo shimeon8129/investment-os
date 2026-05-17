@@ -16,6 +16,8 @@ LOG_DIR = ROOT / "logs"
 REPORT_DIR = ROOT / "reports" / "daily"
 PROCESSED_DIR = ROOT / "data" / "processed"
 ROLE_MAP_FILE = ROOT / "data" / "portfolio" / "role_map.json"
+CANDIDATES_FILE = ROOT / "data" / "candidates.json"
+UNIVERSE_FILE = ROOT / "data" / "universe_tw.csv"
 
 LOG_DIR.mkdir(parents=True, exist_ok=True)
 REPORT_DIR.mkdir(parents=True, exist_ok=True)
@@ -42,6 +44,21 @@ def read_json(path: Path, fallback):
     except Exception as e:
         log(f"[WARN] Failed to read {path}: {e}")
         return fallback
+
+def _load_universe_map() -> dict:
+    if not UNIVERSE_FILE.exists():
+        return {}
+    import csv
+    result = {}
+    try:
+        with UNIVERSE_FILE.open(encoding="utf-8") as f:
+            for row in csv.DictReader(f):
+                if row.get("ticker"):
+                    result[row["ticker"]] = {"name": row.get("name", ""), "sector": row.get("sector", "")}
+    except Exception:
+        pass
+    return result
+
 
 def _load_role_index() -> dict:
     if not ROLE_MAP_FILE.exists():
@@ -515,6 +532,32 @@ def main() -> int:
             report_lines += ["- role_map.json not available — role fields UNKNOWN", ""]
     else:
         report_lines += ["- No ranked candidates available.", ""]
+
+    # Phase 1B: EARLY Watchlist — score=1 candidates not yet confirmed by volume/price
+    report_lines += ["## EARLY Watchlist", ""]
+    early_data = read_json(CANDIDATES_FILE, fallback=[])
+    early_candidates = [c for c in early_data if c.get("score") == 1]
+    if early_candidates:
+        universe_map = _load_universe_map()
+        report_lines += [
+            "| Ticker | Name | Sector | Price |",
+            "| --- | --- | --- | --- |",
+        ]
+        for c in early_candidates:
+            ticker = c.get("ticker", "")
+            info = universe_map.get(ticker, {})
+            name = info.get("name") or ""
+            sector = info.get("sector") or ""
+            price = c.get("price", "")
+            price_str = f"{price:.1f}" if isinstance(price, float) else str(price)
+            report_lines.append(f"| {ticker} | {name} | {sector} | {price_str} |")
+        report_lines += [
+            "",
+            f"> {len(early_candidates)} EARLY candidates (score=1). Conditions partially met — monitor for confirmation.",
+            "",
+        ]
+    else:
+        report_lines += ["- No EARLY candidates in current scan.", ""]
 
     report_lines += [
         "## Checks",

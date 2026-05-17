@@ -64,10 +64,11 @@ def classify_action_mode(
     elif exit_signal == "REDUCE":
         action = "TECH_REDUCE"
     elif signal in ("BUY", "BUY_LATE", "TREND_CONTINUE"):
-        if level in ("ATTACK", "READY") and vol_ratio >= 2.0:
-            if chase_risk in ("HIGH", "EXTREME"):
-                action = "TECH_ATTACK_CAUTION"
-            elif market_state == "BEAR":
+        if chase_risk in ("HIGH", "EXTREME"):
+            # Phase 1A: suppress fresh entry when overextended — use as exit/reduce alert instead
+            action = "TECH_WATCH"
+        elif level in ("ATTACK", "READY") and vol_ratio >= 2.0:
+            if market_state == "BEAR":
                 action = "TECH_BUY_CAUTION"
             else:
                 action = "TECH_ATTACK"
@@ -99,6 +100,12 @@ def classify_action_mode(
         f"market_state={market_state}",
         f"chase_risk={chase_risk}",
     ]
+    if (
+        action == "TECH_WATCH"
+        and chase_risk in ("HIGH", "EXTREME")
+        and signal in ("BUY", "BUY_LATE", "TREND_CONTINUE")
+    ):
+        technical_reasons.append("chase_risk_gate=BUY_SUPPRESSED")
     if chip_status not in (None, "MISSING", "UNKNOWN"):
         technical_reasons.append(f"chip_status={chip_status}")
 
