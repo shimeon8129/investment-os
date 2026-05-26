@@ -351,7 +351,7 @@ details[open] .legend-summary::after{content:"▲"}
     <a href="history.html">歷史</a>
     <a href="replay.html">Replay</a>
   </nav>
-  <span class="ts">2026-05-17 20:42</span>
+  <span class="ts">2026-05-17 21:53</span>
 </div>
 
 <div class="mktbar">
@@ -370,7 +370,7 @@ details[open] .legend-summary::after{content:"▲"}
   <div class="mkt-divider"></div>
   <div class="mkt-item">
     <span class="lbl">進場候選</span>
-    <span class="val green">10</span>
+    <span class="val green">9</span>
   </div>
   <div class="mkt-item">
     <span class="lbl">持倉警示</span>
@@ -422,23 +422,23 @@ details[open] .legend-summary::after{content:"▲"}
     <div class="mkt-mini">
       <div class="label">Market Score</div>
       <div class="value red" style="font-size:18px">-0.0124</div>
-      <div class="sub" style="margin-top:4px"><span class="chip green">可進場</span> <span class="chip purple">WAVE_SWING</span> <span class="chip purple">SATELLITE</span></div>
+      <div class="sub" style="margin-top:4px"><span class="chip red">暫停進場</span> <span class="chip purple">WAVE_SWING</span> <span class="chip purple">SATELLITE</span></div>
     </div>
   </div>
-  <div class="guidance">市場盤整，精選進場，優先有量有籌碼的 WAVE_SWING 標的</div>
+  <div class="guidance">市場盤整且多空混雜（score<0），暫停 fresh entry，等待市場方向確認。</div>
   <div class="guidance" style="border-left-color:var(--purple);margin-top:6px">依角色停損邏輯持有，CORE 不因短線波動減碼</div>
 </div>
 
   <div class="sec-hdr">
     <h2>🎯 進場候選</h2>
-    <span class="sec-cnt">10 檔</span>
+    <span class="sec-cnt">9 檔</span>
     <div class="sec-line"></div>
   </div>
   <div class="sec-note">
-    <strong>波段技術操作候選</strong>：技術訊號（BUY + READY）與籌碼條件同時達標。策略為「強者恆強動能追蹤」，在技術突破點試單，非低估值買進。每張卡片附有<strong>失效條件</strong>與建議停損，操作前請確認個人風險承受度。
+    <strong>進場候選觀察區</strong>：此區列出系統技術篩選候選，<strong>不等於可直接進場</strong>。若卡片主標籤顯示 <strong>量能不足</strong>、<strong>籌碼分歧</strong>、<strong>追價風險過高</strong> 或 <strong>持倉管理</strong>，代表安全閘判定不允許 fresh BUY，請依標籤操作。每張卡片附有<strong>失效條件</strong>與建議停損，操作前請確認個人風險承受度。
   </div>
   
-<div class="cand-card buy">
+<div class="cand-card caution">
   <div class="card-top">
     <div>
       <div class="card-name">英業達</div>
@@ -450,7 +450,8 @@ details[open] .legend-summary::after{content:"▲"}
     </div>
     <div class="card-right">
       <span class="card-rank">#1</span>
-      <span class="card-signal green">BUY</span>
+      <span class="card-signal yellow">量能不足，等待確認</span>
+      <span style="font-size:10px;color:var(--muted);display:block;text-align:right">BUY</span>
     </div>
   </div>
 
@@ -496,12 +497,12 @@ details[open] .legend-summary::after{content:"▲"}
   </div>
 
   <div class="card-action">
-    <div class="action-mode">技術買進</div>
-    <div class="action-note">可試單，設停損 MA5 以下</div>
+    <div class="action-mode">量能不足，等待確認</div>
+    <div class="action-note">量比 0.78x 未達 1.0，等待放量再評估</div>
     <div class="invalid-row"><span class="il">失效：</span>跌破 MA5・成交量持續萎縮・market_state 轉 BEAR</div>
   </div>
 </div>
-<div class="cand-card buy">
+<div class="cand-card caution">
   <div class="card-top">
     <div>
       <div class="card-name">微星</div>
@@ -513,7 +514,8 @@ details[open] .legend-summary::after{content:"▲"}
     </div>
     <div class="card-right">
       <span class="card-rank">#2</span>
-      <span class="card-signal green">BUY</span>
+      <span class="card-signal yellow">量能不足，等待確認</span>
+      <span style="font-size:10px;color:var(--muted);display:block;text-align:right">BUY</span>
     </div>
   </div>
 
@@ -559,8 +561,8 @@ details[open] .legend-summary::after{content:"▲"}
   </div>
 
   <div class="card-action">
-    <div class="action-mode">技術買進</div>
-    <div class="action-note">可試單，設停損 MA5 以下</div>
+    <div class="action-mode">量能不足，等待確認</div>
+    <div class="action-note">量比 0.63x 未達 1.0，等待放量再評估</div>
     <div class="invalid-row"><span class="il">失效：</span>跌破 MA5・成交量持續萎縮・market_state 轉 BEAR</div>
   </div>
 </div>
@@ -576,7 +578,8 @@ details[open] .legend-summary::after{content:"▲"}
     </div>
     <div class="card-right">
       <span class="card-rank">#3</span>
-      <span class="card-signal green">BUY</span>
+      <span class="card-signal green">技術買進</span>
+      <span style="font-size:10px;color:var(--muted);display:block;text-align:right">BUY</span>
     </div>
   </div>
 
@@ -639,7 +642,8 @@ details[open] .legend-summary::after{content:"▲"}
     </div>
     <div class="card-right">
       <span class="card-rank">#4</span>
-      <span class="card-signal green">BUY</span>
+      <span class="card-signal green">技術買進</span>
+      <span style="font-size:10px;color:var(--muted);display:block;text-align:right">BUY</span>
     </div>
   </div>
 
@@ -702,7 +706,8 @@ details[open] .legend-summary::after{content:"▲"}
     </div>
     <div class="card-right">
       <span class="card-rank">#5</span>
-      <span class="card-signal green">BUY</span>
+      <span class="card-signal green">技術買進</span>
+      <span style="font-size:10px;color:var(--muted);display:block;text-align:right">BUY</span>
     </div>
   </div>
 
@@ -765,7 +770,8 @@ details[open] .legend-summary::after{content:"▲"}
     </div>
     <div class="card-right">
       <span class="card-rank">#6</span>
-      <span class="card-signal green">BUY</span>
+      <span class="card-signal yellow">量能不足，等待確認</span>
+      <span style="font-size:10px;color:var(--muted);display:block;text-align:right">BUY</span>
     </div>
   </div>
 
@@ -811,12 +817,12 @@ details[open] .legend-summary::after{content:"▲"}
   </div>
 
   <div class="card-action">
-    <div class="action-mode">技術買進，注意分歧</div>
-    <div class="action-note">可小部位，不追價，注意籌碼或數據分歧</div>
+    <div class="action-mode">量能不足，等待確認</div>
+    <div class="action-note">量比 0.80x 未達 1.0，等待放量再評估</div>
     <div class="invalid-row"><span class="il">失效：</span>籌碼持續賣超・跌破 MA5・訊號消失</div>
   </div>
 </div>
-<div class="cand-card buy">
+<div class="cand-card caution">
   <div class="card-top">
     <div>
       <div class="card-name">健鼎</div>
@@ -828,7 +834,8 @@ details[open] .legend-summary::after{content:"▲"}
     </div>
     <div class="card-right">
       <span class="card-rank">#7</span>
-      <span class="card-signal green">BUY</span>
+      <span class="card-signal yellow">量能不足，等待確認</span>
+      <span style="font-size:10px;color:var(--muted);display:block;text-align:right">BUY</span>
     </div>
   </div>
 
@@ -874,8 +881,8 @@ details[open] .legend-summary::after{content:"▲"}
   </div>
 
   <div class="card-action">
-    <div class="action-mode">技術買進</div>
-    <div class="action-note">可試單，設停損 MA5 以下</div>
+    <div class="action-mode">量能不足，等待確認</div>
+    <div class="action-note">量比 0.85x 未達 1.0，等待放量再評估</div>
     <div class="invalid-row"><span class="il">失效：</span>跌破 MA5・成交量持續萎縮・market_state 轉 BEAR</div>
   </div>
 </div>
@@ -891,7 +898,8 @@ details[open] .legend-summary::after{content:"▲"}
     </div>
     <div class="card-right">
       <span class="card-rank">#8</span>
-      <span class="card-signal green">BUY</span>
+      <span class="card-signal yellow">量能不足，等待確認</span>
+      <span style="font-size:10px;color:var(--muted);display:block;text-align:right">BUY</span>
     </div>
   </div>
 
@@ -937,8 +945,8 @@ details[open] .legend-summary::after{content:"▲"}
   </div>
 
   <div class="card-action">
-    <div class="action-mode">技術買進，注意分歧</div>
-    <div class="action-note">可小部位，不追價，注意籌碼或數據分歧</div>
+    <div class="action-mode">量能不足，等待確認</div>
+    <div class="action-note">量比 0.70x 未達 1.0，等待放量再評估</div>
     <div class="invalid-row"><span class="il">失效：</span>籌碼持續賣超・跌破 MA5・訊號消失</div>
   </div>
 </div>
@@ -954,7 +962,8 @@ details[open] .legend-summary::after{content:"▲"}
     </div>
     <div class="card-right">
       <span class="card-rank">#9</span>
-      <span class="card-signal green">BUY</span>
+      <span class="card-signal yellow">籌碼分歧，等待確認</span>
+      <span style="font-size:10px;color:var(--muted);display:block;text-align:right">BUY</span>
     </div>
   </div>
 
@@ -1000,72 +1009,9 @@ details[open] .legend-summary::after{content:"▲"}
   </div>
 
   <div class="card-action">
-    <div class="action-mode">技術買進，注意分歧</div>
-    <div class="action-note">可小部位，不追價，注意籌碼或數據分歧</div>
+    <div class="action-mode">籌碼分歧，等待確認</div>
+    <div class="action-note">籌碼狀態 DIVERGENCE，法人分歧或偏空，暫緩進場</div>
     <div class="invalid-row"><span class="il">失效：</span>籌碼持續賣超・跌破 MA5・訊號消失</div>
-  </div>
-</div>
-<div class="cand-card satellite">
-  <div class="card-top">
-    <div>
-      <div class="card-name">智邦</div>
-      <div class="card-sub">
-        <span class="card-ticker">2345.TW</span>
-        <span class="chip purple" style="font-size:10px">Network</span>
-        <span class="card-role-badge satellite">衛星觀察</span>
-      </div>
-    </div>
-    <div class="card-right">
-      <span class="card-rank">#10</span>
-      <span class="card-signal green">BUY</span>
-    </div>
-  </div>
-
-  <div class="card-score">
-    <div class="score-hdr">
-      <div><span class="score-num">108</span><span class="score-unit"> 分</span></div>
-      <span class="score-badge moderate">穩健</span>
-    </div>
-    <div class="progress-track">
-      <div class="progress-fill yellow" style="width:54%"></div>
-    </div>
-    <div class="score-subs">
-      <span>敘事 0<span class='stale-tag'>⚠ 10天前</span></span><span>籌碼 0</span><span>量比 1.09x</span>
-    </div>
-  </div>
-
-  <div class="card-metrics">
-    <div class="metric"><span class="ml">收盤</span><span class="mv blue">2,505</span></div>
-    <div class="metric"><span class="ml">量比</span><span class="mv green">1.09x</span></div>
-    <div class="metric"><span class="ml">敘事⚠</span><span class="mv yellow">0</span></div>
-    <div class="metric"><span class="ml">籌碼分</span><span class="mv yellow">0</span></div>
-  </div>
-
-  <div class="card-inst">
-    <div class="inst-col">
-      <span class="inst-lbl">外資</span>
-      <span class="inst-val neg">-53萬</span>
-    </div>
-    <div class="inst-col">
-      <span class="inst-lbl">投信</span>
-      <span class="inst-val pos">+15萬</span>
-    </div>
-    <div class="inst-col">
-      <span class="inst-lbl">自營商</span>
-      <span class="inst-val neg">-1萬</span>
-    </div>
-  </div>
-
-  <div class="card-chips">
-    <span class="chip yellow">籌碼分歧</span>
-    <span class="chip green">追價風險低</span>
-    <span class="chip green">籌碼新鮮</span>
-  </div>
-
-  <div class="card-action">
-    <div class="action-mode">持倉減碼</div>
-    <div class="action-note">考慮減碼，確認是否跌破關鍵支撐</div>
-    <div class="invalid-row"><span class="il">失效：</span>跌幅超過停損線・量縮反彈假突破</div>
   </div>
 </div>
 
@@ -1362,7 +1308,7 @@ details[open] .legend-summary::after{content:"▲"}
     <div class="legend-group-title">📡 早期候選 — 條件說明</div>
     <div class="legend-item"><span class="legend-key">score = 1</span><span class="legend-val">已通過初步宇宙篩選（universe_tw.csv 覆蓋範圍內），但尚未同時滿足技術訊號 + 籌碼條件，屬「潛力觀察名單」</span></div>
     <div class="legend-item"><span class="legend-key">排列方式</span><span class="legend-val">依產業分組後再依代號排序，方便同產業比較。相同產業的標的集中顯示</span></div>
-    <div class="legend-item"><span class="legend-key">何時升級</span><span class="legend-val">當技術訊號（BUY + READY level）與籌碼條件同時達標，score 升為 2，進入「進場候選」區塊</span></div>
+    <div class="legend-item"><span class="legend-key">何時升級</span><span class="legend-val">當技術突破訊號與籌碼條件同時達標，且通過安全閘（量能≥1.0 / 籌碼無分歧 / 追價風險非HIGH），score 升為 2，進入「進場候選」區塊</span></div>
   </div>
 
 </div>

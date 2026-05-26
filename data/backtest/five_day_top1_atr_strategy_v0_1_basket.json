@@ -1,0 +1,20 @@
+{
+  "strategy_id": "FIVE_DAY_TOP1_ATR_STRATEGY_v0_1",
+  "basket_id": "2026-05-07_TOP1_5D",
+  "start_date": "2026-05-07",
+  "entry_count": 5,
+  "planned_capital": 500000.0,
+  "deployed_capital": 499628.4,
+  "cash_remainder": 371.6,
+  "current_stock_value": 255416.2,
+  "realized_value": 274245.5,
+  "total_equity": 530033.3,
+  "gross_pnl": 30033.3,
+  "net_pnl_estimated": 26977.57,
+  "gross_return_pct": 6.0067,
+  "net_return_pct_estimated": 5.3955,
+  "open_positions": 2,
+  "exited_positions": 3,
+  "best_lot": "2464.TW",
+  "worst_lot": "3711.TW"
+}

@@ -511,7 +511,23 @@ def _chase_display(cr: str) -> tuple[str, str]:
 
 
 def _signal_cls(sig: str) -> str:
-    return {"BUY": "green", "SELL": "red"}.get(sig, "yellow")
+    if any(k in sig for k in ("BREAKOUT", "BUY_LATE", "BUY")):
+        return "green"
+    if sig in ("SELL", "EXIT"):
+        return "red"
+    return "yellow"
+
+
+def _action_cls(action: str) -> str:
+    """CSS class for card-signal based on action_mode."""
+    if not action:
+        return "yellow"
+    a = action.upper()
+    if "TECH_BUY" in a or "BREAKOUT" in a:
+        return "green"
+    if "NO_FRESH" in a or "POSITION_MANAGE" in a:
+        return "red"
+    return "yellow"
 
 
 def _mkt_cls(state: str) -> str:
@@ -577,6 +593,23 @@ def _cand_card(c: dict, rank: int, price_map: dict, tag: str = "", nar_stale: bo
     trust = c.get("trust_net_buy", 0)
     dealer = c.get("dealer_net_buy", 0)
 
+    # Display-layer safety override: guard against stale snapshots where safety gate
+    # hasn't run yet. When gate runs correctly (post-P0.1), action_mode is already
+    # WATCH_READY/NO_FRESH_ENTRY_EXTENDED so these conditions won't retrigger.
+    if any(k in action_mode for k in ("TECH_BUY", "TECH_ATTACK")):
+        if vol < 1.0:
+            action_mode = "WATCH_READY"
+            action_label = "量能不足，等待確認"
+            suggested = f"量比 {vol:.2f}x 未達 1.0，等待放量再評估"
+        elif chip_status in ("DIVERGENCE", "STRONG_DIVERGENCE", "STRONG_NEGATIVE"):
+            action_mode = "WATCH_READY"
+            action_label = "籌碼分歧，等待確認"
+            suggested = f"籌碼狀態 {chip_status}，法人分歧或偏空，暫緩進場"
+        elif chase in ("HIGH", "EXTREME"):
+            action_mode = "NO_FRESH_ENTRY_EXTENDED"
+            action_label = "追價風險過高"
+            suggested = f"追價風險 {chase}，股價偏離均線過遠，不宜追入"
+
     # price from lookup
     price = price_map.get(ticker, 0)
 
@@ -589,6 +622,10 @@ def _cand_card(c: dict, rank: int, price_map: dict, tag: str = "", nar_stale: bo
     badge_cls, bar_color, grade_label = _score_grade(score)
     bar_pct = min(100, score / 200 * 100)
     sig_cls = _signal_cls(signal)
+
+    # Patch B-lite: 主要顯示 action_label，raw signal 移到診斷區
+    primary_label = action_label if action_label else signal
+    primary_cls = _action_cls(action_mode) if action_mode else sig_cls
 
     cs_label, cs_color = _chip_status_display(chip_status)
     ch_label, ch_color = _chase_display(chase)
@@ -620,7 +657,8 @@ def _cand_card(c: dict, rank: int, price_map: dict, tag: str = "", nar_stale: bo
     </div>
     <div class="card-right">
       <span class="card-rank">#{rank}</span>
-      <span class="card-signal {sig_cls}">{signal}</span>
+      <span class="card-signal {primary_cls}">{primary_label}</span>
+      {f'<span style="font-size:10px;color:var(--muted);display:block;text-align:right">{signal}</span>' if signal and signal != primary_label else ""}
     </div>
   </div>
 
@@ -760,7 +798,11 @@ def _market_card(data: dict) -> str:
     state_label = {"BULL": "多頭趨勢 ▲", "BEAR": "空頭趨勢 ▼", "RANGE": "盤整格局 ◆"}.get(state, state)
     vix_cls = _vix_cls(vix)
     vix_label = {"NORMAL": "正常", "ELEVATED": "偏高", "HIGH": "高", "EXTREME": "極高"}.get(vix_alert, vix_alert)
-    entry_chip = _chip("可進場", "green") if new_entry else _chip("暫停進場", "red")
+    if state == "RANGE" and score < 0:
+        entry_chip = _chip("暫停進場", "red")
+        summary = "市場盤整且多空混雜（score<0），暫停 fresh entry，等待市場方向確認。"
+    else:
+        entry_chip = _chip("可進場", "green") if new_entry else _chip("暫停進場", "red")
 
     role_chips = " ".join(_chip(r, "purple") for r in guidance.get("role_filter", []))
 
@@ -850,7 +892,7 @@ def _legend_section() -> str:
     <div class="legend-group-title">📡 早期候選 — 條件說明</div>
     <div class="legend-item"><span class="legend-key">score = 1</span><span class="legend-val">已通過初步宇宙篩選（universe_tw.csv 覆蓋範圍內），但尚未同時滿足技術訊號 + 籌碼條件，屬「潛力觀察名單」</span></div>
     <div class="legend-item"><span class="legend-key">排列方式</span><span class="legend-val">依產業分組後再依代號排序，方便同產業比較。相同產業的標的集中顯示</span></div>
-    <div class="legend-item"><span class="legend-key">何時升級</span><span class="legend-val">當技術訊號（BUY + READY level）與籌碼條件同時達標，score 升為 2，進入「進場候選」區塊</span></div>
+    <div class="legend-item"><span class="legend-key">何時升級</span><span class="legend-val">當技術突破訊號與籌碼條件同時達標，且通過安全閘（量能≥1.0 / 籌碼無分歧 / 追價風險非HIGH），score 升為 2，進入「進場候選」區塊</span></div>
   </div>
 
 </div>
@@ -883,6 +925,11 @@ def build_dashboard() -> str:
     satellite = main_data.get("satellite_watch", [])
     holdings = main_data.get("holdings_guidance", [])
     early = _load_early_candidates(uni)
+
+    # Patch B-lite: 從 fresh entry 區塊移除已持倉的 ticker
+    held_tickers = {h.get("ticker", "") for h in holdings}
+    wave = [c for c in wave if c.get("ticker", "") not in held_tickers]
+    satellite = [c for c in satellite if c.get("ticker", "") not in held_tickers]
 
     state = main_data.get("market_state", "UNKNOWN")
     vix = main_data.get("vix_value", 0)
@@ -985,7 +1032,7 @@ def build_dashboard() -> str:
     <div class="sec-line"></div>
   </div>
   <div class="sec-note">
-    <strong>波段技術操作候選</strong>：技術訊號（BUY + READY）與籌碼條件同時達標。策略為「強者恆強動能追蹤」，在技術突破點試單，非低估值買進。每張卡片附有<strong>失效條件</strong>與建議停損，操作前請確認個人風險承受度。
+    <strong>進場候選觀察區</strong>：此區列出系統技術篩選候選，<strong>不等於可直接進場</strong>。若卡片主標籤顯示 <strong>量能不足</strong>、<strong>籌碼分歧</strong>、<strong>追價風險過高</strong> 或 <strong>持倉管理</strong>，代表安全閘判定不允許 fresh BUY，請依標籤操作。每張卡片附有<strong>失效條件</strong>與建議停損，操作前請確認個人風險承受度。
   </div>
   {"<p style='color:var(--muted);padding:14px'>目前無進場候選</p>" if not wave and not satellite else wave_cards}
 

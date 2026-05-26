@@ -1,0 +1,46 @@
+{
+  "summary": {
+    "strategy_id": "ROLLING_FIVE_DAY_TOP1_ATR_DIAGNOSIS_v0_1",
+    "n_baskets": 11,
+    "n_immature": 5,
+    "n_mature": 6,
+    "total_lots": 55,
+    "total_false_exit_count": 17,
+    "total_entry_failure_count": 0,
+    "total_open_winner_count": 20,
+    "total_open_risk_count": 0,
+    "total_market_reversal_count": 0,
+    "total_data_quality_issue_count": 18,
+    "total_gross_pnl": 243496.5,
+    "avg_gross_return_pct_per_basket": 4.4272
+  },
+  "model_comparison": {
+    "ATR_TIGHT": {
+      "total_gross_pnl": 123619.5,
+      "total_net_pnl_estimated": 101447.5,
+      "avg_gross_return_pct": 2.2476
+    },
+    "ATR_BASE": {
+      "total_gross_pnl": 243496.5,
+      "total_net_pnl_estimated": 220794.01,
+      "avg_gross_return_pct": 4.4272
+    },
+    "ATR_WIDE": {
+      "total_gross_pnl": 444151.5,
+      "total_net_pnl_estimated": 420561.11,
+      "avg_gross_return_pct": 8.0755
+    },
+    "FIXED_10D": {
+      "total_gross_pnl": 291488.5,
+      "total_net_pnl_estimated": 283186.16,
+      "avg_gross_return_pct": 5.2998
+    },
+    "MA5": {
+      "total_gross_pnl": -168108.0,
+      "total_net_pnl_estimated": -188988.99,
+      "avg_gross_return_pct": -3.0565
+    }
+  },
+  "valuation_date": "2026-05-26",
+  "n_baskets": 11
+}
