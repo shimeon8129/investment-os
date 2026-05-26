@@ -60,6 +60,106 @@ ATR_VARIANTS = {
 PRIMARY_ATR_VARIANT = "ATR_BASE"
 
 
+# ─────────────────────────────────────────────────────────────
+# OHLC fetch
+# ─────────────────────────────────────────────────────────────
+
+def fetch_ohlc(tickers: list[str], start: str, end: str) -> pd.DataFrame:
+    """Fetch daily OHLC. Returns MultiIndex(field, ticker) DataFrame, date index."""
+    if not tickers:
+        return pd.DataFrame()
+    try:
+        raw = yf.download(
+            tickers, start=start, end=end,
+            interval="1d", auto_adjust=True,
+            progress=False, threads=True,
+        )
+        if raw.empty:
+            return pd.DataFrame()
+        if not isinstance(raw.columns, pd.MultiIndex):
+            # Single-ticker: wrap into MultiIndex
+            raw.columns = pd.MultiIndex.from_tuples(
+                [(col, tickers[0]) for col in raw.columns]
+            )
+        raw.index = pd.to_datetime(raw.index).date
+        return raw
+    except Exception as e:
+        print(f"[WARN] fetch_ohlc failed: {e}")
+        return pd.DataFrame()
+
+
+# ─────────────────────────────────────────────────────────────
+# ATR20 + price helpers
+# ─────────────────────────────────────────────────────────────
+
+def compute_atr20(
+    ohlc: pd.DataFrame, ticker: str, as_of_date: date, period: int = 20
+) -> Optional[float]:
+    """ATR20 using `period` trading days strictly before as_of_date."""
+    if ohlc.empty:
+        return None
+    try:
+        lvl0 = ohlc.columns.get_level_values(0).unique()
+        if not {"High", "Low", "Close"}.issubset(set(lvl0)):
+            return None
+        if ticker not in ohlc["Close"].columns:
+            return None
+    except Exception:
+        return None
+
+    mask = [d < as_of_date for d in ohlc.index]
+    h  = ohlc["High"][ticker][mask].dropna()
+    lo = ohlc["Low"][ticker][mask].dropna()
+    c  = ohlc["Close"][ticker][mask].dropna()
+
+    if len(c) < period + 1:
+        return None
+
+    h  = h.iloc[-(period + 1):].values
+    lo = lo.iloc[-(period + 1):].values
+    c  = c.iloc[-(period + 1):].values
+
+    tr = np.maximum(
+        h[1:] - lo[1:],
+        np.maximum(np.abs(h[1:] - c[:-1]), np.abs(lo[1:] - c[:-1])),
+    )
+    return float(tr.mean())
+
+
+def get_close(ohlc: pd.DataFrame, ticker: str, d: date) -> Optional[float]:
+    """Return closing price for ticker on date d, or None."""
+    if ohlc.empty:
+        return None
+    try:
+        if ticker not in ohlc["Close"].columns:
+            return None
+        val = ohlc["Close"][ticker].get(d)
+        if val is None or pd.isna(val):
+            return None
+        return float(val)
+    except Exception:
+        return None
+
+
+def get_close_series(
+    ohlc: pd.DataFrame, ticker: str, after_date: date, to_date: date
+) -> list[tuple[date, float]]:
+    """List of (date, close) for dates strictly after after_date through to_date."""
+    if ohlc.empty:
+        return []
+    try:
+        if ticker not in ohlc["Close"].columns:
+            return []
+        s = ohlc["Close"][ticker]
+        return [
+            (d, float(v))
+            for d, v in s.items()
+            if after_date < d <= to_date and not pd.isna(v)
+        ]
+    except Exception:
+        return []
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="Five-Day Top1 ATR Strategy Backtest v0.1")
     parser.add_argument("--start-date", default="2026-05-07")
