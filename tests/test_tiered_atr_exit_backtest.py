@@ -192,3 +192,67 @@ def test_hold_protection_boundary_exact_date_is_protected():
     assert result["exit_reason"] == "ATR_TRAILING_STOP"
     # Should exit on start+4, not start+3
     assert date.fromisoformat(result["exit_date"]) == start + timedelta(days=4)
+
+
+from analysis.tiered_atr_exit_backtest import compute_profit_giveback_pct, _run_one_model
+
+
+def test_profit_giveback_pct_partial_giveback():
+    # Peak unrealized = +10000, exit PnL = +2000 → gave back 80%
+    lot = {"max_profit_seen": 10000.0, "gross_pnl": 2000.0,
+           "exit_reason": "ATR_TRAILING_STOP"}
+    assert compute_profit_giveback_pct(lot) == pytest.approx(0.80, rel=1e-3)
+
+
+def test_profit_giveback_pct_crosses_to_loss():
+    # Peak = +10000, exit PnL = -5000 → gave back 150% (crossed into loss)
+    lot = {"max_profit_seen": 10000.0, "gross_pnl": -5000.0,
+           "exit_reason": "ATR_TRAILING_STOP"}
+    assert compute_profit_giveback_pct(lot) == pytest.approx(1.50, rel=1e-3)
+
+
+def test_profit_giveback_pct_zero_peak_returns_none():
+    lot = {"max_profit_seen": 0.0, "gross_pnl": -500.0,
+           "exit_reason": "ATR_TRAILING_STOP"}
+    assert compute_profit_giveback_pct(lot) is None
+
+
+def test_profit_giveback_pct_none_peak_returns_none():
+    lot = {"max_profit_seen": None, "gross_pnl": 1000.0,
+           "exit_reason": "OPEN_POSITION"}
+    assert compute_profit_giveback_pct(lot) is None
+
+
+def test_profit_giveback_pct_open_position():
+    # Open: peak=5000, current gross_pnl=3000 → gave back 40%
+    lot = {"max_profit_seen": 5000.0, "gross_pnl": 3000.0,
+           "exit_reason": "OPEN_POSITION"}
+    assert compute_profit_giveback_pct(lot) == pytest.approx(0.40, rel=1e-3)
+
+
+def test_run_one_model_atr_base_returns_exit_info():
+    start = date(2026, 1, 1)
+    closes = [100.0, 100.0, 100.0, 80.0]
+    ohlc = _make_ohlc("X.TW", start, closes, closes, closes)
+    report_dates = [start + timedelta(days=i) for i in range(1, 4)]
+    entry = _make_entry(start=start)
+    result = _run_one_model("ATR_BASE", entry, ohlc, report_dates,
+                            date(2026, 6, 1))
+    assert "exit_reason" in result
+    assert "exit_model" in result
+
+
+def test_run_one_model_tiered_atr_returns_hold_field():
+    start = date(2026, 1, 1)
+    closes = [100.0, 110.0, 120.0]
+    ohlc = _make_ohlc("X.TW", start, closes, closes, closes)
+    report_dates = [start + timedelta(days=i) for i in range(1, 3)]
+    entry = _make_entry(start=start)
+    result = _run_one_model("TIERED_ATR", entry, ohlc, report_dates,
+                            start + timedelta(days=2))
+    assert "hold_period_protected" in result
+
+
+def test_run_one_model_unknown_raises():
+    with pytest.raises(ValueError, match="Unknown model"):
+        _run_one_model("DOES_NOT_EXIST", {}, pd.DataFrame(), [], date(2026, 1, 1))

@@ -216,3 +216,45 @@ def simulate_tiered_atr_exit(
         "current_value":            round(current_price * shares, 2),
         "hold_period_protected":    hold_period_protected,
     }
+
+
+# ─────────────────────────────────────────────────────────────
+# Per-lot diagnostic metrics + model dispatch
+# ─────────────────────────────────────────────────────────────
+
+def compute_profit_giveback_pct(lot: dict) -> Optional[float]:
+    """Fraction of peak unrealized profit given back at exit (or valuation).
+
+    Returns None when max_profit_seen is None or ≤ 0 (position never profitable).
+    Can exceed 1.0 when a profitable position crosses back into loss.
+    """
+    peak = lot.get("max_profit_seen")
+    if peak is None or peak <= 0:
+        return None
+    pnl = lot.get("gross_pnl") or 0
+    return round((peak - pnl) / peak, 4)
+
+
+def _run_one_model(
+    model_name: str,
+    entry: dict,
+    ohlc: pd.DataFrame,
+    report_dates: list[date],
+    valuation_date: date,
+) -> dict:
+    """Dispatch to the correct exit simulator for the given model name."""
+    if model_name == "ATR_BASE":
+        return simulate_atr_exit(entry, ohlc, 1.5, 2.0, valuation_date)
+    if model_name == "ATR_WIDE":
+        return simulate_atr_exit(entry, ohlc, 2.0, 2.5, valuation_date)
+    if model_name == "TIERED_ATR":
+        return simulate_tiered_atr_exit(entry, ohlc, report_dates, valuation_date,
+                                        hold_protection=True)
+    if model_name == "TIERED_ATR_NO_HOLD_PROTECTION":
+        return simulate_tiered_atr_exit(entry, ohlc, report_dates, valuation_date,
+                                        hold_protection=False)
+    if model_name == "FIXED_10D":
+        return simulate_fixed10d_exit(entry, ohlc, report_dates, valuation_date)
+    if model_name == "MA5":
+        return simulate_ma_exit(entry, ohlc, ma_period=5, valuation_date=valuation_date)
+    raise ValueError(f"Unknown model: {model_name!r}")
