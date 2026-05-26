@@ -61,6 +61,51 @@ PRIMARY_ATR_VARIANT = "ATR_BASE"
 
 
 # ─────────────────────────────────────────────────────────────
+# Daily report parser
+# ─────────────────────────────────────────────────────────────
+
+def parse_daily_report(date_str: str) -> Optional[dict]:
+    """Parse Top 1 candidate metadata from daily report Markdown."""
+    path = REPORTS_DAILY / f"{date_str}_daily_report.md"
+    if not path.exists():
+        return None
+    text = path.read_text(encoding="utf-8")
+
+    ms_m = re.search(r"Market state:\s*\*\*([A-Z]+)\*\*", text)
+    market_state = ms_m.group(1) if ms_m else None
+
+    score_m = re.search(r"Market state:.*?Score:\s*([\d.]+)", text)
+    market_score = float(score_m.group(1)) if score_m else None
+
+    vix_m = re.search(r"VIX:\s*([\d.]+)", text)
+    vix = float(vix_m.group(1)) if vix_m else None
+
+    # Top Ranked table: handles both 6-column (old) and 10-column (new) formats
+    top1_m = re.search(
+        r"\|\s*1\s*\|\s*(\S+)\s*\|\s*([^|]+?)\s*\|\s*([^|]+?)\s*\|\s*(\S+)\s*\|\s*([\d.]+)\s*"
+        r"(?:\|\s*(\S+)\s*\|\s*(\S+)\s*\|\s*(\S+)\s*\|\s*([^|]*?)\s*\|)?",
+        text,
+    )
+    if not top1_m:
+        return None
+
+    return {
+        "date": date_str,
+        "market_state": market_state,
+        "market_score": market_score,
+        "vix": vix,
+        "ticker": top1_m.group(1).strip(),
+        "name": top1_m.group(2).strip(),
+        "sector": top1_m.group(3).strip(),
+        "signal": top1_m.group(4).strip(),
+        "score": float(top1_m.group(5)),
+        "base_role": (top1_m.group(6) or "").strip() or None,
+        "active_role": (top1_m.group(7) or "").strip() or None,
+        "role_confidence": (top1_m.group(8) or "").strip() or None,
+    }
+
+
+# ─────────────────────────────────────────────────────────────
 # OHLC fetch
 # ─────────────────────────────────────────────────────────────
 

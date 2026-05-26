@@ -78,3 +78,28 @@ def test_get_close_series_filters_correctly():
     assert start not in dates_only                   # strictly after
     assert start + timedelta(days=3) in dates_only  # inclusive upper bound
     assert len(result) == 3
+
+
+from analysis.five_day_top1_atr_backtest import parse_daily_report
+
+
+def test_parse_daily_report_2026_05_07():
+    p = parse_daily_report("2026-05-07")
+    assert p is not None
+    assert p["ticker"] == "3711.TW"
+    assert p["name"] == "日月光投控"
+    assert p["signal"] == "BUY"
+    assert p["market_state"] == "RANGE"
+    assert p["score"] == pytest.approx(173.466, rel=1e-2)
+
+
+def test_parse_daily_report_2026_05_11_includes_role_fields():
+    p = parse_daily_report("2026-05-11")
+    assert p is not None
+    assert p["ticker"] == "2464.TW"
+    assert p["base_role"] == "WAVE_SWING"
+    assert p["role_confidence"] == "LOW"
+
+
+def test_parse_daily_report_missing_date_returns_none():
+    assert parse_daily_report("2000-01-01") is None
