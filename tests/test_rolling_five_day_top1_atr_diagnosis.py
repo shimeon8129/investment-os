@@ -82,3 +82,41 @@ def _make_base_lot(
         "data_quality_flag":         "PASS",
         "data_quality_note":         "",
     }
+
+
+from analysis.rolling_five_day_top1_atr_diagnosis import (
+    get_available_report_dates,
+    build_rolling_baskets,
+)
+
+
+def test_get_available_report_dates_returns_sorted(tmp_path, monkeypatch):
+    import analysis.rolling_five_day_top1_atr_diagnosis as m
+    monkeypatch.setattr(m, "REPORTS_DAILY", tmp_path)
+    for ds in ["2026-05-13", "2026-05-07", "2026-05-08"]:
+        (tmp_path / f"{ds}_daily_report.md").write_text(f"# fake {ds}\n")
+    result = get_available_report_dates()
+    assert result == [date(2026, 5, 7), date(2026, 5, 8), date(2026, 5, 13)]
+
+
+def test_get_available_report_dates_skips_non_date_files(tmp_path, monkeypatch):
+    import analysis.rolling_five_day_top1_atr_diagnosis as m
+    monkeypatch.setattr(m, "REPORTS_DAILY", tmp_path)
+    (tmp_path / "2026-05-07_daily_report.md").write_text("# fake\n")
+    (tmp_path / "summary.md").write_text("ignore\n")
+    result = get_available_report_dates()
+    assert result == [date(2026, 5, 7)]
+
+
+def test_build_rolling_baskets_window5():
+    dates = [date(2026, 5, d) for d in [7, 8, 11, 12, 13, 14, 15]]
+    baskets = build_rolling_baskets(dates, window=5)
+    assert len(baskets) == 3
+    assert baskets[0] == [date(2026, 5, d) for d in [7, 8, 11, 12, 13]]
+    assert baskets[1] == [date(2026, 5, d) for d in [8, 11, 12, 13, 14]]
+    assert baskets[2] == [date(2026, 5, d) for d in [11, 12, 13, 14, 15]]
+
+
+def test_build_rolling_baskets_too_few_dates():
+    dates = [date(2026, 5, d) for d in [7, 8, 11]]
+    assert build_rolling_baskets(dates, window=5) == []

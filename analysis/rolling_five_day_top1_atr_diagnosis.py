@@ -63,3 +63,28 @@ IMMATURE_MIN_HOLD = 5  # minimum post-entry report dates to be non-immature
 # post_trade_label thresholds (owner-confirmed)
 ATR_TOO_TIGHT_THRESHOLD = 0.05   # post-exit max return > 5% → exited too early
 ENTRY_FAILURE_THRESHOLD = -0.03  # next_1d_return < -3% → entered a bad signal
+
+# ─────────────────────────────────────────────────────────────
+# Report date discovery + rolling basket builder
+# ─────────────────────────────────────────────────────────────
+
+_DATE_RE = re.compile(r"^(\d{4}-\d{2}-\d{2})_daily_report\.md$")
+
+
+def get_available_report_dates() -> list[date]:
+    """Scan REPORTS_DAILY for YYYY-MM-DD_daily_report.md files, return sorted dates."""
+    result = []
+    for f in REPORTS_DAILY.iterdir():
+        m = _DATE_RE.match(f.name)
+        if m:
+            result.append(date.fromisoformat(m.group(1)))
+    return sorted(result)
+
+
+def build_rolling_baskets(
+    report_dates: list[date], window: int = BASKET_WINDOW
+) -> list[list[date]]:
+    """Sliding window of `window` consecutive report dates."""
+    if len(report_dates) < window:
+        return []
+    return [report_dates[i : i + window] for i in range(len(report_dates) - window + 1)]
