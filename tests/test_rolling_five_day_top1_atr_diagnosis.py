@@ -321,3 +321,94 @@ def test_aggregate_diagnosis_summary_totals():
 
 def test_aggregate_diagnosis_summary_empty():
     assert aggregate_diagnosis_summary([])["n_baskets"] == 0
+
+
+import json as _json
+from analysis.rolling_five_day_top1_atr_diagnosis import (
+    write_lots_csv,
+    write_baskets_csv,
+    write_summary_json,
+    write_diagnosis_report_md,
+    write_validation_report_md,
+)
+
+
+def _make_minimal_result():
+    lot = {
+        **_make_base_lot(),
+        "strategy_id":               "ROLLING_FIVE_DAY_TOP1_ATR_DIAGNOSIS_v0_1",
+        "basket_id":                 "2026-05-07_5D",
+        "is_immature":               False,
+        "next_1d_return":            0.01,
+        "next_3d_return":            0.02,
+        "post_exit_max_return":      0.06,
+        "post_exit_high_after_exit": 1060.0,
+        "days_to_post_exit_high":    3,
+        "post_trade_label":          "ATR_TOO_TIGHT",
+    }
+    basket = {
+        "basket_id": "2026-05-07_5D", "is_immature": False,
+        "gross_pnl": 1000.0, "net_pnl_estimated": 850.0,
+        "gross_return_pct": 0.2, "entry_count": 1,
+        "false_exit_count": 1, "entry_failure_count": 0,
+        "open_winner_count": 0, "open_risk_count": 0,
+        "market_reversal_count": 0, "data_quality_issue_count": 0,
+        "model_baskets": {"ATR_BASE": {"gross_pnl": 1000.0, "gross_return_pct": 0.2}},
+    }
+    summary = {"n_baskets": 1, "total_false_exit_count": 1, "total_lots": 1}
+    return {
+        "primary_lots_all": [lot],
+        "baskets_primary":  [basket],
+        "summary":          summary,
+        "model_comparison": {"ATR_BASE": {"avg_gross_return_pct": 0.2, "avg_gross_pnl": 1000.0}},
+        "valuation_date":   "2026-05-26",
+        "n_baskets":        1,
+    }
+
+
+def test_write_lots_csv_creates_file_with_required_columns(tmp_path):
+    result = _make_minimal_result()
+    p = tmp_path / "lots.csv"
+    write_lots_csv(result["primary_lots_all"], p)
+    assert p.exists()
+    text = p.read_text()
+    assert "post_trade_label" in text
+    assert "basket_id" in text
+    assert "post_exit_max_return" in text
+
+
+def test_write_baskets_csv_creates_file_with_required_columns(tmp_path):
+    result = _make_minimal_result()
+    p = tmp_path / "baskets.csv"
+    write_baskets_csv(result["baskets_primary"], p)
+    assert p.exists()
+    assert "false_exit_count" in p.read_text()
+
+
+def test_write_summary_json_creates_valid_json(tmp_path):
+    result = _make_minimal_result()
+    p = tmp_path / "summary.json"
+    write_summary_json(result, p)
+    assert p.exists()
+    data = _json.loads(p.read_text())
+    assert "summary" in data
+    assert "model_comparison" in data
+
+
+def test_write_diagnosis_report_md_contains_key_sections(tmp_path):
+    result = _make_minimal_result()
+    p = tmp_path / "report.md"
+    write_diagnosis_report_md(result, p)
+    assert p.exists()
+    text = p.read_text()
+    assert "ATR_TOO_TIGHT" in text
+    assert "Advisory" in text
+
+
+def test_write_validation_report_md_contains_advisory_notice(tmp_path):
+    result = _make_minimal_result()
+    p = tmp_path / "validation.md"
+    write_validation_report_md(result, p)
+    assert p.exists()
+    text = p.read_text().lower()
+    assert "simulation" in text or "advisory" in text

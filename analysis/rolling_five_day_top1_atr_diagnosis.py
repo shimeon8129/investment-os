@@ -282,3 +282,134 @@ def aggregate_diagnosis_summary(baskets: list[dict]) -> dict:
         "total_gross_pnl":                round(total_gross_pnl, 2),
         "avg_gross_return_pct_per_basket": round(avg_gross_return, 4),
     }
+
+
+# ─────────────────────────────────────────────────────────────
+# Output writers
+# ─────────────────────────────────────────────────────────────
+
+def write_lots_csv(lots: list[dict], path: Path) -> None:
+    if not lots:
+        return
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with open(path, "w", newline="", encoding="utf-8") as f:
+        writer = _csv.DictWriter(f, fieldnames=list(lots[0].keys()))
+        writer.writeheader()
+        writer.writerows(lots)
+
+
+def write_baskets_csv(baskets: list[dict], path: Path) -> None:
+    if not baskets:
+        return
+    path.parent.mkdir(parents=True, exist_ok=True)
+    flat = [{k: v for k, v in b.items() if k != "model_baskets"} for b in baskets]
+    if not flat:
+        return
+    with open(path, "w", newline="", encoding="utf-8") as f:
+        writer = _csv.DictWriter(f, fieldnames=list(flat[0].keys()))
+        writer.writeheader()
+        writer.writerows(flat)
+
+
+def write_summary_json(result: dict, path: Path) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    out = {
+        "summary":          result.get("summary", {}),
+        "model_comparison": result.get("model_comparison", {}),
+        "valuation_date":   result.get("valuation_date"),
+        "n_baskets":        result.get("n_baskets"),
+    }
+    path.write_text(
+        json.dumps(out, ensure_ascii=False, indent=2, default=str), encoding="utf-8"
+    )
+
+
+def write_diagnosis_report_md(result: dict, path: Path) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    lines: list[str] = []
+    w = lines.append
+
+    w(f"# Diagnosis Report — {DIAGNOSIS_STRATEGY_ID}")
+    w("")
+    w(f"Generated: {date.today().isoformat()}")
+    w(f"Valuation date: {result.get('valuation_date', '—')}")
+    w(f"Rolling baskets: {result.get('n_baskets', 0)}")
+    w(""); w("---"); w("")
+
+    summary = result.get("summary", {})
+    w("## Cross-Basket Summary"); w("")
+    for k, v in summary.items():
+        w(f"- {k}: {v}")
+    w(""); w("---"); w("")
+
+    baskets = result.get("baskets_primary", [])
+    w("## Per-Basket Results (ATR_BASE — primary)"); w("")
+    w("| Basket ID | Immature | GrossPnL | Return% | FalseExit | EntryFail | OpenWinner | OpenRisk |")
+    w("|-----------|----------|----------|---------|-----------|-----------|------------|----------|")
+    for b in baskets:
+        imm = "YES" if b.get("is_immature") else "NO"
+        gp  = b.get("gross_pnl") or 0
+        pnl = f"+{gp:,.0f}" if gp >= 0 else f"{gp:,.0f}"
+        w(f"| {b.get('basket_id')} | {imm} | {pnl} | {b.get('gross_return_pct') or 0:.2f}% "
+          f"| {b.get('false_exit_count', 0)} | {b.get('entry_failure_count', 0)} "
+          f"| {b.get('open_winner_count', 0)} | {b.get('open_risk_count', 0)} |")
+    w(""); w("---"); w("")
+
+    lots = result.get("primary_lots_all", [])
+    w("## Lot-Level Diagnosis (ATR_BASE)"); w("")
+    w("| Basket | Date | Ticker | Entry | GrossPnL | Label | PostExitRet | Next1D |")
+    w("|--------|------|--------|-------|----------|-------|-------------|--------|")
+    for l in lots:
+        gp      = l.get("gross_pnl") or 0
+        pnl_str = f"+{gp:,.0f}" if gp >= 0 else f"{gp:,.0f}"
+        per     = l.get("post_exit_max_return")
+        per_str = f"{per:.1%}" if per is not None else "—"
+        n1r     = l.get("next_1d_return")
+        n1r_str = f"{n1r:.1%}" if n1r is not None else "—"
+        w(f"| {l.get('basket_id')} | {l.get('entry_date')} | {l.get('ticker')} "
+          f"| {l.get('entry_price')} | {pnl_str} | {l.get('post_trade_label')} "
+          f"| {per_str} | {n1r_str} |")
+    w(""); w("---"); w("")
+
+    mc = result.get("model_comparison", {})
+    if mc:
+        w("## Model Comparison (Summed Across All Baskets)"); w("")
+        w("| Model | TotalGrossPnL | AvgReturn%/Basket |")
+        w("|-------|---------------|------------------|")
+        for mn, mv in mc.items():
+            w(f"| {mn} | {(mv.get('avg_gross_pnl') or mv.get('total_gross_pnl') or 0):,.0f} "
+              f"| {mv.get('avg_gross_return_pct') or 0:.2f}% |")
+        w(""); w("---"); w("")
+
+    w("*Advisory only. No trades placed. All outputs for human review.*"); w("")
+    path.write_text("\n".join(lines), encoding="utf-8")
+
+
+def write_validation_report_md(result: dict, path: Path) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    lines: list[str] = []
+    w = lines.append
+
+    w(f"# Validation Report — {DIAGNOSIS_STRATEGY_ID}"); w("")
+    w(f"Generated: {date.today().isoformat()}"); w("")
+
+    w("## Assumptions"); w("")
+    w("1. Entry price = signal-day adjusted close (yfinance auto_adjust=True, v0.1)")
+    w("2. Rolling baskets built from available daily report dates (not all calendar TW trading days)")
+    w("3. ATR trailing stop: close-based exit, initial-stop floor on day 1 of hold")
+    w("4. post_trade_label priority: OPEN_POSITION → OPEN_WINNER/OPEN_RISK; DATA_INCOMPLETE → DATA_QUALITY_ISSUE; ATR_TRAILING_STOP+post_exit>5% → ATR_TOO_TIGHT; next_1d<-3% → ENTRY_SIGNAL_FAILURE; else → MARKET_REVERSAL")
+    w("5. Baskets with fewer than 5 post-entry report dates are flagged is_immature=True")
+    w("6. Valuation date fixed at 2026-05-26 for all baskets")
+    w("7. Transaction costs: buy 0.1425%, sell 0.1425% + STT 0.3% on sell value"); w("")
+
+    w("## Known Limitations"); w("")
+    w("- Only 15 daily report dates available (2026-05-01 to 2026-05-26) → 11 rolling baskets, all within one market regime")
+    w("- Chips, chase_risk, narrative fields are not in historical reports; position grade is diagnostic only")
+    w("- post_exit_max_return uses yfinance adjusted close; may differ from TWSE raw close")
+    w("- IMMATURE_BASKET lots have had limited ATR stop evolution — interpret with caution")
+    w("- 5% and 3% thresholds for ATR_TOO_TIGHT / ENTRY_SIGNAL_FAILURE are first-pass heuristics, not statistically derived"); w("")
+
+    w("---"); w("")
+    w("*This is a simulation. No trades were placed. No broker connections were made.*")
+    w("*Owner should review before any capital allocation decisions.*"); w("")
+    path.write_text("\n".join(lines), encoding="utf-8")
