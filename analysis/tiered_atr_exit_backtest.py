@@ -443,3 +443,163 @@ def write_validation_report_md(result: dict, path: Path) -> None:
     w("*This is a simulation. No trades were placed. No broker connections were made.*")
     w("*Owner should review before any capital allocation decisions.*"); w("")
     path.write_text("\n".join(lines), encoding="utf-8")
+
+
+# ─────────────────────────────────────────────────────────────
+# Orchestrator
+# ─────────────────────────────────────────────────────────────
+
+def run_tiered_backtest(valuation_date: date, entry_capital: float) -> dict:
+    """Run P0.4 tiered ATR exit backtest across all rolling baskets.
+    Advisory only — no trades, no broker.
+    """
+    _empty = {
+        "strategy_id":   TIERED_STRATEGY_ID,
+        "valuation_date": valuation_date.isoformat(),
+        "n_baskets":     0,
+        "lots_by_model": {mn: [] for mn in ALL_MODELS},
+        "model_metrics": {mn: {} for mn in ALL_MODELS},
+    }
+
+    report_dates  = get_available_report_dates()
+    baskets_dates = build_rolling_baskets(report_dates, window=BASKET_WINDOW)
+    if not baskets_dates:
+        print("[WARN] Fewer than 5 report dates — cannot build any rolling baskets")
+        return _empty
+
+    print(f"[p0.4] {len(report_dates)} report dates → {len(baskets_dates)} rolling baskets")
+
+    # Collect all unique tickers across all baskets
+    all_tickers: set[str] = set()
+    for bd in baskets_dates:
+        for d in bd:
+            p = parse_daily_report(d.isoformat())
+            if p and p.get("ticker"):
+                all_tickers.add(p["ticker"])
+
+    if not all_tickers:
+        print("[WARN] No tickers found in reports")
+        return _empty
+
+    # Single OHLC fetch: 65-day lookback for ATR20 warmup
+    earliest = min(bd[0] for bd in baskets_dates)
+    ohlc_start = (earliest - timedelta(days=65)).isoformat()
+    ohlc_end   = (valuation_date + timedelta(days=1)).isoformat()
+    tickers_list = sorted(all_tickers)
+    print(f"[p0.4] Fetching OHLC for {tickers_list} ({ohlc_start} → {ohlc_end})")
+    ohlc = fetch_ohlc(tickers_list, ohlc_start, ohlc_end)
+    if ohlc.empty:
+        print("[WARN] OHLC fetch returned empty DataFrame")
+
+    planned_capital = entry_capital * BASKET_WINDOW
+    lots_by_model: dict[str, list[dict]] = {mn: [] for mn in ALL_MODELS}
+
+    for bi, basket_dates in enumerate(baskets_dates):
+        basket_id   = f"{basket_dates[0].isoformat()}_5D"
+        is_immature = flag_immature_basket(basket_dates, report_dates, valuation_date)
+        print(f"[p0.4] Basket {bi+1}/{len(baskets_dates)}: {basket_id}"
+              f"{' [IMMATURE]' if is_immature else ''}")
+
+        entries = []
+        for i, d in enumerate(basket_dates, 1):
+            e = build_entry(i, d.isoformat(), ohlc, entry_capital)
+            e["strategy_id"] = TIERED_STRATEGY_ID
+            e["basket_id"]   = basket_id
+            entries.append(e)
+
+        for entry in entries:
+            grade = compute_position_grade(
+                entry.get("entry_signal", ""),
+                entry.get("market_state"),
+                entry.get("_role_confidence"),
+            )
+
+            for model_name in ALL_MODELS:
+                ei  = _run_one_model(model_name, entry, ohlc, report_dates, valuation_date)
+                pnl = compute_pnl(
+                    entry.get("actual_cost") or 0, entry.get("shares") or 0,
+                    ei.get("exit_price"), ei.get("exit_reason", "DATA_INCOMPLETE"),
+                    valuation_date, ei.get("current_price"),
+                )
+                lot = assemble_lot(entry, ei, grade, pnl)
+                lot["model_name"]            = model_name
+                lot["basket_id"]             = basket_id
+                lot["is_immature"]           = is_immature
+                lot["hold_period_protected"] = ei.get("hold_period_protected", False)
+
+                # Enrich with post-exit max return for false_exit detection
+                exit_date_obj = (date.fromisoformat(ei["exit_date"])
+                                 if ei.get("exit_date") else None)
+                post_exit = compute_post_exit_max_return(
+                    entry.get("ticker", ""), exit_date_obj, valuation_date,
+                    ei.get("exit_price") or 0, ohlc,
+                )
+                lot["post_exit_max_return"] = post_exit["post_exit_max_return"]
+                lot["profit_giveback_pct"]  = compute_profit_giveback_pct(lot)
+
+                lots_by_model[model_name].append(lot)
+
+    model_metrics = aggregate_model_metrics(lots_by_model)
+
+    return {
+        "strategy_id":    TIERED_STRATEGY_ID,
+        "valuation_date": valuation_date.isoformat(),
+        "entry_capital":  entry_capital,
+        "planned_capital": planned_capital,
+        "n_baskets":      len(baskets_dates),
+        "lots_by_model":  lots_by_model,
+        "model_metrics":  model_metrics,
+    }
+
+
+# ─────────────────────────────────────────────────────────────
+# CLI entry point
+# ─────────────────────────────────────────────────────────────
+
+def main() -> int:
+    parser = argparse.ArgumentParser(
+        description="Investment OS — P0.4 Tiered ATR Exit Backtest v0.1"
+    )
+    parser.add_argument("--valuation-date", default="2026-05-26")
+    parser.add_argument("--entry-capital", type=float, default=100_000.0)
+    args = parser.parse_args()
+
+    val_date = date.fromisoformat(args.valuation_date)
+    print(f"[p0.4] {TIERED_STRATEGY_ID}")
+    print(f"[p0.4] valuation={val_date}  capital/lot={args.entry_capital:,.0f}")
+
+    result = run_tiered_backtest(val_date, args.entry_capital)
+
+    if not any(result["lots_by_model"].values()):
+        print("[ERROR] No lots produced — check that reports/daily/ contains report files")
+        return 1
+
+    lots_csv      = DATA_BACKTEST      / "tiered_atr_exit_backtest_lots.csv"
+    comp_csv      = DATA_BACKTEST      / "tiered_atr_exit_backtest_comparison.csv"
+    summary_json  = DATA_BACKTEST      / "tiered_atr_exit_backtest_summary.json"
+    report_md     = REPORTS_BACKTEST   / "tiered_atr_exit_backtest_v0_1.md"
+    validation_md = REPORTS_VALIDATION / "tiered_atr_exit_backtest_validation.md"
+
+    write_lots_csv(result["lots_by_model"], lots_csv)
+    write_comparison_csv(result["model_metrics"], comp_csv)
+    write_summary_json(result, summary_json)
+    write_comparison_report_md(result, report_md)
+    write_validation_report_md(result, validation_md)
+
+    print(f"\n[p0.4] Artifacts written:")
+    for p in [lots_csv, comp_csv, summary_json, report_md, validation_md]:
+        print(f"  {p}")
+
+    mm = result["model_metrics"]
+    print("\n[p0.4] Comparison summary:")
+    for mn in ALL_MODELS:
+        m = mm.get(mn, {})
+        print(f"  {mn:<38} net={m.get('total_net_pnl', 0):>10,.0f}  "
+              f"false_exit={m.get('false_exit_count', 0)}  "
+              f"protected={m.get('protected_by_hold_period_count', 0)}")
+
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

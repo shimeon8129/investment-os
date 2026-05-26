@@ -459,3 +459,21 @@ def test_write_validation_report_md_has_advisory_notice(tmp_path):
     write_validation_report_md(result, p)
     assert p.exists()
     assert "simulation" in p.read_text().lower() or "advisory" in p.read_text().lower()
+
+
+import analysis.tiered_atr_exit_backtest as _mod
+
+
+def test_run_tiered_backtest_returns_required_keys(monkeypatch):
+    """Smoke test: mocked fetch_ohlc → graceful DATA_INCOMPLETE for all lots."""
+    monkeypatch.setattr(_mod, "fetch_ohlc", lambda *a, **kw: pd.DataFrame())
+    result = _mod.run_tiered_backtest(
+        valuation_date=date(2026, 5, 26),
+        entry_capital=100_000.0,
+    )
+    assert "n_baskets"      in result
+    assert "lots_by_model"  in result
+    assert "model_metrics"  in result
+    assert "valuation_date" in result
+    assert set(result["lots_by_model"].keys()) == set(ALL_MODELS)
+    assert set(result["model_metrics"].keys()) == set(ALL_MODELS)

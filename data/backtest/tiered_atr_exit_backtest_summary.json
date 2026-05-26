@@ -1,0 +1,67 @@
+{
+  "strategy_id": "TIERED_ATR_EXIT_BACKTEST_v0_1",
+  "valuation_date": "2026-05-26",
+  "n_baskets": 11,
+  "model_metrics": {
+    "ATR_BASE": {
+      "model_name": "ATR_BASE",
+      "total_lots": 37,
+      "total_net_pnl": 192135.96,
+      "false_exit_count": 17,
+      "max_drawdown": 14940.0,
+      "largest_single_lot_loss": -14940.0,
+      "avg_profit_giveback_pct": 1.0472,
+      "protected_by_hold_period_count": 0
+    },
+    "ATR_WIDE": {
+      "model_name": "ATR_WIDE",
+      "total_lots": 37,
+      "total_net_pnl": 328711.41,
+      "false_exit_count": 12,
+      "max_drawdown": 14940.0,
+      "largest_single_lot_loss": -14940.0,
+      "avg_profit_giveback_pct": 0.914,
+      "protected_by_hold_period_count": 0
+    },
+    "TIERED_ATR": {
+      "model_name": "TIERED_ATR",
+      "total_lots": 37,
+      "total_net_pnl": 328711.41,
+      "false_exit_count": 12,
+      "max_drawdown": 14940.0,
+      "largest_single_lot_loss": -14940.0,
+      "avg_profit_giveback_pct": 0.914,
+      "protected_by_hold_period_count": 0
+    },
+    "TIERED_ATR_NO_HOLD_PROTECTION": {
+      "model_name": "TIERED_ATR_NO_HOLD_PROTECTION",
+      "total_lots": 37,
+      "total_net_pnl": 328711.41,
+      "false_exit_count": 12,
+      "max_drawdown": 14940.0,
+      "largest_single_lot_loss": -14940.0,
+      "avg_profit_giveback_pct": 0.914,
+      "protected_by_hold_period_count": 0
+    },
+    "FIXED_10D": {
+      "model_name": "FIXED_10D",
+      "total_lots": 7,
+      "total_net_pnl": 76149.46,
+      "false_exit_count": 0,
+      "max_drawdown": 0,
+      "largest_single_lot_loss": 7872.0,
+      "avg_profit_giveback_pct": null,
+      "protected_by_hold_period_count": 0
+    },
+    "MA5": {
+      "model_name": "MA5",
+      "total_lots": 37,
+      "total_net_pnl": -188988.99,
+      "false_exit_count": 0,
+      "max_drawdown": 0,
+      "largest_single_lot_loss": -8100.0,
+      "avg_profit_giveback_pct": null,
+      "protected_by_hold_period_count": 0
+    }
+  }
+}

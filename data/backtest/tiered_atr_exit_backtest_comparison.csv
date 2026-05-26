@@ -1,0 +1,7 @@
+model_name,total_lots,total_net_pnl,false_exit_count,max_drawdown,largest_single_lot_loss,avg_profit_giveback_pct,protected_by_hold_period_count
+ATR_BASE,37,192135.96,17,14940.0,-14940.0,1.0472,0
+ATR_WIDE,37,328711.41,12,14940.0,-14940.0,0.914,0
+TIERED_ATR,37,328711.41,12,14940.0,-14940.0,0.914,0
+TIERED_ATR_NO_HOLD_PROTECTION,37,328711.41,12,14940.0,-14940.0,0.914,0
+FIXED_10D,7,76149.46,0,0,7872.0,,0
+MA5,37,-188988.99,0,0,-8100.0,,0
