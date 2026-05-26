@@ -413,3 +413,224 @@ def write_validation_report_md(result: dict, path: Path) -> None:
     w("*This is a simulation. No trades were placed. No broker connections were made.*")
     w("*Owner should review before any capital allocation decisions.*"); w("")
     path.write_text("\n".join(lines), encoding="utf-8")
+
+
+# ─────────────────────────────────────────────────────────────
+# Orchestrator
+# ─────────────────────────────────────────────────────────────
+
+def run_diagnosis(valuation_date: date, entry_capital: float) -> dict:
+    """Run P0.3 rolling basket diagnosis. Advisory only — no trades, no broker."""
+    _empty = {
+        "strategy_id": DIAGNOSIS_STRATEGY_ID, "valuation_date": valuation_date.isoformat(),
+        "n_baskets": 0, "primary_lots_all": [], "baskets_primary": [],
+        "summary": {}, "model_comparison": {},
+    }
+
+    report_dates  = get_available_report_dates()
+    baskets_dates = build_rolling_baskets(report_dates, window=BASKET_WINDOW)
+    if not baskets_dates:
+        print("[WARN] Fewer than 5 report dates — cannot build any rolling baskets")
+        return _empty
+
+    print(f"[diagnosis] {len(report_dates)} report dates → {len(baskets_dates)} rolling baskets")
+
+    # Collect all unique tickers across all baskets
+    all_tickers: set[str] = set()
+    for bd in baskets_dates:
+        for d in bd:
+            p = parse_daily_report(d.isoformat())
+            if p and p.get("ticker"):
+                all_tickers.add(p["ticker"])
+
+    if not all_tickers:
+        print("[WARN] No tickers found in reports")
+        return _empty
+
+    # Single OHLC fetch: 65-day lookback for ATR20 warmup, through valuation_date+1
+    earliest_entry = min(bd[0] for bd in baskets_dates)
+    ohlc_start     = (earliest_entry - timedelta(days=65)).isoformat()
+    ohlc_end       = (valuation_date + timedelta(days=1)).isoformat()
+    tickers_list   = sorted(all_tickers)
+    print(f"[diagnosis] Fetching OHLC for {tickers_list} ({ohlc_start} → {ohlc_end})")
+    ohlc = fetch_ohlc(tickers_list, ohlc_start, ohlc_end)
+    if ohlc.empty:
+        print("[WARN] OHLC fetch returned empty DataFrame — exit simulations will show DATA_INCOMPLETE")
+
+    planned_capital = entry_capital * BASKET_WINDOW
+    all_model_names = list(ATR_VARIANTS.keys()) + ["FIXED_10D", "MA5"]
+    model_lots_all: dict[str, list[dict]] = {mn: [] for mn in all_model_names}
+
+    primary_lots_all: list[dict] = []
+    baskets_primary:  list[dict] = []
+
+    for bi, basket_dates in enumerate(baskets_dates):
+        basket_id   = f"{basket_dates[0].isoformat()}_5D"
+        is_immature = flag_immature_basket(basket_dates, report_dates, valuation_date)
+        print(f"[diagnosis] Basket {bi+1}/{len(baskets_dates)}: {basket_id}"
+              f"{' [IMMATURE]' if is_immature else ''}")
+
+        entries = []
+        for i, d in enumerate(basket_dates, 1):
+            e = build_entry(i, d.isoformat(), ohlc, entry_capital)
+            e["strategy_id"] = DIAGNOSIS_STRATEGY_ID
+            e["basket_id"]   = basket_id
+            entries.append(e)
+
+        primary_basket_lots: list[dict] = []
+
+        for entry in entries:
+            grade = compute_position_grade(
+                entry.get("entry_signal", ""),
+                entry.get("market_state"),
+                entry.get("_role_confidence"),
+            )
+
+            # ── ATR_BASE (primary) ─────────────────────────────
+            ei_base  = simulate_atr_exit(entry, ohlc, 1.5, 2.0, valuation_date)
+            pnl_base = compute_pnl(
+                entry.get("actual_cost") or 0, entry.get("shares") or 0,
+                ei_base.get("exit_price"), ei_base.get("exit_reason", "DATA_INCOMPLETE"),
+                valuation_date, ei_base.get("current_price"),
+            )
+            base_lot = assemble_lot(entry, ei_base, grade, pnl_base)
+            model_lots_all["ATR_BASE"].append(base_lot)
+
+            n1d = compute_next_nd_return(entry, ohlc, n=1)
+            n3d = compute_next_nd_return(entry, ohlc, n=3)
+
+            exit_date_obj = (date.fromisoformat(ei_base["exit_date"])
+                             if ei_base.get("exit_date") else None)
+            post_exit = compute_post_exit_max_return(
+                entry.get("ticker", ""), exit_date_obj, valuation_date,
+                ei_base.get("exit_price") or 0, ohlc,
+            )
+            label = label_post_trade(
+                ei_base.get("exit_reason", "DATA_INCOMPLETE"),
+                pnl_base.get("gross_pnl"),
+                post_exit.get("post_exit_max_return"),
+                n1d,
+            )
+            diag_lot = assemble_diagnosis_lot(
+                base_lot, post_exit, label, n1d, n3d, basket_id, is_immature,
+            )
+            primary_basket_lots.append(diag_lot)
+
+            # ── Other ATR variants ──────────────────────────────
+            for v_name, (im, tm) in ATR_VARIANTS.items():
+                if v_name == "ATR_BASE":
+                    continue
+                ei  = simulate_atr_exit(entry, ohlc, im, tm, valuation_date)
+                p   = compute_pnl(entry.get("actual_cost") or 0, entry.get("shares") or 0,
+                                  ei.get("exit_price"), ei.get("exit_reason", "DATA_INCOMPLETE"),
+                                  valuation_date, ei.get("current_price"))
+                model_lots_all[v_name].append(assemble_lot(entry, ei, grade, p))
+
+            # ── FIXED_10D benchmark ─────────────────────────────
+            # Use report_dates as proxy for trading days (avoids market_calendar dependency)
+            fi = simulate_fixed10d_exit(entry, ohlc, report_dates, valuation_date)
+            fp = compute_pnl(entry.get("actual_cost") or 0, entry.get("shares") or 0,
+                             fi.get("exit_price"), fi.get("exit_reason", "DATA_INCOMPLETE"),
+                             valuation_date, fi.get("current_price"))
+            model_lots_all["FIXED_10D"].append(assemble_lot(entry, fi, grade, fp))
+
+            # ── MA5 benchmark ───────────────────────────────────
+            mi = simulate_ma_exit(entry, ohlc, ma_period=5, valuation_date=valuation_date)
+            mp = compute_pnl(entry.get("actual_cost") or 0, entry.get("shares") or 0,
+                             mi.get("exit_price"), mi.get("exit_reason", "DATA_INCOMPLETE"),
+                             valuation_date, mi.get("current_price"))
+            model_lots_all["MA5"].append(assemble_lot(entry, mi, grade, mp))
+
+        diag_basket = aggregate_diagnosis_basket(
+            primary_basket_lots, basket_dates, planned_capital, basket_id, is_immature,
+        )
+        # Per-basket model comparison
+        n_lots = len(basket_dates)
+        model_baskets: dict[str, dict] = {}
+        for mn in all_model_names:
+            slice_ = model_lots_all[mn][-n_lots:]
+            mb = aggregate_basket(slice_, planned_capital)
+            mb["strategy_id"] = DIAGNOSIS_STRATEGY_ID
+            mb["basket_id"]   = basket_id
+            model_baskets[mn] = mb
+        diag_basket["model_baskets"] = model_baskets
+
+        primary_lots_all.extend(primary_basket_lots)
+        baskets_primary.append(diag_basket)
+
+    summary = aggregate_diagnosis_summary(baskets_primary)
+
+    # Cross-basket model comparison (aggregate over all baskets)
+    model_comparison: dict[str, dict] = {}
+    n_b = max(len(baskets_primary), 1)
+    for mn in all_model_names:
+        all_mb = [b["model_baskets"].get(mn, {}) for b in baskets_primary]
+        total_gp  = sum((mb.get("gross_pnl") or 0) for mb in all_mb)
+        total_net = sum((mb.get("net_pnl_estimated") or 0) for mb in all_mb)
+        avg_ret   = sum((mb.get("gross_return_pct") or 0) for mb in all_mb) / n_b
+        model_comparison[mn] = {
+            "total_gross_pnl":         round(total_gp, 2),
+            "total_net_pnl_estimated": round(total_net, 2),
+            "avg_gross_return_pct":    round(avg_ret, 4),
+        }
+
+    return {
+        "strategy_id":      DIAGNOSIS_STRATEGY_ID,
+        "valuation_date":   valuation_date.isoformat(),
+        "entry_capital":    entry_capital,
+        "planned_capital":  planned_capital,
+        "n_baskets":        len(baskets_primary),
+        "primary_lots_all": primary_lots_all,
+        "baskets_primary":  baskets_primary,
+        "summary":          summary,
+        "model_comparison": model_comparison,
+    }
+
+
+# ─────────────────────────────────────────────────────────────
+# CLI entry point
+# ─────────────────────────────────────────────────────────────
+
+def main() -> int:
+    parser = argparse.ArgumentParser(
+        description="Investment OS — P0.3 Rolling Basket Entry Failure Diagnosis v0.1"
+    )
+    parser.add_argument("--valuation-date", default="2026-05-26",
+                        help="Fixed valuation date for all baskets (YYYY-MM-DD)")
+    parser.add_argument("--entry-capital", type=float, default=100_000.0,
+                        help="Capital per lot in TWD")
+    args = parser.parse_args()
+
+    val_date = date.fromisoformat(args.valuation_date)
+    print(f"[diagnosis] {DIAGNOSIS_STRATEGY_ID}")
+    print(f"[diagnosis] valuation={val_date}  capital/lot={args.entry_capital:,.0f}")
+
+    result = run_diagnosis(val_date, args.entry_capital)
+    if not result.get("primary_lots_all") and not result.get("baskets_primary"):
+        print(f"[ERROR] No data produced — check that reports/daily/ contains report files")
+        return 1
+
+    lots_csv      = DATA_BACKTEST      / "rolling_five_day_top1_atr_diagnosis_lots.csv"
+    baskets_csv   = DATA_BACKTEST      / "rolling_five_day_top1_atr_diagnosis_baskets.csv"
+    summary_json  = DATA_BACKTEST      / "rolling_five_day_top1_atr_diagnosis_summary.json"
+    report_md     = REPORTS_BACKTEST   / "rolling_five_day_top1_atr_diagnosis_v0_1.md"
+    validation_md = REPORTS_VALIDATION / "rolling_five_day_top1_atr_diagnosis_validation.md"
+
+    write_lots_csv(result["primary_lots_all"], lots_csv)
+    write_baskets_csv(result["baskets_primary"], baskets_csv)
+    write_summary_json(result, summary_json)
+    write_diagnosis_report_md(result, report_md)
+    write_validation_report_md(result, validation_md)
+
+    s = result["summary"]
+    print(f"\n[diagnosis] Baskets: {result['n_baskets']}  Lots: {s.get('total_lots', 0)}")
+    print(f"[diagnosis] False exits (ATR_TOO_TIGHT): {s.get('total_false_exit_count', 0)}")
+    print(f"[diagnosis] Entry failures:              {s.get('total_entry_failure_count', 0)}")
+    print(f"\n[diagnosis] Artifacts written:")
+    for p in [lots_csv, baskets_csv, summary_json, report_md, validation_md]:
+        print(f"  {p}")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

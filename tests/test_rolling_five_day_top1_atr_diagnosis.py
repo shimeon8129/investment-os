@@ -412,3 +412,20 @@ def test_write_validation_report_md_contains_advisory_notice(tmp_path):
     assert p.exists()
     text = p.read_text().lower()
     assert "simulation" in text or "advisory" in text
+
+
+import analysis.rolling_five_day_top1_atr_diagnosis as _diag_mod
+
+
+def test_run_diagnosis_returns_required_keys(monkeypatch):
+    """Smoke test: mocked fetch_ohlc returns empty → graceful skip of exit simulations."""
+    monkeypatch.setattr(_diag_mod, "fetch_ohlc", lambda *a, **kw: pd.DataFrame())
+    result = _diag_mod.run_diagnosis(
+        valuation_date=date(2026, 5, 26),
+        entry_capital=100_000.0,
+    )
+    assert "n_baskets"        in result
+    assert "primary_lots_all" in result
+    assert "baskets_primary"  in result
+    assert "summary"          in result
+    assert "model_comparison" in result
