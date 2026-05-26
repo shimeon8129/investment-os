@@ -127,3 +127,48 @@ def test_build_entry_data_quality_fail_on_missing_price():
     entry = build_entry(1, "2026-05-08", pd.DataFrame(), 100_000)
     assert entry["data_quality_flag"] == "FAIL"
     assert entry["entry_price"] is None
+
+
+from analysis.five_day_top1_atr_backtest import simulate_atr_exit
+
+
+def test_atr_exit_triggers_when_close_falls_below_trailing_stop():
+    # entry_price=100, ATR20=5, trailing_mult=2.0
+    # Day1: close=110 → highest=110, trailing_stop=110-10=100 → 110>100 no exit
+    # Day2: close=105 → highest=110, trailing_stop=100 → 105>100 no exit
+    # Day3: close=95  → highest=110, trailing_stop=100 → 95<100 → EXIT
+    entry_date = date(2026, 5, 7)
+    closes = [100.0, 110.0, 105.0, 95.0, 90.0]
+    ohlc = _make_ohlc("X.TW", entry_date, closes, closes, closes)
+    entry = {
+        "ticker": "X.TW", "entry_date": entry_date.isoformat(),
+        "entry_price": 100.0, "shares": 10, "atr20_at_entry": 5.0,
+    }
+    result = simulate_atr_exit(entry, ohlc, initial_mult=1.5, trailing_mult=2.0,
+                               valuation_date=date(2026, 5, 20))
+    assert result["exit_reason"] == "ATR_TRAILING_STOP"
+    assert result["exit_price"] == pytest.approx(95.0)
+    assert result["holding_days"] == 3
+
+
+def test_atr_exit_open_position_when_no_stop_triggered():
+    entry_date = date(2026, 5, 7)
+    closes = [100.0, 110.0, 120.0, 130.0]
+    ohlc = _make_ohlc("X.TW", entry_date, closes, closes, closes)
+    entry = {
+        "ticker": "X.TW", "entry_date": entry_date.isoformat(),
+        "entry_price": 100.0, "shares": 10, "atr20_at_entry": 5.0,
+    }
+    result = simulate_atr_exit(entry, ohlc, 1.5, 2.0,
+                               valuation_date=entry_date + timedelta(days=3))
+    assert result["exit_reason"] == "OPEN_POSITION"
+    assert result["current_price"] == pytest.approx(130.0)
+
+
+def test_atr_exit_data_incomplete_when_atr_missing():
+    entry = {
+        "ticker": "X.TW", "entry_date": "2026-05-07",
+        "entry_price": 100.0, "shares": 10, "atr20_at_entry": None,
+    }
+    result = simulate_atr_exit(entry, pd.DataFrame(), 1.5, 2.0, date(2026, 5, 20))
+    assert result["exit_reason"] == "DATA_INCOMPLETE"

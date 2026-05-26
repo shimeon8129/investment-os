@@ -274,6 +274,91 @@ def build_entry(
     }
 
 
+# ─────────────────────────────────────────────────────────────
+# Exit model A: ATR trailing stop (primary)
+# ─────────────────────────────────────────────────────────────
+
+def simulate_atr_exit(
+    entry: dict,
+    ohlc: pd.DataFrame,
+    initial_mult: float,
+    trailing_mult: float,
+    valuation_date: date,
+) -> dict:
+    """Simulate ATR trailing stop. Uses close-based exit (v0.1)."""
+    entry_price = entry.get("entry_price")
+    atr20       = entry.get("atr20_at_entry")
+    shares      = entry.get("shares", 0) or 0
+    entry_date  = date.fromisoformat(entry["entry_date"])
+
+    _empty = {
+        "exit_model": "ATR_TRAILING", "exit_date": None, "exit_price": None,
+        "exit_reason": "DATA_INCOMPLETE", "holding_days": None,
+        "highest_close_since_entry": None, "trailing_stop_at_exit": None,
+        "max_profit_seen": None, "max_drawdown_seen": None,
+        "current_price": None, "current_value": None,
+    }
+    if entry_price is None or atr20 is None:
+        return _empty
+
+    initial_stop   = entry_price - initial_mult * atr20
+    highest_close  = entry_price
+    close_series   = get_close_series(ohlc, entry["ticker"], entry_date, valuation_date)
+    max_profit     = 0.0
+    max_drawdown   = 0.0
+
+    for i, (d, close) in enumerate(close_series):
+        if close > highest_close:
+            highest_close = close
+        trailing_stop  = highest_close - trailing_mult * atr20
+        # On day-0 of hold use initial_stop as floor so a gap-down triggers exit
+        effective_stop = max(trailing_stop, initial_stop) if i == 0 else trailing_stop
+
+        unrealized = (close - entry_price) * shares
+        if unrealized > max_profit:
+            max_profit = unrealized
+        if unrealized < max_drawdown:
+            max_drawdown = unrealized
+
+        if close < effective_stop:
+            return {
+                "exit_model": "ATR_TRAILING",
+                "exit_date": d.isoformat(),
+                "exit_price": round(close, 2),
+                "exit_reason": "ATR_TRAILING_STOP",
+                "holding_days": i + 1,
+                "highest_close_since_entry": round(highest_close, 2),
+                "trailing_stop_at_exit": round(trailing_stop, 2),
+                "max_profit_seen": round(max_profit, 2),
+                "max_drawdown_seen": round(max_drawdown, 2),
+                "current_price": round(close, 2),
+                "current_value": round(close * shares, 2),
+            }
+
+    # Still open at valuation date
+    current_price = close_series[-1][1] if close_series else entry_price
+    trailing_stop = highest_close - trailing_mult * atr20
+    unrealized = (current_price - entry_price) * shares
+    if unrealized > max_profit:
+        max_profit = unrealized
+    if unrealized < max_drawdown:
+        max_drawdown = unrealized
+
+    return {
+        "exit_model": "ATR_TRAILING",
+        "exit_date": None,
+        "exit_price": None,
+        "exit_reason": "OPEN_POSITION",
+        "holding_days": len(close_series),
+        "highest_close_since_entry": round(highest_close, 2),
+        "trailing_stop_at_exit": round(trailing_stop, 2),
+        "max_profit_seen": round(max_profit, 2),
+        "max_drawdown_seen": round(max_drawdown, 2),
+        "current_price": round(current_price, 2),
+        "current_value": round(current_price * shares, 2),
+    }
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="Five-Day Top1 ATR Strategy Backtest v0.1")
     parser.add_argument("--start-date", default="2026-05-07")
