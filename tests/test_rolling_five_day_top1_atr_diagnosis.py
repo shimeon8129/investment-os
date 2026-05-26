@@ -288,3 +288,36 @@ def test_aggregate_diagnosis_basket_counts_labels_correctly():
     # A.TW appears 3 times → duplicate_ticker_count = 3 (lots whose ticker is duplicated)
     assert basket["duplicate_ticker_count"] == 3
     assert basket["unique_ticker_count"]    == 3  # A, B, C
+
+
+from analysis.rolling_five_day_top1_atr_diagnosis import aggregate_diagnosis_summary
+
+
+def _make_basket_record(basket_id, gross_pnl, false_exit, entry_failure, is_immature=False):
+    return {
+        "basket_id": basket_id, "is_immature": is_immature,
+        "gross_pnl": gross_pnl, "net_pnl_estimated": gross_pnl * 0.9,
+        "gross_return_pct": gross_pnl / 500_000 * 100,
+        "false_exit_count": false_exit, "entry_failure_count": entry_failure,
+        "open_winner_count": 1, "open_risk_count": 0,
+        "market_reversal_count": 2, "data_quality_issue_count": 0,
+        "open_positions": 1, "exited_positions": 4, "entry_count": 5,
+        "duplicate_ticker_count": 2, "unique_ticker_count": 3,
+    }
+
+
+def test_aggregate_diagnosis_summary_totals():
+    baskets = [
+        _make_basket_record("B1", 30_000, false_exit=1, entry_failure=1),
+        _make_basket_record("B2", -5_000, false_exit=0, entry_failure=2, is_immature=True),
+    ]
+    summary = aggregate_diagnosis_summary(baskets)
+    assert summary["n_baskets"]                == 2
+    assert summary["n_immature"]               == 1
+    assert summary["total_false_exit_count"]   == 1
+    assert summary["total_entry_failure_count"]== 3
+    assert summary["total_lots"]               == 10
+
+
+def test_aggregate_diagnosis_summary_empty():
+    assert aggregate_diagnosis_summary([])["n_baskets"] == 0

@@ -244,3 +244,41 @@ def aggregate_diagnosis_basket(
     basket["unique_ticker_count"]    = len(ticker_counts)
 
     return basket
+
+
+# ─────────────────────────────────────────────────────────────
+# Cross-basket summary
+# ─────────────────────────────────────────────────────────────
+
+def aggregate_diagnosis_summary(baskets: list[dict]) -> dict:
+    """Aggregate across all rolling baskets for the cross-basket summary."""
+    n = len(baskets)
+    if n == 0:
+        return {"n_baskets": 0}
+
+    n_immature        = sum(1 for b in baskets if b.get("is_immature"))
+    total_lots        = sum(b.get("entry_count", 0) for b in baskets)
+    total_false_exit  = sum(b.get("false_exit_count", 0) for b in baskets)
+    total_entry_fail  = sum(b.get("entry_failure_count", 0) for b in baskets)
+    total_open_winner = sum(b.get("open_winner_count", 0) for b in baskets)
+    total_open_risk   = sum(b.get("open_risk_count", 0) for b in baskets)
+    total_mkt_rev     = sum(b.get("market_reversal_count", 0) for b in baskets)
+    total_dq          = sum(b.get("data_quality_issue_count", 0) for b in baskets)
+    total_gross_pnl   = sum((b.get("gross_pnl") or 0) for b in baskets)
+    avg_gross_return  = sum((b.get("gross_return_pct") or 0) for b in baskets) / n
+
+    return {
+        "strategy_id":                    DIAGNOSIS_STRATEGY_ID,
+        "n_baskets":                      n,
+        "n_immature":                     n_immature,
+        "n_mature":                       n - n_immature,
+        "total_lots":                     total_lots,
+        "total_false_exit_count":         total_false_exit,
+        "total_entry_failure_count":      total_entry_fail,
+        "total_open_winner_count":        total_open_winner,
+        "total_open_risk_count":          total_open_risk,
+        "total_market_reversal_count":    total_mkt_rev,
+        "total_data_quality_issue_count": total_dq,
+        "total_gross_pnl":                round(total_gross_pnl, 2),
+        "avg_gross_return_pct_per_basket": round(avg_gross_return, 4),
+    }
