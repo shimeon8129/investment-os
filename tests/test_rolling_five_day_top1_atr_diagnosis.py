@@ -120,3 +120,46 @@ def test_build_rolling_baskets_window5():
 def test_build_rolling_baskets_too_few_dates():
     dates = [date(2026, 5, d) for d in [7, 8, 11]]
     assert build_rolling_baskets(dates, window=5) == []
+
+
+from analysis.rolling_five_day_top1_atr_diagnosis import (
+    flag_immature_basket,
+    compute_next_nd_return,
+)
+
+_ALL_REPORT_DATES = [date(2026, 5, d) for d in [7, 8, 11, 12, 13, 14, 15, 17, 21, 22, 25, 26]]
+
+
+def test_flag_immature_basket_true_when_few_post_entry_dates():
+    # last entry = 05/26; no report dates after 05/26 up to 05/26 → 0 < 5 → immature
+    basket_dates = [date(2026, 5, d) for d in [17, 21, 22, 25, 26]]
+    assert flag_immature_basket(basket_dates, _ALL_REPORT_DATES, date(2026, 5, 26)) is True
+
+
+def test_flag_immature_basket_false_when_enough_post_entry_dates():
+    # last entry = 05/13; post-entry dates: 05/14,15,17,21,22,25,26 = 7 ≥ 5 → not immature
+    basket_dates = [date(2026, 5, d) for d in [7, 8, 11, 12, 13]]
+    assert flag_immature_basket(basket_dates, _ALL_REPORT_DATES, date(2026, 5, 26)) is False
+
+
+def test_compute_next_nd_return_1d():
+    start = date(2026, 1, 1)
+    ohlc  = _make_ohlc("X.TW", start, [10]*5, [8]*5, [100.0, 105.0, 110.0, 108.0, 112.0])
+    entry = {"entry_date": start.isoformat(), "ticker": "X.TW", "entry_price": 100.0}
+    result = compute_next_nd_return(entry, ohlc, n=1)
+    # day 1 close = 105, entry = 100 → return = 5%
+    assert result == pytest.approx(0.05, rel=1e-4)
+
+
+def test_compute_next_nd_return_insufficient_returns_none():
+    start = date(2026, 1, 1)
+    ohlc  = _make_ohlc("X.TW", start, [10]*2, [8]*2, [100.0, 105.0])
+    entry = {"entry_date": start.isoformat(), "ticker": "X.TW", "entry_price": 100.0}
+    assert compute_next_nd_return(entry, ohlc, n=5) is None
+
+
+def test_compute_next_nd_return_missing_entry_price_returns_none():
+    start = date(2026, 1, 1)
+    ohlc  = _make_ohlc("X.TW", start, [10]*5, [8]*5, [100.0]*5)
+    entry = {"entry_date": start.isoformat(), "ticker": "X.TW", "entry_price": None}
+    assert compute_next_nd_return(entry, ohlc, n=1) is None

@@ -88,3 +88,37 @@ def build_rolling_baskets(
     if len(report_dates) < window:
         return []
     return [report_dates[i : i + window] for i in range(len(report_dates) - window + 1)]
+
+
+# ─────────────────────────────────────────────────────────────
+# Basket maturity + short-term return helpers
+# ─────────────────────────────────────────────────────────────
+
+def flag_immature_basket(
+    basket_dates: list[date],
+    report_dates: list[date],
+    valuation_date: date,
+    min_hold_days: int = IMMATURE_MIN_HOLD,
+) -> bool:
+    """True if the last entry has fewer than min_hold_days post-entry report dates."""
+    last_entry = max(basket_dates)
+    post_entry = [d for d in report_dates if last_entry < d <= valuation_date]
+    return len(post_entry) < min_hold_days
+
+
+def compute_next_nd_return(
+    entry: dict,
+    ohlc: pd.DataFrame,
+    n: int,
+) -> Optional[float]:
+    """Return of entry_price → close on Nth trading day after entry. None if insufficient data."""
+    entry_date  = date.fromisoformat(entry["entry_date"])
+    entry_price = entry.get("entry_price")
+    ticker      = entry.get("ticker")
+    if entry_price is None or ticker is None:
+        return None
+    series = get_close_series(ohlc, ticker, after_date=entry_date, to_date=date(2099, 1, 1))
+    if len(series) < n:
+        return None
+    nth_close = series[n - 1][1]
+    return round((nth_close - entry_price) / entry_price, 6)
