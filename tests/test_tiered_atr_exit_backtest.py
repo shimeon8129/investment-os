@@ -172,3 +172,23 @@ def test_tiered_atr_data_incomplete_when_missing_atr():
                                       date(2026, 6, 1), hold_protection=True)
     assert result["exit_reason"] == "DATA_INCOMPLETE"
     assert result["hold_period_protected"] is False
+
+
+def test_hold_protection_boundary_exact_date_is_protected():
+    # protection_end is the 3rd report date after entry = start+3
+    # A close that would exit via trailing on start+3 should NOT exit (still in protection)
+    # A close that would exit via trailing on start+4 SHOULD exit
+    start = date(2026, 1, 1)
+    # Day 0 (start+1): close=115 → highest=115, float_pct=15% → trail=3.0, trailing=115-15=100
+    # Days in protection: start+1, start+2, start+3 (protection_end = start+3)
+    # Day 2 (start+3): close=99, trailing=100 → IN protection → effective=initial=92.5 → no exit
+    # Day 3 (start+4): close=99, trailing=100 → NOT in protection → effective=100 → EXIT
+    closes = [100.0, 115.0, 110.0, 99.0, 99.0, 90.0]
+    ohlc = _make_ohlc("X.TW", start, closes, closes, closes)
+    report_dates = [start + timedelta(days=i) for i in range(1, 6)]
+    entry = _make_entry(start=start)
+    result = simulate_tiered_atr_exit(entry, ohlc, report_dates,
+                                      date(2026, 6, 1), hold_protection=True)
+    assert result["exit_reason"] == "ATR_TRAILING_STOP"
+    # Should exit on start+4, not start+3
+    assert date.fromisoformat(result["exit_date"]) == start + timedelta(days=4)

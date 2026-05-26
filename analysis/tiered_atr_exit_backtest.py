@@ -90,6 +90,18 @@ ALL_MODELS = [
 # TIERED ATR trailing stop exit model
 # ─────────────────────────────────────────────────────────────
 
+def _tiered_trailing_stop(highest_close: float, entry_price: float, atr20: float) -> float:
+    """Compute tiered trailing stop price based on peak float from entry."""
+    float_pct = (highest_close - entry_price) / entry_price
+    if float_pct < TIERED_LOW_THRESHOLD:
+        trail_mult = TIERED_TRAIL_LOW
+    elif float_pct < TIERED_HIGH_THRESHOLD:
+        trail_mult = TIERED_TRAIL_MID
+    else:
+        trail_mult = TIERED_TRAIL_HIGH
+    return highest_close - trail_mult * atr20
+
+
 def simulate_tiered_atr_exit(
     entry: dict,
     ohlc: pd.DataFrame,
@@ -145,14 +157,7 @@ def simulate_tiered_atr_exit(
         if close > highest_close:
             highest_close = close
 
-        float_pct = (highest_close - entry_price) / entry_price
-        if float_pct < TIERED_LOW_THRESHOLD:
-            trail_mult = TIERED_TRAIL_LOW
-        elif float_pct < TIERED_HIGH_THRESHOLD:
-            trail_mult = TIERED_TRAIL_MID
-        else:
-            trail_mult = TIERED_TRAIL_HIGH
-        trailing_stop = highest_close - trail_mult * atr20
+        trailing_stop = _tiered_trailing_stop(highest_close, entry_price, atr20)
 
         in_protection = d <= protection_end
         if in_protection:
@@ -160,7 +165,8 @@ def simulate_tiered_atr_exit(
                 hold_period_protected = True  # trailing would have triggered
             effective_stop = initial_stop
         elif i == 0:
-            effective_stop = max(trailing_stop, initial_stop)  # gap-down floor on day 0
+            # Outside protection on day 0: floor stops gap-down bypass of initial_stop
+            effective_stop = max(trailing_stop, initial_stop)
         else:
             effective_stop = trailing_stop
 
@@ -194,14 +200,7 @@ def simulate_tiered_atr_exit(
     if unrealized < max_drawdown:
         max_drawdown = unrealized
 
-    float_pct = (highest_close - entry_price) / entry_price
-    if float_pct < TIERED_LOW_THRESHOLD:
-        trail_mult = TIERED_TRAIL_LOW
-    elif float_pct < TIERED_HIGH_THRESHOLD:
-        trail_mult = TIERED_TRAIL_MID
-    else:
-        trail_mult = TIERED_TRAIL_HIGH
-    trailing_stop = highest_close - trail_mult * atr20
+    trailing_stop = _tiered_trailing_stop(highest_close, entry_price, atr20)
 
     return {
         "exit_model":               "TIERED_ATR",
