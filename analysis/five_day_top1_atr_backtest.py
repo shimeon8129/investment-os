@@ -460,6 +460,38 @@ def simulate_ma_exit(
     }
 
 
+# ─────────────────────────────────────────────────────────────
+# Position grade diagnostic (v0.1: from available report fields)
+# ─────────────────────────────────────────────────────────────
+
+_GRADE_A_SIGNALS = {"BUY_BREAKOUT", "TREND_CONTINUE", "BUY"}
+_GRADE_C_SIGNALS = {"WATCH_READY"}
+
+
+def compute_position_grade(
+    signal: str,
+    market_state: Optional[str],
+    role_confidence: Optional[str],
+) -> str:
+    """Diagnostic grade A/B/C.
+
+    v0.1 uses only: signal type, market_state, role_confidence.
+    Chips and chase_risk are not available in historical daily reports.
+    """
+    if not signal:
+        return "C"
+    if market_state == "BEAR":
+        return "C"
+    if signal in _GRADE_C_SIGNALS:
+        return "C"
+    if signal in _GRADE_A_SIGNALS and market_state in ("BULL", "RANGE") \
+            and role_confidence not in ("LOW", None):
+        return "A"
+    if "LATE" in signal:
+        return "B"
+    return "B"
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="Five-Day Top1 ATR Strategy Backtest v0.1")
     parser.add_argument("--start-date", default="2026-05-07")

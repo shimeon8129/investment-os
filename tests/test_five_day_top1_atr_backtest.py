@@ -206,3 +206,23 @@ def test_ma_exit_triggers_when_close_below_ma5():
     result = simulate_ma_exit(entry, ohlc, ma_period=5, valuation_date=date(2026, 6, 1))
     assert result["exit_reason"] == "MA_BREAK"
     assert result["exit_price"] == pytest.approx(90.0)
+
+
+from analysis.five_day_top1_atr_backtest import compute_position_grade
+
+
+def test_grade_a_for_strong_signal_high_confidence():
+    assert compute_position_grade("BUY_BREAKOUT", "BULL", "HIGH")   == "A"
+    assert compute_position_grade("BUY",          "RANGE", "MEDIUM") == "A"
+    assert compute_position_grade("TREND_CONTINUE","BULL", "HIGH")   == "A"
+
+
+def test_grade_b_for_low_confidence_or_late_signal():
+    assert compute_position_grade("BUY",      "RANGE", "LOW")  == "B"
+    assert compute_position_grade("BUY",      "RANGE", None)   == "B"
+    assert compute_position_grade("BUY_LATE", "RANGE", "HIGH") == "B"
+
+
+def test_grade_c_for_watch_signal_or_bear_market():
+    assert compute_position_grade("WATCH_READY", "RANGE", "LOW")  == "C"
+    assert compute_position_grade("BUY",         "BEAR",  "HIGH") == "C"
