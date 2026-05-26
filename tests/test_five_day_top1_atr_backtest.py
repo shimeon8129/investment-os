@@ -257,3 +257,32 @@ def test_compute_pnl_unrealized_open_position():
     assert r["realized_pnl"]   is None
     assert r["unrealized_pnl"] == pytest.approx(expected_gross, rel=1e-3)
     assert r["gross_pnl"]      == pytest.approx(expected_gross, rel=1e-3)
+
+
+from analysis.five_day_top1_atr_backtest import aggregate_basket
+
+
+def _stub_lot(ticker, actual_cost, shares, current_price, gross_pnl, net_pnl,
+              exit_reason="OPEN_POSITION"):
+    cv = current_price * shares if current_price else None
+    return {
+        "ticker": ticker, "actual_cost": actual_cost, "shares": shares,
+        "entry_price": actual_cost / shares,
+        "exit_price": None, "exit_reason": exit_reason,
+        "current_price": current_price, "current_value": cv,
+        "gross_pnl": gross_pnl, "estimated_net_pnl": net_pnl,
+        "realized_pnl": None, "unrealized_pnl": gross_pnl,
+        "entry_date": "2026-05-07",
+    }
+
+
+def test_aggregate_basket_sums_correctly():
+    lots = [
+        _stub_lot("3711.TW", 99900.0,  185, 617.0, 14045.0, 13000.0),
+        _stub_lot("2464.TW", 99918.0,  819, 158.0, 29502.0, 28000.0),
+    ]
+    basket = aggregate_basket(lots, planned_capital=500_000)
+    assert basket["entry_count"]      == 2
+    assert basket["deployed_capital"] == pytest.approx(99900 + 99918, rel=1e-4)
+    assert basket["gross_pnl"]        == pytest.approx(14045 + 29502, rel=1e-4)
+    assert basket["cash_remainder"]   == pytest.approx(500_000 - (99900 + 99918), rel=1e-4)

@@ -546,6 +546,111 @@ def compute_pnl(
     }
 
 
+# ─────────────────────────────────────────────────────────────
+# Lot assembly + basket aggregation
+# ─────────────────────────────────────────────────────────────
+
+def assemble_lot(entry: dict, exit_info: dict, grade: str, pnl: dict) -> dict:
+    """Merge entry, exit, grade, PnL into a single lot record (all spec fields)."""
+    entry_price  = entry.get("entry_price")
+    initial_stop = entry.get("initial_stop")
+    actual_cost  = entry.get("actual_cost") or 0
+    shares       = entry.get("shares") or 0
+    gross_pnl    = pnl.get("gross_pnl")
+
+    r_multiple = None
+    if gross_pnl is not None and entry_price and initial_stop and shares:
+        risk_per_share = entry_price - initial_stop
+        if risk_per_share > 0:
+            r_multiple = round(gross_pnl / (risk_per_share * shares), 3)
+
+    return {
+        "strategy_id":               entry.get("strategy_id", STRATEGY_ID),
+        "basket_id":                 entry.get("basket_id", BASKET_ID),
+        "entry_index":               entry.get("entry_index"),
+        "entry_date":                entry.get("entry_date"),
+        "ticker":                    entry.get("ticker"),
+        "name":                      entry.get("name"),
+        "rank":                      entry.get("rank", "Top1"),
+        "market_state":              entry.get("market_state"),
+        "entry_signal":              entry.get("entry_signal"),
+        "role":                      entry.get("role"),
+        "position_grade":            grade,
+        "planned_entry_capital":     entry.get("planned_entry_capital"),
+        "entry_price":               entry_price,
+        "shares":                    shares,
+        "actual_cost":               actual_cost,
+        "unused_cash":               entry.get("unused_cash"),
+        "atr20_at_entry":            entry.get("atr20_at_entry"),
+        "initial_stop":              initial_stop,
+        "highest_close_since_entry": exit_info.get("highest_close_since_entry"),
+        "trailing_stop":             exit_info.get("trailing_stop_at_exit"),
+        "exit_model":                exit_info.get("exit_model"),
+        "exit_date":                 exit_info.get("exit_date"),
+        "exit_price":                exit_info.get("exit_price"),
+        "exit_reason":               exit_info.get("exit_reason"),
+        "holding_days":              exit_info.get("holding_days"),
+        "current_price":             exit_info.get("current_price"),
+        "current_value":             exit_info.get("current_value"),
+        "realized_pnl":              pnl.get("realized_pnl"),
+        "unrealized_pnl":            pnl.get("unrealized_pnl"),
+        "gross_pnl":                 gross_pnl,
+        "gross_return_pct":          pnl.get("gross_return_pct"),
+        "estimated_buy_fee":         pnl.get("estimated_buy_fee"),
+        "estimated_sell_fee":        pnl.get("estimated_sell_fee"),
+        "estimated_tax":             pnl.get("estimated_tax"),
+        "estimated_net_pnl":         pnl.get("estimated_net_pnl"),
+        "max_profit_seen":           exit_info.get("max_profit_seen"),
+        "max_drawdown_seen":         exit_info.get("max_drawdown_seen"),
+        "r_multiple":                r_multiple,
+        "data_quality_flag":         entry.get("data_quality_flag", "FAIL"),
+        "data_quality_note":         entry.get("data_quality_note", ""),
+    }
+
+
+def aggregate_basket(lots: list[dict], planned_capital: float) -> dict:
+    """Basket-level summary from list of lot records."""
+    valid    = [l for l in lots if l.get("actual_cost") is not None]
+    deployed = sum(l["actual_cost"] for l in valid)
+
+    stock_value    = sum((l.get("current_value") or 0) for l in valid
+                         if l.get("exit_reason") == "OPEN_POSITION")
+    realized_cash  = sum((l.get("exit_price") or 0) * (l.get("shares") or 0)
+                         for l in valid
+                         if l.get("exit_reason") not in
+                         ("OPEN_POSITION", "DATA_INCOMPLETE", None))
+    gross_pnl = sum(l.get("gross_pnl") or 0 for l in valid)
+    net_pnl   = sum(l.get("estimated_net_pnl") or 0 for l in valid)
+    total_eq  = (planned_capital - deployed) + stock_value + realized_cash
+
+    open_lots   = [l for l in valid if l.get("exit_reason") == "OPEN_POSITION"]
+    exited_lots = [l for l in valid
+                   if l.get("exit_reason") not in ("OPEN_POSITION", "DATA_INCOMPLETE", None)]
+    best  = max(valid, key=lambda l: l.get("gross_pnl") or float("-inf")) if valid else None
+    worst = min(valid, key=lambda l: l.get("gross_pnl") or float("inf"))  if valid else None
+
+    return {
+        "strategy_id":           STRATEGY_ID,
+        "basket_id":             BASKET_ID,
+        "start_date":            lots[0].get("entry_date") if lots else None,
+        "entry_count":           len(valid),
+        "planned_capital":       planned_capital,
+        "deployed_capital":      round(deployed, 2),
+        "cash_remainder":        round(planned_capital - deployed, 2),
+        "current_stock_value":   round(stock_value, 2),
+        "realized_value":        round(realized_cash, 2),
+        "total_equity":          round(total_eq, 2),
+        "gross_pnl":             round(gross_pnl, 2),
+        "net_pnl_estimated":     round(net_pnl, 2),
+        "gross_return_pct":      round(gross_pnl / planned_capital * 100, 4) if planned_capital else None,
+        "net_return_pct_estimated": round(net_pnl / planned_capital * 100, 4) if planned_capital else None,
+        "open_positions":        len(open_lots),
+        "exited_positions":      len(exited_lots),
+        "best_lot":              best.get("ticker") if best else None,
+        "worst_lot":             worst.get("ticker") if worst else None,
+    }
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="Five-Day Top1 ATR Strategy Backtest v0.1")
     parser.add_argument("--start-date", default="2026-05-07")
