@@ -159,3 +159,29 @@ def compute_post_exit_max_return(
         "post_exit_high_after_exit": round(max_close, 4),
         "days_to_post_exit_high":   max_idx + 1,
     }
+
+
+# ─────────────────────────────────────────────────────────────
+# Post-trade label — outcome cause diagnosis
+# ─────────────────────────────────────────────────────────────
+
+def label_post_trade(
+    exit_reason: str,
+    gross_pnl: Optional[float],
+    post_exit_max_return: Optional[float],
+    next_1d_return: Optional[float],
+) -> str:
+    """Classify why a trade outcome occurred.
+
+    Priority order is owner-confirmed — do not reorder without explicit approval.
+    """
+    if exit_reason == "OPEN_POSITION":
+        return "OPEN_WINNER" if (gross_pnl or 0) > 0 else "OPEN_RISK"
+    if exit_reason == "DATA_INCOMPLETE":
+        return "DATA_QUALITY_ISSUE"
+    if exit_reason == "ATR_TRAILING_STOP":
+        if (post_exit_max_return or 0) > ATR_TOO_TIGHT_THRESHOLD:
+            return "ATR_TOO_TIGHT"
+        if (next_1d_return or 0) < ENTRY_FAILURE_THRESHOLD:
+            return "ENTRY_SIGNAL_FAILURE"
+    return "MARKET_REVERSAL"

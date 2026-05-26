@@ -194,3 +194,37 @@ def test_compute_post_exit_max_return_none_exit_date_returns_nulls():
     ohlc   = _make_ohlc("X.TW", start, [12]*3, [8]*3, [100.0, 110.0, 120.0])
     result = compute_post_exit_max_return("X.TW", None, start + timedelta(days=2), 100.0, ohlc)
     assert result["post_exit_max_return"] is None
+
+
+from analysis.rolling_five_day_top1_atr_diagnosis import label_post_trade
+
+
+def test_label_open_winner():
+    assert label_post_trade("OPEN_POSITION", 5000.0, None, None) == "OPEN_WINNER"
+
+
+def test_label_open_risk():
+    assert label_post_trade("OPEN_POSITION", -500.0, None, None) == "OPEN_RISK"
+
+
+def test_label_data_quality():
+    assert label_post_trade("DATA_INCOMPLETE", None, None, None) == "DATA_QUALITY_ISSUE"
+
+
+def test_label_atr_too_tight_takes_priority_over_next1d():
+    # post_exit > 5% → ATR_TOO_TIGHT, even though next_1d would suggest entry failure
+    assert label_post_trade("ATR_TRAILING_STOP", -1000.0, 0.08, -0.05) == "ATR_TOO_TIGHT"
+
+
+def test_label_entry_signal_failure():
+    # post_exit ≤ 5% and next_1d < -3%
+    assert label_post_trade("ATR_TRAILING_STOP", -1000.0, 0.02, -0.04) == "ENTRY_SIGNAL_FAILURE"
+
+
+def test_label_market_reversal_fallthrough():
+    # post_exit ≤ 5% and next_1d ≥ -3% → neither ATR_TOO_TIGHT nor ENTRY_SIGNAL_FAILURE
+    assert label_post_trade("ATR_TRAILING_STOP", -1000.0, 0.02, -0.01) == "MARKET_REVERSAL"
+
+
+def test_label_fixed10d_defaults_to_market_reversal():
+    assert label_post_trade("FIXED_10D", -500.0, None, None) == "MARKET_REVERSAL"
