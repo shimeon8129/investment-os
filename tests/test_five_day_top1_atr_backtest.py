@@ -172,3 +172,37 @@ def test_atr_exit_data_incomplete_when_atr_missing():
     }
     result = simulate_atr_exit(entry, pd.DataFrame(), 1.5, 2.0, date(2026, 5, 20))
     assert result["exit_reason"] == "DATA_INCOMPLETE"
+
+
+from analysis.five_day_top1_atr_backtest import simulate_fixed10d_exit, simulate_ma_exit
+
+
+def test_fixed10d_exit_uses_10th_trading_day_close():
+    # closes[0]=100 (entry), closes[10]=110 (exit on 10th day after)
+    entry_date = date(2026, 5, 7)
+    closes = list(range(100, 116))  # 16 values: 100..115
+    ohlc = _make_ohlc("X.TW", entry_date, closes, closes, closes)
+    trading_days = [entry_date + timedelta(days=i) for i in range(16)]
+    entry = {
+        "ticker": "X.TW", "entry_date": entry_date.isoformat(),
+        "entry_price": 100.0, "shares": 10, "atr20_at_entry": 5.0,
+    }
+    result = simulate_fixed10d_exit(entry, ohlc, trading_days, date(2026, 6, 1))
+    assert result["exit_reason"] == "FIXED_10D"
+    assert result["holding_days"] == 10
+    assert result["exit_price"] == pytest.approx(110.0)
+
+
+def test_ma_exit_triggers_when_close_below_ma5():
+    # closes: entry_date=100, then 100×4, then 90 (close<MA5 of 98)
+    # window=[100,100,100,100,90], MA=98, close=90 < 98 → EXIT
+    entry_date = date(2026, 5, 7)
+    closes = [100.0, 100.0, 100.0, 100.0, 100.0, 90.0, 85.0]
+    ohlc = _make_ohlc("X.TW", entry_date, closes, closes, closes)
+    entry = {
+        "ticker": "X.TW", "entry_date": entry_date.isoformat(),
+        "entry_price": 100.0, "shares": 10, "atr20_at_entry": 5.0,
+    }
+    result = simulate_ma_exit(entry, ohlc, ma_period=5, valuation_date=date(2026, 6, 1))
+    assert result["exit_reason"] == "MA_BREAK"
+    assert result["exit_price"] == pytest.approx(90.0)

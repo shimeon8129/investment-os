@@ -359,6 +359,107 @@ def simulate_atr_exit(
     }
 
 
+# ─────────────────────────────────────────────────────────────
+# Exit model B: Fixed 10 trading days (benchmark)
+# ─────────────────────────────────────────────────────────────
+
+def simulate_fixed10d_exit(
+    entry: dict,
+    ohlc: pd.DataFrame,
+    trading_days: list[date],
+    valuation_date: date,
+) -> dict:
+    """Exit at 10th trading day close after entry (benchmark)."""
+    entry_date  = date.fromisoformat(entry["entry_date"])
+    shares      = entry.get("shares", 0) or 0
+    entry_price = entry.get("entry_price")
+
+    days_after = [d for d in trading_days if d > entry_date]
+    if len(days_after) < 10:
+        return {"exit_model": "FIXED_10D", "exit_date": None, "exit_price": None,
+                "exit_reason": "DATA_INCOMPLETE", "holding_days": None,
+                "current_price": None, "current_value": None}
+
+    exit_day   = days_after[9]
+    exit_price = get_close(ohlc, entry["ticker"], exit_day)
+    if exit_price is None:
+        return {"exit_model": "FIXED_10D", "exit_date": exit_day.isoformat(),
+                "exit_price": None, "exit_reason": "DATA_INCOMPLETE",
+                "holding_days": 10, "current_price": None, "current_value": None}
+
+    return {
+        "exit_model": "FIXED_10D",
+        "exit_date": exit_day.isoformat(),
+        "exit_price": round(exit_price, 2),
+        "exit_reason": "FIXED_10D",
+        "holding_days": 10,
+        "current_price": round(exit_price, 2),
+        "current_value": round(exit_price * shares, 2),
+    }
+
+
+# ─────────────────────────────────────────────────────────────
+# Exit model C: MA5 trailing exit (benchmark)
+# ─────────────────────────────────────────────────────────────
+
+def simulate_ma_exit(
+    entry: dict,
+    ohlc: pd.DataFrame,
+    ma_period: int,
+    valuation_date: date,
+) -> dict:
+    """Exit when close < MA(ma_period). Warmup uses full pre-entry OHLC history."""
+    entry_date  = date.fromisoformat(entry["entry_date"])
+    shares      = entry.get("shares", 0) or 0
+    entry_price = entry.get("entry_price")
+    ticker      = entry["ticker"]
+
+    if entry_price is None:
+        return {"exit_model": "MA_EXIT", "exit_date": None, "exit_price": None,
+                "exit_reason": "DATA_INCOMPLETE", "holding_days": None,
+                "current_price": None, "current_value": None}
+
+    # Gather all closes (full history for MA warmup + simulation period)
+    all_closes = get_close_series(ohlc, ticker,
+                                  after_date=date(2000, 1, 1),
+                                  to_date=valuation_date)
+    if not all_closes:
+        return {"exit_model": "MA_EXIT", "exit_date": None, "exit_price": None,
+                "exit_reason": "DATA_INCOMPLETE", "holding_days": None,
+                "current_price": None, "current_value": None}
+
+    # Seed window with up to ma_period closes on or before entry_date
+    window = [c for d, c in all_closes if d <= entry_date][-ma_period:]
+    sim_series = [(d, c) for d, c in all_closes if d > entry_date]
+
+    for i, (d, close) in enumerate(sim_series):
+        window.append(close)
+        if len(window) > ma_period:
+            window.pop(0)
+        ma = sum(window) / len(window)
+        if close < ma:
+            return {
+                "exit_model": "MA_EXIT",
+                "exit_date": d.isoformat(),
+                "exit_price": round(close, 2),
+                "exit_reason": "MA_BREAK",
+                "holding_days": i + 1,
+                "current_price": round(close, 2),
+                "current_value": round(close * shares, 2),
+            }
+
+    current_price = sim_series[-1][1] if sim_series else entry_price
+    return {
+        "exit_model": "MA_EXIT",
+        "exit_date": None,
+        "exit_price": None,
+        "exit_reason": "OPEN_POSITION",
+        "holding_days": len(sim_series),
+        "current_price": round(current_price, 2),
+        "current_value": round(current_price * shares, 2),
+    }
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="Five-Day Top1 ATR Strategy Backtest v0.1")
     parser.add_argument("--start-date", default="2026-05-07")
