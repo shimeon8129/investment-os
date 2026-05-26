@@ -103,3 +103,27 @@ def test_parse_daily_report_2026_05_11_includes_role_fields():
 
 def test_parse_daily_report_missing_date_returns_none():
     assert parse_daily_report("2000-01-01") is None
+
+
+from analysis.five_day_top1_atr_backtest import build_entry
+
+
+def test_build_entry_shares_and_cost():
+    # 2026-05-08 Top1 is 2464.TW. Mock close=122.0 for all 38 days.
+    # shares = floor(100000 / 122) = 819
+    # actual_cost = 819 * 122 = 99918
+    # unused_cash = 100000 - 99918 = 82
+    start = date(2026, 4, 1)
+    ohlc = _make_ohlc("2464.TW", start, [130.0] * 38, [118.0] * 38, [122.0] * 38)
+    entry = build_entry(1, "2026-05-08", ohlc, 100_000)
+    assert entry["ticker"] == "2464.TW"
+    assert entry["entry_price"] == pytest.approx(122.0, rel=1e-3)
+    assert entry["shares"] == 819
+    assert entry["actual_cost"] == pytest.approx(819 * 122.0, rel=1e-4)
+    assert entry["unused_cash"] == pytest.approx(100_000 - 819 * 122.0, rel=1e-4)
+
+
+def test_build_entry_data_quality_fail_on_missing_price():
+    entry = build_entry(1, "2026-05-08", pd.DataFrame(), 100_000)
+    assert entry["data_quality_flag"] == "FAIL"
+    assert entry["entry_price"] is None

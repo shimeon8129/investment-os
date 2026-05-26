@@ -205,6 +205,75 @@ def get_close_series(
         return []
 
 
+# ─────────────────────────────────────────────────────────────
+# Entry builder
+# ─────────────────────────────────────────────────────────────
+
+def build_entry(
+    entry_index: int, date_str: str, ohlc: pd.DataFrame, entry_capital: float
+) -> dict:
+    """Build one lot entry dict from daily report + OHLC."""
+    parsed = parse_daily_report(date_str)
+    if not parsed:
+        return {
+            "entry_index": entry_index, "entry_date": date_str, "ticker": None,
+            "data_quality_flag": "FAIL",
+            "data_quality_note": f"missing daily report {date_str}",
+        }
+
+    ticker = parsed["ticker"]
+    entry_date = date.fromisoformat(date_str)
+
+    entry_price = get_close(ohlc, ticker, entry_date)
+    if entry_price is None:
+        return {
+            **parsed,
+            "entry_index": entry_index, "entry_date": date_str,
+            "planned_entry_capital": entry_capital,
+            "entry_price": None, "shares": None,
+            "actual_cost": None, "unused_cash": None,
+            "atr20_at_entry": None, "initial_stop": None,
+            "data_quality_flag": "FAIL",
+            "data_quality_note": f"missing close price for {ticker} on {date_str}",
+        }
+
+    shares = int(floor(entry_capital / entry_price))
+    actual_cost = shares * entry_price
+    unused_cash = entry_capital - actual_cost
+
+    atr20 = compute_atr20(ohlc, ticker, entry_date)
+    initial_stop = round(entry_price - 1.5 * atr20, 2) if atr20 else None
+
+    return {
+        "strategy_id": STRATEGY_ID,
+        "basket_id": BASKET_ID,
+        "entry_index": entry_index,
+        "entry_date": date_str,
+        "ticker": ticker,
+        "name": parsed["name"],
+        "rank": "Top1",
+        "market_state": parsed["market_state"],
+        "entry_signal": parsed["signal"],
+        "role": parsed.get("base_role"),
+        "planned_entry_capital": entry_capital,
+        "entry_price": round(entry_price, 2),
+        "shares": shares,
+        "actual_cost": round(actual_cost, 2),
+        "unused_cash": round(unused_cash, 2),
+        "atr20_at_entry": round(atr20, 4) if atr20 else None,
+        "initial_stop": initial_stop,
+        "data_quality_flag": "PASS" if atr20 else "WARN",
+        "data_quality_note": "" if atr20 else "ATR20 unavailable — insufficient OHLC history",
+        # raw fields for downstream grade/report
+        "_score": parsed["score"],
+        "_market_score": parsed["market_score"],
+        "_vix": parsed["vix"],
+        "_base_role": parsed.get("base_role"),
+        "_active_role": parsed.get("active_role"),
+        "_role_confidence": parsed.get("role_confidence"),
+    }
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="Five-Day Top1 ATR Strategy Backtest v0.1")
     parser.add_argument("--start-date", default="2026-05-07")
