@@ -651,14 +651,300 @@ def aggregate_basket(lots: list[dict], planned_capital: float) -> dict:
     }
 
 
+# ─────────────────────────────────────────────────────────────
+# TW trading day helper
+# ─────────────────────────────────────────────────────────────
+
+def get_tw_trading_days(start: date, end: date) -> list[date]:
+    from utils.market_calendar import is_market_open
+    result, d = [], start
+    while d <= end:
+        if is_market_open("TW", d) in ("OPEN", "OPEN_EARLY_CLOSE"):
+            result.append(d)
+        d += timedelta(days=1)
+    return result
+
+
+# ─────────────────────────────────────────────────────────────
+# Backtest orchestrator
+# ─────────────────────────────────────────────────────────────
+
+def run_backtest(
+    start_date: str,
+    n_entries: int,
+    entry_capital: float,
+    valuation_date: str,
+) -> dict:
+    val_date = date.fromisoformat(valuation_date)
+    start    = date.fromisoformat(start_date)
+
+    # 1. Collect entry trading days
+    all_tw = get_tw_trading_days(start, val_date)
+    entry_days = [d for d in all_tw if d >= start][:n_entries]
+    if len(entry_days) < n_entries:
+        print(f"[WARN] Only {len(entry_days)} of {n_entries} entry days available")
+
+    # 2. Parse daily reports → unique tickers
+    parsed_reports: dict[str, dict] = {}
+    for d in entry_days:
+        p = parse_daily_report(d.isoformat())
+        if p:
+            parsed_reports[d.isoformat()] = p
+        else:
+            print(f"[WARN] No daily report for {d}")
+    tickers = list({p["ticker"] for p in parsed_reports.values()})
+    if not tickers:
+        return {"error": "No valid daily reports found", "lots": [], "basket": {}}
+
+    # 3. Fetch OHLC (60-day lookback for ATR20 warmup)
+    ohlc_start = (start - timedelta(days=65)).isoformat()
+    ohlc_end   = (val_date + timedelta(days=1)).isoformat()
+    print(f"[backtest] Fetching OHLC for {tickers} ({ohlc_start} → {ohlc_end})")
+    ohlc = fetch_ohlc(tickers, ohlc_start, ohlc_end)
+    if ohlc.empty:
+        return {"error": "OHLC fetch returned empty DataFrame", "lots": [], "basket": {}}
+
+    # 4. Build entries
+    entries = []
+    for i, d in enumerate(entry_days, 1):
+        e = build_entry(i, d.isoformat(), ohlc, entry_capital)
+        entries.append(e)
+        print(f"[backtest] Entry {i}: {d} {e.get('ticker')} @ {e.get('entry_price')} "
+              f"shares={e.get('shares')} ATR20={e.get('atr20_at_entry')} DQ={e.get('data_quality_flag')}")
+
+    trading_days = get_tw_trading_days(start, val_date)
+
+    # 5. Simulate exits for each ATR variant + benchmarks
+    lots_by_variant: dict[str, list[dict]] = {v: [] for v in ATR_VARIANTS}
+    lots_fixed10d: list[dict] = []
+    lots_ma5:      list[dict] = []
+
+    for entry in entries:
+        grade = compute_position_grade(
+            entry.get("entry_signal", ""),
+            entry.get("market_state"),
+            entry.get("_role_confidence"),
+        )
+        for v_name, (im, tm) in ATR_VARIANTS.items():
+            ei   = simulate_atr_exit(entry, ohlc, im, tm, val_date)
+            pnl  = compute_pnl(
+                entry.get("actual_cost") or 0, entry.get("shares") or 0,
+                ei.get("exit_price"), ei.get("exit_reason", "DATA_INCOMPLETE"),
+                val_date, ei.get("current_price"),
+            )
+            lots_by_variant[v_name].append(assemble_lot(entry, ei, grade, pnl))
+
+        fi   = simulate_fixed10d_exit(entry, ohlc, trading_days, val_date)
+        fp   = compute_pnl(entry.get("actual_cost") or 0, entry.get("shares") or 0,
+                           fi.get("exit_price"), fi.get("exit_reason", "DATA_INCOMPLETE"),
+                           val_date, fi.get("current_price"))
+        lots_fixed10d.append(assemble_lot(entry, fi, grade, fp))
+
+        mi   = simulate_ma_exit(entry, ohlc, ma_period=5, valuation_date=val_date)
+        mp   = compute_pnl(entry.get("actual_cost") or 0, entry.get("shares") or 0,
+                           mi.get("exit_price"), mi.get("exit_reason", "DATA_INCOMPLETE"),
+                           val_date, mi.get("current_price"))
+        lots_ma5.append(assemble_lot(entry, mi, grade, mp))
+
+    planned = entry_capital * n_entries
+    baskets_all: dict[str, dict] = {v: aggregate_basket(lots_by_variant[v], planned)
+                                    for v in ATR_VARIANTS}
+    baskets_all["FIXED_10D"] = aggregate_basket(lots_fixed10d, planned)
+    baskets_all["MA5"]       = aggregate_basket(lots_ma5, planned)
+
+    primary_lots   = lots_by_variant[PRIMARY_ATR_VARIANT]
+    primary_basket = baskets_all[PRIMARY_ATR_VARIANT]
+
+    return {
+        "strategy_id": STRATEGY_ID, "basket_id": BASKET_ID,
+        "start_date": start_date, "valuation_date": valuation_date,
+        "entry_capital": entry_capital, "n_entries": n_entries,
+        "planned_capital": planned, "tickers": tickers,
+        "lots": primary_lots, "basket": primary_basket,
+        "lots_by_variant": lots_by_variant, "baskets_all": baskets_all,
+        "lots_fixed10d": lots_fixed10d, "lots_ma5": lots_ma5,
+    }
+
+
+# ─────────────────────────────────────────────────────────────
+# Output writers
+# ─────────────────────────────────────────────────────────────
+
+def write_lots_csv(lots: list[dict], path: Path) -> None:
+    if not lots:
+        return
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with open(path, "w", newline="", encoding="utf-8") as f:
+        writer = _csv.DictWriter(f, fieldnames=list(lots[0].keys()))
+        writer.writeheader()
+        writer.writerows(lots)
+
+
+def write_basket_json(basket: dict, path: Path) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(
+        json.dumps(basket, ensure_ascii=False, indent=2, default=str), encoding="utf-8"
+    )
+
+
+def write_backtest_report_md(result: dict, path: Path) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    b, lots = result["basket"], result["lots"]
+    lines: list[str] = []
+    w = lines.append
+
+    w(f"# Backtest Report — {STRATEGY_ID}")
+    w(f""); w(f"Generated: {date.today().isoformat()}")
+    w(f"Valuation date: {result['valuation_date']}")
+    w(""); w("---"); w("")
+
+    w("## Strategy Parameters"); w("")
+    w(f"- Strategy ID: `{result['strategy_id']}`")
+    w(f"- Basket ID: `{result['basket_id']}`")
+    w(f"- Planned capital: {result['planned_capital']:,.0f} TWD")
+    w(f"- Entry capital / lot: {result['entry_capital']:,.0f} TWD")
+    w(f"- Lots: {result['n_entries']}")
+    w(f"- Primary exit model: **{PRIMARY_ATR_VARIANT}** (initial 1.5×ATR, trailing 2.0×ATR)")
+    w(f"- Entry price: signal-day close (v0.1)"); w(""); w("---"); w("")
+
+    w("## Lot-Level Results (ATR_BASE — primary)"); w("")
+    w("| # | Date | Ticker | Entry | Shares | Cost | ATR20 | InitStop | TrailStop | Exit | Reason | GrossPnL | Grade |")
+    w("|---|------|--------|-------|--------|------|-------|----------|-----------|------|--------|----------|-------|")
+    for l in lots:
+        gp  = l.get("gross_pnl") or 0
+        pnl = f"+{gp:,.0f}" if gp >= 0 else f"{gp:,.0f}"
+        w(f"| {l.get('entry_index')} | {l.get('entry_date')} | {l.get('ticker')} "
+          f"| {l.get('entry_price')} | {l.get('shares')} | {(l.get('actual_cost') or 0):,.0f} "
+          f"| {l.get('atr20_at_entry') or '—'} | {l.get('initial_stop') or '—'} "
+          f"| {l.get('trailing_stop') or '—'} "
+          f"| {l.get('exit_price') or '—'} | {l.get('exit_reason')} | {pnl} | {l.get('position_grade')} |")
+    w(""); w("---"); w("")
+
+    w("## Basket Summary (ATR_BASE)"); w("")
+    w("| Field | Value |"); w("|-------|-------|")
+    for k, v in b.items():
+        w(f"| {k} | {v} |")
+    w(""); w("---"); w("")
+
+    w("## ATR Stop Status per Lot (ATR_BASE)"); w("")
+    w("| Ticker | Entry | ATR20 | Initial Stop | Trailing Stop | Highest Close | Status |")
+    w("|--------|-------|-------|-------------|--------------|--------------|--------|")
+    for l in lots:
+        w(f"| {l.get('ticker')} | {l.get('entry_price')} | {l.get('atr20_at_entry') or '—'} "
+          f"| {l.get('initial_stop') or '—'} | {l.get('trailing_stop') or '—'} "
+          f"| {l.get('highest_close_since_entry') or '—'} | {l.get('exit_reason')} |")
+    w(""); w("---"); w("")
+
+    w("## Multi-Model Comparison"); w("")
+    w("| Model | GrossPnL | NetPnL(est) | Gross% | Net%(est) | Open | Exited |")
+    w("|-------|----------|------------|--------|----------|------|--------|")
+    for mn, mb in result["baskets_all"].items():
+        w(f"| {mn} | {(mb.get('gross_pnl') or 0):,.0f} "
+          f"| {(mb.get('net_pnl_estimated') or 0):,.0f} "
+          f"| {mb.get('gross_return_pct') or 0:.2f}% "
+          f"| {mb.get('net_return_pct_estimated') or 0:.2f}% "
+          f"| {mb.get('open_positions')} | {mb.get('exited_positions')} |")
+    w(""); w("---"); w("")
+
+    w("## ATR Variant Comparison"); w("")
+    w("| Variant | Init Mult | Trail Mult | GrossPnL | NetPnL(est) | Return% |")
+    w("|---------|-----------|------------|----------|------------|---------|")
+    for vn, (im, tm) in ATR_VARIANTS.items():
+        vb = result["baskets_all"].get(vn, {})
+        w(f"| {vn} | {im}× | {tm}× | {(vb.get('gross_pnl') or 0):,.0f} "
+          f"| {(vb.get('net_pnl_estimated') or 0):,.0f} "
+          f"| {vb.get('gross_return_pct') or 0:.2f}% |")
+    w(""); w("")
+    w("*Advisory only. No trades placed. All outputs for human review.*"); w("")
+    path.write_text("\n".join(lines), encoding="utf-8")
+
+
+def write_validation_report_md(result: dict, path: Path) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    lots = result["lots"]
+    lines: list[str] = []
+    w = lines.append
+
+    w(f"# Validation Report — {STRATEGY_ID}"); w("")
+    w(f"Generated: {date.today().isoformat()}"); w("")
+    w("## Assumptions"); w("")
+    w("1. Entry price = signal-day adjusted close (yfinance auto_adjust=True, v0.1)")
+    w("2. ATR20 = arithmetic mean of True Range over 20 trading days strictly before entry date")
+    w("3. Trailing stop = highest_close_since_entry − trailing_mult × ATR20 (close-based exit)")
+    w("4. On day-1 of hold: effective_stop = max(trailing_stop, initial_stop)")
+    w("5. Duplicate tickers allowed across entry days (signal persistence)")
+    w("6. Transaction costs: buy 0.1425%, sell 0.1425% + STT 0.3% on sell value")
+    w("7. No slippage model in v0.1"); w("")
+
+    w("## Data Quality Summary"); w("")
+    w("| Entry | Ticker | DQ Flag | Note |")
+    w("|-------|--------|---------|------|")
+    for l in lots:
+        w(f"| {l.get('entry_index')} | {l.get('ticker')} "
+          f"| {l.get('data_quality_flag')} | {l.get('data_quality_note') or '—'} |")
+    w("")
+
+    w("## Known Limitations"); w("")
+    w("- Score field not normalized across all dates (see spec §9)")
+    w("- Position grade is diagnostic only — derived from signal/market_state/role_confidence; chips and chase_risk not available in historical reports")
+    w("- Entry price uses adjusted close; may differ from actual signal-day raw close due to splits/dividends")
+    w("- ATR20 uses calendar-day windows from yfinance, not exact TW trading-day count")
+    w("- v0.1 does not compare next-day open vs VWAP entry prices"); w("")
+
+    w("## Ticker Exposure Concentration"); w("")
+    ticker_vals: dict[str, float] = {}
+    for l in lots:
+        t = l.get("ticker", "?")
+        ticker_vals[t] = ticker_vals.get(t, 0) + (l.get("current_value") or 0)
+    all_val = sum(ticker_vals.values()) or 1
+    w("| Ticker | Market Value | % of Total |")
+    w("|--------|-------------|------------|")
+    for t, v in sorted(ticker_vals.items(), key=lambda x: -x[1]):
+        w(f"| {t} | {v:,.0f} | {v / all_val * 100:.1f}% |")
+    w(""); w("---"); w("")
+    w("*Owner should review before any capital allocation decisions.*"); w("")
+    path.write_text("\n".join(lines), encoding="utf-8")
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="Five-Day Top1 ATR Strategy Backtest v0.1")
-    parser.add_argument("--start-date", default="2026-05-07")
-    parser.add_argument("--entries", type=int, default=5)
-    parser.add_argument("--entry-capital", type=float, default=100_000)
-    parser.add_argument("--valuation-date", default="2026-05-25")
+    parser.add_argument("--start-date",      default="2026-05-07")
+    parser.add_argument("--entries",         type=int,   default=5)
+    parser.add_argument("--entry-capital",   type=float, default=100_000)
+    parser.add_argument("--valuation-date",  default="2026-05-25")
     args = parser.parse_args()
-    print(f"[backtest] {STRATEGY_ID} — scaffold only")
+
+    print(f"[backtest] {STRATEGY_ID}")
+    print(f"[backtest] start={args.start_date}  entries={args.entries}  "
+          f"capital/lot={args.entry_capital:,.0f}  valuation={args.valuation_date}")
+
+    result = run_backtest(
+        args.start_date, args.entries, args.entry_capital, args.valuation_date
+    )
+    if "error" in result:
+        print(f"[ERROR] {result['error']}")
+        return 1
+
+    lots_csv      = DATA_BACKTEST      / "five_day_top1_atr_strategy_v0_1_lots.csv"
+    basket_json   = DATA_BACKTEST      / "five_day_top1_atr_strategy_v0_1_basket.json"
+    report_md     = REPORTS_BACKTEST   / "five_day_top1_atr_strategy_v0_1.md"
+    validation_md = REPORTS_VALIDATION / "five_day_top1_atr_strategy_v0_1_validation.md"
+
+    write_lots_csv(result["lots"], lots_csv)
+    write_basket_json(result["basket"], basket_json)
+    write_backtest_report_md(result, report_md)
+    write_validation_report_md(result, validation_md)
+
+    b = result["basket"]
+    print(f"\n[backtest] Deployed:      {b.get('deployed_capital'):>12,.0f} TWD")
+    print(f"[backtest] Gross PnL:     {b.get('gross_pnl'):>12,.0f} TWD  ({b.get('gross_return_pct'):.2f}%)")
+    print(f"[backtest] Net PnL (est): {b.get('net_pnl_estimated'):>12,.0f} TWD  ({b.get('net_return_pct_estimated'):.2f}%)")
+    print(f"[backtest] Open: {b.get('open_positions')}  Exited: {b.get('exited_positions')}")
+    print(f"\n[backtest] Artifacts written:")
+    print(f"  {lots_csv}")
+    print(f"  {basket_json}")
+    print(f"  {report_md}")
+    print(f"  {validation_md}")
     return 0
 
 
