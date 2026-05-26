@@ -228,3 +228,63 @@ def test_label_market_reversal_fallthrough():
 
 def test_label_fixed10d_defaults_to_market_reversal():
     assert label_post_trade("FIXED_10D", -500.0, None, None) == "MARKET_REVERSAL"
+
+
+from analysis.rolling_five_day_top1_atr_diagnosis import (
+    assemble_diagnosis_lot,
+    aggregate_diagnosis_basket,
+    DIAGNOSIS_STRATEGY_ID,
+)
+
+
+def test_assemble_diagnosis_lot_overrides_strategy_and_adds_diagnosis_fields():
+    base = _make_base_lot()
+    post_exit = {
+        "post_exit_max_return": 0.06,
+        "post_exit_high_after_exit": 1060.0,
+        "days_to_post_exit_high": 3,
+    }
+    lot = assemble_diagnosis_lot(
+        base_lot=base,
+        post_exit_info=post_exit,
+        post_trade_label="ATR_TOO_TIGHT",
+        next_1d_return=0.02,
+        next_3d_return=0.05,
+        basket_id="2026-05-07_5D",
+        is_immature=False,
+    )
+    assert lot["strategy_id"]           == DIAGNOSIS_STRATEGY_ID
+    assert lot["basket_id"]             == "2026-05-07_5D"
+    assert lot["is_immature"]           is False
+    assert lot["post_trade_label"]      == "ATR_TOO_TIGHT"
+    assert lot["post_exit_max_return"]  == pytest.approx(0.06)
+    assert lot["next_1d_return"]        == pytest.approx(0.02)
+    assert lot["next_3d_return"]        == pytest.approx(0.05)
+    # original P0.2 fields must still be present
+    assert lot["gross_pnl"]            == pytest.approx(1000.0)
+
+
+def test_aggregate_diagnosis_basket_counts_labels_correctly():
+    basket_dates = [date(2026, 5, d) for d in [7, 8, 11, 12, 13]]
+    lots = [
+        {**_make_base_lot("A.TW",  1000, "ATR_TRAILING_STOP"), "post_trade_label": "ATR_TOO_TIGHT"},
+        {**_make_base_lot("B.TW", -500,  "ATR_TRAILING_STOP"), "post_trade_label": "ENTRY_SIGNAL_FAILURE"},
+        {**_make_base_lot("A.TW",  2000, "OPEN_POSITION",  current_value=101_000),
+         "post_trade_label": "OPEN_WINNER"},
+        {**_make_base_lot("C.TW",  500,  "ATR_TRAILING_STOP"), "post_trade_label": "MARKET_REVERSAL"},
+        {**_make_base_lot("A.TW", -200,  "ATR_TRAILING_STOP"), "post_trade_label": "MARKET_REVERSAL"},
+    ]
+    basket = aggregate_diagnosis_basket(
+        lots, basket_dates, planned_capital=500_000,
+        basket_id="2026-05-07_5D", is_immature=False,
+    )
+    assert basket["basket_id"]           == "2026-05-07_5D"
+    assert basket["strategy_id"]         == DIAGNOSIS_STRATEGY_ID
+    assert basket["is_immature"]         is False
+    assert basket["false_exit_count"]    == 1   # ATR_TOO_TIGHT
+    assert basket["entry_failure_count"] == 1   # ENTRY_SIGNAL_FAILURE
+    assert basket["open_winner_count"]   == 1
+    assert basket["market_reversal_count"] == 2
+    # A.TW appears 3 times → duplicate_ticker_count = 3 (lots whose ticker is duplicated)
+    assert basket["duplicate_ticker_count"] == 3
+    assert basket["unique_ticker_count"]    == 3  # A, B, C

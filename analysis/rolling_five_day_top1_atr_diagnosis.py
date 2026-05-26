@@ -185,3 +185,62 @@ def label_post_trade(
         if (next_1d_return or 0) < ENTRY_FAILURE_THRESHOLD:
             return "ENTRY_SIGNAL_FAILURE"
     return "MARKET_REVERSAL"
+
+
+# ─────────────────────────────────────────────────────────────
+# Diagnosis lot assembly + basket aggregation
+# ─────────────────────────────────────────────────────────────
+
+def assemble_diagnosis_lot(
+    base_lot: dict,
+    post_exit_info: dict,
+    post_trade_label: str,
+    next_1d_return: Optional[float],
+    next_3d_return: Optional[float],
+    basket_id: str,
+    is_immature: bool,
+) -> dict:
+    """Extend a P0.2 assemble_lot() record with P0.3 diagnosis fields."""
+    lot = dict(base_lot)
+    lot["strategy_id"]               = DIAGNOSIS_STRATEGY_ID
+    lot["basket_id"]                 = basket_id
+    lot["is_immature"]               = is_immature
+    lot["next_1d_return"]            = next_1d_return
+    lot["next_3d_return"]            = next_3d_return
+    lot["post_exit_max_return"]      = post_exit_info.get("post_exit_max_return")
+    lot["post_exit_high_after_exit"] = post_exit_info.get("post_exit_high_after_exit")
+    lot["days_to_post_exit_high"]    = post_exit_info.get("days_to_post_exit_high")
+    lot["post_trade_label"]          = post_trade_label
+    return lot
+
+
+def aggregate_diagnosis_basket(
+    lots: list[dict],
+    basket_dates: list[date],
+    planned_capital: float,
+    basket_id: str,
+    is_immature: bool,
+) -> dict:
+    """Aggregate one rolling basket's lots into basket-level diagnosis metrics."""
+    from collections import Counter
+
+    basket = aggregate_basket(lots, planned_capital)   # P0.2 base aggregation
+    basket["strategy_id"] = DIAGNOSIS_STRATEGY_ID
+    basket["basket_id"]   = basket_id
+    basket["start_date"]  = basket_dates[0].isoformat() if basket_dates else None
+    basket["is_immature"] = is_immature
+
+    labels = [l.get("post_trade_label") for l in lots]
+    basket["false_exit_count"]         = labels.count("ATR_TOO_TIGHT")
+    basket["entry_failure_count"]      = labels.count("ENTRY_SIGNAL_FAILURE")
+    basket["open_winner_count"]        = labels.count("OPEN_WINNER")
+    basket["open_risk_count"]          = labels.count("OPEN_RISK")
+    basket["market_reversal_count"]    = labels.count("MARKET_REVERSAL")
+    basket["data_quality_issue_count"] = labels.count("DATA_QUALITY_ISSUE")
+
+    tickers       = [l.get("ticker") for l in lots if l.get("ticker")]
+    ticker_counts = Counter(tickers)
+    basket["duplicate_ticker_count"] = sum(c for c in ticker_counts.values() if c > 1)
+    basket["unique_ticker_count"]    = len(ticker_counts)
+
+    return basket
