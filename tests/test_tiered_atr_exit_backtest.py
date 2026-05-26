@@ -256,3 +256,115 @@ def test_run_one_model_tiered_atr_returns_hold_field():
 def test_run_one_model_unknown_raises():
     with pytest.raises(ValueError, match="Unknown model"):
         _run_one_model("DOES_NOT_EXIST", {}, pd.DataFrame(), [], date(2026, 1, 1))
+
+
+# ─── aggregate_model_metrics tests ───────────────────────────────────────────
+
+from analysis.tiered_atr_exit_backtest import aggregate_model_metrics
+
+
+def _make_lot(
+    gross_pnl=1000.0,
+    net_pnl=800.0,
+    exit_reason="ATR_TRAILING_STOP",
+    max_drawdown=-200.0,
+    max_profit=3000.0,
+    post_exit_max_return=0.06,
+    profit_giveback_pct=0.67,
+    hold_period_protected=False,
+    data_quality_flag="PASS",
+) -> dict:
+    return {
+        "gross_pnl":               gross_pnl,
+        "estimated_net_pnl":       net_pnl,
+        "exit_reason":             exit_reason,
+        "max_drawdown_seen":       max_drawdown,
+        "max_profit_seen":         max_profit,
+        "post_exit_max_return":    post_exit_max_return,
+        "profit_giveback_pct":     profit_giveback_pct,
+        "hold_period_protected":   hold_period_protected,
+        "data_quality_flag":       data_quality_flag,
+    }
+
+
+def test_aggregate_model_metrics_false_exit_count():
+    # ATR_TOO_TIGHT: exit_reason=ATR_TRAILING_STOP and post_exit_max_return > 5%
+    lots_by_model = {
+        "ATR_BASE": [
+            _make_lot(post_exit_max_return=0.08),  # ATR_TOO_TIGHT → counted
+            _make_lot(post_exit_max_return=0.03),  # not ATR_TOO_TIGHT
+            _make_lot(exit_reason="OPEN_POSITION", post_exit_max_return=None),
+        ]
+    }
+    metrics = aggregate_model_metrics(lots_by_model)
+    assert metrics["ATR_BASE"]["false_exit_count"] == 1
+
+
+def test_aggregate_model_metrics_net_pnl_sum():
+    lots_by_model = {
+        "TIERED_ATR": [
+            _make_lot(net_pnl=800.0),
+            _make_lot(net_pnl=-200.0),
+        ]
+    }
+    metrics = aggregate_model_metrics(lots_by_model)
+    assert metrics["TIERED_ATR"]["total_net_pnl"] == pytest.approx(600.0, rel=1e-3)
+
+
+def test_aggregate_model_metrics_max_drawdown():
+    lots_by_model = {
+        "ATR_WIDE": [
+            _make_lot(max_drawdown=-500.0),
+            _make_lot(max_drawdown=-1200.0),
+        ]
+    }
+    metrics = aggregate_model_metrics(lots_by_model)
+    assert metrics["ATR_WIDE"]["max_drawdown"] == pytest.approx(1200.0, rel=1e-3)
+
+
+def test_aggregate_model_metrics_largest_single_lot_loss():
+    lots_by_model = {
+        "FIXED_10D": [
+            _make_lot(gross_pnl=500.0),
+            _make_lot(gross_pnl=-8000.0),
+            _make_lot(gross_pnl=200.0),
+        ]
+    }
+    metrics = aggregate_model_metrics(lots_by_model)
+    assert metrics["FIXED_10D"]["largest_single_lot_loss"] == pytest.approx(-8000.0, rel=1e-3)
+
+
+def test_aggregate_model_metrics_protected_count():
+    lots_by_model = {
+        "TIERED_ATR": [
+            _make_lot(hold_period_protected=True),
+            _make_lot(hold_period_protected=False),
+            _make_lot(hold_period_protected=True),
+        ]
+    }
+    metrics = aggregate_model_metrics(lots_by_model)
+    assert metrics["TIERED_ATR"]["protected_by_hold_period_count"] == 2
+
+
+def test_aggregate_model_metrics_excludes_data_quality_fail():
+    lots_by_model = {
+        "MA5": [
+            _make_lot(gross_pnl=1000.0, net_pnl=800.0),
+            _make_lot(gross_pnl=None, net_pnl=None, data_quality_flag="FAIL"),
+        ]
+    }
+    metrics = aggregate_model_metrics(lots_by_model)
+    assert metrics["MA5"]["total_lots"] == 1
+    assert metrics["MA5"]["total_net_pnl"] == pytest.approx(800.0, rel=1e-3)
+
+
+def test_aggregate_model_metrics_avg_profit_giveback():
+    lots_by_model = {
+        "ATR_BASE": [
+            _make_lot(profit_giveback_pct=0.80),
+            _make_lot(profit_giveback_pct=0.40),
+            _make_lot(profit_giveback_pct=None),  # not counted
+        ]
+    }
+    metrics = aggregate_model_metrics(lots_by_model)
+    assert metrics["ATR_BASE"]["avg_profit_giveback_pct"] == pytest.approx(0.60, rel=1e-3)

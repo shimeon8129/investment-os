@@ -258,3 +258,56 @@ def _run_one_model(
     if model_name == "MA5":
         return simulate_ma_exit(entry, ohlc, ma_period=5, valuation_date=valuation_date)
     raise ValueError(f"Unknown model: {model_name!r}")
+
+
+# ─────────────────────────────────────────────────────────────
+# Per-model comparison metrics aggregation
+# ─────────────────────────────────────────────────────────────
+
+def aggregate_model_metrics(
+    lots_by_model: dict[str, list[dict]],
+) -> dict[str, dict]:
+    """Compute per-model comparison metrics from pre-enriched lot dicts.
+
+    Each lot must already contain:
+        post_exit_max_return  (float | None) — computed by orchestrator
+        profit_giveback_pct   (float | None) — computed by orchestrator
+        hold_period_protected (bool)          — from simulate_tiered_atr_exit
+    """
+    result: dict[str, dict] = {}
+
+    for model_name, lots in lots_by_model.items():
+        valid = [
+            l for l in lots
+            if l.get("data_quality_flag") == "PASS" and l.get("gross_pnl") is not None
+        ]
+
+        total_net = sum(l.get("estimated_net_pnl") or 0 for l in valid)
+
+        false_exit = sum(
+            1 for l in valid
+            if l.get("exit_reason") == "ATR_TRAILING_STOP"
+            and (l.get("post_exit_max_return") or 0) > ATR_TOO_TIGHT_THRESHOLD
+        )
+
+        max_dd = max((abs(l.get("max_drawdown_seen") or 0) for l in valid), default=0.0)
+        worst  = min((l.get("gross_pnl") or 0 for l in valid), default=0.0)
+
+        givebacks = [l["profit_giveback_pct"] for l in valid
+                     if l.get("profit_giveback_pct") is not None]
+        avg_giveback = round(sum(givebacks) / len(givebacks), 4) if givebacks else None
+
+        protected = sum(1 for l in lots if l.get("hold_period_protected", False))
+
+        result[model_name] = {
+            "model_name":                     model_name,
+            "total_lots":                     len(valid),
+            "total_net_pnl":                  round(total_net, 2),
+            "false_exit_count":               false_exit,
+            "max_drawdown":                   round(max_dd, 2),
+            "largest_single_lot_loss":        round(worst, 2),
+            "avg_profit_giveback_pct":        avg_giveback,
+            "protected_by_hold_period_count": protected,
+        }
+
+    return result
