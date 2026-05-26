@@ -122,3 +122,40 @@ def compute_next_nd_return(
         return None
     nth_close = series[n - 1][1]
     return round((nth_close - entry_price) / entry_price, 6)
+
+
+# ─────────────────────────────────────────────────────────────
+# Post-exit max return (for ATR_TOO_TIGHT detection)
+# ─────────────────────────────────────────────────────────────
+
+def compute_post_exit_max_return(
+    ticker: str,
+    exit_date: Optional[date],
+    valuation_date: date,
+    exit_price: float,
+    ohlc: pd.DataFrame,
+) -> dict:
+    """Max close between exit_date (exclusive) and valuation_date.
+
+    Returns post_exit_max_return, post_exit_high_after_exit, days_to_post_exit_high.
+    All None when exit_date is None or no post-exit data is available.
+    """
+    _empty = {
+        "post_exit_max_return":     None,
+        "post_exit_high_after_exit": None,
+        "days_to_post_exit_high":   None,
+    }
+    if exit_date is None or not exit_price:
+        return _empty
+
+    series = get_close_series(ohlc, ticker, after_date=exit_date, to_date=valuation_date)
+    if not series:
+        return _empty
+
+    max_close = max(c for _, c in series)
+    max_idx   = next(i for i, (_, c) in enumerate(series) if c == max_close)
+    return {
+        "post_exit_max_return":     round((max_close - exit_price) / exit_price, 6),
+        "post_exit_high_after_exit": round(max_close, 4),
+        "days_to_post_exit_high":   max_idx + 1,
+    }

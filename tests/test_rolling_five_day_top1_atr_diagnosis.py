@@ -163,3 +163,34 @@ def test_compute_next_nd_return_missing_entry_price_returns_none():
     ohlc  = _make_ohlc("X.TW", start, [10]*5, [8]*5, [100.0]*5)
     entry = {"entry_date": start.isoformat(), "ticker": "X.TW", "entry_price": None}
     assert compute_next_nd_return(entry, ohlc, n=1) is None
+
+
+from analysis.rolling_five_day_top1_atr_diagnosis import compute_post_exit_max_return
+
+
+def test_compute_post_exit_max_return_finds_max():
+    # exit on day 0 (close=100), then closes: 110, 120, 115
+    start     = date(2026, 1, 1)
+    ohlc      = _make_ohlc("X.TW", start, [12]*4, [8]*4, [100.0, 110.0, 120.0, 115.0])
+    exit_date = start  # exit at day 0
+    valuation = start + timedelta(days=3)
+    result    = compute_post_exit_max_return("X.TW", exit_date, valuation, 100.0, ohlc)
+    assert result["post_exit_max_return"]     == pytest.approx(0.20, rel=1e-4)
+    assert result["post_exit_high_after_exit"]== pytest.approx(120.0)
+    assert result["days_to_post_exit_high"]   == 2  # index 1 in post-exit series (110,120,115)
+
+
+def test_compute_post_exit_max_return_no_post_exit_data():
+    start  = date(2026, 1, 1)
+    ohlc   = _make_ohlc("X.TW", start, [12]*1, [8]*1, [100.0])
+    result = compute_post_exit_max_return("X.TW", start, start, 100.0, ohlc)
+    assert result["post_exit_max_return"]      is None
+    assert result["post_exit_high_after_exit"] is None
+    assert result["days_to_post_exit_high"]    is None
+
+
+def test_compute_post_exit_max_return_none_exit_date_returns_nulls():
+    start  = date(2026, 1, 1)
+    ohlc   = _make_ohlc("X.TW", start, [12]*3, [8]*3, [100.0, 110.0, 120.0])
+    result = compute_post_exit_max_return("X.TW", None, start + timedelta(days=2), 100.0, ohlc)
+    assert result["post_exit_max_return"] is None
