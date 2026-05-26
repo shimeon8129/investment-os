@@ -492,6 +492,60 @@ def compute_position_grade(
     return "B"
 
 
+# ─────────────────────────────────────────────────────────────
+# PnL and transaction cost calculator
+# ─────────────────────────────────────────────────────────────
+
+def compute_pnl(
+    actual_cost: float,
+    shares: int,
+    exit_price: Optional[float],
+    exit_reason: str,
+    valuation_date: date,
+    current_price: Optional[float] = None,
+) -> dict:
+    """Compute realized/unrealized PnL with Taiwan transaction costs."""
+    buy_fee = round(actual_cost * BUY_FEE_RATE, 2)
+    is_exited = exit_reason not in ("OPEN_POSITION", "DATA_INCOMPLETE") \
+                and exit_price is not None
+
+    if is_exited:
+        exit_value = shares * exit_price
+        sell_fee   = round(exit_value * SELL_FEE_RATE, 2)
+        tax        = round(exit_value * STT_RATE, 2)
+        gross_pnl  = round(exit_value - actual_cost, 2)
+        net_pnl    = round(gross_pnl - buy_fee - sell_fee - tax, 2)
+        return {
+            "realized_pnl": gross_pnl, "unrealized_pnl": None,
+            "gross_pnl": gross_pnl,
+            "gross_return_pct": round(gross_pnl / actual_cost * 100, 4) if actual_cost else None,
+            "estimated_buy_fee": buy_fee, "estimated_sell_fee": sell_fee,
+            "estimated_tax": tax, "estimated_net_pnl": net_pnl,
+        }
+
+    # Open / data-incomplete — use current_price
+    price = current_price or exit_price
+    if price is None:
+        return {
+            "realized_pnl": None, "unrealized_pnl": None, "gross_pnl": None,
+            "gross_return_pct": None,
+            "estimated_buy_fee": buy_fee, "estimated_sell_fee": None,
+            "estimated_tax": None, "estimated_net_pnl": None,
+        }
+    current_value = shares * price
+    sell_fee  = round(current_value * SELL_FEE_RATE, 2)
+    tax       = round(current_value * STT_RATE, 2)
+    gross_pnl = round(current_value - actual_cost, 2)
+    net_pnl   = round(gross_pnl - buy_fee - sell_fee - tax, 2)
+    return {
+        "realized_pnl": None, "unrealized_pnl": gross_pnl,
+        "gross_pnl": gross_pnl,
+        "gross_return_pct": round(gross_pnl / actual_cost * 100, 4) if actual_cost else None,
+        "estimated_buy_fee": buy_fee, "estimated_sell_fee": sell_fee,
+        "estimated_tax": tax, "estimated_net_pnl": net_pnl,
+    }
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="Five-Day Top1 ATR Strategy Backtest v0.1")
     parser.add_argument("--start-date", default="2026-05-07")

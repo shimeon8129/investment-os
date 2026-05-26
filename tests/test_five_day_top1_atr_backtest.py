@@ -226,3 +226,34 @@ def test_grade_b_for_low_confidence_or_late_signal():
 def test_grade_c_for_watch_signal_or_bear_market():
     assert compute_position_grade("WATCH_READY", "RANGE", "LOW")  == "C"
     assert compute_position_grade("BUY",         "BEAR",  "HIGH") == "C"
+
+
+from analysis.five_day_top1_atr_backtest import compute_pnl
+
+
+def test_compute_pnl_realized_exit():
+    # actual_cost=99918, shares=819, exit_price=150
+    # exit_value = 819*150 = 122850
+    # gross_pnl = 122850 - 99918 = 22932
+    # buy_fee  = 99918  * 0.001425 = 142.38
+    # sell_fee = 122850 * 0.001425 = 175.06
+    # tax      = 122850 * 0.003   = 368.55
+    r = compute_pnl(actual_cost=99918.0, shares=819, exit_price=150.0,
+                    exit_reason="ATR_TRAILING_STOP",
+                    valuation_date=date(2026, 5, 25))
+    assert r["gross_pnl"]         == pytest.approx(22932.0,           rel=1e-3)
+    assert r["estimated_buy_fee"] == pytest.approx(99918 * 0.001425,  rel=1e-3)
+    assert r["estimated_sell_fee"]== pytest.approx(819*150*0.001425,  rel=1e-3)
+    assert r["estimated_tax"]     == pytest.approx(819*150*0.003,     rel=1e-3)
+    assert r["realized_pnl"]      == pytest.approx(22932.0,           rel=1e-3)
+    assert r["unrealized_pnl"]    is None
+
+
+def test_compute_pnl_unrealized_open_position():
+    r = compute_pnl(actual_cost=99918.0, shares=819, exit_price=None,
+                    exit_reason="OPEN_POSITION",
+                    valuation_date=date(2026, 5, 25), current_price=140.0)
+    expected_gross = 819 * 140.0 - 99918.0
+    assert r["realized_pnl"]   is None
+    assert r["unrealized_pnl"] == pytest.approx(expected_gross, rel=1e-3)
+    assert r["gross_pnl"]      == pytest.approx(expected_gross, rel=1e-3)
