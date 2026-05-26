@@ -311,3 +311,135 @@ def aggregate_model_metrics(
         }
 
     return result
+
+
+# ─────────────────────────────────────────────────────────────
+# Output writers
+# ─────────────────────────────────────────────────────────────
+
+def write_lots_csv(lots_by_model: dict[str, list[dict]], path: Path) -> None:
+    """Write all lots from all models to a single flat CSV (model_name column included)."""
+    all_lots = [lot for lots in lots_by_model.values() for lot in lots]
+    if not all_lots:
+        return
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with open(path, "w", newline="", encoding="utf-8") as f:
+        writer = _csv.DictWriter(f, fieldnames=list(all_lots[0].keys()))
+        writer.writeheader()
+        writer.writerows(all_lots)
+
+
+def write_comparison_csv(model_metrics: dict[str, dict], path: Path) -> None:
+    """Write one row per model with comparison metrics."""
+    rows = [model_metrics[mn] for mn in ALL_MODELS if mn in model_metrics]
+    if not rows:
+        return
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with open(path, "w", newline="", encoding="utf-8") as f:
+        writer = _csv.DictWriter(f, fieldnames=list(rows[0].keys()))
+        writer.writeheader()
+        writer.writerows(rows)
+
+
+def write_summary_json(result: dict, path: Path) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    out = {
+        "strategy_id":    result.get("strategy_id"),
+        "valuation_date": result.get("valuation_date"),
+        "n_baskets":      result.get("n_baskets"),
+        "model_metrics":  result.get("model_metrics", {}),
+    }
+    path.write_text(
+        json.dumps(out, ensure_ascii=False, indent=2, default=str), encoding="utf-8"
+    )
+
+
+def write_comparison_report_md(result: dict, path: Path) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    lines: list[str] = []
+    w = lines.append
+
+    w(f"# Comparison Report — {TIERED_STRATEGY_ID}")
+    w("")
+    w(f"Generated: {date.today().isoformat()}")
+    w(f"Valuation date: {result.get('valuation_date', '—')}")
+    w(f"Rolling baskets: {result.get('n_baskets', 0)}")
+    w(""); w("---"); w("")
+
+    w("## Model Comparison Summary"); w("")
+    w("| Model | TotalNetPnL | FalseExits | MaxDrawdown | WorstLot | AvgGiveback% | Protected |")
+    w("|-------|-------------|------------|-------------|----------|--------------|-----------|")
+    metrics = result.get("model_metrics", {})
+    for mn in ALL_MODELS:
+        m = metrics.get(mn, {})
+        net  = m.get("total_net_pnl") or 0
+        fe   = m.get("false_exit_count", 0)
+        dd   = m.get("max_drawdown") or 0
+        wl   = m.get("largest_single_lot_loss") or 0
+        gb   = m.get("avg_profit_giveback_pct")
+        prot = m.get("protected_by_hold_period_count", 0)
+        net_str = f"+{net:,.0f}" if net >= 0 else f"{net:,.0f}"
+        wl_str  = f"+{wl:,.0f}" if wl >= 0 else f"{wl:,.0f}"
+        gb_str  = f"{gb:.1%}" if gb is not None else "—"
+        w(f"| {mn} | {net_str} | {fe} | {dd:,.0f} | {wl_str} | {gb_str} | {prot} |")
+    w(""); w("---"); w("")
+
+    w("## Model Definitions"); w("")
+    w("| Model | Init× | Trail× | Hold Protection |")
+    w("|-------|-------|--------|-----------------|")
+    w("| ATR_BASE | 1.5 | 2.0 (fixed) | No |")
+    w("| ATR_WIDE | 2.0 | 2.5 (fixed) | No |")
+    w("| TIERED_ATR | 1.5 | 2.0→2.5→3.0 (float-pct tier) | Yes (3 report dates) |")
+    w("| TIERED_ATR_NO_HOLD_PROTECTION | 1.5 | 2.0→2.5→3.0 | No |")
+    w("| FIXED_10D | — | — (exit on day 10) | — |")
+    w("| MA5 | — | — (close < MA5) | — |")
+    w(""); w("---"); w("")
+
+    w("## Tiered Multiplier Logic"); w("")
+    w("Based on `(highest_close - entry_price) / entry_price`:")
+    w("")
+    w("- float_pct  < 5%: trailing = 2.0 × ATR20")
+    w("- 5% ≤ float_pct < 15%: trailing = 2.5 × ATR20")
+    w("- float_pct ≥ 15%: trailing = 3.0 × ATR20")
+    w("")
+    w("Hold protection: first 3 report dates after entry → only initial_stop (1.5×ATR) active.")
+    w(""); w("---"); w("")
+
+    w("*Advisory only. No trades placed. All outputs for human review.*"); w("")
+    path.write_text("\n".join(lines), encoding="utf-8")
+
+
+def write_validation_report_md(result: dict, path: Path) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    lines: list[str] = []
+    w = lines.append
+
+    w(f"# Validation Report — {TIERED_STRATEGY_ID}"); w("")
+    w(f"Generated: {date.today().isoformat()}"); w("")
+
+    w("## Assumptions"); w("")
+    w("1. Rolling baskets and OHLC data reuse P0.3 infrastructure (same 15 report dates, 11 baskets)")
+    w("2. Entry price = signal-day adjusted close (yfinance auto_adjust=True, v0.1)")
+    w("3. Tiered multiplier tiers based on peak float from entry price (highest_close, not current close)")
+    w("4. Hold protection window = first 3 report dates (not calendar days) after entry")
+    w("5. false_exit_count: exit_reason=ATR_TRAILING_STOP AND post_exit_max_return > 5%")
+    w("6. profit_giveback_pct = (max_profit_seen − gross_pnl) / max_profit_seen; None when max_profit_seen ≤ 0")
+    w("7. Transaction costs: buy 0.1425%, sell 0.1425% + STT 0.3% on sell value"); w("")
+
+    w("## Known Limitations"); w("")
+    w("- Only 15 daily report dates (2026-05-01 to 2026-05-26) — single bull market regime")
+    w("- TIERED_ATR parameters (5%/15% thresholds, 2.0/2.5/3.0 multipliers) are first-pass heuristics")
+    w("- Hold protection period = 3 report dates is heuristic; not derived from empirical data")
+    w("- post_exit_max_return uses yfinance adjusted close — may differ from TWSE raw close")
+    w("- DATA_QUALITY_ISSUE lots (ticker=None) excluded from metric aggregation"); w("")
+
+    w("## Decision Criteria"); w("")
+    w("Upgrade TIERED_ATR to candidate default ONLY if all three hold:")
+    w("1. total_net_pnl(TIERED_ATR) > total_net_pnl(ATR_BASE)")
+    w("2. false_exit_count(TIERED_ATR) < false_exit_count(ATR_BASE)")
+    w("3. max_drawdown(TIERED_ATR) ≤ max_drawdown(ATR_BASE) × 1.2 (not more than 20% worse)")
+    w("   AND largest_single_lot_loss(TIERED_ATR) ≥ largest_single_lot_loss(ATR_BASE) × 0.8")
+    w(""); w("---"); w("")
+    w("*This is a simulation. No trades were placed. No broker connections were made.*")
+    w("*Owner should review before any capital allocation decisions.*"); w("")
+    path.write_text("\n".join(lines), encoding="utf-8")

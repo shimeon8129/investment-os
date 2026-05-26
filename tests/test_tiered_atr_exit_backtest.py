@@ -368,3 +368,94 @@ def test_aggregate_model_metrics_avg_profit_giveback():
     }
     metrics = aggregate_model_metrics(lots_by_model)
     assert metrics["ATR_BASE"]["avg_profit_giveback_pct"] == pytest.approx(0.60, rel=1e-3)
+
+
+import json as _json
+from analysis.tiered_atr_exit_backtest import (
+    write_lots_csv,
+    write_comparison_csv,
+    write_summary_json,
+    write_comparison_report_md,
+    write_validation_report_md,
+    ALL_MODELS,
+)
+
+
+def _make_minimal_result():
+    lot = {
+        "model_name": "TIERED_ATR", "basket_id": "2026-05-07_5D",
+        "entry_date": "2026-05-07", "ticker": "X.TW",
+        "entry_price": 100.0, "gross_pnl": 1000.0,
+        "estimated_net_pnl": 800.0, "exit_reason": "ATR_TRAILING_STOP",
+        "post_exit_max_return": 0.06, "profit_giveback_pct": 0.67,
+        "hold_period_protected": True, "data_quality_flag": "PASS",
+        "max_drawdown_seen": -200.0, "max_profit_seen": 3000.0,
+    }
+    metrics = {
+        mn: {
+            "model_name": mn, "total_lots": 1, "total_net_pnl": 800.0,
+            "false_exit_count": 1, "max_drawdown": 200.0,
+            "largest_single_lot_loss": -500.0,
+            "avg_profit_giveback_pct": 0.67,
+            "protected_by_hold_period_count": 1 if "TIERED" in mn else 0,
+        }
+        for mn in ALL_MODELS
+    }
+    return {
+        "strategy_id":   "TIERED_ATR_EXIT_BACKTEST_v0_1",
+        "valuation_date": "2026-05-26",
+        "n_baskets":      1,
+        "lots_by_model":  {"TIERED_ATR": [lot]},
+        "model_metrics":  metrics,
+    }
+
+
+def test_write_lots_csv_creates_file_with_model_and_label_columns(tmp_path):
+    result = _make_minimal_result()
+    p = tmp_path / "lots.csv"
+    write_lots_csv(result["lots_by_model"], p)
+    assert p.exists()
+    text = p.read_text()
+    assert "model_name" in text
+    assert "post_exit_max_return" in text
+    assert "profit_giveback_pct" in text
+
+
+def test_write_comparison_csv_has_one_row_per_model(tmp_path):
+    result = _make_minimal_result()
+    p = tmp_path / "comparison.csv"
+    write_comparison_csv(result["model_metrics"], p)
+    assert p.exists()
+    lines = [l for l in p.read_text().splitlines() if l.strip()]
+    # header + 1 row per model
+    assert len(lines) == 1 + len(ALL_MODELS)
+    assert "false_exit_count" in lines[0]
+
+
+def test_write_summary_json_creates_valid_json(tmp_path):
+    result = _make_minimal_result()
+    p = tmp_path / "summary.json"
+    write_summary_json(result, p)
+    assert p.exists()
+    data = _json.loads(p.read_text())
+    assert "model_metrics" in data
+    assert "valuation_date" in data
+
+
+def test_write_comparison_report_md_contains_all_models(tmp_path):
+    result = _make_minimal_result()
+    p = tmp_path / "report.md"
+    write_comparison_report_md(result, p)
+    assert p.exists()
+    text = p.read_text()
+    for mn in ALL_MODELS:
+        assert mn in text
+    assert "Advisory" in text
+
+
+def test_write_validation_report_md_has_advisory_notice(tmp_path):
+    result = _make_minimal_result()
+    p = tmp_path / "validation.md"
+    write_validation_report_md(result, p)
+    assert p.exists()
+    assert "simulation" in p.read_text().lower() or "advisory" in p.read_text().lower()
